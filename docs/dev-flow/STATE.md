@@ -119,7 +119,7 @@ node docs/dev-flow/s4-screenshots/browser-check.mjs http://127.0.0.1:4173/ /tmp/
 
 若全域模組不在 `npm root -g`，設定 `PLAYWRIGHT_MODULE_DIR` 指向含 `playwright` 的 node_modules 目錄。
 
-GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/workflows/pages.yml` 在 push 到 `main-uv12jr` 時自動執行。原本只設手動觸發，但 GitHub 只認預設分支上的手動流程（回 404、流程數 0），使用者同意改成 push 觸發。流程是 Node 22 → `npm ci` → typecheck、lint、test → `vite build --base=/3D-Social-interactive-game/` → 發布。網址：https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。需要使用者在 repo 設定：Pages Source 選 GitHub Actions；`github-pages` environment 允許 `main-uv12jr`。網址公開，頁面是未經專業審查的工程原型。子路徑 build 在容器內用 headless Chromium 檢查 22/22 通過；實際 Pages 發布結果待使用者觸發後確認。
+GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/workflows/pages.yml` 在 push 到 `main-uv12jr` 時自動執行。原本只設手動觸發，但 GitHub 只認預設分支上的手動流程（回 404、流程數 0），使用者同意改成 push 觸發。流程是 Node 22 → `npm ci` → typecheck、lint、test → `vite build --base=/3D-Social-interactive-game/` → 發布。網址：https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。需要使用者在 repo 設定：Pages Source 選 GitHub Actions；`github-pages` environment 允許 `main-uv12jr`。網址公開，頁面是未經專業審查的工程原型。子路徑 build 在容器內用 headless Chromium 檢查 22/22 通過；已透過 GitHub API 確認 run 37843973381 第 2 次執行（commit 085804f071addc3d6464b19af161d0a1bad2ee7e）的 build 與 deploy 均為 success：https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/37843973381 。線上頁面內容仍待使用者在真實裝置確認；發布成功不等於實機驗收通過。
 
 ## 下一步
 
@@ -127,3 +127,15 @@ GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/wor
 2. 之後由使用者決定：S5 獨立審查與驗證（第 11–12 項的未驗證項目），或進入路線圖 Phase 2（第一人稱移動，驗收條件見 03 §9.2）。不自動開始。
 
 Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只完成骨架，不是可玩 MVP；不宣稱療效或已核准兒童使用。
+
+## Codex 接手驗證紀錄（2026-10-08）
+
+- 目標 commit：`085804f071addc3d6464b19af161d0a1bad2ee7e`（`main-uv12jr`）。透過 GitHub 工具讀取 AGENTS.md、STATE、04、01／02／03 指定章節、核心程式碼與 Pages workflow；未完成本地 clone。
+- `node --version`：exit 0，v24.19.0，不符合專案要求 `>=22.12.0 <23`；先前 `npm --version`：exit 0，11.9.0。
+- `curl --max-time 10 -I https://registry.npmjs.org`：exit 7，無法連接 proxy:8080。這是代理連線失敗，沒有證據顯示 npm 網域被政策封鎖。
+- `npm ci`、typecheck、lint、format:check、test、build、preview、瀏覽器檢查：Codex 環境未驗證，均未執行；不能沿用其他環境的成功結果標成 Codex 通過。
+- 外部建置證據：GitHub Actions run 37843973381，第 2 次執行的 build、deploy 及 npm ci／typecheck／lint／test／Pages 子路徑 build 步驟均 success；workflow 以 .nvmrc 選 Node 22。Actions 流程沒有 format:check 或瀏覽器檢查，不構成這兩項的證據。
+- 靜態閱讀：HTML 有常駐安全按鈕；RenderLoop 停止後清時間基準；ParkScene 釋放自有 geometry／material。此為程式碼閱讀，不能取代執行驗證或 S5。
+- 待核對：01 §7 要求斷開 ResizeObserver／全域監聽；main.ts 的 observer 與全域監聽常駐頁面、每次場景 teardown 不移除。它們未在每次重建新增，但頁面完整清理契約與記憶體仍需後續驗證；本次不改程式。
+- 使用者已於本工作階段逐項同意本次文件 commit 與推送到 main-uv12jr，並知悉會觸發 Pages 重新發布。因終端代理不可用，改用 GitHub Contents API 提交文件；本次沒有在 Codex 重跑五項檢查，以上未驗證狀態仍有效。
+
