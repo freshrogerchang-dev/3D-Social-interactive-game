@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-08（by /s3-research 社交情境內容、無障礙依據與專業審查需求）
+最後更新：2026-10-08（S4 建置：路線圖 Phase 0 + Phase 1 最小可運行骨架）
 
 ## 一句話目標
 
@@ -23,12 +23,12 @@
 | S1 架構 | 完成（文件整理） | `01-landscape-architecture.md`：盤點、衝突、精簡比較、MVP 與骨架契約；產品方向問題仍待確認 |
 | S2 相容性 | 完成（文件與唯讀盤點；整合未驗證） | `02-compatibility-toolchain.md`：本機版本、官方限制、候選組合與 API 核對；未安裝、未編譯、未實機驗收，不能標 PASS |
 | S3 考察 | 文件與研究整理完成；專業審查及使用者評估未完成 | `03-research.md`：公園打招呼情境 v0.1-draft（待專業審查草案）、狀態圖檢查（scratchpad，非專案測試）、官方指引與 10 篇文獻摘要級整理、審查計畫、兒童評估前門檻與停止準則。審查者尚未參與 |
-| S4 建置 | 未開始 | 第一里程碑只做路線圖 Phase 0 + Phase 1 最小可運行骨架 |
+| S4 建置 | 第一里程碑完成（Phase 0 + Phase 1 骨架）；實機與跨瀏覽器未驗證 | `04-build-log.md`：exact 版本安裝；typecheck、lint、format:check、test（26 項）、build 皆 exit 0；headless Chromium（SwiftShader）檢查 22/22。不是可玩 MVP |
 | S5 驗證 | 未開始 | 後續獨立審查、完整功能／無障礙／實機驗證 |
 
 ## 功能實作狀態（路線圖 Phase 0–10）
 
-所有 Phase 均未開始。Phase 0 設定、1 引擎、2 操作、3 NPC、4 對話、5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
+Phase 0（設定）與 Phase 1（引擎骨架）已建立並通過自動化檢查（04）；Phase 2–10 未開始：2 操作、3 NPC、4 對話、5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
 
 S1 完成不代表 Phase 0 或 Phase 1 完成；S4 不等於路線圖 Phase 4。安全控制與基本無障礙須從 Phase 0–1 建立，不等到 Phase 6 或 Phase 10。
 
@@ -54,6 +54,8 @@ S1 完成不代表 Phase 0 或 Phase 1 完成；S4 不等於路線圖 Phase 4。
 | 2026-10-08 | S3 | 建議：點頭與口語回應完全對等；幫助保留原節點；結果分 finished／skipped／exited，退出與先不參與不算完成；無計時、評分、眼神接觸要求 | R1、R2、COGA、WCAG 2.2.1；修正藍圖 §8.4 範例問題 | 沿用藍圖範例（含 eye_contact、不可達修復節點） |
 | 2026-10-08 | S3 | 建議：低飽和／平滑相機只當保守預設，不寫成 ASD 共同偏好；不作療效宣稱 | R3、R4 顯示個別差異與單篇小樣本；R5–R7 證據不一致或不足 | 固定「ASD 友善」風格規則 |
 | 2026-10-08 | S3 | 建議：工程驗收、專業內容審查、兒童使用評估三者分開；兒童評估需滿足 G1–G9 | 避免以文件或測試代替審查 | 直接做兒童試玩 |
+| 2026-10-08 | S4 | 使用者已授權：建立專案檔、以 exact 版本安裝、容器內 preview 與 headless 瀏覽器檢查、檢查通過後 commit 並推到 main-uv12jr | 雲端容器是暫時的，成果需推上 GitHub | 不 commit（原交接條件） |
+| 2026-10-08 | S4 | 實際版本：three 0.186.1；vite 8.3.3、vitest 5.0.3、typescript 5.9.3、@types/three 0.186.0、@types/node 22.20.5、eslint／@eslint/js 9.39.5、typescript-eslint 8.71.1、prettier 3.9.9；Node 22.22.0（雲端） | S2 候選＋registry metadata 核對，peer 無衝突 | 全部 latest（TS 7 超出 typescript-eslint 範圍） |
 | 2026-10-07 | S2 | 建議候選：現有 Node 22.21.0／npm 10.9.4；Vite 8.x、Vitest 5.x、TS 5.9.3、Three 0.186.x + 同 minor 型別、ESLint 9.x；exact patch 與鎖檔仍待核對 | 官方 TS latest 7.0.2 超出 typescript-eslint 文件支援範圍，不全裝 latest | 待核對正式發布 metadata 與 peer 解算 |
 
 上表「建議」均未獲使用者確認，不能在後續文件改寫成已批准產品決策。來源文件要求亦不等於使用者已確認所有細節。
@@ -77,6 +79,6 @@ S1 完成不代表 Phase 0 或 Phase 1 完成；S4 不等於路線圖 Phase 4。
 
 ## 下一步
 
-建議下一個新 session：`/s4-build Phase 0 + Phase 1 最小可運行骨架`。第一里程碑不是完整可玩 MVP，不實作 03 的對話。開始前需使用者在該 session 明確授權安裝與建立專案檔，並核對 S2 候選 exact 版本與 peer。
+建議下一個 session：S5 獨立審查與驗證（04 §5 的未驗證項目：實機 GPU、Firefox／Safari／平板、FPS、文字縮放、對比、螢幕報讀器），或依使用者決定進入路線圖 Phase 2（第一人稱移動，驗收條件見 03 §9.2）。不自動開始。
 
-Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。可直接貼上的 S4 交接 prompt 見 `03-research.md` §7.3。本次已停止，不自動執行 S4/S5；路線圖 Phase 0–10 仍全部未開始。
+Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只完成骨架，不是可玩 MVP；不宣稱療效或已核准兒童使用。

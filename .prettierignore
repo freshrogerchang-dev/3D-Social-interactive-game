@@ -1,0 +1,7 @@
+dist/
+coverage/
+node_modules/
+package-lock.json
+# 既有設計與流程文件保留原樣，不由 Prettier 改寫
+*.md
+docs/

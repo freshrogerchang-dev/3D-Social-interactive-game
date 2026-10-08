@@ -1,0 +1,167 @@
+/* 低刺激預設：不透明淺底深字、沒有動畫或模糊；觸控目標至少 64px（03 §9.1）。 */
+:root {
+  --ink: #1f2a33;
+  --paper: #fbf8f2;
+  --paper-edge: #8a7f6c;
+  --focus: #1b4f8a;
+  --backdrop: rgb(31 42 51 / 55%);
+  --target: 64px;
+  --gap: 12px;
+  font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  font-size: 100%;
+  line-height: 1.5;
+  color: var(--ink);
+  background: #d6e2ea;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  animation: none !important;
+  transition: none !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.app {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+}
+
+.scene-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.toolbar {
+  position: fixed;
+  top: max(var(--gap), env(safe-area-inset-top));
+  right: max(var(--gap), env(safe-area-inset-right));
+  left: max(var(--gap), env(safe-area-inset-left));
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--gap);
+  pointer-events: none;
+}
+
+.control {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: var(--target);
+  min-height: var(--target);
+  padding: 8px 20px;
+  border: 2px solid var(--paper-edge);
+  border-radius: 16px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.control:hover {
+  border-color: var(--ink);
+}
+
+/* 焦點同時用外框粗細與位移呈現，不只靠顏色。 */
+.control:focus-visible {
+  outline: 4px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.control-quiet {
+  font-weight: 400;
+}
+
+.control-icon {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+  flex: none;
+}
+
+.zhuyin-slot:empty,
+.voice-slot:empty {
+  display: none;
+}
+
+.status {
+  position: fixed;
+  bottom: max(var(--gap), env(safe-area-inset-bottom));
+  left: max(var(--gap), env(safe-area-inset-left));
+  z-index: 2;
+  margin: 0;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: var(--paper);
+  font-size: 1.125rem;
+}
+
+.status:empty {
+  display: none;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--target) + 3 * var(--gap)) var(--gap) var(--gap);
+  background: var(--backdrop);
+  overflow: auto;
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.panel {
+  max-width: 32rem;
+  width: 100%;
+  padding: 24px;
+  border: 2px solid var(--paper-edge);
+  border-radius: 20px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.panel-title {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+}
+
+.panel-text {
+  margin: 0 0 20px;
+  font-size: 1.25rem;
+}
+
+.panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+
+[hidden] {
+  display: none !important;
+}
