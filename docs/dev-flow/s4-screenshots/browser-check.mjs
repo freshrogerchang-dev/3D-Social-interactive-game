@@ -1,6 +1,10 @@
 // S4 瀏覽器檢查（headless Chromium）。用法：node browser-check.mjs <url> <outDir>
+// Playwright 不在專案依賴中：從 PLAYWRIGHT_MODULE_DIR（預設為 `npm root -g`）載入全域安裝的 playwright。
+import { execSync } from 'node:child_process';
 import { createRequire } from 'node:module';
-const require = createRequire('/opt/node22/lib/node_modules/');
+const moduleDir =
+  process.env.PLAYWRIGHT_MODULE_DIR ?? execSync('npm root -g', { encoding: 'utf8' }).trim();
+const require = createRequire(`${moduleDir}/`);
 const { chromium } = require('playwright');
 
 const [url, outDir] = process.argv.slice(2);

@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-08（S4 建置：路線圖 Phase 0 + Phase 1 最小可運行骨架）
+最後更新：2026-10-08（S4 骨架完成；交接到 OpenAI Codex 雲端環境）
 
 ## 一句話目標
 
@@ -11,7 +11,7 @@
 - 2026-10-08：使用者要求改成雲端執行。已 `git init`（main），加入 .gitignore，首次 commit 並推送到 https://github.com/freshrogerchang-dev/3D-Social-interactive-game 。下文「非 Git 倉庫」是 S1–S3 當時的狀態。
 
 - 初始化前僅有 `Claude 實作路線圖.md`、`Three.js ASD 社交小遊戲完整架構藍圖.md`，無程式碼、package.json、測試、CI 或既有階段文件。
-- 專案實體 `AGENTS.md` 不存在；採用本次使用者訊息提供的全域 AGENTS 規範。
+- S1–S3 時專案沒有 `AGENTS.md`，採用使用者訊息提供的全域規範。2026-10-08 交接 Codex 時新增根目錄 `AGENTS.md`，整理本專案規則。
 - `git status` 與 `git log` 回報非 Git 倉庫；無法提供 Git 未提交差異或歷史。本次不初始化 Git，保留兩份原始文件。
 - 指定 `C:/Users/fresh/.Codex/skills/dev-flow/CONVENTIONS.md` 不存在。已找到並讀取 `C:/Users/fresh/.agents/skills/dev-flow/SKILL.md`、`C:/Users/fresh/.agents/skills/s1-arch/SKILL.md` 與 `C:/Users/fresh/.agents/skills/dev-flow/CONVENTIONS.md`。
 - 本次明確指示優先於通用 skill：精簡比較，不展開大量競品調查；不套用 React／Supabase 預設，不安裝或實作。
@@ -68,17 +68,60 @@ S1 完成不代表 Phase 0 或 Phase 1 完成；S4 不等於路線圖 Phase 4。
 3a. Q6 已決定：高度寫實。效能預算（平板 60 FPS 目標、素材首載 50 MB 上限）只是起點，未經實機量測；寫實素材授權、KTX2／Draco loader 版本待 Phase 7 核對；寫實程度對刺激負荷的影響待專業審查（03 §9.5）。
 4. 原始範例未經編譯或 runtime 驗證；存在型別、套件名稱、計時器與生命週期問題，不能直接複製即宣稱可用。
 5. 專業內容審查未開始、未完成（03 §5 審查紀錄為「未完成」）；兒童使用評估未開始，前置門檻 G1–G9 全未滿足（03 §6）。
-6. 本機 Node 22.21.0、npm 10.9.4 已讀取；Chrome／Edge 檔案版本已盤點，但工具鏈整合、桌面、平板、瀏覽器執行與 FPS 均未驗證。
-7. 部分 npm registry metadata 本次未取得，本機查詢主機名稱解析失敗；候選 patch、peer dependencies、鎖檔與傳遞授權需後續核對，不以 main 分支版本當發布保證。
+6. 工具鏈整合已在 S4 驗證（Linux 雲端、Node 22.22.0）；Windows 本機（Node 22.21.0）沒有跑過 S4 的檢查。桌面與平板實機、FPS 仍未驗證。
+7. 頂層套件的 exact 版本、engines、peer 依賴與授權已在 S4 核對，鎖檔已產生；傳遞依賴的完整授權清單尚未盤點。
 8. 文獻只讀 PubMed 摘要、未讀全文；點頭在台灣兒童情境的文化適切性、字數上限、圖示可理解度與桌面／平板第一人稱動暈率均無直接證據，屬待審查假設。
 9. NICE CG170 頁面日期本次未能擷取；以頁面為準。
+
+### S4 骨架已知問題（04 §4–§5）
+
+10. `npm run build` 有「chunk 大於 500 kB」警告（JS 538.97 kB，gzip 134.83 kB），主要是 three.js 本身大小；build 仍 exit 0。是否拆分留到 Phase 7。
+11. 瀏覽器檢查只在 headless Chromium＋SwiftShader（軟體 WebGL2）跑過。真實 GPU、Firefox、Safari、iPadOS、Android 平板、FPS、p95 frame time、載入時間、記憶體（heap 快照、`renderer.info`）、瀏覽器 200% 文字縮放、色彩對比、螢幕報讀器都未驗證。
+12. 分頁隱藏只用覆寫 `visibilityState` 模擬；WebGL context lost 只在單元測試派送事件，沒有在瀏覽器實際觸發。
+13. 介面文案（「休息一下」「已返回安全區」「目前無法顯示場景」等）是工程暫定版，未經專業審查。`zhuyin-slot` 與 `voice-slot` 只預留位置，沒有注音或語音內容。
+14. `docs/dev-flow/s4-screenshots/browser-check.mjs` 依賴**全域**安裝的 Playwright 與 Chromium，不在 `package.json` 中；S4 用的是 Playwright 1.56.1。
+15. GitHub 預設分支 `main` 仍停在 `0171bd0`（只有 S1–S3 文件）；S4 程式碼只在 `main-uv12jr`。是否合併由使用者決定。
 
 ## 決策變更
 
 無既有已確認產品決策遭推翻。S2 更正 S1 把 idb 授權誤列為 MIT：官方為 ISC；詳細查證寫入 S2 文件，S1 原檔保留。兩份原始文件與 S1 文件於 S2 前後 SHA256 相同。S3 沒有推翻任何已確認決策；S3 前後兩份原始文件、01、02 的 SHA256 不變，只新增 03 並更新本檔。
 
+## 交接：OpenAI Codex 雲端（2026-10-08）
+
+- Repo：https://github.com/freshrogerchang-dev/3D-Social-interactive-game ，分支 `main-uv12jr`（不是 `main`）。
+- 交接範圍：**只有現有 S4 骨架**。接手後先在乾淨環境重跑驗證，不開發 Phase 2，也不新增功能。
+- 必讀順序：`AGENTS.md` → 本檔 → `04-build-log.md` → `01-landscape-architecture.md` §5、§7、§8 → `02-compatibility-toolchain.md` §3、§4 → `03-research.md` §3.1、§4、§7、§9。兩份原始設計文件（根目錄的路線圖與藍圖）只作背景參考，範例程式碼不能直接移植（02 §5、03 §3.5）。
+
+乾淨環境驗證步驟（需要 Node 22.12 以上的 22.x，`.nvmrc` 為 22）：
+
+```bash
+git clone https://github.com/freshrogerchang-dev/3D-Social-interactive-game.git
+cd 3D-Social-interactive-game
+git checkout main-uv12jr
+node -v                      # 應為 v22.x（>=22.12）
+npm ci
+npm run typecheck
+npm run lint
+npm run format:check
+npm run test                 # 預期 3 檔 26 項通過
+npm run build                # 預期 exit 0，會有 chunk >500 kB 警告
+npm run preview -- --host 127.0.0.1 --port 4173 --strictPort
+```
+
+瀏覽器檢查（選用，另開終端機，preview 執行中）：
+
+```bash
+npm install -g playwright@1.56.1
+npx -y playwright@1.56.1 install --with-deps chromium
+mkdir -p /tmp/s4-shots
+node docs/dev-flow/s4-screenshots/browser-check.mjs http://127.0.0.1:4173/ /tmp/s4-shots   # 預期 22/22 passed
+```
+
+若全域模組不在 `npm root -g`，設定 `PLAYWRIGHT_MODULE_DIR` 指向含 `playwright` 的 node_modules 目錄。
+
 ## 下一步
 
-建議下一個 session：S5 獨立審查與驗證（04 §5 的未驗證項目：實機 GPU、Firefox／Safari／平板、FPS、文字縮放、對比、螢幕報讀器），或依使用者決定進入路線圖 Phase 2（第一人稱移動，驗收條件見 03 §9.2）。不自動開始。
+1. 在 Codex 環境依上方步驟重跑驗證，記錄命令、版本與 exit code；結果與 04 不同就如實記錄，不要改程式去配合。
+2. 之後由使用者決定：S5 獨立審查與驗證（第 11–12 項的未驗證項目），或進入路線圖 Phase 2（第一人稱移動，驗收條件見 03 §9.2）。不自動開始。
 
 Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只完成骨架，不是可玩 MVP；不宣稱療效或已核准兒童使用。
