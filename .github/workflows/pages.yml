@@ -1,9 +1,12 @@
-# 手動發布 S4 骨架到 GitHub Pages。需要先在 repo 設定：
-# Settings → Pages → Source 選 GitHub Actions；
-# Settings → Environments → github-pages 允許發布的分支（目前是 main-uv12jr）。
+# 發布 S4 骨架到 GitHub Pages：push 到 main-uv12jr 時自動執行，檢查通過才發布。
+# 手動觸發（workflow_dispatch）只有在此檔也存在於預設分支時才會出現。
+# 需要的 repo 設定：Settings → Pages → Source 選 GitHub Actions；
+# Settings → Environments → github-pages 允許發布的分支（main-uv12jr）。
 name: Deploy to GitHub Pages
 
 on:
+  push:
+    branches: [main-uv12jr]
   workflow_dispatch:
 
 permissions:
