@@ -8,6 +8,8 @@
 
 ## 專案實況與規範
 
+- 2026-10-08：使用者要求改成雲端執行。已 `git init`（main），加入 .gitignore，首次 commit 並推送到 https://github.com/freshrogerchang-dev/3D-Social-interactive-game 。下文「非 Git 倉庫」是 S1–S3 當時的狀態。
+
 - 初始化前僅有 `Claude 實作路線圖.md`、`Three.js ASD 社交小遊戲完整架構藍圖.md`，無程式碼、package.json、測試、CI 或既有階段文件。
 - 專案實體 `AGENTS.md` 不存在；採用本次使用者訊息提供的全域 AGENTS 規範。
 - `git status` 與 `git log` 回報非 Git 倉庫；無法提供 Git 未提交差異或歷史。本次不初始化 Git，保留兩份原始文件。
