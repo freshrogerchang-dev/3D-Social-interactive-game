@@ -119,6 +119,8 @@ node docs/dev-flow/s4-screenshots/browser-check.mjs http://127.0.0.1:4173/ /tmp/
 
 若全域模組不在 `npm root -g`，設定 `PLAYWRIGHT_MODULE_DIR` 指向含 `playwright` 的 node_modules 目錄。
 
+GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/workflows/pages.yml` 只能手動觸發（Actions → Deploy to GitHub Pages → Run workflow）。流程是 Node 22 → `npm ci` → typecheck、lint、test → `vite build --base=/3D-Social-interactive-game/` → 發布。網址：https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。需要使用者在 repo 設定：Pages Source 選 GitHub Actions；`github-pages` environment 允許 `main-uv12jr`。網址公開，頁面是未經專業審查的工程原型。子路徑 build 在容器內用 headless Chromium 檢查 22/22 通過；實際 Pages 發布結果待使用者觸發後確認。
+
 ## 下一步
 
 1. 在 Codex 環境依上方步驟重跑驗證，記錄命令、版本與 exit code；結果與 04 不同就如實記錄，不要改程式去配合。
