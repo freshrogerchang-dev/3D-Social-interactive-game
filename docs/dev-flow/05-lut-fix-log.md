@@ -93,3 +93,5 @@ F8 已在本地正式修正，發布後需對公開網址重跑 --expect-release
 2026-10-09 收到使用者回報：「我用手機測試過，暫停返回都正常」。此為使用者提供的操作結果，不是 Codex 實機測試，沒有命令或 exit code。型號、OS／瀏覽器、測試版本及「返回」按鈕的含義待確認；恢復、結束／重新開始、背景切換與其餘驗收尚未確認。已同步 STATE.md 與 05-device-review-checklist.md；完整 S5 未通過。
 
 本次文件更新前重跑 npm run typecheck、npm run lint、npm run format:check、npm run test、npm run build，全部成功（Node 22.22.0；45 項單元測試通過；建置保留 >500 kB 已知警告）。git diff --check exit 0。沒有更動產品程式，也沒有新增瀏覽器或實機驗證結果。
+
+使用者後續補充「iPhone 12 chrome 可正常跑」，已將裝置與瀏覽器補入實機操作表及 STATE.md。iOS／Chrome 版本待補；一般正常執行的回報不代表恢復、重建、背景切換或其餘驗收已逐項確認。
