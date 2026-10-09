@@ -9,6 +9,7 @@ import {
   PlaneGeometry,
   RingGeometry,
   Scene,
+  Texture,
   Vector3,
 } from 'three';
 
@@ -42,9 +43,34 @@ export class ParkScene {
     new MeshStandardMaterial({ color: MARKER_EDGE_COLOR, roughness: 0.8, metalness: 0 }),
   ] as const;
   private disposed = false;
+  private dfgTexture: Texture | null = null;
+  private dfgSourceId: string | null = null;
 
   constructor() {
     this.scene.background = SKY_COLOR;
+
+    // three 0.186.1 的共用 DFG_LUT 會保留各 context 的 dispose listener。
+    // 透過公開材質 hook／uniform value，讓 renderer 上傳本場景擁有的 clone；
+    // 不修改共用貼圖，其他場景的 context 仍可獨立使用與釋放。
+    for (const material of this.materials) {
+      material.onBeforeCompile = (shader) => {
+        if (!shader.uniforms['dfgLUT']) return;
+        const uniform: { value: Texture | null } = { value: null };
+        Object.defineProperty(uniform, 'value', {
+          enumerable: true,
+          get: () => this.dfgTexture,
+          set: (source: unknown) => {
+            if (this.disposed || !(source instanceof Texture)) return;
+            if (this.dfgSourceId === source.uuid) return;
+            this.dfgTexture?.dispose();
+            this.dfgTexture = source.clone();
+            this.dfgTexture.needsUpdate = true;
+            this.dfgSourceId = source.uuid;
+          },
+        });
+        shader.uniforms['dfgLUT'] = uniform;
+      };
+    }
 
     const [groundGeometry, markerGeometry, edgeGeometry] = this.geometries;
     const [groundMaterial, markerMaterial, edgeMaterial] = this.materials;
@@ -92,6 +118,9 @@ export class ParkScene {
     this.disposed = true;
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
+    this.dfgTexture?.dispose();
+    this.dfgTexture = null;
+    this.dfgSourceId = null;
     this.scene.clear();
   }
 }

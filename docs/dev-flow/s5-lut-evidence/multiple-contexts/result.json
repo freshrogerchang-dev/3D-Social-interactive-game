@@ -1,0 +1,45 @@
+[
+  {
+    "check": "baseline / fixed PBR pixels",
+    "pass": true
+  },
+  {
+    "check": "independent context texture disposal",
+    "pass": true,
+    "before": [
+      {
+        "geometries": 3,
+        "textures": 1
+      },
+      {
+        "geometries": 3,
+        "textures": 1
+      }
+    ],
+    "afterLeft": [
+      {
+        "geometries": 0,
+        "textures": 0
+      },
+      {
+        "geometries": 3,
+        "textures": 1
+      }
+    ]
+  },
+  {
+    "check": "both contexts released",
+    "pass": true,
+    "final": [
+      {
+        "geometries": 0,
+        "textures": 0
+      },
+      {
+        "geometries": 0,
+        "textures": 0
+      }
+    ],
+    "detachedCanvases": 0
+  }
+]

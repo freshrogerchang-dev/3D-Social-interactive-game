@@ -1,0 +1,13 @@
+PASS 本地建置產物載入與場景啟動
+PASS DPR 3 裝置的 canvas 比例上限為 2
+PASS 執行中安全按鈕具可及名稱
+PASS 休息畫面可及樹含標題與動作，隱藏動作不外露
+PASS 暫停沒有待執行 RAF，回呼計數停住
+PASS 20 次重建強制 GC 後 detached CANVAS 為零
+PASS 20 次重建後每次結束 canvas 與 RAF 均為零
+PASS 強制 GC 後監聽數在第 5–20 次重建未持續增加
+PASS 320px 文字間距調整後安全與面板按鈕可聚焦命中
+UNVERIFIED headless 分頁切換沒有產生 hidden，不能當成系統切頁驗收
+PASS 正常路徑無未處理 JS 例外
+PASS 頁面請求只有本站靜態 GET 資源
+11/11 passed

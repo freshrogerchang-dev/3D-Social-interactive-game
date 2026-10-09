@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-09（S5 Pages 原始 HTML 問題已修正，線上 22＋15 項檢查通過；執行期例外與授權通知已修正，資源持有鏈已定位，F8 共用 DFG_LUT 監聽尚待正式修正，實機待辦未完成）
+最後更新：2026-10-09（F8 自有 LUT 修正與五項／45＋22＋15＋11＋4＋3 回歸通過；完整 S5 外部驗收未完成）
 
 ## 一句話目標
 
@@ -124,7 +124,7 @@ GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/wor
 ## 下一步
 
 1. F1–F4 修正已提交 `ab28b9a`；Actions run 37952794274 build／deploy success。但本輪實讀 Pages 仍為 `/src/main.ts` 原始 HTML，另有 Jekyll run 37952793354，不能算線上可用。使用者已改為 GitHub Actions，重新發布後線上 22＋15 項通過，詳見下方「Pages 修正驗證」。
-2. F6／F7 修正及回歸已完成，詳見 05-extended-review.md §7；持有鏈已定位為 three 共用 DFG_LUT 的 dispose listener；下一步處理 F8 的正式生命週期修正，不能宣稱沒有洩漏。
+2. F6／F7 修正及回歸已完成，詳見 05-extended-review.md §7；持有鏈已定位為 three 共用 DFG_LUT 的 dispose listener；F8 現在由各場景擁有 LUT 副本；本地 20 次重建 GC 後 detached canvas=0，雙 context 及像素對照通過，紀錄見 05-lut-fix-log.md。
 3. 依 05-device-review-checklist.md 補實機、原生文字縮放、報讀器、效能與專業審查。完整 S5 尚未通過，不自動進入 Phase 2。
 
 Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只完成骨架，不是可玩 MVP；不宣稱療效或已核准兒童使用。
@@ -201,3 +201,13 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 另在公開版做 heap snapshot／A/B：DFG_LUT 模組共用貼圖的 21 個 dispose listener 持有 WebGL context／舊 canvas；僅在臨時診斷工作階段釋放該貼圖後，listeners 21→0、detached canvas 21→0、DOM nodes 147→126。
 - F8 原因已定位，尚未正式修正；不得把 DevTools heap ID／_listeners 操作當產品修法，或未經逐項授權升級 three。完整 S5 仍受 F8 與外部驗收項目阻擋。
 - 詳細重現、持有鏈與外部驗收表見 05-extended-review.md §8、05-device-review-checklist.md；本次沒有安排或聯絡實機／專業審查者。
+
+
+## S5 F8 正式修正（2026-10-09）
+
+- 以公開 onBeforeCompile／Texture.clone 讓 ParkScene 上傳自有 PBR LUT；場景三個材質共用一份副本，dispose 只釋放自己的副本，不改共用原貼圖或 three 私有 listener。
+- Node 22 五項 exit 0，4 檔 45 項單元測試通過；最終 dist 瀏覽器 22＋15＋11＋4 與雙 context／像素 3 項全部 exit 0。
+- 20 次重建強制 GC 後 detached canvas=0；第 5–20 次 DOM nodes 維持 126、listeners=30。另一 context 的 texture 與畫面不受釋放影響，原版／修正版 PBR PNG 相同。
+- 依賴／lockfile／設定不變，無安裝或伺服器啟動；沿用 S5 commit／push 授權保存修正與證據。公開版結果以後續線上 --expect-released 驗證為準。
+- F8 本地已排除，不能宣稱跨裝置或長時間 GPU 完全無洩漏。完整 S5 外部驗收仍未完成；已詢問可用實機，尚未取得實際測試結果。
+- 完整修正、命令／exit code、失敗更正與證據見 05-lut-fix-log.md。不進 Phase 2。

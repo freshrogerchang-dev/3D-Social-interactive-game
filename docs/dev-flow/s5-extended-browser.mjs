@@ -58,6 +58,7 @@ try {
     if (i % 5 === 0) await stats(i);
   }
   try { results.detachedDom = await cdp.send('DOM.getDetachedDomNodes'); } catch (error) { results.detachedDom = { unavailable: String(error) }; }
+  if (process.argv.includes('--expect-released')) check('20 次重建強制 GC 後 detached CANVAS 為零', Array.isArray(results.detachedDom.detachedNodes) && results.detachedDom.detachedNodes.filter(n => n.treeNode.nodeName === 'CANVAS').length === 0, results.detachedDom);
   check('20 次重建後每次結束 canvas 與 RAF 均為零', results.memory.every(m => m.canvases === 0 && m.raf.pending === 0) && results.memory.at(-1).raf.maxPending === 1, results.memory.map(m => ({ cycle: m.cycle, canvases: m.canvases, raf: m.raf })));
   const counters = results.memory.map(m => m.dom.jsEventListeners);
   check('強制 GC 後監聽數在第 5–20 次重建未持續增加', counters.slice(1).every(n => n === counters[1]), counters);

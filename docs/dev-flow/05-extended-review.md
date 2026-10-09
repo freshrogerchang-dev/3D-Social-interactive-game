@@ -208,3 +208,8 @@ python docs/dev-flow/s5-extended-evidence/dfg/heap-analyze.py
 證據：[A/B 結果](s5-extended-evidence/dfg/diagnostic-result.json)、[執行輸出](s5-extended-evidence/dfg/result.txt)、[retainer paths 摘要](s5-extended-evidence/dfg/retainer-summary.txt)。
 
 F5–F7 已修正並發布驗證；F8 與實機／跨瀏覽器、原生文字縮放、報讀器、效能及專業審查仍未完成，完整 S5 尚未通過。
+
+
+## 9. F8 後續修正
+
+使用者要求繼續 S5。F8 已以場景自有 LUT 副本修正，不操作 three 私有 listener 或升級套件；Node 22 五項、45 項單元與最終 dist 22＋15＋11＋4／雙 context 3 項回歸均通過。20 次重建 GC 後 detached canvas=0，PBR 原版／修正版 PNG 相同。詳細證據見 05-lut-fix-log.md；§8 的「尚未正式修正」保留原因定位當時的歷史，不是最新狀態。公開版與完整外部驗收仍須分別驗證。
