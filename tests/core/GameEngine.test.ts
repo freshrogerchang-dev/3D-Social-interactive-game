@@ -134,6 +134,47 @@ describe('GameEngine 生命週期', () => {
 });
 
 describe('GameEngine 釋放與錯誤', () => {
+  it.each(['frame', 'setPixelRatio', 'setSize', 'paused-render', 'safety'] as const)(
+    '執行期 %s 拋錯會停止 RAF、釋放資源並進入 error',
+    async (phase) => {
+      const { engine, renderer, scheduler, canvas, errors } = await runningEngine();
+      const disposePark = vi.spyOn(ParkScene.prototype, 'dispose');
+      const method = phase === 'setPixelRatio' || phase === 'setSize' ? phase : 'render';
+      vi.spyOn(renderer, method).mockImplementation(() => {
+        throw new Error('執行期 renderer 例外');
+      });
+
+      if (phase === 'frame')
+        expect(() => {
+          scheduler.tick(16);
+        }).not.toThrow();
+      else if (phase === 'safety') expect(engine.returnToSafety()).toBe(false);
+      else {
+        if (phase === 'paused-render') engine.pause();
+        expect(() => {
+          engine.resize(320, 568);
+        }).not.toThrow();
+      }
+
+      expect(engine.state).toBe('error');
+      expect(errors).toEqual(['render-failed']);
+      expect(scheduler.pendingCount).toBe(0);
+      expect(renderer.disposeCount).toBe(1);
+      expect(disposePark).toHaveBeenCalledTimes(1);
+      expect(engine.resume()).toBe(false);
+      canvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true }));
+      scheduler.tick(32);
+      engine.dispose();
+      expect(errors).toEqual(['render-failed']);
+      expect(renderer.disposeCount).toBe(1);
+      expect(disposePark).toHaveBeenCalledTimes(1);
+
+      const retry = await runningEngine();
+      expect(retry.engine.state).toBe('running');
+      retry.engine.dispose();
+    },
+  );
+
   it.each(['setPixelRatio', 'setSize', 'render'] as const)(
     '初始化的 %s 拋錯時顯示失敗結果並釋放部分資源',
     async (method) => {

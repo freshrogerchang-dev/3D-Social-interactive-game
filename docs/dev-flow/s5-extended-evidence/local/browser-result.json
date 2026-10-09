@@ -1,0 +1,1373 @@
+{
+  "source": "本地 dist（Playwright route 提供，未啟動伺服器）",
+  "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/",
+  "browser": "151.0.7922.173",
+  "checks": [
+    {
+      "name": "本地建置產物載入與場景啟動",
+      "pass": true,
+      "evidence": 200
+    },
+    {
+      "name": "DPR 3 裝置的 canvas 比例上限為 2",
+      "pass": true,
+      "evidence": {
+        "device": 3,
+        "width": 2560,
+        "cssWidth": 1280,
+        "ratio": 2
+      }
+    },
+    {
+      "name": "執行中安全按鈕具可及名稱",
+      "pass": true,
+      "evidence": [
+        {
+          "role": "button",
+          "name": "暫停",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "返回安全區",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "休息畫面可及樹含標題與動作，隱藏動作不外露",
+      "pass": true,
+      "evidence": [
+        {
+          "role": "button",
+          "name": "暫停",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "返回安全區",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "heading",
+          "name": "休息一下",
+          "properties": [
+            {
+              "name": "live",
+              "value": {
+                "type": "token",
+                "value": "polite"
+              }
+            },
+            {
+              "name": "atomic",
+              "value": {
+                "type": "boolean",
+                "value": false
+              }
+            },
+            {
+              "name": "relevant",
+              "value": {
+                "type": "tokenList",
+                "value": "additions text"
+              }
+            },
+            {
+              "name": "level",
+              "value": {
+                "type": "integer",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "繼續",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            },
+            {
+              "name": "focused",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "結束本次",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "暫停沒有待執行 RAF，回呼計數停住",
+      "pass": true,
+      "evidence": {
+        "stopped": {
+          "pending": 0,
+          "maxPending": 1,
+          "callbacks": 4
+        },
+        "stoppedLater": {
+          "pending": 0,
+          "maxPending": 1,
+          "callbacks": 4
+        }
+      }
+    },
+    {
+      "name": "20 次重建後每次結束 canvas 與 RAF 均為零",
+      "pass": true,
+      "evidence": [
+        {
+          "cycle": 0,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 4
+          }
+        },
+        {
+          "cycle": 5,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 29
+          }
+        },
+        {
+          "cycle": 10,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 54
+          }
+        },
+        {
+          "cycle": 15,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 78
+          }
+        },
+        {
+          "cycle": 20,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 104
+          }
+        }
+      ]
+    },
+    {
+      "name": "強制 GC 後監聽數在第 5–20 次重建未持續增加",
+      "pass": true,
+      "evidence": [
+        30,
+        30,
+        30,
+        30,
+        30
+      ]
+    },
+    {
+      "name": "320px 文字間距調整後安全與面板按鈕可聚焦命中",
+      "pass": true,
+      "evidence": [
+        {
+          "action": "pause",
+          "width": 124.8125,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "safety",
+          "width": 192,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "resume",
+          "width": 88.8125,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "end",
+          "width": 133.609375,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "name": "正常路徑無未處理 JS 例外",
+      "pass": true,
+      "evidence": []
+    },
+    {
+      "name": "頁面請求只有本站靜態 GET 資源",
+      "pass": true,
+      "evidence": [
+        {
+          "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/",
+          "method": "GET",
+          "type": "document"
+        },
+        {
+          "url": "https://freshrogerchang-dev.github.io/assets/index-C1phOaOP.js",
+          "method": "GET",
+          "type": "script"
+        },
+        {
+          "url": "https://freshrogerchang-dev.github.io/assets/index-qvAmfl4J.css",
+          "method": "GET",
+          "type": "stylesheet"
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "cycle": 0,
+      "heap": {
+        "usedSize": 3312884,
+        "totalSize": 4014080,
+        "embedderHeapUsedSize": 565856,
+        "backingStorageSize": 544942
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 124,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 4
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 5,
+      "heap": {
+        "usedSize": 3800036,
+        "totalSize": 4276224,
+        "embedderHeapUsedSize": 666152,
+        "backingStorageSize": 545081
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 132,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 29
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 10,
+      "heap": {
+        "usedSize": 4273912,
+        "totalSize": 4800512,
+        "embedderHeapUsedSize": 740672,
+        "backingStorageSize": 545081
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 137,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 54
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 15,
+      "heap": {
+        "usedSize": 4400532,
+        "totalSize": 4800512,
+        "embedderHeapUsedSize": 791664,
+        "backingStorageSize": 545081
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 142,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 78
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 20,
+      "heap": {
+        "usedSize": 4549708,
+        "totalSize": 5062656,
+        "embedderHeapUsedSize": 863128,
+        "backingStorageSize": 545081
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 147,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 104
+      },
+      "canvases": 0
+    }
+  ],
+  "accessibility": {
+    "running": [
+      {
+        "role": "RootWebArea",
+        "name": "公園打招呼練習",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "focused",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "url",
+            "value": {
+              "type": "string",
+              "value": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/"
+            }
+          }
+        ]
+      },
+      {
+        "role": "generic",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "toolbar",
+        "name": "隨時可用的按鈕",
+        "properties": [
+          {
+            "name": "orientation",
+            "value": {
+              "type": "token",
+              "value": "horizontal"
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "暫停",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "返回安全區",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "StaticText",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "返回安全區",
+        "properties": []
+      }
+    ],
+    "paused": [
+      {
+        "role": "RootWebArea",
+        "name": "公園打招呼練習",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "focused",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "url",
+            "value": {
+              "type": "string",
+              "value": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/"
+            }
+          }
+        ]
+      },
+      {
+        "role": "generic",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "toolbar",
+        "name": "隨時可用的按鈕",
+        "properties": [
+          {
+            "name": "orientation",
+            "value": {
+              "type": "token",
+              "value": "horizontal"
+            }
+          }
+        ]
+      },
+      {
+        "role": "region",
+        "name": "休息一下",
+        "properties": [
+          {
+            "name": "labelledby",
+            "value": {
+              "type": "nodeList",
+              "relatedNodes": [
+                {
+                  "backendDOMNodeId": 32,
+                  "idref": "overlay-title",
+                  "text": "休息一下"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "暫停",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "返回安全區",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "heading",
+        "name": "休息一下",
+        "properties": [
+          {
+            "name": "live",
+            "value": {
+              "type": "token",
+              "value": "polite"
+            }
+          },
+          {
+            "name": "atomic",
+            "value": {
+              "type": "boolean",
+              "value": false
+            }
+          },
+          {
+            "name": "relevant",
+            "value": {
+              "type": "tokenList",
+              "value": "additions text"
+            }
+          },
+          {
+            "name": "level",
+            "value": {
+              "type": "integer",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "role": "paragraph",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "button",
+        "name": "繼續",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "focused",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "結束本次",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "StaticText",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "休息一下",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "畫面停住了。準備好再按「繼續」。",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "繼續",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "結束本次",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "休息一下",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "畫面停住了。準備好再按「繼續」。",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "繼續",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "結束本次",
+        "properties": []
+      }
+    ]
+  },
+  "visibility": [
+    {
+      "stage": "before",
+      "state": "visible"
+    },
+    {
+      "stage": "second tab active",
+      "state": "visible",
+      "paused": false
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/",
+      "method": "GET",
+      "type": "document"
+    },
+    {
+      "url": "https://freshrogerchang-dev.github.io/assets/index-C1phOaOP.js",
+      "method": "GET",
+      "type": "script"
+    },
+    {
+      "url": "https://freshrogerchang-dev.github.io/assets/index-qvAmfl4J.css",
+      "method": "GET",
+      "type": "stylesheet"
+    }
+  ],
+  "errors": [],
+  "detachedDom": {
+    "detachedNodes": [
+      {
+        "treeNode": {
+          "nodeId": 1,
+          "backendNodeId": 14,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          14,
+          14
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 2,
+          "backendNodeId": 118,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          118,
+          118
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 3,
+          "backendNodeId": 112,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          112,
+          112
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 4,
+          "backendNodeId": 94,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          94,
+          94
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 5,
+          "backendNodeId": 100,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          100
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 6,
+          "backendNodeId": 106,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          106
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 7,
+          "backendNodeId": 166,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          166
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 8,
+          "backendNodeId": 76,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          76,
+          76
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 9,
+          "backendNodeId": 82,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          82,
+          82
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 10,
+          "backendNodeId": 64,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          64,
+          64
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 11,
+          "backendNodeId": 70,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          70,
+          70
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 12,
+          "backendNodeId": 136,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          136,
+          136
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 13,
+          "backendNodeId": 88,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          88,
+          88
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 14,
+          "backendNodeId": 178,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          178,
+          178
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 15,
+          "backendNodeId": 154,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          154
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 16,
+          "backendNodeId": 172,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          172,
+          172
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 17,
+          "backendNodeId": 142,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          142
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 18,
+          "backendNodeId": 148,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          148,
+          148
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 19,
+          "backendNodeId": 130,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          130
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 20,
+          "backendNodeId": 160,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          160
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 21,
+          "backendNodeId": 124,
+          "nodeType": 1,
+          "nodeName": "CANVAS",
+          "localName": "canvas",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "class",
+            "scene-canvas",
+            "data-engine",
+            "three.js r186",
+            "width",
+            "2560",
+            "height",
+            "1440"
+          ]
+        },
+        "retainedNodeIds": [
+          124
+        ]
+      }
+    ]
+  },
+  "contrast": {
+    "text": "rgb(31, 42, 51)",
+    "background": "rgb(251, 248, 242)",
+    "border": "rgb(138, 127, 108)",
+    "fontSize": "20px"
+  }
+}

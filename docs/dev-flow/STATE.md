@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-09（S5 四項修正與正式工程驗證通過；實機及專業審查未完成）
+最後更新：2026-10-09（S5 Pages 原始 HTML 問題已修正，線上 22＋15 項檢查通過；執行期例外與授權通知已修正，資源／實機待辦未完成）
 
 ## 一句話目標
 
@@ -24,7 +24,7 @@
 | S2 相容性 | 完成（文件與唯讀盤點；整合未驗證） | `02-compatibility-toolchain.md`：本機版本、官方限制、候選組合與 API 核對；未安裝、未編譯、未實機驗收，不能標 PASS |
 | S3 考察 | 文件與研究整理完成；專業審查及使用者評估未完成 | `03-research.md`：公園打招呼情境 v0.1-draft（待專業審查草案）、狀態圖檢查（scratchpad，非專案測試）、官方指引與 10 篇文獻摘要級整理、審查計畫、兒童評估前門檻與停止準則。審查者尚未參與 |
 | S4 建置 | 第一里程碑完成（Phase 0 + Phase 1 骨架）；實機與跨瀏覽器未驗證 | `04-build-log.md`：exact 版本安裝；typecheck、lint、format:check、test（26 項）、build 皆 exit 0；headless Chromium（SwiftShader）檢查 22/22。不是可玩 MVP |
-| S5 驗證 | 進行中：四項修正與正式工程驗證完成，完整驗收未完成 | 05-fix-log.md §5：Node 22 五項 exit 0、4 檔 38 項測試、22/22 既有及 15/15 補充 Chromium 檢查；實機、跨瀏覽器與專業審查仍待完成 |
+| S5 驗證 | 進行中：四項修正與正式工程驗證完成，完整驗收未完成 | 05-fix-log.md §5 的既有五項／38＋22＋15 工程證據有效；05-extended-review.md 新增 F5–F7、10/10 本地補充檢查與 detached canvas 觀察；Pages 線上 22＋15 項已通過；F6／F7 本地修正，五項與 44＋22＋15＋4 回歸通過；資源持有鏈、實機與專業審查仍待完成 |
 
 ## 功能實作狀態（路線圖 Phase 0–10）
 
@@ -123,8 +123,9 @@ GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/wor
 
 ## 下一步
 
-1. F1–F4 的本地修正已於 Node 22 完成五項與 22+15 項瀏覽器驗證；使用者已同意本次 commit／push 到 main-uv12jr（會更新公開 Pages），本紀錄隨修正提交。修正紀錄見 05-fix-log.md §5。
-2. 補 S5 的實機／跨瀏覽器／原生文字縮放／報讀器／效能與專業審查；矩陣見 05-review.md。完整 S5 尚未通過，不自動進入 Phase 2。
+1. F1–F4 修正已提交 `ab28b9a`；Actions run 37952794274 build／deploy success。但本輪實讀 Pages 仍為 `/src/main.ts` 原始 HTML，另有 Jekyll run 37952793354，不能算線上可用。使用者已改為 GitHub Actions，重新發布後線上 22＋15 項通過，詳見下方「Pages 修正驗證」。
+2. F6／F7 修正及回歸已完成，詳見 05-extended-review.md §7；下一步定位 21 個 detached canvas 的持有鏈與延遲回收，不能宣稱沒有洩漏。
+3. 依 05-device-review-checklist.md 補實機、原生文字縮放、報讀器、效能與專業審查。完整 S5 尚未通過，不自動進入 Phase 2。
 
 Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只完成骨架，不是可玩 MVP；不宣稱療效或已核准兒童使用。
 
@@ -160,3 +161,34 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - Preview 已停止（SIGTERM，exit 143）；停止後 curl 連線失敗 exit 7 為預期證據。
 - 實機、跨瀏覽器、原生文字 200%、報讀器、效能與 heap／GPU 累積、專業內容審查仍未完成。完整 S5 未通過，不進 Phase 2。
 - 本次程式、審查與修正文件一併提交；push 會觸發 Pages，發布結果以該提交的 GitHub Actions 紀錄為準。詳細命令與證據見 05-fix-log.md §5。
+
+
+## S5 補充審查更新（2026-10-09）
+
+- 基準 ab28b9a；本輪未改產品程式、未安裝、未啟動伺服器、未 commit／push。
+- 正式網址讀到原始 HTML／`/src/main.ts`，Chromium 場景等待逾時 exit 1；F5 為公開發布阻擋。Vite 與 Jekyll 兩套流程 success，不等於線上程式可用。
+- 本地 dist 使用 Playwright route（無 preview）10/10 補充檢查 exit 0：DPR=3 時 ratio=2、AX 名稱／休息動作、RAF 暫停、20 次重建、320px 文字間距與焦點命中。不能代替正式網站或螢幕報讀器驗收。
+- 強制 GC 後監聽數固定 30、最大 RAF=1，但 JS heap 增長並有 21 個 detached CANVAS；尚未排除工具持有／context 延遲，資源無洩漏未通過。
+- F6 的 frame／resize／safety renderer 例外三條路徑已重現：仍 running、onError 未呼叫。F7 的 dist 缺 three MIT 許可通知尚未修正。
+- 傳遞授權盤點：175 lock entries／152 installed；145 根目錄有授權類檔案，另外兩項完整文字藏在 README；其他缺口與未安裝平台項目仍待補。
+- 已新增 05-extended-review.md、05-device-review-checklist.md 與重現／量測證據。實機、專業審查與兒童使用前門檻仍未完成。
+
+
+## Pages 修正驗證（2026-10-09）
+
+- 使用者回覆「已改好了」，表示已將 Settings → Pages → Source 改為 GitHub Actions；工具沒有另讀管理設定值，實際結果以下述部署與線上檢查確認。
+- 重跑既有 Vite workflow 的 deploy job 113895799734，API success；run 37952794274 第 2 次 build／deploy 均 success，仍為 commit ab28b9a，沒有建立新 commit 或 push。
+- 正式 HTML 現在載入 /3D-Social-interactive-game/assets/index-C1phOaOP.js 與 index-qvAmfl4J.css；已不引用 /src/main.ts。curl exit 0；線上 JS 與本地 dist SHA256 完全相同。
+- 公開網址 headless Chromium／SwiftShader：既有 browser-check 22/22、runtime 補充 15/15 均 exit 0，正常路徑 console 無錯誤，context loss／WebGL 不可用後的 DOM 安全控制通過。F5 發布阻擋已排除。
+- 兩支 docs 瀏覽器腳本僅增加可選 PLAYWRIGHT_PROXY_SERVER，供遠端網址使用既有代理；未更動斷言、產品程式、套件或設定檔。
+- F6 執行期 renderer 例外、F7 發布 MIT 通知、detached canvas 原因定位仍待處理；實機、原生文字縮放、報讀器、效能與專業審查仍未完成。完整 S5 尚未通過。
+
+
+## S5 F6／F7 修正更新（2026-10-09）
+
+- 執行期 renderer 例外現在停止 loop、釋放資源並轉入可讀 error；返回安全區繪製失敗由 DOM safety-rest 立即接管。
+- public/THIRD_PARTY_NOTICES.txt 保留 three／Vite runtime helper 的完整核心 MIT 通知，已確認 build 複製到 dist。
+- Node 22 五項最終 exit 0；4 檔 44 項單元測試通過。本地 dist 瀏覽器 22/22＋15/15 與 4/4 renderer 例外回歸 exit 0。無安裝、新設定或伺服器啟動。
+- 修正與審查證據沿用先前 S5 commit／push 授權，一併同步到 main-uv12jr；發布狀態以該提交的 Actions 與公開網址實際檢查為準。
+- 公開 ab28b9a 的額外 10/10 可及樹／DPR／文字間距／RAF 檢查 exit 0；仍觀察 21 個 detached CANVAS，原因未定位。這項不能當作資源驗收通過。
+- 完整 S5 仍需資源持有鏈、實機／跨瀏覽器、原生 200% 文字、NVDA／VoiceOver、效能與專業審查；不進 Phase 2。

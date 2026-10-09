@@ -132,6 +132,7 @@ function returnToSafety(): void {
   }
   pauseReason = 'safety';
   if (engine.returnToSafety()) syncView();
+  else takeOver('safety-rest');
 }
 
 ui.attach({

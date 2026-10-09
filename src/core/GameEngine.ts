@@ -24,7 +24,7 @@ export type InitResult =
   | { readonly ok: false; readonly reason: 'failed'; readonly error: unknown }
   | { readonly ok: false; readonly reason: 'disposed' };
 
-export type ErrorReason = 'init-failed' | 'context-lost';
+export type ErrorReason = 'init-failed' | 'context-lost' | 'render-failed';
 
 export interface GameEngineOptions {
   readonly rendererFactory?: RendererFactory;
@@ -123,15 +123,28 @@ export class GameEngine {
   returnToSafety(): boolean {
     if (this.currentState !== 'running' && this.currentState !== 'paused') return false;
     this.loop.stop();
-    this.park?.resetToSafety();
-    this.renderOnce();
-    this.setState('paused');
-    return true;
+    try {
+      this.park?.resetToSafety();
+      this.renderOnce();
+      this.setState('paused');
+      return true;
+    } catch (error: unknown) {
+      this.handleRenderError(error);
+      return false;
+    }
   }
 
   resize(width: number, height: number): void {
     this.width = Math.floor(width);
     this.height = Math.floor(height);
+    try {
+      this.applySize();
+    } catch (error: unknown) {
+      this.handleRenderError(error);
+    }
+  }
+
+  private applySize(): void {
     if (!this.renderer || !this.park || this.width <= 0 || this.height <= 0) return;
     this.renderer.setPixelRatio(this.pixelRatio());
     this.renderer.setSize(this.width, this.height, false);
@@ -173,7 +186,8 @@ export class GameEngine {
       this.canvas = canvas;
       canvas.addEventListener('webglcontextlost', this.handleContextLost);
       this.setState('ready');
-      this.resize(this.width, this.height);
+      // 初始化例外由 runInit 捕獲，與執行期 resize 的錯誤邊界分開。
+      this.applySize();
       return this.isDisposed() ? { ok: false, reason: 'disposed' } : { ok: true };
     } catch (error: unknown) {
       park?.dispose();
@@ -196,8 +210,22 @@ export class GameEngine {
 
   // 骨架沒有模擬內容；之後的 Phase 從 FrameInfo.delta 取得本幀秒數。
   private readonly frame: FrameCallback = () => {
-    this.renderOnce();
+    try {
+      this.renderOnce();
+    } catch (error: unknown) {
+      this.handleRenderError(error);
+    }
   };
+
+  private handleRenderError(error: unknown): void {
+    if (this.currentState === 'disposed' || this.currentState === 'error') return;
+    this.loop.stop();
+    this.canvas?.removeEventListener('webglcontextlost', this.handleContextLost);
+    this.canvas = null;
+    this.releaseResources();
+    this.setState('error');
+    this.options.onError?.('render-failed', error);
+  }
 
   private renderOnce(): void {
     if (!this.renderer || !this.park || this.width <= 0 || this.height <= 0) return;

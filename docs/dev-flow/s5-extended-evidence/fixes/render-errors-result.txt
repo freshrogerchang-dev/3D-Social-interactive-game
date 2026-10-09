@@ -1,0 +1,5 @@
+PASS frame: 錯誤停止 RAF、安全 DOM 接管、明確重建
+PASS resize: 錯誤停止 RAF、安全 DOM 接管、明確重建
+PASS paused-resize: 錯誤停止 RAF、安全 DOM 接管、明確重建
+PASS safety: 錯誤停止 RAF、安全 DOM 接管、明確重建
+4/4 passed

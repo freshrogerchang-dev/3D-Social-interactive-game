@@ -1,0 +1,504 @@
+node:child_process:955
+    throw err;
+    ^
+
+<ref *1> Error: spawnSync git EPERM
+    at Object.spawnSync (node:internal/child_process:1120:20)
+    at spawnSync (node:child_process:902:24)
+    at Object.execFileSync (node:child_process:945:15)
+    at compile (/workspace/3D-Social-interactive-game/docs/dev-flow/s5-extended-evidence/runtime-error-proof.cjs:17:93)
+    at Object.<anonymous> (/workspace/3D-Social-interactive-game/docs/dev-flow/s5-extended-evidence/runtime-error-proof.cjs:21:1)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object..js (node:internal/modules/cjs/loader:1839:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14) {
+  errno: -1,
+  code: 'EPERM',
+  syscall: 'spawnSync git',
+  path: 'git',
+  spawnargs: [ 'show', 'ab28b9a:src/core/GameEngine.ts' ],
+  error: [Circular *1],
+  status: 0,
+  signal: null,
+  output: [
+    null,
+    "import { ACESFilmicToneMapping, SRGBColorSpace, WebGLRenderer } from 'three';\n" +
+      "import type { Camera, Scene } from 'three';\n" +
+      "import { ParkScene } from '../scene/ParkScene';\n" +
+      "import { RenderLoop } from './RenderLoop';\n" +
+      "import type { FrameCallback, FrameScheduler } from './RenderLoop';\n" +
+      "import { DEFAULT_SETTINGS } from './settings';\n" +
+      "import type { EngineSettings } from './settings';\n" +
+      '\n' +
+      'export type EngineState =\n' +
+      "  'new' | 'initializing' | 'ready' | 'running' | 'paused' | 'error' | 'disposed';\n" +
+      '\n' +
+      '/** 引擎實際用到的 renderer 能力；測試以替身實作。 */\n' +
+      'export interface RendererLike {\n' +
+      '  setPixelRatio(ratio: number): void;\n' +
+      '  setSize(width: number, height: number, updateStyle?: boolean): void;\n' +
+      '  render(scene: Scene, camera: Camera): void;\n' +
+      '  dispose(): void;\n' +
+      '}\n' +
+      '\n' +
+      'export type RendererFactory = (canvas: HTMLCanvasElement) => RendererLike | Promise<RendererLike>;\n' +
+      '\n' +
+      'export type InitResult =\n' +
+      '  | { readonly ok: true }\n' +
+      "  | { readonly ok: false; readonly reason: 'failed'; readonly error: unknown }\n" +
+      "  | { readonly ok: false; readonly reason: 'disposed' };\n" +
+      '\n' +
+      "export type ErrorReason = 'init-failed' | 'context-lost';\n" +
+      '\n' +
+      'export interface GameEngineOptions {\n' +
+      '  readonly rendererFactory?: RendererFactory;\n' +
+      '  readonly scheduler?: FrameScheduler;\n' +
+      '  readonly settings?: EngineSettings;\n' +
+      '  readonly getDevicePixelRatio?: () => number;\n' +
+      '  readonly onStateChange?: (state: EngineState) => void;\n' +
+      '  readonly onError?: (reason: ErrorReason, error: unknown) => void;\n' +
+      '}\n' +
+      '\n' +
+      '/** 正式環境的 renderer：WebGL2（three r163 起不支援 WebGL1），寫實管線用 sRGB 輸出與色調映射（Q6）。 */\n' +
+      'export const createWebGLRenderer: RendererFactory = (canvas) => {\n' +
+      '  const renderer = new WebGLRenderer({ canvas, antialias: true });\n' +
+      '  renderer.outputColorSpace = SRGBColorSpace;\n' +
+      '  renderer.toneMapping = ACESFilmicToneMapping;\n' +
+      '  renderer.toneMappingExposure = 1;\n' +
+      '  return renderer;\n' +
+      '};\n' +
+      '\n' +
+      '/**\n' +
+      ' * 生命週期：new → initializing → ready → running ⇄ paused；任何狀態都可 dispose。\n' +
+      ' * 不使用計時器；暫停時停止 RAF，恢復後第一幀 delta=0。\n' +
+      ' */\n' +
+      'export class GameEngine {\n' +
+      "  private currentState: EngineState = 'new';\n" +
+      '  private initPromise: Promise<InitResult> | null = null;\n' +
+      '  private canvas: HTMLCanvasElement | null = null;\n' +
+      '  private renderer: RendererLike | null = null;\n' +
+      '  private park: ParkScene | null = null;\n' +
+      '  private readonly loop: RenderLoop;\n' +
+      '  private readonly rendererFactory: RendererFactory;\n' +
+      '  private readonly settings: EngineSettings;\n' +
+      '  private readonly getDevicePixelRatio: () => number;\n' +
+      '  private width = 0;\n' +
+      '  private height = 0;\n' +
+      '\n' +
+      '  constructor(private readonly options: GameEngineOptions = {}) {\n' +
+      '    this.loop = new RenderLoop(options.scheduler);\n' +
+      '    this.rendererFactory = options.rendererFactory ?? createWebGLRenderer;\n' +
+      '    this.settings = options.settings ?? DEFAULT_SETTINGS;\n' +
+      '    this.getDevicePixelRatio = options.getDevicePixelRatio ?? (() => globalThis.devicePixelRatio);\n' +
+      '  }\n' +
+      '\n' +
+      '  get state(): EngineState {\n' +
+      '    return this.currentState;\n' +
+      '  }\n' +
+      '\n' +
+      '  /** 累計模擬秒數，不含暫停期間。 */\n' +
+      '  get elapsed(): number {\n' +
+      '    return this.loop.elapsed;\n' +
+      '  }\n' +
+      '\n' +
+      '  /** 初始化中重複呼叫會共用同一個 Promise；只有 new 狀態能開始初始化。 */\n' +
+      '  init(canvas: HTMLCanvasElement): Promise<InitResult> {\n' +
+      "    if (this.currentState === 'initializing' && this.initPromise) return this.initPromise;\n" +
+      "    if (this.currentState !== 'new') {\n" +
+      '      return Promise.reject(new Error(`GameEngine.init() 不能在 ${this.currentState} 狀態呼叫`));\n' +
+      '    }\n' +
+      '    this.initPromise = this.runInit(canvas);\n' +
+      '    return this.initPromise;\n' +
+      '  }\n' +
+      '\n' +
+      '  /** ready → running。其他狀態不動作，回傳是否已在執行。 */\n' +
+      '  start(): boolean {\n' +
+      "    if (this.currentState === 'running') return true;\n" +
+      "    if (this.currentState !== 'ready') return false;\n" +
+      '    this.runLoop();\n' +
+      '    return true;\n' +
+      '  }\n' +
+      '\n' +
+      '  pause(): boolean {\n' +
+      "    if (this.currentState === 'paused') return true;\n" +
+      "    if (this.currentState !== 'running') return false;\n" +
+      '    this.loop.stop();\n' +
+      "    this.setState('paused');\n" +
+      '    return true;\n' +
+      '  }\n' +
+      '\n' +
+      '  /** 只允許 paused → running；第一幀 delta=0。 */\n' +
+      '  resume(): boolean {\n' +
+      "    if (this.currentState === 'running') return true;\n" +
+      "    if (this.currentState !== 'paused') return false;\n" +
+      '    this.runLoop();\n' +
+      '    return true;\n' +
+      '  }\n' +
+      '\n' +
+      '  /** 分頁隱藏時暫停；回到前景不自動恢復，等玩家按「繼續」。 */\n' +
+      '  handleVisibilityChange(hidden: boolean): void {\n' +
+      '    if (hidden) this.pause();\n' +
+      '  }\n' +
+      '\n' +
+      '  /**\n' +
+      '   * running／paused：相機回到安全姿態，畫一次靜態畫面後保持 paused。\n' +
+      '   * 其他狀態回傳 false，由 UI 以 DOM 休息畫面接管。\n' +
+      '   */\n' +
+      '  returnToSafety(): boolean {\n' +
+      "    if (this.currentState !== 'running' && this.currentState !== 'paused') return false;\n" +
+      '    this.loop.stop();\n' +
+      '    this.park?.resetToSafety();\n' +
+      '    this.renderOnce();\n' +
+      "    this.setState('paused');\n" +
+      '    return true;\n' +
+      '  }\n' +
+      '\n' +
+      '  resize(width: number, height: number): void {\n' +
+      '    this.width = Math.floor(width);\n' +
+      '    this.height = Math.floor(height);\n' +
+      '    if (!this.renderer || !this.park || this.width <= 0 || this.height <= 0) return;\n' +
+      '    this.renderer.setPixelRatio(this.pixelRatio());\n' +
+      '    this.renderer.setSize(this.width, this.height, false);\n' +
+      '    this.park.resize(this.width, this.height);\n' +
+      '    // 不在執行中時只重畫一次靜態畫面，不更新模擬。\n' +
+      "    if (this.currentState === 'ready' || this.currentState === 'paused') this.renderOnce();\n" +
+      '  }\n' +
+      '\n' +
+      '  /** 可重複呼叫；disposed 後此實例不能重新啟動。 */\n' +
+      '  dispose(): void {\n' +
+      "    if (this.currentState === 'disposed') return;\n" +
+      '    this.loop.stop();\n' +
+      "    this.canvas?.removeEventListener('webglcontextlost', this.handleContextLost);\n" +
+      '    this.canvas = null;\n' +
+      '    this.releaseResources();\n' +
+      "    this.setState('disposed');\n" +
+      '  }\n' +
+      '\n' +
+      '  private async runInit(canvas: HTMLCanvasElement): Promise<InitResult> {\n' +
+      "    this.setState('initializing');\n" +
+      '    let park: ParkScene | null = null;\n' +
+      '    let renderer: RendererLike | null = null;\n' +
+      '    try {\n' +
+      '      park = new ParkScene();\n' +
+      '      renderer = await this.rendererFactory(canvas);\n' +
+      '\n' +
+      '      // 初始化期間被 dispose：晚到的資源直接釋放，不能再啟動。\n' +
+      '      if (this.isDisposed()) {\n' +
+      '        park.dispose();\n' +
+      '        renderer.dispose();\n' +
+      "        return { ok: false, reason: 'disposed' };\n" +
+      '      }\n' +
+      '\n' +
+      '      this.park = park;\n' +
+      '      this.renderer = renderer;\n' +
+      '      // 將所有權交給引擎，catch 不再透過區域變數重複釋放。\n' +
+      '      park = null;\n' +
+      '      renderer = null;\n' +
+      '      this.canvas = canvas;\n' +
+      "      canvas.addEventListener('webglcontextlost', this.handleContextLost);\n" +
+      "      this.setState('ready');\n" +
+      '      this.resize(this.width, this.height);\n' +
+      "      return this.isDisposed() ? { ok: false, reason: 'disposed' } : { ok: true };\n" +
+      '    } catch (error: unknown) {\n' +
+      '      park?.dispose();\n' +
+      '      renderer?.dispose();\n' +
+      '      this.loop.stop();\n' +
+      "      this.canvas?.removeEventListener('webglcontextlost', this.handleContextLost);\n" +
+      '      this.canvas = null;\n' +
+      '      this.releaseResources();\n' +
+      "      if (this.isDisposed()) return { ok: false, reason: 'disposed' };\n" +
+      "      this.setState('error');\n" +
+      "      this.options.onError?.('init-failed', error);\n" +
+      "      return { ok: false, reason: 'failed', error };\n" +
+      '    }\n' +
+      '  }\n' +
+      '\n' +
+      '  private runLoop(): void {\n' +
+      "    this.setState('running');\n" +
+      '    this.loop.start(this.frame);\n' +
+      '  }\n' +
+      '\n' +
+      '  // 骨架沒有模擬內容；之後的 Phase 從 FrameInfo.delta 取得本幀秒數。\n' +
+      '  private readonly frame: FrameCallback = () => {\n' +
+      '    this.renderOnce();\n' +
+      '  };\n' +
+      '\n' +
+      '  private renderOnce(): void {\n' +
+      '    if (!this.renderer || !this.park || this.width <= 0 || this.height <= 0) return;\n' +
+      '    this.renderer.render(this.park.scene, this.park.camera);\n' +
+      '  }\n' +
+      '\n' +
+      '  private readonly handleContextLost = (event: Event): void => {\n' +
+      '    event.preventDefault();\n' +
+      "    if (this.currentState === 'disposed' || this.currentState === 'error') return;\n" +
+      '    this.loop.stop();\n' +
+      "    this.setState('error');\n" +
+      "    this.options.onError?.('context-lost', event);\n" +
+      '  };\n' +
+      '\n' +
+      '  private releaseResources(): void {\n' +
+      '    this.park?.dispose();\n' +
+      '    this.renderer?.dispose();\n' +
+      '    this.park = null;\n' +
+      '    this.renderer = null;\n' +
+      '  }\n' +
+      '\n' +
+      '  private pixelRatio(): number {\n' +
+      '    const ratio = this.getDevicePixelRatio();\n' +
+      '    return Math.min(Number.isFinite(ratio) && ratio > 0 ? ratio : 1, this.settings.maxPixelRatio);\n' +
+      '  }\n' +
+      '\n' +
+      '  private isDisposed(): boolean {\n' +
+      "    return this.currentState === 'disposed';\n" +
+      '  }\n' +
+      '\n' +
+      '  private setState(state: EngineState): void {\n' +
+      '    if (this.currentState === state) return;\n' +
+      '    this.currentState = state;\n' +
+      '    this.options.onStateChange?.(state);\n' +
+      '  }\n' +
+      '}\n',
+    ''
+  ],
+  pid: 9910,
+  stdout: "import { ACESFilmicToneMapping, SRGBColorSpace, WebGLRenderer } from 'three';\n" +
+    "import type { Camera, Scene } from 'three';\n" +
+    "import { ParkScene } from '../scene/ParkScene';\n" +
+    "import { RenderLoop } from './RenderLoop';\n" +
+    "import type { FrameCallback, FrameScheduler } from './RenderLoop';\n" +
+    "import { DEFAULT_SETTINGS } from './settings';\n" +
+    "import type { EngineSettings } from './settings';\n" +
+    '\n' +
+    'export type EngineState =\n' +
+    "  'new' | 'initializing' | 'ready' | 'running' | 'paused' | 'error' | 'disposed';\n" +
+    '\n' +
+    '/** 引擎實際用到的 renderer 能力；測試以替身實作。 */\n' +
+    'export interface RendererLike {\n' +
+    '  setPixelRatio(ratio: number): void;\n' +
+    '  setSize(width: number, height: number, updateStyle?: boolean): void;\n' +
+    '  render(scene: Scene, camera: Camera): void;\n' +
+    '  dispose(): void;\n' +
+    '}\n' +
+    '\n' +
+    'export type RendererFactory = (canvas: HTMLCanvasElement) => RendererLike | Promise<RendererLike>;\n' +
+    '\n' +
+    'export type InitResult =\n' +
+    '  | { readonly ok: true }\n' +
+    "  | { readonly ok: false; readonly reason: 'failed'; readonly error: unknown }\n" +
+    "  | { readonly ok: false; readonly reason: 'disposed' };\n" +
+    '\n' +
+    "export type ErrorReason = 'init-failed' | 'context-lost';\n" +
+    '\n' +
+    'export interface GameEngineOptions {\n' +
+    '  readonly rendererFactory?: RendererFactory;\n' +
+    '  readonly scheduler?: FrameScheduler;\n' +
+    '  readonly settings?: EngineSettings;\n' +
+    '  readonly getDevicePixelRatio?: () => number;\n' +
+    '  readonly onStateChange?: (state: EngineState) => void;\n' +
+    '  readonly onError?: (reason: ErrorReason, error: unknown) => void;\n' +
+    '}\n' +
+    '\n' +
+    '/** 正式環境的 renderer：WebGL2（three r163 起不支援 WebGL1），寫實管線用 sRGB 輸出與色調映射（Q6）。 */\n' +
+    'export const createWebGLRenderer: RendererFactory = (canvas) => {\n' +
+    '  const renderer = new WebGLRenderer({ canvas, antialias: true });\n' +
+    '  renderer.outputColorSpace = SRGBColorSpace;\n' +
+    '  renderer.toneMapping = ACESFilmicToneMapping;\n' +
+    '  renderer.toneMappingExposure = 1;\n' +
+    '  return renderer;\n' +
+    '};\n' +
+    '\n' +
+    '/**\n' +
+    ' * 生命週期：new → initializing → ready → running ⇄ paused；任何狀態都可 dispose。\n' +
+    ' * 不使用計時器；暫停時停止 RAF，恢復後第一幀 delta=0。\n' +
+    ' */\n' +
+    'export class GameEngine {\n' +
+    "  private currentState: EngineState = 'new';\n" +
+    '  private initPromise: Promise<InitResult> | null = null;\n' +
+    '  private canvas: HTMLCanvasElement | null = null;\n' +
+    '  private renderer: RendererLike | null = null;\n' +
+    '  private park: ParkScene | null = null;\n' +
+    '  private readonly loop: RenderLoop;\n' +
+    '  private readonly rendererFactory: RendererFactory;\n' +
+    '  private readonly settings: EngineSettings;\n' +
+    '  private readonly getDevicePixelRatio: () => number;\n' +
+    '  private width = 0;\n' +
+    '  private height = 0;\n' +
+    '\n' +
+    '  constructor(private readonly options: GameEngineOptions = {}) {\n' +
+    '    this.loop = new RenderLoop(options.scheduler);\n' +
+    '    this.rendererFactory = options.rendererFactory ?? createWebGLRenderer;\n' +
+    '    this.settings = options.settings ?? DEFAULT_SETTINGS;\n' +
+    '    this.getDevicePixelRatio = options.getDevicePixelRatio ?? (() => globalThis.devicePixelRatio);\n' +
+    '  }\n' +
+    '\n' +
+    '  get state(): EngineState {\n' +
+    '    return this.currentState;\n' +
+    '  }\n' +
+    '\n' +
+    '  /** 累計模擬秒數，不含暫停期間。 */\n' +
+    '  get elapsed(): number {\n' +
+    '    return this.loop.elapsed;\n' +
+    '  }\n' +
+    '\n' +
+    '  /** 初始化中重複呼叫會共用同一個 Promise；只有 new 狀態能開始初始化。 */\n' +
+    '  init(canvas: HTMLCanvasElement): Promise<InitResult> {\n' +
+    "    if (this.currentState === 'initializing' && this.initPromise) return this.initPromise;\n" +
+    "    if (this.currentState !== 'new') {\n" +
+    '      return Promise.reject(new Error(`GameEngine.init() 不能在 ${this.currentState} 狀態呼叫`));\n' +
+    '    }\n' +
+    '    this.initPromise = this.runInit(canvas);\n' +
+    '    return this.initPromise;\n' +
+    '  }\n' +
+    '\n' +
+    '  /** ready → running。其他狀態不動作，回傳是否已在執行。 */\n' +
+    '  start(): boolean {\n' +
+    "    if (this.currentState === 'running') return true;\n" +
+    "    if (this.currentState !== 'ready') return false;\n" +
+    '    this.runLoop();\n' +
+    '    return true;\n' +
+    '  }\n' +
+    '\n' +
+    '  pause(): boolean {\n' +
+    "    if (this.currentState === 'paused') return true;\n" +
+    "    if (this.currentState !== 'running') return false;\n" +
+    '    this.loop.stop();\n' +
+    "    this.setState('paused');\n" +
+    '    return true;\n' +
+    '  }\n' +
+    '\n' +
+    '  /** 只允許 paused → running；第一幀 delta=0。 */\n' +
+    '  resume(): boolean {\n' +
+    "    if (this.currentState === 'running') return true;\n" +
+    "    if (this.currentState !== 'paused') return false;\n" +
+    '    this.runLoop();\n' +
+    '    return true;\n' +
+    '  }\n' +
+    '\n' +
+    '  /** 分頁隱藏時暫停；回到前景不自動恢復，等玩家按「繼續」。 */\n' +
+    '  handleVisibilityChange(hidden: boolean): void {\n' +
+    '    if (hidden) this.pause();\n' +
+    '  }\n' +
+    '\n' +
+    '  /**\n' +
+    '   * running／paused：相機回到安全姿態，畫一次靜態畫面後保持 paused。\n' +
+    '   * 其他狀態回傳 false，由 UI 以 DOM 休息畫面接管。\n' +
+    '   */\n' +
+    '  returnToSafety(): boolean {\n' +
+    "    if (this.currentState !== 'running' && this.currentState !== 'paused') return false;\n" +
+    '    this.loop.stop();\n' +
+    '    this.park?.resetToSafety();\n' +
+    '    this.renderOnce();\n' +
+    "    this.setState('paused');\n" +
+    '    return true;\n' +
+    '  }\n' +
+    '\n' +
+    '  resize(width: number, height: number): void {\n' +
+    '    this.width = Math.floor(width);\n' +
+    '    this.height = Math.floor(height);\n' +
+    '    if (!this.renderer || !this.park || this.width <= 0 || this.height <= 0) return;\n' +
+    '    this.renderer.setPixelRatio(this.pixelRatio());\n' +
+    '    this.renderer.setSize(this.width, this.height, false);\n' +
+    '    this.park.resize(this.width, this.height);\n' +
+    '    // 不在執行中時只重畫一次靜態畫面，不更新模擬。\n' +
+    "    if (this.currentState === 'ready' || this.currentState === 'paused') this.renderOnce();\n" +
+    '  }\n' +
+    '\n' +
+    '  /** 可重複呼叫；disposed 後此實例不能重新啟動。 */\n' +
+    '  dispose(): void {\n' +
+    "    if (this.currentState === 'disposed') return;\n" +
+    '    this.loop.stop();\n' +
+    "    this.canvas?.removeEventListener('webglcontextlost', this.handleContextLost);\n" +
+    '    this.canvas = null;\n' +
+    '    this.releaseResources();\n' +
+    "    this.setState('disposed');\n" +
+    '  }\n' +
+    '\n' +
+    '  private async runInit(canvas: HTMLCanvasElement): Promise<InitResult> {\n' +
+    "    this.setState('initializing');\n" +
+    '    let park: ParkScene | null = null;\n' +
+    '    let renderer: RendererLike | null = null;\n' +
+    '    try {\n' +
+    '      park = new ParkScene();\n' +
+    '      renderer = await this.rendererFactory(canvas);\n' +
+    '\n' +
+    '      // 初始化期間被 dispose：晚到的資源直接釋放，不能再啟動。\n' +
+    '      if (this.isDisposed()) {\n' +
+    '        park.dispose();\n' +
+    '        renderer.dispose();\n' +
+    "        return { ok: false, reason: 'disposed' };\n" +
+    '      }\n' +
+    '\n' +
+    '      this.park = park;\n' +
+    '      this.renderer = renderer;\n' +
+    '      // 將所有權交給引擎，catch 不再透過區域變數重複釋放。\n' +
+    '      park = null;\n' +
+    '      renderer = null;\n' +
+    '      this.canvas = canvas;\n' +
+    "      canvas.addEventListener('webglcontextlost', this.handleContextLost);\n" +
+    "      this.setState('ready');\n" +
+    '      this.resize(this.width, this.height);\n' +
+    "      return this.isDisposed() ? { ok: false, reason: 'disposed' } : { ok: true };\n" +
+    '    } catch (error: unknown) {\n' +
+    '      park?.dispose();\n' +
+    '      renderer?.dispose();\n' +
+    '      this.loop.stop();\n' +
+    "      this.canvas?.removeEventListener('webglcontextlost', this.handleContextLost);\n" +
+    '      this.canvas = null;\n' +
+    '      this.releaseResources();\n' +
+    "      if (this.isDisposed()) return { ok: false, reason: 'disposed' };\n" +
+    "      this.setState('error');\n" +
+    "      this.options.onError?.('init-failed', error);\n" +
+    "      return { ok: false, reason: 'failed', error };\n" +
+    '    }\n' +
+    '  }\n' +
+    '\n' +
+    '  private runLoop(): void {\n' +
+    "    this.setState('running');\n" +
+    '    this.loop.start(this.frame);\n' +
+    '  }\n' +
+    '\n' +
+    '  // 骨架沒有模擬內容；之後的 Phase 從 FrameInfo.delta 取得本幀秒數。\n' +
+    '  private readonly frame: FrameCallback = () => {\n' +
+    '    this.renderOnce();\n' +
+    '  };\n' +
+    '\n' +
+    '  private renderOnce(): void {\n' +
+    '    if (!this.renderer || !this.park || this.width <= 0 || this.height <= 0) return;\n' +
+    '    this.renderer.render(this.park.scene, this.park.camera);\n' +
+    '  }\n' +
+    '\n' +
+    '  private readonly handleContextLost = (event: Event): void => {\n' +
+    '    event.preventDefault();\n' +
+    "    if (this.currentState === 'disposed' || this.currentState === 'error') return;\n" +
+    '    this.loop.stop();\n' +
+    "    this.setState('error');\n" +
+    "    this.options.onError?.('context-lost', event);\n" +
+    '  };\n' +
+    '\n' +
+    '  private releaseResources(): void {\n' +
+    '    this.park?.dispose();\n' +
+    '    this.renderer?.dispose();\n' +
+    '    this.park = null;\n' +
+    '    this.renderer = null;\n' +
+    '  }\n' +
+    '\n' +
+    '  private pixelRatio(): number {\n' +
+    '    const ratio = this.getDevicePixelRatio();\n' +
+    '    return Math.min(Number.isFinite(ratio) && ratio > 0 ? ratio : 1, this.settings.maxPixelRatio);\n' +
+    '  }\n' +
+    '\n' +
+    '  private isDisposed(): boolean {\n' +
+    "    return this.currentState === 'disposed';\n" +
+    '  }\n' +
+    '\n' +
+    '  private setState(state: EngineState): void {\n' +
+    '    if (this.currentState === state) return;\n' +
+    '    this.currentState = state;\n' +
+    '    this.options.onStateChange?.(state);\n' +
+    '  }\n' +
+    '}\n',
+  stderr: ''
+}
+
+Node.js v22.22.0

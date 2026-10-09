@@ -13,6 +13,7 @@ const control = vi.hoisted(() => ({
   instances: [] as TestEngine[],
   actions: null as SafetyActions | null,
   views: [] as SafetyView[],
+  failSafety: false,
 }));
 
 vi.mock('../src/core/GameEngine', () => ({
@@ -62,6 +63,12 @@ vi.mock('../src/core/GameEngine', () => ({
       if (this.state !== 'paused') return false;
       this.start();
       return true;
+    }
+
+    returnToSafety(): boolean {
+      this.state = control.failSafety ? 'error' : 'paused';
+      this.options.onStateChange?.(this.state);
+      return !control.failSafety;
     }
 
     dispose(): void {
@@ -126,6 +133,7 @@ beforeEach(() => {
   control.instances.length = 0;
   control.views.length = 0;
   control.actions = null;
+  control.failSafety = false;
   testDocument = new TestDocument();
   testWindow = new EventTarget();
   vi.stubGlobal('document', testDocument);
@@ -222,6 +230,20 @@ describe('main 的背景載入與安全控制', () => {
     expect(engine.state).toBe('disposed');
     expect(testDocument.canvases.size).toBe(0);
     expect(control.views.at(-1)).toBe('rest');
+    actions().restart();
+    expect(await finishInit()).not.toBe(engine);
+    expect(control.views.at(-1)).toBe('running');
+  });
+
+  it('返回安全區的繪製出錯仍立即由 DOM 安全畫面接管', async () => {
+    await import('../src/main');
+    const engine = await finishInit();
+    control.failSafety = true;
+    actions().safety();
+    expect(engine.state).toBe('disposed');
+    expect(testDocument.canvases.size).toBe(0);
+    expect(control.views.at(-1)).toBe('safety-rest');
+    control.failSafety = false;
     actions().restart();
     expect(await finishInit()).not.toBe(engine);
     expect(control.views.at(-1)).toBe('running');

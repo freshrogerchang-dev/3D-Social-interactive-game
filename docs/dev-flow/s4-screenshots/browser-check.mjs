@@ -40,6 +40,9 @@ const ui = (page) =>
 
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_EXECUTABLE_PATH,
+  proxy: process.env.PLAYWRIGHT_PROXY_SERVER
+    ? { server: process.env.PLAYWRIGHT_PROXY_SERVER }
+    : undefined,
   args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 });
 
@@ -185,6 +188,9 @@ await browser.close();
 {
   const noGl = await chromium.launch({
     executablePath: process.env.CHROMIUM_EXECUTABLE_PATH,
+  proxy: process.env.PLAYWRIGHT_PROXY_SERVER
+    ? { server: process.env.PLAYWRIGHT_PROXY_SERVER }
+    : undefined,
     args: ['--disable-webgl', '--disable-3d-apis'],
   });
   const page = await noGl.newPage({ viewport: { width: 1280, height: 720 } });

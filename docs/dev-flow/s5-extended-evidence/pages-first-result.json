@@ -1,0 +1,21 @@
+{
+  "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/",
+  "browser": "151.0.7922.173",
+  "checks": [],
+  "memory": [],
+  "accessibility": {},
+  "visibility": [],
+  "requests": [
+    {
+      "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/",
+      "method": "GET",
+      "type": "document"
+    },
+    {
+      "url": "https://freshrogerchang-dev.github.io/src/main.ts",
+      "method": "GET",
+      "type": "script"
+    }
+  ],
+  "errors": []
+}

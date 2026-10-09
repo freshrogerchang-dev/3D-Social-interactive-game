@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "frame",
+    "errorTitle": "目前無法顯示場景",
+    "unhandledErrors": [],
+    "restarted": true
+  },
+  {
+    "phase": "resize",
+    "errorTitle": "目前無法顯示場景",
+    "unhandledErrors": [],
+    "restarted": true
+  },
+  {
+    "phase": "paused-resize",
+    "errorTitle": "目前無法顯示場景",
+    "unhandledErrors": [],
+    "restarted": true
+  },
+  {
+    "phase": "safety",
+    "errorTitle": "已返回安全區",
+    "unhandledErrors": [],
+    "restarted": true
+  }
+]

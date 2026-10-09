@@ -23,6 +23,9 @@ try {
 await mkdir(outDir, { recursive: true });
 const launchOptions = {
   executablePath: process.env.CHROMIUM_EXECUTABLE_PATH,
+  proxy: process.env.PLAYWRIGHT_PROXY_SERVER
+    ? { server: process.env.PLAYWRIGHT_PROXY_SERVER }
+    : undefined,
   args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 };
 const browsers = [];
@@ -152,6 +155,9 @@ try {
 
   const noGl = await playwright.chromium.launch({
     executablePath: process.env.CHROMIUM_EXECUTABLE_PATH,
+  proxy: process.env.PLAYWRIGHT_PROXY_SERVER
+    ? { server: process.env.PLAYWRIGHT_PROXY_SERVER }
+    : undefined,
     args: ['--disable-webgl', '--disable-3d-apis'],
   });
   browsers.push(noGl);
