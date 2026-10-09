@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-09（F8 自有 LUT 修正與五項／45＋22＋15＋11＋4＋3 回歸通過；完整 S5 外部驗收未完成）
+最後更新：2026-10-09（F8 自有 LUT 修正已發布，公開 20 次重建 detached canvas=0；完整 S5 外部驗收未完成）
 
 ## 一句話目標
 
@@ -211,3 +211,12 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 依賴／lockfile／設定不變，無安裝或伺服器啟動；沿用 S5 commit／push 授權保存修正與證據。公開版結果以後續線上 --expect-released 驗證為準。
 - F8 本地已排除，不能宣稱跨裝置或長時間 GPU 完全無洩漏。完整 S5 外部驗收仍未完成；已詢問可用實機，尚未取得實際測試結果。
 - 完整修正、命令／exit code、失敗更正與證據見 05-lut-fix-log.md。不進 Phase 2。
+
+
+## S5 F8 公開驗證（2026-10-09）
+
+- 修正 34a9205 已發布，Actions run 37998969689 build／deploy success；公開 JS 與本地五項通過版 SHA256 相同。
+- 對正式網址實跑資源／可及性 11/11 與 WebGL 安全 15/15，均 exit 0；20 次重建後 GC 的 detached canvas=0、DOM nodes 5–20 次維持 126、listeners=30，沒有追加 DevTools.dispose。
+- F8 在現有骨架與 headless Chromium／SwiftShader 條件下排除；45 項單元與本地 22＋15＋11＋4／雙 context 3 項證據仍有效，詳見 05-lut-fix-log.md §2–5。
+- 最新實機操作表以程式基準 34a9205 為準，後續此筆只更新文件與保存線上證據。工作階段已詢問可用實機，尚未取得裝置與測試結果。
+- 真實 GPU、跨瀏覽器、真實系統切頁、原生文字 200%、報讀器、實機效能、專業審查仍未完成；完整 S5 未通過，不進 Phase 2。

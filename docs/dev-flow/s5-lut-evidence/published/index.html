@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="icon" href="data:," />
+    <title>公園打招呼練習</title>
+    <script type="module" crossorigin src="/3D-Social-interactive-game/assets/index-BYlpAXzQ.js"></script>
+    <link rel="stylesheet" crossorigin href="/3D-Social-interactive-game/assets/index-qvAmfl4J.css">
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div id="stage" class="stage" aria-hidden="true"></div>
+
+      <!-- 安全按鈕直接寫在 HTML，不依賴 WebGL 或場景初始化成功。 -->
+      <div class="toolbar" role="toolbar" aria-label="隨時可用的按鈕">
+        <button type="button" class="control" data-action="pause">
+          <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="6" y="5" width="4" height="14" rx="1" />
+            <rect x="14" y="5" width="4" height="14" rx="1" />
+          </svg>
+          <!-- zhuyin-slot：之後放人工標註的注音（03 §9.1）；空的時候不佔空間。 -->
+          <span class="control-label"
+            ><span class="label-text">暫停</span><span class="zhuyin-slot" aria-hidden="true"></span
+          ></span>
+        </button>
+        <button type="button" class="control" data-action="safety">
+          <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 4 3 11h2.5v8h5v-5h3v5h5v-8H21z" />
+          </svg>
+          <span class="control-label"
+            ><span class="label-text">返回安全區</span
+            ><span class="zhuyin-slot" aria-hidden="true"></span
+          ></span>
+        </button>
+      </div>
+
+      <p id="status" class="status" role="status" aria-live="polite">正在準備公園…</p>
+
+      <section id="overlay" class="overlay" aria-labelledby="overlay-title" hidden>
+        <div class="panel">
+          <h1 id="overlay-title" class="panel-title" aria-live="polite"></h1>
+          <p id="overlay-text" class="panel-text"></p>
+          <div class="panel-actions">
+            <button type="button" class="control" data-action="resume" hidden>
+              <span class="control-label"
+                ><span class="label-text">繼續</span
+                ><span class="zhuyin-slot" aria-hidden="true"></span
+              ></span>
+            </button>
+            <button type="button" class="control" data-action="retry" hidden>
+              <span class="control-label"
+                ><span class="label-text">重試</span
+                ><span class="zhuyin-slot" aria-hidden="true"></span
+              ></span>
+            </button>
+            <button type="button" class="control" data-action="restart" hidden>
+              <span class="control-label"
+                ><span class="label-text">重新開始</span
+                ><span class="zhuyin-slot" aria-hidden="true"></span
+              ></span>
+            </button>
+            <button type="button" class="control control-quiet" data-action="end" hidden>
+              <span class="control-label"
+                ><span class="label-text">結束本次</span
+                ><span class="zhuyin-slot" aria-hidden="true"></span
+              ></span>
+            </button>
+          </div>
+          <!-- voice-slot：之後放「再聽一次」語音按鈕（03 §9.3）。 -->
+          <div class="voice-slot"></div>
+        </div>
+      </section>
+
+      <noscript>
+        <p class="panel">這個練習需要開啟 JavaScript。</p>
+      </noscript>
+    </div>
+  </body>
+</html>

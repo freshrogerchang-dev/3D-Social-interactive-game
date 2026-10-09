@@ -72,3 +72,17 @@ node docs/dev-flow/s5-owned-lut-browser.mjs docs/dev-flow/s5-lut-evidence/multip
 F8 已在本地正式修正，發布後需對公開網址重跑 --expect-released，不能只看 Actions success。build JS 540.29 kB、gzip 135.10 kB，已知 >500 kB 警告仍保留。依賴、lockfile、Node pin 與工具設定不變。
 
 完整 S5 仍待成人實機、跨瀏覽器、真實系統切頁、原生文字 200%、NVDA／VoiceOver、實機效能及專業審查。已詢問使用者可用實機，尚未收到型號／版本或實測結果；不能標成通過。操作表見 05-device-review-checklist.md。
+
+
+## 5. 公開 Pages 驗證
+
+修正提交 `34a920529ed66cb440fdd0293a55f7460ac395c0` 已推 main-uv12jr。[Actions run 37998969689](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/37998969689) build／deploy success。公開 HTML 載入 index-BYlpAXzQ.js；curl exit 0，下載 JS SHA256=`c6f0b85f1e9c39c385d7ab8e86659c4fa574a84ed2bbcb7260143b2521865113`，與已通過五項的本地 dist 相同。
+
+直接對 https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 執行：
+
+- s5-extended-browser.mjs（不加 --local，加入 --expect-released）：11/11、exit 0；GC 後 detached canvas=0，0／5／10／15／20 次 DOM nodes=123／126／126／126／126，listeners 每次 30。沒有以 route 或 DevTools.dispose 改公開網站的資源行為。
+- s5-runtime-browser.mjs（PLAYWRIGHT_PROXY_SERVER 沿用 HTTPS_PROXY）：15/15、exit 0；context loss／WebGL 不可用後的安全控制仍有效。
+
+原自有 LUT 的公開 API 修正已驗證上線，F8 在此次骨架／headless Chromium／SwiftShader 條件下排除。完整 S5 仍需實機與外部審查，不能宣稱所有平台或所有 future PBR 材質均已驗證。
+
+證據：[公開網站 11 項結果](s5-lut-evidence/published/resource-11-result.txt)、[公開 memory／detached 結果](s5-lut-evidence/published/browser-result.json)、[公開安全 15 項](s5-lut-evidence/published/runtime-15-result.txt)、[線上 HTML](s5-lut-evidence/published/index.html)。這些補充文件隨下一筆文件 commit 同步，產品程式仍為 34a9205。
