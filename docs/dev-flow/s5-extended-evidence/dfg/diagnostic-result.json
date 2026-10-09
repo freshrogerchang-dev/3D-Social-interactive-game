@@ -1,0 +1,466 @@
+{
+  "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/",
+  "browser": "151.0.7922.173",
+  "memory": [
+    {
+      "cycle": 0,
+      "heap": {
+        "usedSize": 3327608,
+        "totalSize": 4014080,
+        "embedderHeapUsedSize": 566680,
+        "backingStorageSize": 545413
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 124,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 5
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 5,
+      "heap": {
+        "usedSize": 3800736,
+        "totalSize": 4276224,
+        "embedderHeapUsedSize": 666592,
+        "backingStorageSize": 545552
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 132,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 30
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 10,
+      "heap": {
+        "usedSize": 4275444,
+        "totalSize": 4800512,
+        "embedderHeapUsedSize": 729664,
+        "backingStorageSize": 545552
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 137,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 55
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 15,
+      "heap": {
+        "usedSize": 4402084,
+        "totalSize": 4800512,
+        "embedderHeapUsedSize": 792344,
+        "backingStorageSize": 545552
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 142,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 81
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 20,
+      "heap": {
+        "usedSize": 4551280,
+        "totalSize": 5062656,
+        "embedderHeapUsedSize": 863760,
+        "backingStorageSize": 545552
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 147,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 106
+      },
+      "canvases": 0
+    }
+  ],
+  "dfgDiagnostic": {
+    "name": "DFG_LUT",
+    "before": 21,
+    "after": 0
+  },
+  "afterDfgGC": {
+    "heap": {
+      "usedSize": 4141060,
+      "totalSize": 4538368,
+      "embedderHeapUsedSize": 692528,
+      "backingStorageSize": 545552
+    },
+    "dom": {
+      "documents": 1,
+      "nodes": 126,
+      "jsEventListeners": 30
+    }
+  },
+  "detachedDom": {
+    "detachedNodes": []
+  },
+  "checks": [
+    {
+      "name": "正式網站 HTTP 200 與場景啟動",
+      "pass": true,
+      "evidence": 200
+    },
+    {
+      "name": "DPR 3 裝置的 canvas 比例上限為 2",
+      "pass": true,
+      "evidence": {
+        "device": 3,
+        "width": 2560,
+        "cssWidth": 1280,
+        "ratio": 2
+      }
+    },
+    {
+      "name": "執行中安全按鈕具可及名稱",
+      "pass": true,
+      "evidence": [
+        {
+          "role": "button",
+          "name": "暫停",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "返回安全區",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "休息畫面可及樹含標題與動作，隱藏動作不外露",
+      "pass": true,
+      "evidence": [
+        {
+          "role": "button",
+          "name": "暫停",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "返回安全區",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "heading",
+          "name": "休息一下",
+          "properties": [
+            {
+              "name": "live",
+              "value": {
+                "type": "token",
+                "value": "polite"
+              }
+            },
+            {
+              "name": "atomic",
+              "value": {
+                "type": "boolean",
+                "value": false
+              }
+            },
+            {
+              "name": "relevant",
+              "value": {
+                "type": "tokenList",
+                "value": "additions text"
+              }
+            },
+            {
+              "name": "level",
+              "value": {
+                "type": "integer",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "繼續",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            },
+            {
+              "name": "focused",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "結束本次",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "暫停沒有待執行 RAF，回呼計數停住",
+      "pass": true,
+      "evidence": {
+        "stopped": {
+          "pending": 0,
+          "maxPending": 1,
+          "callbacks": 5
+        },
+        "stoppedLater": {
+          "pending": 0,
+          "maxPending": 1,
+          "callbacks": 5
+        }
+      }
+    },
+    {
+      "name": "20 次重建後每次結束 canvas 與 RAF 均為零",
+      "pass": true,
+      "evidence": [
+        {
+          "cycle": 0,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 5
+          }
+        },
+        {
+          "cycle": 5,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 30
+          }
+        },
+        {
+          "cycle": 10,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 55
+          }
+        },
+        {
+          "cycle": 15,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 81
+          }
+        },
+        {
+          "cycle": 20,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 106
+          }
+        }
+      ]
+    },
+    {
+      "name": "強制 GC 後監聽數在第 5–20 次重建未持續增加",
+      "pass": true,
+      "evidence": [
+        30,
+        30,
+        30,
+        30,
+        30
+      ]
+    },
+    {
+      "name": "320px 文字間距調整後安全與面板按鈕可聚焦命中",
+      "pass": true,
+      "evidence": [
+        {
+          "action": "pause",
+          "width": 124.8125,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "safety",
+          "width": 192,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "resume",
+          "width": 88.8125,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "end",
+          "width": 133.609375,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "name": "正常路徑無未處理 JS 例外",
+      "pass": true,
+      "evidence": []
+    },
+    {
+      "name": "頁面請求只有本站靜態 GET 資源",
+      "pass": true,
+      "evidence": [
+        {
+          "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/",
+          "method": "GET",
+          "type": "document"
+        },
+        {
+          "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/assets/index-HbrOO4YO.js",
+          "method": "GET",
+          "type": "script"
+        },
+        {
+          "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/assets/index-qvAmfl4J.css",
+          "method": "GET",
+          "type": "stylesheet"
+        }
+      ]
+    }
+  ],
+  "visibility": [
+    {
+      "stage": "before",
+      "state": "visible"
+    },
+    {
+      "stage": "second tab active",
+      "state": "visible",
+      "paused": false
+    }
+  ]
+}

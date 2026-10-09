@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-09（S5 Pages 原始 HTML 問題已修正，線上 22＋15 項檢查通過；執行期例外與授權通知已修正，資源／實機待辦未完成）
+最後更新：2026-10-09（S5 Pages 原始 HTML 問題已修正，線上 22＋15 項檢查通過；執行期例外與授權通知已修正，資源持有鏈已定位，F8 共用 DFG_LUT 監聽尚待正式修正，實機待辦未完成）
 
 ## 一句話目標
 
@@ -124,7 +124,7 @@ GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/wor
 ## 下一步
 
 1. F1–F4 修正已提交 `ab28b9a`；Actions run 37952794274 build／deploy success。但本輪實讀 Pages 仍為 `/src/main.ts` 原始 HTML，另有 Jekyll run 37952793354，不能算線上可用。使用者已改為 GitHub Actions，重新發布後線上 22＋15 項通過，詳見下方「Pages 修正驗證」。
-2. F6／F7 修正及回歸已完成，詳見 05-extended-review.md §7；下一步定位 21 個 detached canvas 的持有鏈與延遲回收，不能宣稱沒有洩漏。
+2. F6／F7 修正及回歸已完成，詳見 05-extended-review.md §7；持有鏈已定位為 three 共用 DFG_LUT 的 dispose listener；下一步處理 F8 的正式生命週期修正，不能宣稱沒有洩漏。
 3. 依 05-device-review-checklist.md 補實機、原生文字縮放、報讀器、效能與專業審查。完整 S5 尚未通過，不自動進入 Phase 2。
 
 Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只完成骨架，不是可玩 MVP；不宣稱療效或已核准兒童使用。
@@ -192,3 +192,12 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 修正與審查證據沿用先前 S5 commit／push 授權，一併同步到 main-uv12jr；發布狀態以該提交的 Actions 與公開網址實際檢查為準。
 - 公開 ab28b9a 的額外 10/10 可及樹／DPR／文字間距／RAF 檢查 exit 0；仍觀察 21 個 detached CANVAS，原因未定位。這項不能當作資源驗收通過。
 - 完整 S5 仍需資源持有鏈、實機／跨瀏覽器、原生 200% 文字、NVDA／VoiceOver、效能與專業審查；不進 Phase 2。
+
+
+## S5 發布驗證與 F8 資源定位（2026-10-09）
+
+- F6／F7 修正 commit d2b7c50 已推 main-uv12jr；Actions run 37956567817 build／deploy success。本次只觸發 Vite 流程，沒有新的 Jekyll 流程。
+- 新公開版本的 22/22＋15/15 瀏覽器檢查 exit 0；JS SHA256 與本地 dist 相同，線上 THIRD_PARTY_NOTICES.txt 與 public 原檔 cmp exit 0。F5–F7 已完成修正與發布驗證。
+- 另在公開版做 heap snapshot／A/B：DFG_LUT 模組共用貼圖的 21 個 dispose listener 持有 WebGL context／舊 canvas；僅在臨時診斷工作階段釋放該貼圖後，listeners 21→0、detached canvas 21→0、DOM nodes 147→126。
+- F8 原因已定位，尚未正式修正；不得把 DevTools heap ID／_listeners 操作當產品修法，或未經逐項授權升級 three。完整 S5 仍受 F8 與外部驗收項目阻擋。
+- 詳細重現、持有鏈與外部驗收表見 05-extended-review.md §8、05-device-review-checklist.md；本次沒有安排或聯絡實機／專業審查者。

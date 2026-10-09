@@ -173,3 +173,38 @@ Node 22.22.0／npm 10.9.4：typecheck、lint、format:check、test、build 最�
 證據：[五項輸出](s5-extended-evidence/fixes/five-checks.txt)、[22 項](s5-extended-evidence/fixes/browser-22-result.txt)、[15 項](s5-extended-evidence/fixes/runtime-15-result.txt)、[4 項 renderer 例外](s5-extended-evidence/fixes/render-errors-result.txt)、[source 例外回歸](s5-extended-evidence/fixes/runtime-error-result.txt)。本節隨修正提交；新 commit 的公開發布結果以 Actions 與線上實際驗證為準。
 
 F6／F7 已本地修正；detached canvas 持有鏈、實機、原生文字縮放、報讀器、效能、專業審查仍待完成。完整 S5 未通過。
+
+
+## 8. F8 — P2：three 共用 DFG_LUT 的 dispose listener 持有舊 context／canvas
+
+產品基準 d2b7c50，公開 JS SHA256 `78001e12ae498e3e419918c3eb486c2c9499b2967a4c9977caea8dc904e23b0d`。公開版本的 22/22＋15/15 檢查均 exit 0，THIRD_PARTY_NOTICES.txt 下載後 cmp 原檔 exit 0。Actions [run 37956567817](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/37956567817) build／deploy success；這次只有 Vite 流程，沒有新 Jekyll 流程。
+
+在該公開版本上另做 20 次重建，於全部場景已結束時取得 heap snapshot（8 MB，僅留 /tmp，不放 Git）。持有鏈摘要為：module 的共用 `_c`（name=DFG_LUT，DataTexture）→ `_listeners.dispose` Array → renderer 的 texture dispose callback 閉包 → WebGL2RenderingContext → detached canvas。亦可從頁面長駐事件閉包走到相同 module scope；不是僅有 DevTools handle 的持有鏈。
+
+核對 three 原始碼：WebGLRenderer 以 getDFGLUT() 給 PBR shader，DFGLUTData.js 模組共用該貼圖；WebGLTextures.initTexture 為貼圖加入每個 context 的 onTextureDispose；WebGLRenderer.dispose 沒有解除這個共用貼圖的 listener。應用程式已釋放自有 geometry／material／scene 與 renderer，但共用貼圖仍留著每次 renderer 的 listener。
+
+**診斷 A/B（不是產品修正）：** 在臨時瀏覽器，全部場景結束後，利用 heap object ID 找到 name=DFG_LUT 的實際物件，呼叫它的公開 dispose()；隨後釋放診斷 object group，再強制 GC。
+
+| 觀察 | 操作前 | 操作後 |
+|---|---|---|
+| DFG_LUT dispose listeners | 21 | 0 |
+| detached scene canvas | 21（heap snapshot） | 0（DOM.getDetachedDomNodes） |
+| GC 後 DOM nodes | 147 | 126 |
+| 原頁面全域 DOM listeners | 30 | 30 |
+
+診斷腳本 exit 0，整輪額外 10/10 檢查通過；釋放後明確重新開始仍可渲染。本實驗只改了測試工作階段內的物件，沒有改公開程式／套件或停用網路政策，也不宣稱 GPU driver 記憶體已完全回收。
+
+因此原先「持有原因待定位」已縮小為 three 0.186.1 的共用貼圖 listener 路徑；這是現有 runtime 的資源問題，F8 尚未正式修正。正式方案需評估上游修復版本，或透過受支持 API 管理該共用資源的生命週期／renderer 重用；必須考慮資源擁有者與多 context，不直接把 heap ID 或 _listeners 操作放進產品，也不自行升級精確 pin 的依賴。
+
+可重跑：
+
+```bash
+/tmp/node-v22.22.0-linux-x64/bin/node docs/dev-flow/s5-dfg-diagnostic.mjs https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ /tmp/s5-dfg-diagnostic
+python docs/dev-flow/s5-extended-evidence/dfg/heap-analyze.py
+```
+
+前者需系統 Chromium／預裝 playwright-core 與雲端代理（同前述環境），原始 heap 寫 /tmp/s5-canvas.heap.json；後者以該 heap 解析 strong-edge 持有鏈，排除 weak edge，最長 40 層。本解析有 V8 snapshot 結構及共用物件識別依賴，適用本輪固定版本，不是一般洩漏掃描器。
+
+證據：[A/B 結果](s5-extended-evidence/dfg/diagnostic-result.json)、[執行輸出](s5-extended-evidence/dfg/result.txt)、[retainer paths 摘要](s5-extended-evidence/dfg/retainer-summary.txt)。
+
+F5–F7 已修正並發布驗證；F8 與實機／跨瀏覽器、原生文字縮放、報讀器、效能及專業審查仍未完成，完整 S5 尚未通過。
