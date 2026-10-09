@@ -95,3 +95,5 @@ F8 已在本地正式修正，發布後需對公開網址重跑 --expect-release
 本次文件更新前重跑 npm run typecheck、npm run lint、npm run format:check、npm run test、npm run build，全部成功（Node 22.22.0；45 項單元測試通過；建置保留 >500 kB 已知警告）。git diff --check exit 0。沒有更動產品程式，也沒有新增瀏覽器或實機驗證結果。
 
 使用者後續補充「iPhone 12 chrome 可正常跑」，已將裝置與瀏覽器補入實機操作表及 STATE.md。iOS／Chrome 版本待補；一般正常執行的回報不代表恢復、重建、背景切換或其餘驗收已逐項確認。
+
+使用者針對「暫停後繼續、結束後重新開始、切換 App 再回來仍保持暫停」回覆「都正常」。這三項已記為 iPhone 12／Chrome 使用者實測正常；不推定完成重建 20 次或所有實機驗收。iOS／Chrome 版本、縮放、報讀器、效能及專業審查仍待補。
