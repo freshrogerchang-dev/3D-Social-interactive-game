@@ -86,3 +86,10 @@ F8 已在本地正式修正，發布後需對公開網址重跑 --expect-release
 原自有 LUT 的公開 API 修正已驗證上線，F8 在此次骨架／headless Chromium／SwiftShader 條件下排除。完整 S5 仍需實機與外部審查，不能宣稱所有平台或所有 future PBR 材質均已驗證。
 
 證據：[公開網站 11 項結果](s5-lut-evidence/published/resource-11-result.txt)、[公開 memory／detached 結果](s5-lut-evidence/published/browser-result.json)、[公開安全 15 項](s5-lut-evidence/published/runtime-15-result.txt)、[線上 HTML](s5-lut-evidence/published/index.html)。這些補充文件隨下一筆文件 commit 同步，產品程式仍為 34a9205。
+
+
+## 6. 手機使用者部分實測回報
+
+2026-10-09 收到使用者回報：「我用手機測試過，暫停返回都正常」。此為使用者提供的操作結果，不是 Codex 實機測試，沒有命令或 exit code。型號、OS／瀏覽器、測試版本及「返回」按鈕的含義待確認；恢復、結束／重新開始、背景切換與其餘驗收尚未確認。已同步 STATE.md 與 05-device-review-checklist.md；完整 S5 未通過。
+
+本次文件更新前重跑 npm run typecheck、npm run lint、npm run format:check、npm run test、npm run build，全部成功（Node 22.22.0；45 項單元測試通過；建置保留 >500 kB 已知警告）。git diff --check exit 0。沒有更動產品程式，也沒有新增瀏覽器或實機驗證結果。
