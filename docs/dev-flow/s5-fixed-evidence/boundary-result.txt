@@ -1,0 +1,13 @@
+(node:3766) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS main normal
+PASS main initial-hidden
+PASS main hidden-event
+PASS main pagehide
+PASS main hidden-no-event
+PASS main error
+PASS main rejection
+PASS core setPixelRatio failure cleanup
+PASS core setSize failure cleanup
+PASS core render failure cleanup
+10/10 boundary cases passed (Node v24.19.0, isolated mocks; not Vitest)

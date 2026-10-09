@@ -1,7 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { GameEngine } from '../../src/core/GameEngine';
 import type { EngineState, GameEngineOptions, RendererLike } from '../../src/core/GameEngine';
 import { FakeRenderer, FakeScheduler, fakeCanvas } from '../helpers';
+import { ParkScene } from '../../src/scene/ParkScene';
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 function setup(overrides: Partial<GameEngineOptions> = {}) {
   const scheduler = new FakeScheduler();
@@ -129,6 +134,50 @@ describe('GameEngine 生命週期', () => {
 });
 
 describe('GameEngine 釋放與錯誤', () => {
+  it.each(['setPixelRatio', 'setSize', 'render'] as const)(
+    '初始化的 %s 拋錯時顯示失敗結果並釋放部分資源',
+    async (method) => {
+      const failure = new Error(`${method} 無法完成`);
+      const { engine, renderer, canvas, errors, scheduler } = setup();
+      const disposePark = vi.spyOn(ParkScene.prototype, 'dispose');
+      vi.spyOn(renderer, method).mockImplementation(() => {
+        throw failure;
+      });
+
+      await expect(engine.init(canvas)).resolves.toEqual({
+        ok: false,
+        reason: 'failed',
+        error: failure,
+      });
+      expect(engine.state).toBe('error');
+      expect(errors).toEqual(['init-failed']);
+      expect(renderer.disposeCount).toBe(1);
+      expect(disposePark).toHaveBeenCalledTimes(1);
+      expect(scheduler.pendingCount).toBe(0);
+      canvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true }));
+      expect(errors).toEqual(['init-failed']);
+      engine.dispose();
+      expect(renderer.disposeCount).toBe(1);
+      expect(disposePark).toHaveBeenCalledTimes(1);
+    },
+  );
+
+  it('ready 回呼中 dispose 不會讓 init 回傳成功', async () => {
+    const renderer = new FakeRenderer();
+    const engine = new GameEngine({
+      rendererFactory: () => renderer,
+      onStateChange: (state) => {
+        if (state === 'ready') engine.dispose();
+      },
+    });
+    await expect(engine.init(fakeCanvas())).resolves.toEqual({
+      ok: false,
+      reason: 'disposed',
+    });
+    expect(renderer.disposeCount).toBe(1);
+    expect(engine.state).toBe('disposed');
+  });
+
   it('dispose 可重複呼叫，資源只釋放一次，之後不能重啟', async () => {
     const { engine, renderer, scheduler, states } = await runningEngine();
     engine.dispose();

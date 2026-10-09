@@ -1,11 +1,18 @@
 // S4 瀏覽器檢查（headless Chromium）。用法：node browser-check.mjs <url> <outDir>
-// Playwright 不在專案依賴中：從 PLAYWRIGHT_MODULE_DIR（預設為 `npm root -g`）載入全域安裝的 playwright。
+// Playwright 不在專案依賴中：從 PLAYWRIGHT_MODULE_DIR（預設為 `npm root -g`）載入 playwright 或 playwright-core。
+// CHROMIUM_EXECUTABLE_PATH 可指定系統 Chromium；不指定時使用 Playwright 快取。
 import { execSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 const moduleDir =
   process.env.PLAYWRIGHT_MODULE_DIR ?? execSync('npm root -g', { encoding: 'utf8' }).trim();
 const require = createRequire(`${moduleDir}/`);
-const { chromium } = require('playwright');
+let chromium;
+try {
+  ({ chromium } = require('playwright'));
+} catch (error) {
+  if (error.code !== 'MODULE_NOT_FOUND') throw error;
+  ({ chromium } = require('playwright-core'));
+}
 
 const [url, outDir] = process.argv.slice(2);
 const results = [];
@@ -31,7 +38,10 @@ const ui = (page) =>
     };
   });
 
-const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+const browser = await chromium.launch({
+  executablePath: process.env.CHROMIUM_EXECUTABLE_PATH,
+  args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
+});
 
 // ---- 桌面 1280×720 ----
 {
@@ -173,7 +183,10 @@ await browser.close();
 
 // ---- WebGL 不可用 ----
 {
-  const noGl = await chromium.launch({ args: ['--disable-webgl', '--disable-3d-apis'] });
+  const noGl = await chromium.launch({
+    executablePath: process.env.CHROMIUM_EXECUTABLE_PATH,
+    args: ['--disable-webgl', '--disable-3d-apis'],
+  });
   const page = await noGl.newPage({ viewport: { width: 1280, height: 720 } });
   await page.goto(url);
   await page.waitForFunction(() => !document.getElementById('overlay').hidden);

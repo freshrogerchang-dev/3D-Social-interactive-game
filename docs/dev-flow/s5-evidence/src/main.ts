@@ -10,11 +10,6 @@ function requireById(id: string): HTMLElement {
   return element;
 }
 
-/** 每次呼叫都重新讀取可見性，避免跨 await 沿用舊的型別縮窄。 */
-function isPageHidden(): boolean {
-  return document.visibilityState === 'hidden';
-}
-
 const app = requireById('app');
 const stage = requireById('stage');
 
@@ -60,12 +55,6 @@ async function startSession(): Promise<void> {
   teardown();
   pauseReason = 'paused';
 
-  // 背景載入不建立場景；回到前景後由玩家明確重新開始。
-  if (isPageHidden()) {
-    ui.render('rest');
-    return;
-  }
-
   const nextCanvas = document.createElement('canvas');
   nextCanvas.className = 'scene-canvas';
   stage.append(nextCanvas);
@@ -85,21 +74,9 @@ async function startSession(): Promise<void> {
   const rect = stage.getBoundingClientRect();
   current.resize(rect.width, rect.height);
 
-  try {
-    const result = await current.init(nextCanvas);
-    if (engine !== current || !result.ok) return;
-    if (isPageHidden()) {
-      takeOver('rest');
-      return;
-    }
-    current.start();
-  } catch (error: unknown) {
-    // 保留協調層的最後一道錯誤邊界，避免 UI 留在準備中。
-    if (engine !== current) return;
-    teardown();
-    ui.render('error');
-    console.error('[GameEngine] unexpected-init-error', error);
-  }
+  const result = await current.init(nextCanvas);
+  if (engine !== current || !result.ok) return;
+  current.start();
 }
 
 /** 沒有可用的場景（準備中或無法顯示）時，由 DOM 休息畫面接管並取消初始化。 */
@@ -109,11 +86,8 @@ function takeOver(view: 'rest' | 'safety-rest'): void {
 }
 
 function pause(): void {
-  if (!engine) {
-    ui.render('rest');
-    return;
-  }
-  if (engine.state === 'initializing' || engine.state === 'ready' || engine.state === 'error') {
+  if (!engine) return;
+  if (engine.state === 'initializing') {
     takeOver('rest');
     return;
   }
@@ -122,11 +96,8 @@ function pause(): void {
 }
 
 function returnToSafety(): void {
-  if (!engine) {
-    ui.render('safety-rest');
-    return;
-  }
-  if (engine.state === 'initializing' || engine.state === 'ready' || engine.state === 'error') {
+  if (!engine) return;
+  if (engine.state === 'initializing' || engine.state === 'error') {
     takeOver('safety-rest');
     return;
   }
@@ -155,18 +126,21 @@ new ResizeObserver((entries) => {
 }).observe(stage);
 
 document.addEventListener('visibilitychange', () => {
-  if (isPageHidden()) pause();
+  if (document.visibilityState !== 'hidden' || engine?.state !== 'running') return;
+  pauseReason = 'paused';
+  engine.handleVisibilityChange(true);
 });
 
 window.addEventListener('pagehide', () => {
-  pause();
+  if (engine?.state === 'running') pause();
 });
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
+  if (event.key === 'Escape' && engine?.state === 'running') {
     event.preventDefault();
     pause();
   }
 });
 
 void startSession();
+

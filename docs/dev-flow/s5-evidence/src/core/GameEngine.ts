@@ -157,36 +157,28 @@ export class GameEngine {
     try {
       park = new ParkScene();
       renderer = await this.rendererFactory(canvas);
-
-      // 初始化期間被 dispose：晚到的資源直接釋放，不能再啟動。
-      if (this.isDisposed()) {
-        park.dispose();
-        renderer.dispose();
-        return { ok: false, reason: 'disposed' };
-      }
-
-      this.park = park;
-      this.renderer = renderer;
-      // 將所有權交給引擎，catch 不再透過區域變數重複釋放。
-      park = null;
-      renderer = null;
-      this.canvas = canvas;
-      canvas.addEventListener('webglcontextlost', this.handleContextLost);
-      this.setState('ready');
-      this.resize(this.width, this.height);
-      return this.isDisposed() ? { ok: false, reason: 'disposed' } : { ok: true };
     } catch (error: unknown) {
       park?.dispose();
-      renderer?.dispose();
-      this.loop.stop();
-      this.canvas?.removeEventListener('webglcontextlost', this.handleContextLost);
-      this.canvas = null;
-      this.releaseResources();
       if (this.isDisposed()) return { ok: false, reason: 'disposed' };
       this.setState('error');
       this.options.onError?.('init-failed', error);
       return { ok: false, reason: 'failed', error };
     }
+
+    // 初始化期間被 dispose：晚到的資源直接釋放，不能再啟動。
+    if (this.isDisposed()) {
+      park.dispose();
+      renderer.dispose();
+      return { ok: false, reason: 'disposed' };
+    }
+
+    this.park = park;
+    this.renderer = renderer;
+    this.canvas = canvas;
+    canvas.addEventListener('webglcontextlost', this.handleContextLost);
+    this.setState('ready');
+    this.resize(this.width, this.height);
+    return { ok: true };
   }
 
   private runLoop(): void {
@@ -234,3 +226,4 @@ export class GameEngine {
     this.options.onStateChange?.(state);
   }
 }
+

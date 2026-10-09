@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-08（S4 骨架完成；交接到 OpenAI Codex 雲端環境）
+最後更新：2026-10-09（S5 四項修正與正式工程驗證通過；實機及專業審查未完成）
 
 ## 一句話目標
 
@@ -24,7 +24,7 @@
 | S2 相容性 | 完成（文件與唯讀盤點；整合未驗證） | `02-compatibility-toolchain.md`：本機版本、官方限制、候選組合與 API 核對；未安裝、未編譯、未實機驗收，不能標 PASS |
 | S3 考察 | 文件與研究整理完成；專業審查及使用者評估未完成 | `03-research.md`：公園打招呼情境 v0.1-draft（待專業審查草案）、狀態圖檢查（scratchpad，非專案測試）、官方指引與 10 篇文獻摘要級整理、審查計畫、兒童評估前門檻與停止準則。審查者尚未參與 |
 | S4 建置 | 第一里程碑完成（Phase 0 + Phase 1 骨架）；實機與跨瀏覽器未驗證 | `04-build-log.md`：exact 版本安裝；typecheck、lint、format:check、test（26 項）、build 皆 exit 0；headless Chromium（SwiftShader）檢查 22/22。不是可玩 MVP |
-| S5 驗證 | 未開始 | 後續獨立審查、完整功能／無障礙／實機驗證 |
+| S5 驗證 | 進行中：四項修正與正式工程驗證完成，完整驗收未完成 | 05-fix-log.md §5：Node 22 五項 exit 0、4 檔 38 項測試、22/22 既有及 15/15 補充 Chromium 檢查；實機、跨瀏覽器與專業審查仍待完成 |
 
 ## 功能實作狀態（路線圖 Phase 0–10）
 
@@ -77,9 +77,9 @@ S1 完成不代表 Phase 0 或 Phase 1 完成；S4 不等於路線圖 Phase 4。
 
 10. `npm run build` 有「chunk 大於 500 kB」警告（JS 538.97 kB，gzip 134.83 kB），主要是 three.js 本身大小；build 仍 exit 0。是否拆分留到 Phase 7。
 11. 瀏覽器檢查只在 headless Chromium＋SwiftShader（軟體 WebGL2）跑過。真實 GPU、Firefox、Safari、iPadOS、Android 平板、FPS、p95 frame time、載入時間、記憶體（heap 快照、`renderer.info`）、瀏覽器 200% 文字縮放、色彩對比、螢幕報讀器都未驗證。
-12. 分頁隱藏只用覆寫 `visibilityState` 模擬；WebGL context lost 只在單元測試派送事件，沒有在瀏覽器實際觸發。
+12. 分頁隱藏仍以覆寫 `visibilityState` 模擬。S4 的 WebGL context lost 只在單元測試派送事件；S5 已在 headless Chromium／SwiftShader 透過 WEBGL_lose_context 真實觸發，並通過錯誤後安全控制；真實 GPU 與系統切頁仍未驗證。
 13. 介面文案（「休息一下」「已返回安全區」「目前無法顯示場景」等）是工程暫定版，未經專業審查。`zhuyin-slot` 與 `voice-slot` 只預留位置，沒有注音或語音內容。
-14. `docs/dev-flow/s4-screenshots/browser-check.mjs` 依賴**全域**安裝的 Playwright 與 Chromium，不在 `package.json` 中；S4 用的是 Playwright 1.56.1。
+14. `docs/dev-flow/s4-screenshots/browser-check.mjs` 使用專案外 Playwright 或 playwright-core 與 Chromium，不在 `package.json` 中；S4 是 Playwright 1.56.1，S5 是預裝 playwright-core 1.57.0／系統 Chromium 151.0.7922.173，可用環境變數指定模組與執行檔。
 15. GitHub 預設分支 `main` 仍停在 `0171bd0`（只有 S1–S3 文件）；S4 程式碼只在 `main-uv12jr`。是否合併由使用者決定。
 
 ## 決策變更
@@ -123,8 +123,8 @@ GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/wor
 
 ## 下一步
 
-1. 在 Codex 環境依上方步驟重跑驗證，記錄命令、版本與 exit code；結果與 04 不同就如實記錄，不要改程式去配合。
-2. 之後由使用者決定：S5 獨立審查與驗證（第 11–12 項的未驗證項目），或進入路線圖 Phase 2（第一人稱移動，驗收條件見 03 §9.2）。不自動開始。
+1. F1–F4 的本地修正已於 Node 22 完成五項與 22+15 項瀏覽器驗證；使用者已同意本次 commit／push 到 main-uv12jr（會更新公開 Pages），本紀錄隨修正提交。修正紀錄見 05-fix-log.md §5。
+2. 補 S5 的實機／跨瀏覽器／原生文字縮放／報讀器／效能與專業審查；矩陣見 05-review.md。完整 S5 尚未通過，不自動進入 Phase 2。
 
 Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只完成骨架，不是可玩 MVP；不宣稱療效或已核准兒童使用。
 
@@ -139,3 +139,24 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 待核對：01 §7 要求斷開 ResizeObserver／全域監聽；main.ts 的 observer 與全域監聽常駐頁面、每次場景 teardown 不移除。它們未在每次重建新增，但頁面完整清理契約與記憶體仍需後續驗證；本次不改程式。
 - 使用者已於本工作階段逐項同意本次文件 commit 與推送到 main-uv12jr，並知悉會觸發 Pages 重新發布。因終端代理不可用，改用 GitHub Contents API 提交文件；本次沒有在 Codex 重跑五項檢查，以上未驗證狀態仍有效。
 
+
+## S5 審查更新（2026-10-08）
+
+- 使用者已指定 S5 審查，基準 de286057b5f0e113023f7b898c67ede9c76b1e93；未修改產品程式、不進 Phase 2。
+- 05-review.md 記錄四項 P2：F1 文字放大後工具列遮住面板；F2 起始 hidden／初始化中 hidden 後仍 start；F3 error 時 pause 無作用；F4 renderer 尺寸設定拋錯導致 init 拒絕但狀態仍 ready。
+- 專案外替身重現腳本及系統 Chromium 的局部 HTML/CSS 檢查已執行，詳見報告的命令／exit code。不能當作 Node 22、完整 WebGL 或實機通過。
+- CSS 指定色對對比為 13.78:1（文字／底）、3.71:1（邊框／底）、7.82:1（焦點／底）；完整對比與報讀器仍未驗證。
+- npm ci 與五項專案檢查受 proxy:8080 阻塞，本次未執行；最新外部證據為 Actions run 37845590764 build／deploy success。
+- S5 報告、證據與本次 STATE 更新僅本地，未 commit／push；完整 S5 為進行中。
+
+
+## S5 正式工程驗證更新（2026-10-09）
+
+- 使用者已逐項同意 Node 22、npm ci、production preview，並於驗證完成後同意本次程式修正 commit／push 到 main-uv12jr。
+- 在 /tmp 安裝 Node v22.22.0（官方 SHA256 核對）、npm 10.9.4；npm ci exit 0，152 packages。package.json、package-lock.json、.nvmrc 及工具設定不變。
+- 本地 F1–F4 已修正；typecheck、lint、format:check、test、build 均 exit 0，4 檔 38 項測試通過。
+- 系統 Chromium 151.0.7922.173／playwright-core 1.57.0：production preview 22/22 既有檢查與 15/15 補充檢查通過；含真實軟體 WebGL context loss 的錯誤與安全路徑。
+- Chrome 自動 favicon 404 已以空 data favicon 消除；正常路徑 console 無錯誤。build JS 539.37 kB（gzip 134.90 kB）的 >500 kB 警告保留；ESLint 停止支援提示只記錄，未升級。
+- Preview 已停止（SIGTERM，exit 143）；停止後 curl 連線失敗 exit 7 為預期證據。
+- 實機、跨瀏覽器、原生文字 200%、報讀器、效能與 heap／GPU 累積、專業內容審查仍未完成。完整 S5 未通過，不進 Phase 2。
+- 本次程式、審查與修正文件一併提交；push 會觸發 Pages，發布結果以該提交的 GitHub Actions 紀錄為準。詳細命令與證據見 05-fix-log.md §5。

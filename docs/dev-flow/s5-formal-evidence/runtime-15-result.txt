@@ -1,0 +1,17 @@
+Chromium 151.0.7922.173; playwright-core 1.57.0
+PASS production：起始 hidden 不建立 canvas
+PASS production：回前景保持休息
+PASS production：明確重新開始才建立場景
+PASS 真實 WebGL extension：context loss 顯示可讀錯誤畫面
+PASS context loss 後滑鼠暫停由 DOM 接管並移除 canvas
+PASS context loss 後可明確重建新場景
+PASS context loss 後 Esc 暫停仍有效
+PASS context loss 後模擬觸控返回安全區仍有效
+PASS production：640x360 放大文字，面板不遮擋且動作可到達
+PASS production：320x568 放大文字，面板不遮擋且動作可到達
+PASS production：320x360 放大文字，面板不遮擋且動作可到達
+PASS WebGL 不可用：mouse 暫停由 DOM 接管
+PASS WebGL 不可用：keyboard 暫停由 DOM 接管
+PASS WebGL 不可用：touch 暫停由 DOM 接管
+PASS 補充檢查沒有未處理 pageerror（預期 WebGL 診斷 console 不納入）
+15/15 supplementary cases passed
