@@ -263,3 +263,5 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 角色是自有幾何的簡化工程人形，不是 Q6 最終寫實模型；素材選擇、授權與專業外觀審查待完成。無新增套件或設定檔，未進 Phase 4。
 - 五項檢查各 exit 0，6 檔 57 項單元測試通過；NPC 原始碼整合 14/14、production 操作 7/7。詳見 phase3-build-log.md 與 phase3-evidence；軟體 WebGL 不代表實機效能。
 - 下一步：新版 NPC 手機複測與寫實素材評估；對話需另行指定 Phase 4。S5 完整外部驗收仍未通過。
+
+- Phase 3 產品提交 0feb8b2202e8bcca3759b21f34e1ad665bd6f1ea 已發布；Actions run 38066101193 的 build／deploy success。公開 production 7/7、exit 0，已確認新版 NPC 文字及 assets 檔名；結果見 phase3-evidence/published。這仍是雲端 Chromium／SwiftShader，不代表 NPC 手機實測。

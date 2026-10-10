@@ -42,3 +42,10 @@ Build JS 558.68kB／gzip 140.59kB，既有 >500kB 警告保留。git diff --chec
 Phase 2 手機四項操作正常屬使用者回報，未重新確認瀏覽器版本／載入 SHA，不能延用為 NPC 實機通過。新版本需測靠近、側移繞過、離開不被追逐、暫停／返回、結束／重新開始。真實 GPU、原生文字 200%、報讀器、跨瀏覽器、FPS、長時間資源與專業審查仍未完成。暫緩旁白不等於報讀器通過。下一階段對話需另行指定。
 
 20 次重建後 detached CANVAS=0，結束時 canvas 與 pending RAF=0，最大同時 RAF=1；第 5–20 次強制 GC 後 listener 未持續增加。Headless 切頁沒有產生 hidden，標為未驗證，不算真實系統切頁通過。
+
+
+## 公開發布驗證
+
+產品提交 0feb8b2202e8bcca3759b21f34e1ad665bd6f1ea 已推至 main-uv12jr；[Actions run 38066101193](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/38066101193) build／deploy 均 success。公開網站 production 操作 7/7、exit 0，Node 22.22.0／Chromium／SwiftShader，無本地 route／相機探針。確認 NPC DOM 文字及新版 assets/index-DS3Fcd_E.js、index-BjbQBPkR.css 已載入。結果見 phase3-evidence/published/result.json、initial.png。
+
+線上副本 /tmp/phase3-published.mjs 源自 phase2-production-browser.mjs：移除 context.route、替換公開網址、沿用 HTTPS_PROXY，並等待 NPC 文字及 500ms 繪製再截圖。第一次線上檢查也為 7/7，但初始截圖未等繪製；第二次確認新版後重跑並保存最終證據。手機 NPC 仍待使用者複測。
