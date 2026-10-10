@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-10（Safari 四項使用者實測正常，加入遊戲手勢縮放限制；新手勢效果待 iPhone 複測）
+最後更新：2026-10-10（Safari 四項使用者實測正常，加入遊戲手勢縮放限制；收到 iPhone 新版手勢正常回報）
 
 ## 一句話目標
 
@@ -242,4 +242,4 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 使用者針對 Safari 的暫停／繼續、返回安全區／繼續、結束／重新開始、橫直向切換回覆「都正常」。沿用先前裝置 iPhone 12；iOS／Safari 版本及實際載入 commit 未取得，為使用者回報，非 Codex 實機驗證。
 - 使用者要求固定畫面、禁止拉近拉遠。現有 3D 相機沒有縮放控制；在 .app 加 touch-action: pan-y、.stage 加 touch-action: none，限制遊戲雙指縮放並保留面板上下捲動。未設定 user-scalable=no，瀏覽器文字設定及桌面快捷鍵縮放可保留。
 - 五項檢查 exit 0，45 項單元測試通過。Chromium 觸控繼續、短畫面 32px 文字的垂直捲動、結束／重新開始通過；雙指正向對照也無法放大，因此診斷腳本 exit 1，不宣稱防縮放已驗證。詳見 05-gesture-fix.md。
-- 新版在 iPhone Safari／Chrome 的手勢效果待使用者複測；完整 S5 未通過，不進 Phase 2。
+- 使用者在要求重新整理後以 Safari／Chrome 測雙指縮放的提示下回覆「都ok 下一步」；記為 iPhone 12 新版手勢正常的使用者回報，非 Codex 實機驗證。發布提交 19ad0d1 的 Actions run 38007594541 已 success；實際手機載入 SHA／瀏覽器版本未確認。完整 S5 未通過，不進 Phase 2。

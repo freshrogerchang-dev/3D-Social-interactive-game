@@ -21,3 +21,8 @@ PATH=/tmp/node-v22.22.0-linux-x64/bin:$PATH PLAYWRIGHT_MODULE_DIR=/opt/codex/run
 [原始結果](s5-gesture-evidence/result.json)。換環境請指向既有 Playwright／Chromium 路徑。
 
 需使用者在更新後的 iPhone Safari 與 Chrome 確認：場景、按鈕與休息面板上的雙指拉近拉遠不改變畫面比例；短畫面面板仍可上下捲動，所有安全按鈕可按。iOS 若有忽略或覆寫 CSS 的瀏覽器行為，需依實機結果修正，不能承諾禁止所有系統放大方式。使用者本次「都正常」針對修改前的四項測試，不當作新版手勢驗收。
+
+
+## 發布後實機回報
+
+提交 19ad0d1 的 Actions run 38007594541 已 success。使用者在提示刷新頁面並以 Safari／Chrome 試雙指縮放後回覆「都ok 下一步」，記為 iPhone 12 的新版手勢正常回報；與上述雲端無效對照分開保存，不改寫該診斷 exit 1。iOS／瀏覽器版本、實際載入 SHA 待補，未驗證所有系統放大方式。另跑 s5-runtime-browser.mjs 的 15 項安全控制／短畫面回歸全部通過、exit 0。下一步為 VoiceOver、文字大小與剩餘外部驗收。
