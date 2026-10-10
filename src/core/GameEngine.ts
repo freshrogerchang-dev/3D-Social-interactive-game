@@ -1,5 +1,6 @@
 import { ACESFilmicToneMapping, SRGBColorSpace, WebGLRenderer } from 'three';
 import type { Camera, Scene } from 'three';
+import { FirstPersonController } from '../input/FirstPersonController';
 import { ParkScene } from '../scene/ParkScene';
 import { RenderLoop } from './RenderLoop';
 import type { FrameCallback, FrameScheduler } from './RenderLoop';
@@ -54,6 +55,7 @@ export class GameEngine {
   private canvas: HTMLCanvasElement | null = null;
   private renderer: RendererLike | null = null;
   private park: ParkScene | null = null;
+  private movement: FirstPersonController | null = null;
   private readonly loop: RenderLoop;
   private readonly rendererFactory: RendererFactory;
   private readonly settings: EngineSettings;
@@ -99,6 +101,7 @@ export class GameEngine {
     if (this.currentState === 'paused') return true;
     if (this.currentState !== 'running') return false;
     this.loop.stop();
+    this.movement?.setEnabled(false);
     this.setState('paused');
     return true;
   }
@@ -124,7 +127,9 @@ export class GameEngine {
     if (this.currentState !== 'running' && this.currentState !== 'paused') return false;
     this.loop.stop();
     try {
+      this.movement?.setEnabled(false);
       this.park?.resetToSafety();
+      this.movement?.syncCamera();
       this.renderOnce();
       this.setState('paused');
       return true;
@@ -184,6 +189,8 @@ export class GameEngine {
       park = null;
       renderer = null;
       this.canvas = canvas;
+      this.movement = new FirstPersonController(this.park.camera);
+      this.movement.attach(canvas);
       canvas.addEventListener('webglcontextlost', this.handleContextLost);
       this.setState('ready');
       // 初始化例外由 runInit 捕獲，與執行期 resize 的錯誤邊界分開。
@@ -204,13 +211,15 @@ export class GameEngine {
   }
 
   private runLoop(): void {
+    this.movement?.setEnabled(true);
     this.setState('running');
     this.loop.start(this.frame);
   }
 
-  // 骨架沒有模擬內容；之後的 Phase 從 FrameInfo.delta 取得本幀秒數。
-  private readonly frame: FrameCallback = () => {
+  // 移動與繪製共用唯一 RAF；暫停時兩者皆停止。
+  private readonly frame: FrameCallback = ({ delta }) => {
     try {
+      this.movement?.update(delta);
       this.renderOnce();
     } catch (error: unknown) {
       this.handleRenderError(error);
@@ -236,11 +245,14 @@ export class GameEngine {
     event.preventDefault();
     if (this.currentState === 'disposed' || this.currentState === 'error') return;
     this.loop.stop();
+    this.movement?.setEnabled(false);
     this.setState('error');
     this.options.onError?.('context-lost', event);
   };
 
   private releaseResources(): void {
+    this.movement?.dispose();
+    this.movement = null;
     this.park?.dispose();
     this.renderer?.dispose();
     this.park = null;

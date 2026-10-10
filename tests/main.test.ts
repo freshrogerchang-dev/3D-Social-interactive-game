@@ -102,7 +102,7 @@ class TestDocument extends EventTarget {
   }
 
   createElement(): object {
-    const canvas = { remove: () => this.canvases.delete(canvas) };
+    const canvas = { setAttribute: () => undefined, remove: () => this.canvases.delete(canvas) };
     return canvas;
   }
 }

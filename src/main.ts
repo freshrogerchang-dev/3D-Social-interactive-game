@@ -68,6 +68,9 @@ async function startSession(): Promise<void> {
 
   const nextCanvas = document.createElement('canvas');
   nextCanvas.className = 'scene-canvas';
+  nextCanvas.tabIndex = 0;
+  nextCanvas.setAttribute('aria-label', '公園操作區');
+  nextCanvas.setAttribute('aria-describedby', 'movement-help');
   stage.append(nextCanvas);
 
   const current = new GameEngine({

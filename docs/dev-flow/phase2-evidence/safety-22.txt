@@ -1,0 +1,24 @@
+PASS  載入後進入執行畫面（overlay 隱藏、1 個 canvas） — {"overlayHidden":true,"title":"","status":"","actions":[],"focus":"BODY","canvases":1,"scrollX":false}
+PASS  瀏覽器支援 WebGL2
+PASS  canvas 有尺寸（DPR 上限內） — {"w":1280,"h":720}
+PASS  常駐按鈕 ≥ 64×64 px — [[120,64],[180,64]]
+PASS  按「暫停」顯示休息畫面，焦點在「繼續」 — {"overlayHidden":false,"title":"休息一下","status":"","actions":["resume","end"],"focus":"resume","canvases":1,"scrollX":false}
+PASS  按「繼續」回到場景，焦點回到「暫停」 — {"overlayHidden":true,"title":"休息一下","status":"","actions":["resume","end"],"focus":"pause","canvases":1,"scrollX":false}
+PASS  Esc 暫停 — {"overlayHidden":false,"title":"休息一下","status":"","actions":["resume","end"],"focus":"resume","canvases":1,"scrollX":false}
+PASS  Enter 觸發聚焦的「繼續」 — {"overlayHidden":true,"title":"休息一下","status":"","actions":["resume","end"],"focus":"pause","canvases":1,"scrollX":false}
+PASS  Tab 依序到「暫停」「返回安全區」 — pause, safety
+PASS  從執行中（鍵盤）返回安全區 — {"overlayHidden":false,"title":"已返回安全區","status":"","actions":["resume","end"],"focus":"resume","canvases":1,"scrollX":false}
+PASS  暫停中按「返回安全區」 — {"overlayHidden":false,"title":"已返回安全區","status":"","actions":["resume","end"],"focus":"resume","canvases":1,"scrollX":false}
+PASS  分頁隱藏後暫停，回來不自動恢復 — {"overlayHidden":false,"title":"休息一下","status":"","actions":["resume","end"],"focus":"resume","canvases":1,"scrollX":false}
+PASS  「結束本次」顯示結束畫面並移除 canvas — {"overlayHidden":false,"title":"本次練習結束了","status":"","actions":["restart"],"focus":"restart","canvases":0,"scrollX":false}
+PASS  「重新開始」回到場景，只有 1 個 canvas — {"overlayHidden":true,"title":"本次練習結束了","status":"","actions":["restart"],"focus":"pause","canvases":1,"scrollX":false}
+PASS  結束／重新開始 20 次後仍只有 1 個 canvas — {"overlayHidden":true,"title":"本次練習結束了","status":"","actions":["restart"],"focus":"pause","canvases":1,"scrollX":false}
+PASS  console 無錯誤
+PASS  平板模擬：點「暫停」 — {"overlayHidden":false,"title":"休息一下","status":"","actions":["resume","end"],"focus":"resume","canvases":1,"scrollX":false}
+PASS  平板模擬：點「返回安全區」 — {"overlayHidden":false,"title":"已返回安全區","status":"","actions":["resume","end"],"focus":"resume","canvases":1,"scrollX":false}
+PASS  窄畫面：無水平捲動、工具列不遮住休息面板 — {"overlayHidden":false,"title":"休息一下","status":"","actions":["resume","end"],"focus":"resume","canvases":1,"scrollX":false,"overlap":false}
+PASS  WebGL 不可用：顯示「目前無法顯示場景」與重試／結束 — {"overlayHidden":false,"title":"目前無法顯示場景","status":"","actions":["retry","end"],"focus":"retry","canvases":1,"scrollX":false}
+PASS  WebGL 不可用：重試後仍只有 1 個 canvas — {"overlayHidden":false,"title":"目前無法顯示場景","status":"","actions":["retry","end"],"focus":"retry","canvases":1,"scrollX":false}
+PASS  WebGL 不可用：「返回安全區」由 DOM 接管 — {"overlayHidden":false,"title":"已返回安全區","status":"","actions":["restart"],"focus":"restart","canvases":0,"scrollX":false}
+
+22/22 passed

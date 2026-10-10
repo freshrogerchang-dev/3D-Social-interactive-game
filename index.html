@@ -8,8 +8,6 @@
   </head>
   <body>
     <div id="app" class="app">
-      <div id="stage" class="stage" aria-hidden="true"></div>
-
       <!-- 安全按鈕直接寫在 HTML，不依賴 WebGL 或場景初始化成功。 -->
       <div class="toolbar" role="toolbar" aria-label="隨時可用的按鈕">
         <button type="button" class="control" data-action="pause">
@@ -32,6 +30,8 @@
           ></span>
         </button>
       </div>
+
+      <div id="stage" class="stage" role="region" aria-label="公園場景"></div>
 
       <p id="status" class="status" role="status" aria-live="polite">正在準備公園…</p>
 
@@ -69,6 +69,43 @@
           <div class="voice-slot"></div>
         </div>
       </section>
+
+      <details id="movement-controls" class="movement-controls" hidden>
+        <summary class="control">操作與設定</summary>
+        <div class="movement-content">
+          <p id="movement-help">點地面前往，拖曳看向。電腦可先點公園，再用 WASD 或方向鍵。</p>
+          <div class="movement-buttons" role="group" aria-label="移動與看向">
+            <button type="button" class="control" data-move="forward">往前一步</button>
+            <button type="button" class="control" data-move="back">往後一步</button>
+            <button type="button" class="control" data-move="left">往左一步</button>
+            <button type="button" class="control" data-move="right">往右一步</button>
+            <button type="button" class="control" data-move="turn-left">向左看</button>
+            <button type="button" class="control" data-move="turn-right">向右看</button>
+            <button type="button" class="control" data-move="stop">停止移動</button>
+          </div>
+          <label class="movement-setting"
+            >移動速度（慢 → 快）<input
+              type="range"
+              name="speed"
+              min="0.6"
+              max="1.8"
+              step="0.2"
+              value="1"
+          /></label>
+          <label class="movement-setting"
+            >轉向靈敏度（低 → 高）<input
+              type="range"
+              name="sensitivity"
+              min="0.001"
+              max="0.005"
+              step="0.001"
+              value="0.002"
+          /></label>
+          <label class="movement-setting"
+            >視野（窄 → 廣）<input type="range" name="fov" min="50" max="75" step="5" value="60"
+          /></label>
+        </div>
+      </details>
 
       <noscript>
         <p class="panel">這個練習需要開啟 JavaScript。</p>

@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-10（Safari 四項使用者實測正常，加入遊戲手勢縮放限制；收到 iPhone 新版手勢正常回報）
+最後更新：2026-10-10（使用者已指定 Phase 2；第一人稱移動工程驗證完成，實機待測）
 
 ## 一句話目標
 
@@ -28,7 +28,7 @@
 
 ## 功能實作狀態（路線圖 Phase 0–10）
 
-Phase 0（設定）與 Phase 1（引擎骨架）已建立並通過自動化檢查（04）；Phase 2–10 未開始：2 操作、3 NPC、4 對話、5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
+Phase 0（設定）與 Phase 1（引擎骨架）已建立並通過自動化檢查（04）；Phase 2 第一人稱移動已實作並通過工程驗證（phase2-build-log.md），新版實機待測；Phase 3–10 未開始：3 NPC、4 對話、5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
 
 S1 完成不代表 Phase 0 或 Phase 1 完成；S4 不等於路線圖 Phase 4。安全控制與基本無障礙須從 Phase 0–1 建立，不等到 Phase 6 或 Phase 10。
 
@@ -125,7 +125,7 @@ GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/wor
 
 1. F1–F4 修正已提交 `ab28b9a`；Actions run 37952794274 build／deploy success。但本輪實讀 Pages 仍為 `/src/main.ts` 原始 HTML，另有 Jekyll run 37952793354，不能算線上可用。使用者已改為 GitHub Actions，重新發布後線上 22＋15 項通過，詳見下方「Pages 修正驗證」。
 2. F6／F7 修正及回歸已完成，詳見 05-extended-review.md §7；持有鏈已定位為 three 共用 DFG_LUT 的 dispose listener；F8 現在由各場景擁有 LUT 副本；本地 20 次重建 GC 後 detached canvas=0，雙 context 及像素對照通過，紀錄見 05-lut-fix-log.md。
-3. 依 05-device-review-checklist.md 補實機、原生文字縮放、報讀器、效能與專業審查。完整 S5 尚未通過，不自動進入 Phase 2。
+3. 使用者已明確指定 Phase 2，現已完成第一人稱移動工程實作；依 phase2-build-log.md 測新版移動與既有安全操作。S5 的原生文字縮放、報讀器、效能、其他實機與專業審查仍待完成；不自動進 Phase 3。
 
 Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只完成骨架，不是可玩 MVP；不宣稱療效或已核准兒童使用。
 
@@ -243,3 +243,12 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 使用者要求固定畫面、禁止拉近拉遠。現有 3D 相機沒有縮放控制；在 .app 加 touch-action: pan-y、.stage 加 touch-action: none，限制遊戲雙指縮放並保留面板上下捲動。未設定 user-scalable=no，瀏覽器文字設定及桌面快捷鍵縮放可保留。
 - 五項檢查 exit 0，45 項單元測試通過。Chromium 觸控繼續、短畫面 32px 文字的垂直捲動、結束／重新開始通過；雙指正向對照也無法放大，因此診斷腳本 exit 1，不宣稱防縮放已驗證。詳見 05-gesture-fix.md。
 - 使用者在要求重新整理後以 Safari／Chrome 測雙指縮放的提示下回覆「都ok 下一步」；記為 iPhone 12 新版手勢正常的使用者回報，非 Codex 實機驗證。發布提交 19ad0d1 的 Actions run 38007594541 已 success；實際手機載入 SHA／瀏覽器版本未確認。完整 S5 未通過，不進 Phase 2。
+
+
+## Phase 2 第一人稱移動（2026-10-10）
+
+- 使用者明確回覆「Phase 2」。桌面 WASD／方向鍵、拖曳看向；觸控點地面前往；七個導覽按鈕及速度／靈敏度／視野設定已實作。±8m 邊界、固定視線高度、不自動轉向；暫停、失焦、多指與取消清輸入，返回安全區後保持暫停。
+- 沿用唯一 RAF，控制器由引擎釋放。五項 exit 0、52 項單元、19 項 source 整合、7 項 production 操作、22＋15 項安全回歸、11 項資源檢查通過；20 次重建 detached canvas=0。
+- stage 已從裝飾背景改為可聚焦操作區，舊可及性結論須重新確認。使用者舊版文字放大回報正常，但比例未取得；旁白測試因操作卡頓暫緩，不標通過。
+- 實作、命令、版本、exit code 與過程失敗／修正見 phase2-build-log.md。新版移動／拖曳／手勢仍待 iPhone 12 Safari／Chrome 複測，軟體 WebGL 不代表效能或實機通過。
+- 本階段沒有新增 NPC、對話、語音、儲存、套件或設定檔；完整 S5 外部驗收未完成，Phase 3 未開始。

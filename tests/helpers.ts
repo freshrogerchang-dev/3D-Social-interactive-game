@@ -54,5 +54,11 @@ export class FakeRenderer implements RendererLike {
 
 /** 只需要事件能力的 canvas 替身；node 環境沒有真實 canvas。 */
 export function fakeCanvas(): HTMLCanvasElement {
-  return new EventTarget() as HTMLCanvasElement;
+  const canvas = new EventTarget();
+  const owner = Object.assign(new EventTarget(), {
+    defaultView: null,
+    activeElement: null,
+    getElementById: () => null,
+  });
+  return Object.assign(canvas, { ownerDocument: owner }) as unknown as HTMLCanvasElement;
 }

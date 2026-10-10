@@ -1,0 +1,71 @@
+{
+  "node": "v22.22.0",
+  "checks": [
+    {
+      "name": "production 點地面後實際畫面改變",
+      "pass": true
+    },
+    {
+      "name": "production 暫停畫面完全停住",
+      "pass": false
+    },
+    {
+      "name": "production 恢復沒有舊前往目標",
+      "pass": true
+    },
+    {
+      "name": "production 七個導覽按鈕皆至少 64px",
+      "pass": true,
+      "evidence": [
+        {
+          "name": "往前一步",
+          "width": 124,
+          "height": 64
+        },
+        {
+          "name": "往後一步",
+          "width": 124,
+          "height": 64
+        },
+        {
+          "name": "往左一步",
+          "width": 124,
+          "height": 64
+        },
+        {
+          "name": "往右一步",
+          "width": 124,
+          "height": 64
+        },
+        {
+          "name": "向左看",
+          "width": 104,
+          "height": 64
+        },
+        {
+          "name": "向右看",
+          "width": 104,
+          "height": 64
+        },
+        {
+          "name": "停止移動",
+          "width": 124,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "name": "production 按鈕停止後畫面穩定",
+      "pass": false
+    },
+    {
+      "name": "production 短畫面大字仍可操作與暫停",
+      "pass": true
+    },
+    {
+      "name": "production 沒有未處理例外",
+      "pass": true,
+      "evidence": []
+    }
+  ]
+}

@@ -1,8 +1,11 @@
 import {
+  BufferGeometry,
   CircleGeometry,
   Color,
   DirectionalLight,
   HemisphereLight,
+  LineBasicMaterial,
+  LineLoop,
   Mesh,
   MeshStandardMaterial,
   PerspectiveCamera,
@@ -12,6 +15,7 @@ import {
   Texture,
   Vector3,
 } from 'three';
+import { PARK_LIMIT } from '../input/FirstPersonController';
 
 /** 安全區的相機姿態：約 5–8 歲兒童的視線高度，面向公園中央。 */
 const SAFE_CAMERA_POSITION = new Vector3(0, 1.1, 3.5);
@@ -42,6 +46,13 @@ export class ParkScene {
     new MeshStandardMaterial({ color: MARKER_COLOR, roughness: 0.8, metalness: 0 }),
     new MeshStandardMaterial({ color: MARKER_EDGE_COLOR, roughness: 0.8, metalness: 0 }),
   ] as const;
+  private readonly boundaryGeometry = new BufferGeometry().setFromPoints([
+    new Vector3(-PARK_LIMIT, 0.03, -PARK_LIMIT),
+    new Vector3(PARK_LIMIT, 0.03, -PARK_LIMIT),
+    new Vector3(PARK_LIMIT, 0.03, PARK_LIMIT),
+    new Vector3(-PARK_LIMIT, 0.03, PARK_LIMIT),
+  ]);
+  private readonly boundaryMaterial = new LineBasicMaterial({ color: MARKER_EDGE_COLOR });
   private disposed = false;
   private dfgTexture: Texture | null = null;
   private dfgSourceId: string | null = null;
@@ -94,7 +105,9 @@ export class ParkScene {
     const sun = new DirectionalLight(0xfff4e5, 1.4);
     sun.position.set(4, 8, 3);
 
-    this.scene.add(ground, marker, edge, sky, sun);
+    const boundary = new LineLoop(this.boundaryGeometry, this.boundaryMaterial);
+    boundary.name = 'park-boundary';
+    this.scene.add(ground, marker, edge, sky, sun, boundary);
     this.resetToSafety();
   }
 
@@ -118,6 +131,8 @@ export class ParkScene {
     this.disposed = true;
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
+    this.boundaryGeometry.dispose();
+    this.boundaryMaterial.dispose();
     this.dfgTexture?.dispose();
     this.dfgTexture = null;
     this.dfgSourceId = null;

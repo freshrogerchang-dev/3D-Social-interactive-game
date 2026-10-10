@@ -1,0 +1,121 @@
+{
+  "node": "v22.22.0",
+  "sourceProbe": true,
+  "checks": [
+    {
+      "name": "WASD 前進、固定高度、保守速度",
+      "pass": true,
+      "evidence": {
+        "start": {
+          "x": 0,
+          "z": 3.5,
+          "y": 1.1,
+          "yaw": 0,
+          "fov": 60
+        },
+        "moved": {
+          "x": 0,
+          "z": 3.2212968175511074,
+          "y": 1.1,
+          "yaw": 0,
+          "fov": 60
+        }
+      }
+    },
+    {
+      "name": "暫停相機完全停住",
+      "pass": true
+    },
+    {
+      "name": "恢復不沿用按鍵或殘留速度",
+      "pass": true
+    },
+    {
+      "name": "返回安全區恢復位置並保持暫停",
+      "pass": true,
+      "evidence": {
+        "x": 0,
+        "z": 3.5,
+        "y": 1.1,
+        "yaw": 0,
+        "fov": 60
+      }
+    },
+    {
+      "name": "手機點地面前往，不自動轉向",
+      "pass": true,
+      "evidence": {
+        "x": 0,
+        "z": 3.0238966011070447,
+        "y": 1.1,
+        "yaw": 0,
+        "fov": 60
+      }
+    },
+    {
+      "name": "失焦丟棄前往目標與速度",
+      "pass": true
+    },
+    {
+      "name": "拖曳轉向，拖曳不觸發移動",
+      "pass": true,
+      "evidence": {
+        "x": 0,
+        "z": 3.0238966011070447,
+        "y": 1.1,
+        "yaw": -0.13767549060748624,
+        "fov": 60
+      }
+    },
+    {
+      "name": "pointercancel 清空輸入",
+      "pass": true
+    },
+    {
+      "name": "UI 聚焦不繼續移動",
+      "pass": true
+    },
+    {
+      "name": "UI 方向鍵不被控制器攔截",
+      "pass": true
+    },
+    {
+      "name": "按鈕導覽可單次點按移動",
+      "pass": true
+    },
+    {
+      "name": "停止移動清目標與速度",
+      "pass": true
+    },
+    {
+      "name": "視野可調整且有範圍",
+      "pass": true
+    },
+    {
+      "name": "設定滑桿聚焦不觸發方向鍵移動",
+      "pass": true
+    },
+    {
+      "name": "暫停收起操作區，安全按鈕仍可用",
+      "pass": true
+    },
+    {
+      "name": "重啟保留已選視野，只有一個場景",
+      "pass": true
+    },
+    {
+      "name": "多指不產生前往或轉向",
+      "pass": true
+    },
+    {
+      "name": "短畫面大字：導覽按鈕可捲動到並點按",
+      "pass": true
+    },
+    {
+      "name": "沒有未處理例外",
+      "pass": true,
+      "evidence": []
+    }
+  ],
+  "errors": []
+}
