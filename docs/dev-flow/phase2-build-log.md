@@ -68,3 +68,10 @@ node docs/dev-flow/s5-extended-browser.mjs http://s5.local/ /tmp/phase2-resource
 使用者在 iPhone 12 Chrome／Safari 的舊骨架安全操作、防縮放與放大文字均回報正常；放大方式與比例未取得，不當作原生 200% 證據。旁白因使用者表示操作卡頓而暫緩，非已通過。
 
 這些回報均早於 Phase 2，不能延用為新移動版本通過。新版需在 iPhone 確認點地面、拖曳、邊界、操作按鈕／設定、暫停與返回安全區、App 切換、禁止手勢縮放與操作區捲動。真實 GPU／FPS、平板／Firefox／其他 Safari、文字原生 200%、報讀器及專業內容審查仍未完成。Phase 3 NPC 需使用者另行指定，不自動開始。
+
+
+## 公開網站驗證
+
+產品提交 `cda68af62e3316e98b50144c3f9623eb95c0d534` 已推 main-uv12jr；[Actions run 38014680940](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/38014680940) completed／success。直接對公開 Pages 執行同一 production 7 項檢查，移除本地 route、沿用 HTTPS_PROXY／TLS，不注入相機，7/7、exit 0。結果見 [published/result.json](phase2-evidence/published/result.json)。本次副本位於 /tmp/phase2-published.mjs，源自 phase2-production-browser.mjs：刪除 context.route 區塊、替換 page.goto 公開網址、launch 加 inherited proxy；產品程式未更動。
+
+網址：https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。公開版本的點地面移動、暫停、恢復清目標、停止按鈕、64px 導覽與大字操作通過；仍為 Chromium／SwiftShader，不代表 iPhone 移動或效能驗收。此後文件提交不改產品。

@@ -252,3 +252,5 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - stage 已從裝飾背景改為可聚焦操作區，舊可及性結論須重新確認。使用者舊版文字放大回報正常，但比例未取得；旁白測試因操作卡頓暫緩，不標通過。
 - 實作、命令、版本、exit code 與過程失敗／修正見 phase2-build-log.md。新版移動／拖曳／手勢仍待 iPhone 12 Safari／Chrome 複測，軟體 WebGL 不代表效能或實機通過。
 - 本階段沒有新增 NPC、對話、語音、儲存、套件或設定檔；完整 S5 外部驗收未完成，Phase 3 未開始。
+
+- Phase 2 程式提交 cda68af62e3316e98b50144c3f9623eb95c0d534 已發布；Actions run 38014680940 success。公開網址 production 操作檢查 7/7、exit 0（Chromium／SwiftShader，無 route 或相機探針），結果見 phase2-evidence/published/result.json；iPhone 新版移動仍待使用者驗證。
