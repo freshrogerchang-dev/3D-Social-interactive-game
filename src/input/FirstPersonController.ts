@@ -48,12 +48,15 @@ export class FirstPersonController {
     this.syncCamera();
   }
 
+  private pad: HTMLElement | null = null;
+
   attach(canvas: HTMLCanvasElement): void {
     if (this.disposed || this.canvas) return;
     this.canvas = canvas;
     this.owner = canvas.ownerDocument;
     this.view = this.owner.defaultView;
     this.controls = this.owner.getElementById('movement-controls');
+    this.pad = this.owner.getElementById('movement-pad');
     canvas.addEventListener('pointerdown', this.pointerDown);
     canvas.addEventListener('pointermove', this.pointerMove);
     canvas.addEventListener('pointerup', this.pointerUp);
@@ -64,6 +67,7 @@ export class FirstPersonController {
     this.owner.addEventListener('focusin', this.focusChanged);
     this.view?.addEventListener('blur', this.clearInput);
     this.controls?.addEventListener('click', this.controlClick);
+    this.pad?.addEventListener('click', this.controlClick);
     this.controls?.addEventListener('input', this.settingChanged);
     this.controls?.querySelectorAll<HTMLInputElement>('input').forEach((input) => {
       this.configure(input);
@@ -74,6 +78,7 @@ export class FirstPersonController {
     this.enabled = enabled && !this.disposed;
     this.clearInput();
     if (this.controls) this.controls.hidden = !this.enabled;
+    if (this.pad) this.pad.hidden = !this.enabled;
   }
 
   /** 暫停、失焦、取消與安全區都丟棄待執行輸入。 */
@@ -182,9 +187,11 @@ export class FirstPersonController {
     this.owner?.removeEventListener('focusin', this.focusChanged);
     this.view?.removeEventListener('blur', this.clearInput);
     this.controls?.removeEventListener('click', this.controlClick);
+    this.pad?.removeEventListener('click', this.controlClick);
     this.controls?.removeEventListener('input', this.settingChanged);
     this.canvas = null;
     this.controls = null;
+    this.pad = null;
     this.owner = null;
     this.view = null;
   }

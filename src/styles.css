@@ -58,7 +58,7 @@ body {
   grid-row: 1;
   padding: max(var(--gap), env(safe-area-inset-top)) max(var(--gap), env(safe-area-inset-right))
     var(--gap) max(var(--gap), env(safe-area-inset-left));
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -238,4 +238,61 @@ body {
 /* 設定展開時讓出高度；角色資訊仍可在公園操作區的可及說明取得。 */
 .app:has(#movement-controls[open]) .npc-info {
   display: none;
+}
+
+/* 五個真實按鈕組成方向圓盤；只有底色透明，圖示與焦點維持清晰。 */
+.movement-pad {
+  position: fixed;
+  left: max(12px, env(safe-area-inset-left));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 2;
+  display: grid;
+  grid-template: repeat(3, 64px) / repeat(3, 64px);
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+  background: rgb(251 248 242 / 35%);
+  touch-action: manipulation;
+}
+.movement-pad .control {
+  padding: 0;
+  border-radius: 50%;
+  background: rgb(251 248 242 / 65%);
+  font-size: 2rem;
+}
+.pad-forward {
+  grid-area: 1 / 2;
+}
+.pad-back {
+  grid-area: 3 / 2;
+}
+.pad-left {
+  grid-area: 2 / 1;
+}
+.pad-right {
+  grid-area: 2 / 3;
+}
+.pad-stop {
+  grid-area: 2 / 2;
+}
+.movement-controls:not([open]) {
+  justify-self: end;
+  width: fit-content;
+  max-width: calc(100% - 24px);
+}
+.npc-info {
+  position: fixed;
+  left: max(12px, env(safe-area-inset-left));
+  bottom: max(212px, calc(env(safe-area-inset-bottom) + 200px));
+  margin: 0;
+}
+/* 設定需要捲動時收起圓盤；前後及轉向仍可先關閉設定再操作。 */
+.app:has(#movement-controls[open]) .movement-pad {
+  display: none;
+}
+/* 短畫面讓出頂部安全按鈕與右下設定，圓盤仍有 64px 目標。 */
+@media (max-height: 420px) {
+  .npc-info {
+    display: none;
+  }
 }

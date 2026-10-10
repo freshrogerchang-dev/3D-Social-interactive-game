@@ -265,3 +265,10 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 下一步：新版 NPC 手機複測與寫實素材評估；對話需另行指定 Phase 4。S5 完整外部驗收仍未通過。
 
 - Phase 3 產品提交 0feb8b2202e8bcca3759b21f34e1ad665bd6f1ea 已發布；Actions run 38066101193 的 build／deploy success。公開 production 7/7、exit 0，已確認新版 NPC 文字及 assets 檔名；結果見 phase3-evidence/published。這仍是雲端 Chromium／SwiftShader，不代表 NPC 手機實測。
+
+
+## 左下半透明方向圓盤（2026-10-10）
+
+- 使用者要求前進後退與左右轉向改為左下小圓盤、半透明。已加入 192px 圓盤：上／下點按走一步、左／右轉向 15°、中央停止，五個真實按鈕各至少 64px；左右平移與速度／靈敏度／FOV 留在設定。沒有長按、額外 RAF 或計時器。
+- 半透明僅套底色，不降低圖示及焦點透明度。圓盤遵守安全區 inset，暫停／錯誤／結束時隱藏，展開設定時讓出面板；設定收合後恢復。安全按鈕保持最上層，手機禁止手勢縮放規則保留。
+- 五項檢查各 exit 0、57 單元測試通過。圓盤 production 專項結果見 pad-evidence/browser/result.json；實機圓盤待使用者複測。詳細紀錄 pad-build-log.md。不進 Phase 4。
