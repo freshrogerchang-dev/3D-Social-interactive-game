@@ -1,0 +1,50 @@
+{
+  "node": "v22.22.0",
+  "checks": [
+    {
+      "name": "對照：解除限制可觸控放大",
+      "pass": false,
+      "evidence": {
+        "scale": 1.164799690246582
+      }
+    },
+    {
+      "name": "場景：雙指手勢維持 scale=1",
+      "pass": true,
+      "evidence": {
+        "scale": 1
+      }
+    },
+    {
+      "name": "休息面板：雙指手勢維持 scale=1",
+      "pass": true,
+      "evidence": {
+        "scale": 1
+      }
+    },
+    {
+      "name": "安全按鈕：雙指手勢維持 scale=1",
+      "pass": true,
+      "evidence": {
+        "scale": 1
+      }
+    },
+    {
+      "name": "觸控繼續可恢復場景",
+      "pass": true
+    },
+    {
+      "name": "短畫面大字：面板仍可觸控垂直捲動",
+      "pass": true,
+      "evidence": {
+        "top": 288,
+        "height": 164,
+        "full": 540
+      }
+    },
+    {
+      "name": "大字面板結束／重新開始仍可點按",
+      "pass": true
+    }
+  ]
+}

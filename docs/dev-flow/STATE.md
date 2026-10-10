@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-09（收到手機暫停／返回正常的使用者回報；完整 S5 外部驗收未完成）
+最後更新：2026-10-10（Safari 四項使用者實測正常，加入遊戲手勢縮放限制；新手勢效果待 iPhone 複測）
 
 ## 一句話目標
 
@@ -235,3 +235,11 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 05-cloud-audit.md：175 個鎖檔條目皆有授權 metadata，已安裝 152 個，沒有發現本機 package.json 授權差異；23 個未安裝與 5 個尚未找到完整授權文字的條目保留全文查核限制。建置依賴包含 MPL-2.0／BlueOak／Python 等，不能稱所有依賴皆 MIT。
 - 本地 production Chromium／SwiftShader 的 7 個畫面 computed styles、按鈕尺寸與每個畫面一個鍵盤焦點檢查 42/42、exit 0。文字對比最低 13.78:1；焦點框外合成背景、hover／全按鈕、原生 200% 與報讀器仍未驗證。
 - 本輪只增加文件與審查腳本，產品程式不變；完整 S5 外部驗收未完成，不進 Phase 2。
+
+
+## Safari 使用者回報與手勢限制（2026-10-10）
+
+- 使用者針對 Safari 的暫停／繼續、返回安全區／繼續、結束／重新開始、橫直向切換回覆「都正常」。沿用先前裝置 iPhone 12；iOS／Safari 版本及實際載入 commit 未取得，為使用者回報，非 Codex 實機驗證。
+- 使用者要求固定畫面、禁止拉近拉遠。現有 3D 相機沒有縮放控制；在 .app 加 touch-action: pan-y、.stage 加 touch-action: none，限制遊戲雙指縮放並保留面板上下捲動。未設定 user-scalable=no，瀏覽器文字設定及桌面快捷鍵縮放可保留。
+- 五項檢查 exit 0，45 項單元測試通過。Chromium 觸控繼續、短畫面 32px 文字的垂直捲動、結束／重新開始通過；雙指正向對照也無法放大，因此診斷腳本 exit 1，不宣稱防縮放已驗證。詳見 05-gesture-fix.md。
+- 新版在 iPhone Safari／Chrome 的手勢效果待使用者複測；完整 S5 未通過，不進 Phase 2。

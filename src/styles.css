@@ -29,6 +29,8 @@ body {
 }
 
 .app {
+  /* 固定遊戲畫面，禁止雙指／雙擊縮放；保留面板垂直捲動與瀏覽器文字設定。 */
+  touch-action: pan-y;
   position: relative;
   height: 100%;
   height: 100dvh;
@@ -38,6 +40,7 @@ body {
 }
 
 .stage {
+  touch-action: none;
   position: fixed;
   inset: 0;
 }
