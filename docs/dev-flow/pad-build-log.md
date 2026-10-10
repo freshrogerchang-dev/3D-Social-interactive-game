@@ -25,3 +25,10 @@ JS 558.91kB／gzip 140.63kB；>500kB 警告保留。git diff --check exit 0。�
 實機 iPhone 圓盤、原生 200% 文字、報讀器、真實 GPU 效能仍待驗證；工程檢查不延用為實機通過。未啟動伺服器、無新套件／設定。
 
 資源檢查 node docs/dev-flow/s5-extended-browser.mjs http://s5.local/ docs/dev-flow/pad-evidence/resources --local --expect-released：11/11、exit 0。20 次重建後 detached CANVAS=0，結束時 canvas／pending RAF=0；第 5–20 次 listener 未持續增加。Headless 系統切頁未產生 hidden，保留未驗證。完整證據 resources/browser-result.json。
+
+
+## 公開網站
+
+產品提交 30ed81687690873af826c1b4e0dbe25856b354ac 已發布。[Actions run 38067215460](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/38067215460) build／deploy success。直接對公開網站執行圓盤 production 13/13、exit 0；確認 index-aME6hwHD.js／index-DnBnM_dj.css 新版載入。證據 pad-evidence/published/result.json、phone-pad.png。
+
+/tmp/pad-published.mjs 由 pad-browser.mjs 移除本地 route、替換公開網址、沿用 HTTPS_PROXY，等待圓盤可見，不注入相機。仍是 Chromium／SwiftShader，iPhone 觸控待回報。
