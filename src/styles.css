@@ -37,7 +37,7 @@ body {
   height: 100%;
   height: 100dvh;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
   overflow: hidden;
 }
 
@@ -181,7 +181,7 @@ body {
 /* 設定收合時只留一個 64px 按鈕，展開後可捲動；不蓋住頂部安全控制。 */
 .movement-controls {
   position: relative;
-  grid-row: 3;
+  grid-row: 4;
   z-index: 1;
   margin: 0 max(var(--gap), env(safe-area-inset-right)) max(var(--gap), env(safe-area-inset-bottom))
     max(var(--gap), env(safe-area-inset-left));
@@ -220,4 +220,22 @@ body {
 .movement-setting input:focus-visible {
   outline: 4px solid var(--focus);
   outline-offset: -4px;
+}
+
+.npc-info {
+  position: relative;
+  grid-row: 3;
+  z-index: 1;
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  margin: 0 12px 8px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 1rem;
+}
+/* 設定展開時讓出高度；角色資訊仍可在公園操作區的可及說明取得。 */
+.app:has(#movement-controls[open]) .npc-info {
+  display: none;
 }

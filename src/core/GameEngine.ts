@@ -33,6 +33,7 @@ export interface GameEngineOptions {
   readonly settings?: EngineSettings;
   readonly getDevicePixelRatio?: () => number;
   readonly onStateChange?: (state: EngineState) => void;
+  readonly onNPCPresence?: (near: boolean) => void;
   readonly onError?: (reason: ErrorReason, error: unknown) => void;
 }
 
@@ -56,6 +57,7 @@ export class GameEngine {
   private renderer: RendererLike | null = null;
   private park: ParkScene | null = null;
   private movement: FirstPersonController | null = null;
+  private npcNear: boolean | null = null;
   private readonly loop: RenderLoop;
   private readonly rendererFactory: RendererFactory;
   private readonly settings: EngineSettings;
@@ -130,6 +132,7 @@ export class GameEngine {
       this.movement?.setEnabled(false);
       this.park?.resetToSafety();
       this.movement?.syncCamera();
+      this.updateNPCPresence();
       this.renderOnce();
       this.setState('paused');
       return true;
@@ -189,7 +192,7 @@ export class GameEngine {
       park = null;
       renderer = null;
       this.canvas = canvas;
-      this.movement = new FirstPersonController(this.park.camera);
+      this.movement = new FirstPersonController(this.park.camera, [this.park.npc.obstacle]);
       this.movement.attach(canvas);
       canvas.addEventListener('webglcontextlost', this.handleContextLost);
       this.setState('ready');
@@ -220,11 +223,20 @@ export class GameEngine {
   private readonly frame: FrameCallback = ({ delta }) => {
     try {
       this.movement?.update(delta);
+      this.updateNPCPresence();
       this.renderOnce();
     } catch (error: unknown) {
       this.handleRenderError(error);
     }
   };
+
+  private updateNPCPresence(): void {
+    if (!this.park) return;
+    const near = this.park.npc.isNear(this.park.camera.position, this.npcNear === true);
+    if (near === this.npcNear) return;
+    this.npcNear = near;
+    this.options.onNPCPresence?.(near);
+  }
 
   private handleRenderError(error: unknown): void {
     if (this.currentState === 'disposed' || this.currentState === 'error') return;
@@ -251,6 +263,7 @@ export class GameEngine {
   };
 
   private releaseResources(): void {
+    this.npcNear = null;
     this.movement?.dispose();
     this.movement = null;
     this.park?.dispose();

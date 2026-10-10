@@ -15,6 +15,7 @@ import {
   Texture,
   Vector3,
 } from 'three';
+import { SeatedNPC } from '../npc/SeatedNPC';
 import { PARK_LIMIT } from '../input/FirstPersonController';
 
 /** 安全區的相機姿態：約 5–8 歲兒童的視線高度，面向公園中央。 */
@@ -34,6 +35,7 @@ const MARKER_EDGE_COLOR = new Color().setHSL(40 / 360, 0.35, 0.92);
  */
 export class ParkScene {
   readonly scene = new Scene();
+  readonly npc = new SeatedNPC();
   readonly camera = new PerspectiveCamera(CAMERA_FOV, 1, 0.1, 500);
 
   private readonly geometries = [
@@ -63,7 +65,7 @@ export class ParkScene {
     // three 0.186.1 的共用 DFG_LUT 會保留各 context 的 dispose listener。
     // 透過公開材質 hook／uniform value，讓 renderer 上傳本場景擁有的 clone；
     // 不修改共用貼圖，其他場景的 context 仍可獨立使用與釋放。
-    for (const material of this.materials) {
+    for (const material of [...this.materials, ...this.npc.materials]) {
       material.onBeforeCompile = (shader) => {
         if (!shader.uniforms['dfgLUT']) return;
         const uniform: { value: Texture | null } = { value: null };
@@ -107,7 +109,7 @@ export class ParkScene {
 
     const boundary = new LineLoop(this.boundaryGeometry, this.boundaryMaterial);
     boundary.name = 'park-boundary';
-    this.scene.add(ground, marker, edge, sky, sun, boundary);
+    this.scene.add(ground, marker, edge, sky, sun, boundary, this.npc.root);
     this.resetToSafety();
   }
 
@@ -131,6 +133,7 @@ export class ParkScene {
     this.disposed = true;
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
+    this.npc.dispose();
     this.boundaryGeometry.dispose();
     this.boundaryMaterial.dispose();
     this.dfgTexture?.dispose();

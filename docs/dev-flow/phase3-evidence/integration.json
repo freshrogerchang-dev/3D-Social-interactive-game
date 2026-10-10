@@ -1,0 +1,85 @@
+{
+  "node": "v22.22.0",
+  "sourceProbe": true,
+  "checks": [
+    {
+      "name": "只有一位固定坐姿 NPC 與長椅",
+      "pass": true,
+      "evidence": {
+        "position": [
+          0,
+          0,
+          -2
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          "XYZ"
+        ],
+        "children": 22
+      }
+    },
+    {
+      "name": "NPC 必要資訊有真實 DOM 替代",
+      "pass": true
+    },
+    {
+      "name": "點地面路徑在個人空間外停止，沒有穿過長椅",
+      "pass": true,
+      "evidence": {
+        "x": 0,
+        "z": -0.7983377609140123,
+        "y": 1.1,
+        "yaw": 0,
+        "fov": 60
+      }
+    },
+    {
+      "name": "靠近沒有開啟對話或自動暫停",
+      "pass": true
+    },
+    {
+      "name": "靠近後 NPC 不移動、不追蹤或旋轉",
+      "pass": true
+    },
+    {
+      "name": "碰撞後移動目標已取消，沒有持續漂移",
+      "pass": true
+    },
+    {
+      "name": "離開會更新距離提示，NPC 不追逐",
+      "pass": true
+    },
+    {
+      "name": "轉向不令 NPC 面向玩家或追蹤眼神",
+      "pass": true
+    },
+    {
+      "name": "暫停隱藏距離提示但安全控制保留",
+      "pass": true
+    },
+    {
+      "name": "返回安全區重設玩家，不搬動 NPC",
+      "pass": true
+    },
+    {
+      "name": "短畫面大字：設定與導覽仍可到達",
+      "pass": true
+    },
+    {
+      "name": "結束銷毀 NPC 自有模型，不留下舊 root 子物件",
+      "pass": true
+    },
+    {
+      "name": "重新開始仍只有一位 NPC 與一個 canvas",
+      "pass": true
+    },
+    {
+      "name": "沒有未處理例外",
+      "pass": true,
+      "evidence": []
+    }
+  ],
+  "errors": []
+}

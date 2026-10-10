@@ -1,0 +1,940 @@
+{
+  "source": "本地 dist（Playwright route 提供，未啟動伺服器）",
+  "url": "http://s5.local/",
+  "browser": "151.0.7922.173",
+  "checks": [
+    {
+      "name": "本地建置產物載入與場景啟動",
+      "pass": true,
+      "evidence": 200
+    },
+    {
+      "name": "DPR 3 裝置的 canvas 比例上限為 2",
+      "pass": true,
+      "evidence": {
+        "device": 3,
+        "width": 2560,
+        "cssWidth": 1280,
+        "ratio": 2
+      }
+    },
+    {
+      "name": "執行中安全按鈕具可及名稱",
+      "pass": true,
+      "evidence": [
+        {
+          "role": "button",
+          "name": "暫停",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "返回安全區",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "休息畫面可及樹含標題與動作，隱藏動作不外露",
+      "pass": true,
+      "evidence": [
+        {
+          "role": "button",
+          "name": "暫停",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "返回安全區",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "heading",
+          "name": "休息一下",
+          "properties": [
+            {
+              "name": "live",
+              "value": {
+                "type": "token",
+                "value": "polite"
+              }
+            },
+            {
+              "name": "atomic",
+              "value": {
+                "type": "boolean",
+                "value": false
+              }
+            },
+            {
+              "name": "relevant",
+              "value": {
+                "type": "tokenList",
+                "value": "additions text"
+              }
+            },
+            {
+              "name": "level",
+              "value": {
+                "type": "integer",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "繼續",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            },
+            {
+              "name": "focused",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "結束本次",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "暫停沒有待執行 RAF，回呼計數停住",
+      "pass": true,
+      "evidence": {
+        "stopped": {
+          "pending": 0,
+          "maxPending": 1,
+          "callbacks": 5
+        },
+        "stoppedLater": {
+          "pending": 0,
+          "maxPending": 1,
+          "callbacks": 5
+        }
+      }
+    },
+    {
+      "name": "20 次重建強制 GC 後 detached CANVAS 為零",
+      "pass": true,
+      "evidence": {
+        "detachedNodes": []
+      }
+    },
+    {
+      "name": "20 次重建後每次結束 canvas 與 RAF 均為零",
+      "pass": true,
+      "evidence": [
+        {
+          "cycle": 0,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 5
+          }
+        },
+        {
+          "cycle": 5,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 39
+          }
+        },
+        {
+          "cycle": 10,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 73
+          }
+        },
+        {
+          "cycle": 15,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 106
+          }
+        },
+        {
+          "cycle": 20,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 140
+          }
+        }
+      ]
+    },
+    {
+      "name": "強制 GC 後監聽數在第 5–20 次重建未持續增加",
+      "pass": true,
+      "evidence": [
+        30,
+        30,
+        30,
+        30,
+        30
+      ]
+    },
+    {
+      "name": "320px 文字間距調整後安全與面板按鈕可聚焦命中",
+      "pass": true,
+      "evidence": [
+        {
+          "action": "pause",
+          "width": 124.8125,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "safety",
+          "width": 192,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "resume",
+          "width": 88.8125,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "end",
+          "width": 133.609375,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "name": "正常路徑無未處理 JS 例外",
+      "pass": true,
+      "evidence": []
+    },
+    {
+      "name": "頁面請求只有本站靜態 GET 資源",
+      "pass": true,
+      "evidence": [
+        {
+          "url": "http://s5.local/",
+          "method": "GET",
+          "type": "document"
+        },
+        {
+          "url": "http://s5.local/assets/index-DS3Fcd_E.js",
+          "method": "GET",
+          "type": "script"
+        },
+        {
+          "url": "http://s5.local/assets/index-BjbQBPkR.css",
+          "method": "GET",
+          "type": "stylesheet"
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "cycle": 0,
+      "heap": {
+        "usedSize": 3476148,
+        "totalSize": 4014080,
+        "embedderHeapUsedSize": 727504,
+        "backingStorageSize": 564394
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 193,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 5
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 5,
+      "heap": {
+        "usedSize": 3989796,
+        "totalSize": 4276224,
+        "embedderHeapUsedSize": 886072,
+        "backingStorageSize": 564469
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 196,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 39
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 10,
+      "heap": {
+        "usedSize": 4331548,
+        "totalSize": 4800512,
+        "embedderHeapUsedSize": 880600,
+        "backingStorageSize": 564469
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 196,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 73
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 15,
+      "heap": {
+        "usedSize": 4352296,
+        "totalSize": 4800512,
+        "embedderHeapUsedSize": 1012120,
+        "backingStorageSize": 564469
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 196,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 106
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 20,
+      "heap": {
+        "usedSize": 4380416,
+        "totalSize": 4800512,
+        "embedderHeapUsedSize": 908128,
+        "backingStorageSize": 564469
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 196,
+        "jsEventListeners": 30
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 140
+      },
+      "canvases": 0
+    }
+  ],
+  "accessibility": {
+    "running": [
+      {
+        "role": "RootWebArea",
+        "name": "公園打招呼練習",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "focused",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "url",
+            "value": {
+              "type": "string",
+              "value": "http://s5.local/"
+            }
+          }
+        ]
+      },
+      {
+        "role": "generic",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "toolbar",
+        "name": "隨時可用的按鈕",
+        "properties": [
+          {
+            "name": "orientation",
+            "value": {
+              "type": "token",
+              "value": "horizontal"
+            }
+          }
+        ]
+      },
+      {
+        "role": "region",
+        "name": "公園場景",
+        "properties": []
+      },
+      {
+        "role": "paragraph",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "group",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "button",
+        "name": "暫停",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "返回安全區",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "Canvas",
+        "name": "公園操作區，小安坐在前方的長椅上",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "StaticText",
+        "name": "小安在長椅上。",
+        "properties": []
+      },
+      {
+        "role": "DisclosureTriangle",
+        "name": "操作與設定",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "expanded",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": false
+            }
+          }
+        ]
+      },
+      {
+        "role": "StaticText",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "小安在長椅上。",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "操作與設定",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "操作與設定",
+        "properties": []
+      }
+    ],
+    "paused": [
+      {
+        "role": "RootWebArea",
+        "name": "公園打招呼練習",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "focused",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "url",
+            "value": {
+              "type": "string",
+              "value": "http://s5.local/"
+            }
+          }
+        ]
+      },
+      {
+        "role": "generic",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "toolbar",
+        "name": "隨時可用的按鈕",
+        "properties": [
+          {
+            "name": "orientation",
+            "value": {
+              "type": "token",
+              "value": "horizontal"
+            }
+          }
+        ]
+      },
+      {
+        "role": "region",
+        "name": "公園場景",
+        "properties": []
+      },
+      {
+        "role": "region",
+        "name": "休息一下",
+        "properties": [
+          {
+            "name": "labelledby",
+            "value": {
+              "type": "nodeList",
+              "relatedNodes": [
+                {
+                  "backendDOMNodeId": 33,
+                  "idref": "overlay-title",
+                  "text": "休息一下"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "暫停",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "返回安全區",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "Canvas",
+        "name": "公園操作區，小安坐在前方的長椅上",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "describedby",
+            "value": {
+              "type": "idrefList",
+              "value": "movement-help",
+              "relatedNodes": [
+                {
+                  "backendDOMNodeId": 60,
+                  "idref": "movement-help"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "heading",
+        "name": "休息一下",
+        "properties": [
+          {
+            "name": "live",
+            "value": {
+              "type": "token",
+              "value": "polite"
+            }
+          },
+          {
+            "name": "atomic",
+            "value": {
+              "type": "boolean",
+              "value": false
+            }
+          },
+          {
+            "name": "relevant",
+            "value": {
+              "type": "tokenList",
+              "value": "additions text"
+            }
+          },
+          {
+            "name": "level",
+            "value": {
+              "type": "integer",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "role": "paragraph",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "button",
+        "name": "繼續",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "focused",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "結束本次",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "StaticText",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "休息一下",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "畫面停住了。準備好再按「繼續」。",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "繼續",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "結束本次",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "休息一下",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "畫面停住了。準備好再按「繼續」。",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "繼續",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "結束本次",
+        "properties": []
+      }
+    ]
+  },
+  "visibility": [
+    {
+      "stage": "before",
+      "state": "visible"
+    },
+    {
+      "stage": "second tab active",
+      "state": "visible",
+      "paused": false
+    }
+  ],
+  "requests": [
+    {
+      "url": "http://s5.local/",
+      "method": "GET",
+      "type": "document"
+    },
+    {
+      "url": "http://s5.local/assets/index-DS3Fcd_E.js",
+      "method": "GET",
+      "type": "script"
+    },
+    {
+      "url": "http://s5.local/assets/index-BjbQBPkR.css",
+      "method": "GET",
+      "type": "stylesheet"
+    }
+  ],
+  "errors": [],
+  "detachedDom": {
+    "detachedNodes": []
+  },
+  "contrast": {
+    "text": "rgb(31, 42, 51)",
+    "background": "rgb(251, 248, 242)",
+    "border": "rgb(138, 127, 108)",
+    "fontSize": "20px"
+  }
+}

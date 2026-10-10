@@ -69,13 +69,16 @@ async function startSession(): Promise<void> {
   const nextCanvas = document.createElement('canvas');
   nextCanvas.className = 'scene-canvas';
   nextCanvas.tabIndex = 0;
-  nextCanvas.setAttribute('aria-label', '公園操作區');
+  nextCanvas.setAttribute('aria-label', '公園操作區，小安坐在前方的長椅上');
   nextCanvas.setAttribute('aria-describedby', 'movement-help');
   stage.append(nextCanvas);
 
   const current = new GameEngine({
     onStateChange: () => {
       if (engine === current) syncView();
+    },
+    onNPCPresence: (near) => {
+      if (engine === current) ui.renderNPCPresence(near);
     },
     onError: (reason, error) => {
       console.error(`[GameEngine] ${reason}`, error);

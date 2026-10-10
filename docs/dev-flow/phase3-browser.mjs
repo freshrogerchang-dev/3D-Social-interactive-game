@@ -1,0 +1,82 @@
+// 原始碼整合檢查：只在測試路由的轉譯程式暴露相機，正式產品沒有測試探針。
+import { createRequire } from 'node:module';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import path from 'node:path';
+const require = createRequire(import.meta.url);
+const ts = require('typescript');
+const { chromium } = require(path.join(process.env.PLAYWRIGHT_MODULE_DIR, 'playwright-core'));
+const out = process.argv[2] || 'docs/dev-flow/phase3-evidence';
+await mkdir(out, { recursive: true });
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH, headless: true, args: ['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
+const checks = []; const errors = [];
+const check = (name, pass, evidence) => { checks.push({ name, pass, evidence }); console.log(`${pass ? 'PASS' : 'FAIL'} ${name}`); };
+try {
+ const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
+ await context.route('**/*', async route => {
+  const url = new URL(route.request().url());
+  if (url.pathname === '/') {
+   let html = await readFile('index.html', 'utf8');
+   html = html.replace('</head>', '<link rel="stylesheet" href="/src/styles.css"><script type="importmap">{"imports":{"three":"/three/three.module.js"}}</script></head>');
+   return route.fulfill({ contentType: 'text/html', body: html });
+  }
+  if (url.pathname.startsWith('/three/')) return route.fulfill({ contentType: 'text/javascript', body: await readFile(path.join('node_modules/three/build', path.basename(url.pathname))) });
+  const relative = url.pathname.slice(1);
+  if (!relative.startsWith('src/')) return route.abort();
+  if (relative.endsWith('.css')) return route.fulfill({ contentType: 'text/css', body: await readFile(relative) });
+  const file = relative.endsWith('.ts') ? relative : relative + '.ts';
+  let source = await readFile(file, 'utf8');
+  if (file === 'src/main.ts') source = source.replace("import './styles.css';", '');
+  if (file === 'src/input/FirstPersonController.ts') source = source.replace('this.syncCamera();', 'window.__p2 = { camera: this.camera, controller: this }; this.syncCamera();');
+  if (file === 'src/npc/SeatedNPC.ts') source = source.replace("this.root.name =", "window.__npcProbe = this; this.root.name =");
+  const compiled = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText;
+  return route.fulfill({ contentType: 'text/javascript', body: compiled });
+ });
+ const page = await context.newPage();
+ page.on('pageerror', e => errors.push(String(e)));
+ await page.goto('http://phase2.local/', { waitUntil: 'networkidle' });
+ await page.waitForFunction(() => window.__p2 && document.querySelector('#overlay').hidden);
+ const pose = () => page.evaluate(() => ({ x: window.__p2.camera.position.x, z: window.__p2.camera.position.z, y: window.__p2.camera.position.y, yaw: window.__p2.camera.rotation.y, fov: window.__p2.camera.fov }));
+ const npcPose = () => page.evaluate(() => ({ position:window.__npcProbe.root.position.toArray(), rotation:window.__npcProbe.root.rotation.toArray(), children:window.__npcProbe.root.children.length }));
+ const original=await npcPose();
+ check('只有一位固定坐姿 NPC 與長椅',original.position.join(',')==='0,0,-2'&&original.children>=20,original);
+ check('NPC 必要資訊有真實 DOM 替代',await page.locator('#npc-info').isVisible()&&await page.locator('#npc-info').innerText()==='小安在長椅上。');
+ // controller.update 是公開模擬更新；大量步進不測軟體 GPU FPS。
+ await page.evaluate(()=>{window.__p2.controller.moveTo(0,-7);for(let i=0;i<400;i++)window.__p2.controller.update(.05);});
+ await page.waitForFunction(()=>document.querySelector('#npc-info').textContent==='小安坐在這裡。');
+ const approached=await pose();
+ check('點地面路徑在個人空間外停止，沒有穿過長椅',approached.z>=-.8&&Math.hypot(approached.x,approached.z+2)>=1.2,approached);
+ check('靠近沒有開啟對話或自動暫停',await page.locator('#overlay').evaluate(el=>el.hidden));
+ await page.waitForTimeout(600);
+ check('靠近後 NPC 不移動、不追蹤或旋轉',JSON.stringify(original)===JSON.stringify(await npcPose()));
+ check('碰撞後移動目標已取消，沒有持續漂移',JSON.stringify(approached)===JSON.stringify(await pose()));
+ await page.evaluate(()=>{const p=window.__p2.camera.position;window.__p2.controller.moveTo(4,p.z);for(let i=0;i<300;i++)window.__p2.controller.update(.05);});
+ await page.waitForFunction(()=>document.querySelector('#npc-info').textContent==='小安在長椅上。');
+ check('離開會更新距離提示，NPC 不追逐',JSON.stringify(original)===JSON.stringify(await npcPose()));
+ await page.mouse.move(180,420);await page.mouse.down();await page.mouse.move(250,420,{steps:8});await page.mouse.up();
+ await page.waitForTimeout(150);
+ check('轉向不令 NPC 面向玩家或追蹤眼神',JSON.stringify(original)===JSON.stringify(await npcPose()));
+ await page.getByRole('button',{name:'暫停',exact:true}).click();
+ check('暫停隱藏距離提示但安全控制保留',!(await page.locator('#npc-info').isVisible())&&await page.getByRole('button',{name:'返回安全區',exact:true}).isVisible());
+ await page.getByRole('button',{name:'返回安全區',exact:true}).click();
+ const safe=await pose();
+ check('返回安全區重設玩家，不搬動 NPC',safe.x===0&&safe.z===3.5&&JSON.stringify(original)===JSON.stringify(await npcPose()));
+ await page.getByRole('button',{name:'繼續',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('#npc-info').textContent==='小安在長椅上。');
+ await page.screenshot({path:path.join(out,'phone-npc.png')});
+ await page.setViewportSize({width:320,height:360});await page.addStyleTag({content:':root {font-size:32px}'});
+ await page.getByText('操作與設定',{exact:true}).click();
+ await page.getByRole('button',{name:'往前一步',exact:true}).click();
+ await page.getByRole('button',{name:'停止移動',exact:true}).click();
+ check('短畫面大字：設定與導覽仍可到達',true);
+ await page.getByRole('button',{name:'暫停',exact:true}).click();
+ await page.getByRole('button',{name:'結束本次',exact:true}).click();
+ check('結束銷毀 NPC 自有模型，不留下舊 root 子物件',await page.evaluate(()=>window.__npcProbe.root.children.length===0));
+ await page.getByRole('button',{name:'重新開始',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('#overlay').hidden);
+ check('重新開始仍只有一位 NPC 與一個 canvas',await page.locator('canvas').count()===1&&(await npcPose()).children===original.children);
+ check('沒有未處理例外',errors.length===0,errors);
+ await context.close();
+} finally {await browser.close();}
+await writeFile(path.join(out,'integration.json'),JSON.stringify({node:process.version,sourceProbe:true,checks,errors},null,2)+'\n');
+console.log(`${checks.filter(c=>c.pass).length}/${checks.length} passed`);
+process.exitCode=checks.every(c=>c.pass)?0:1;

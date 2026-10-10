@@ -1,6 +1,11 @@
 import { Euler, MathUtils, PerspectiveCamera, Plane, Raycaster, Vector2, Vector3 } from 'three';
 
 export const PARK_LIMIT = 8;
+export interface CircularObstacle {
+  readonly x: number;
+  readonly z: number;
+  readonly radius: number;
+}
 const STOP_DISTANCE = 0.08;
 const GROUND = new Plane(new Vector3(0, 1, 0), 0);
 
@@ -36,7 +41,10 @@ export class FirstPersonController {
   private readonly ndc = new Vector2();
   private readonly groundPoint = new Vector3();
 
-  constructor(readonly camera: PerspectiveCamera) {
+  constructor(
+    readonly camera: PerspectiveCamera,
+    private readonly obstacles: readonly CircularObstacle[] = [],
+  ) {
     this.syncCamera();
   }
 
@@ -146,6 +154,13 @@ export class FirstPersonController {
     this.velocity.y += (z - this.velocity.y) * blend;
     const nextX = this.camera.position.x + this.velocity.x * dt;
     const nextZ = this.camera.position.z + this.velocity.y * dt;
+    for (const obstacle of this.obstacles) {
+      if (Math.hypot(nextX - obstacle.x, nextZ - obstacle.z) < obstacle.radius) {
+        this.velocity.set(0, 0);
+        this.hasTarget = false;
+        return;
+      }
+    }
     this.camera.position.x = MathUtils.clamp(nextX, -PARK_LIMIT, PARK_LIMIT);
     this.camera.position.z = MathUtils.clamp(nextZ, -PARK_LIMIT, PARK_LIMIT);
     if (nextX !== this.camera.position.x) this.velocity.x = 0;

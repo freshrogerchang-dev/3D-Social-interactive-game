@@ -80,6 +80,7 @@ export class SafetyUI {
   private readonly title: HTMLElement;
   private readonly text: HTMLElement;
   private readonly status: HTMLElement;
+  private readonly npcInfo: HTMLElement;
   private readonly pauseButton: HTMLButtonElement;
   private readonly panelButtons: Readonly<Record<PanelAction, HTMLButtonElement>>;
   private actions: SafetyActions | null = null;
@@ -90,6 +91,7 @@ export class SafetyUI {
     this.title = requireElement(root, '#overlay-title', HTMLElement);
     this.text = requireElement(root, '#overlay-text', HTMLElement);
     this.status = requireElement(root, '#status', HTMLElement);
+    this.npcInfo = requireElement(root, '#npc-info', HTMLElement);
     this.pauseButton = requireElement(root, '[data-action="pause"]', HTMLButtonElement);
     requireElement(root, '[data-action="safety"]', HTMLButtonElement);
     this.panelButtons = {
@@ -109,6 +111,7 @@ export class SafetyUI {
     if (this.view === view) return;
     const overlayWasOpen = !this.overlay.hidden;
     this.view = view;
+    this.npcInfo.hidden = view !== 'running';
 
     if (view === 'loading' || view === 'running') {
       const focusWasInOverlay = this.overlay.contains(document.activeElement);
@@ -129,6 +132,10 @@ export class SafetyUI {
 
     const firstAction = copy.actions[0];
     if (firstAction !== undefined) this.panelButtons[firstAction].focus();
+  }
+
+  renderNPCPresence(near: boolean): void {
+    this.npcInfo.textContent = near ? '小安坐在這裡。' : '小安在長椅上。';
   }
 
   dispose(): void {
