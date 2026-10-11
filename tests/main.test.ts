@@ -150,6 +150,7 @@ beforeEach(() => {
   testWindow = new EventTarget();
   vi.stubGlobal('document', testDocument);
   vi.stubGlobal('window', testWindow);
+  vi.stubGlobal('matchMedia', () => Object.assign(new EventTarget(), { matches: false }));
   vi.stubGlobal(
     'ResizeObserver',
     class {

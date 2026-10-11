@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-11（Phase 4 打招呼文字工程版）
+最後更新：2026-10-11（本機每字右側直排注音；語音另做）
 
 ## 一句話目標
 
@@ -28,7 +28,7 @@
 
 ## 功能實作狀態（路線圖 Phase 0–10）
 
-Phase 0（設定）與 Phase 1（引擎骨架）已建立並通過自動化檢查（04）；Phase 2 第一人稱移動已實作並通過工程驗證（phase2-build-log.md），收到新版手機部分正常回報；Phase 3 已加入固定坐姿 NPC 工程人形與個人空間阻擋（phase3-build-log.md），寫實素材及實機待驗證；Phase 4 打招呼文字工程版已實作（phase4-build-log.md）；語音／注音／人物動作與實機尚待完成。Phase 5–10 未開始：5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
+Phase 0（設定）與 Phase 1（引擎骨架）已建立並通過自動化檢查（04）；Phase 2 第一人稱移動已實作並通過工程驗證（phase2-build-log.md），收到新版手機部分正常回報；Phase 3 已加入固定坐姿 NPC 工程人形與個人空間阻擋（phase3-build-log.md），寫實素材及實機待驗證；Phase 4 文字工程版已發布；本機另完成注音、選項圖示及單次人物動作（phase4-enhanced-build-log.md），尚未發布；語音、新版實機與專業審查待完成。Phase 5–10 未開始：5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
 
 S1 完成不代表 Phase 0 或 Phase 1 完成；S4 不等於路線圖 Phase 4。安全控制與基本無障礙須從 Phase 0–1 建立，不等到 Phase 6 或 Phase 10。
 
@@ -310,3 +310,28 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 正式 dist 對話檢查 18/18 exit 0；WebGL 不可用／context lost 安全回歸 15/15 exit 0。證據 phase4-evidence；完整紀錄 phase4-build-log.md。新版互動待 iPhone 實測。
 
 - 產品提交 0047752ab819e7db63400cd32cb01e7d3766a230；Actions run 38125486147 build／deploy success。公開 Pages 對話檢查 18/18 exit 0，證據 phase4-evidence/published。網站 https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。使用者尚未實測新版對話。
+
+
+## 2026-10-11 本機 Phase 4 補充
+
+- 使用者選定注音、選項圖示、人物動作，語音另做。對話人工 ruby 注音、自製 SVG、單次抬手與兩種回應等同點頭已實作；底部可捲動卡保留人物視野。
+- 動作使用單一 RAF，暫停凍結、恢復首幀零 delta；退出與安全區清除，設定開關與系統減少動態可停用。無新套件、設定檔、API、金鑰或儲存。
+- Windows Node 22.21.0 五項檢查各 exit 0、70 項單元、Chrome／SwiftShader 正式 dist 23 項互動與 15 項安全回歸均通過。初次失敗與修正見 phase4-enhanced-build-log.md；證據 phase4-enhanced-evidence。
+- 本機尚未 commit／push／發布，公開網站仍是先前 Phase 4 文字版。語音另做；新版 iPhone、VoiceOver、專業內容及注音審查未驗證，完整 S5 未通過。Phase 5 未開始。
+- 下一步：本機新版實機複測；若要語音，另行指定 Phase 4 語音切片。
+
+
+## 2026-10-11 小安人物精緻化
+
+- 使用者要求和藹可愛人物。小安改為圓潤、自製 3D 造型，新增眼睛、小微笑、腮紅、短髮、耳朵與服裝／手鞋細節。人物的風格依本次指示調整，公園環境方向不變。
+- 五官與頭髮隨原 head pivot 點頭；保留抬手、減少動態、暫停／安全區、1.2m 個人空間與唯一 RAF。無新增套件、設定檔、圖片或外部素材。
+- 五項工程檢查各 exit 0，70 單元、23 正式 dist 互動、15 安全回歸通過；手機／桌面截圖已人工檢視。63 meshes／9632 triangles 含長椅，不代表整個公園效能。詳見 npc-friendly-build-log.md、npc-friendly-evidence。
+- 尚未 commit／push／發布；新版 iPhone、Safari、VoiceOver、真實 GPU 效能與專業外觀審查未完成。語音另做、Phase 5 未開始、完整 S5 未通過。
+- 下一步：本機人物外觀與 iPhone 複測，後續語音需另行指定。
+
+
+## 2026-10-11 每字右側直排注音
+
+- 依使用者指示，對話與打招呼按鈕的注音由上方改到每個漢字右側，符號直排、聲調在旁、輕聲置頂；一字一組不拆開，保留中文名稱與捲動。
+- 五項檢查各 exit 0，70 單元、24 正式 dist 互動／排版、15 安全回歸通過。手機尺寸截圖已人工檢視；詳見 zhuyin-right-build-log.md 與 zhuyin-right-evidence。
+- 本機未發布，新版 iPhone／Safari／VoiceOver 未實測；語音另做、Phase 5 未開始、完整 S5 未通過。下一步本機與手機排版複測。

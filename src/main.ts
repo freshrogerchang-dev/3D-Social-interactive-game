@@ -27,10 +27,30 @@ const greetingPanel = document.getElementById('greeting-panel');
 const greetingLaunch = document.getElementById('greeting-launch');
 const greeting =
   greetingPanel && greetingLaunch instanceof HTMLButtonElement
-    ? new GreetingUI(greetingPanel, greetingLaunch, (active) =>
-        engine?.setInteractionActive(active),
+    ? new GreetingUI(
+        greetingPanel,
+        greetingLaunch,
+        (active) => engine?.setInteractionActive(active),
+        (node) => {
+          const enabled =
+            document.querySelector<HTMLInputElement>('#npc-motion')?.checked === true &&
+            !matchMedia('(prefers-reduced-motion: reduce)').matches;
+          engine?.setNPCGesture(
+            node === 'greet' ? 'wave' : node === 'spoken' || node === 'nod' ? 'nod' : null,
+            enabled,
+          );
+        },
       )
     : null;
+
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+reducedMotion.addEventListener('change', () => {
+  if (reducedMotion.matches) engine?.setNPCGesture(null, false);
+});
+app.addEventListener('change', (event) => {
+  if (event.target instanceof HTMLInputElement && event.target.id === 'npc-motion')
+    engine?.setNPCGesture(null, event.target.checked && !reducedMotion.matches);
+});
 
 let pauseReason: 'paused' | 'safety' = 'paused';
 

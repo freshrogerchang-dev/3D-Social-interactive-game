@@ -4,6 +4,7 @@ import type { EngineState, GameEngineOptions, RendererLike } from '../../src/cor
 import { FakeRenderer, FakeScheduler, fakeCanvas } from '../helpers';
 import { FirstPersonController } from '../../src/input/FirstPersonController';
 import { ParkScene } from '../../src/scene/ParkScene';
+import { SeatedNPC } from '../../src/npc/SeatedNPC';
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -34,6 +35,26 @@ async function runningEngine() {
 }
 
 describe('GameEngine 生命週期', () => {
+  it('人物動作共用唯一 RAF，暫停不更新、恢復首幀零 delta，返回安全區清除', async () => {
+    const update = vi.spyOn(SeatedNPC.prototype, 'update');
+    const gesture = vi.spyOn(SeatedNPC.prototype, 'playGesture');
+    const { engine, scheduler } = await runningEngine();
+    engine.setNPCGesture('nod');
+    scheduler.tick(0);
+    scheduler.tick(50);
+    expect(update).toHaveBeenLastCalledWith(0.05);
+    engine.pause();
+    const calls = update.mock.calls.length;
+    scheduler.tick(1000);
+    expect(update.mock.calls).toHaveLength(calls);
+    engine.resume();
+    scheduler.tick(2000);
+    expect(update).toHaveBeenLastCalledWith(0);
+    engine.returnToSafety();
+    expect(gesture).toHaveBeenLastCalledWith(null);
+    engine.dispose();
+  });
+
   it('對話期間停止移動，暫停後恢復仍鎖定，關閉才重新啟用', async () => {
     const enable = vi.spyOn(FirstPersonController.prototype, 'setEnabled');
     const { engine, scheduler } = await runningEngine();

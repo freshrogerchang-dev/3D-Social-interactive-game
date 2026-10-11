@@ -376,3 +376,64 @@ body {
 .app:has(#greeting-panel:not([hidden])) .performance-info {
   display: none;
 }
+
+/* 注音保留字間距；面板照常捲動，安全控制保持獨立。 */
+/* 手動排每字右側注音，避免不同瀏覽器對 inter-character 支援的差異。 */
+ruby {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  margin-inline: 0.08em;
+  gap: 0.05em;
+}
+.ruby-character {
+  line-height: 1;
+}
+rt {
+  display: block;
+  position: relative;
+  padding-right: 0.65em;
+  font-size: 0.5em;
+  font-weight: 400;
+  line-height: 1;
+}
+.zhuyin-symbols {
+  display: block;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0;
+}
+.zhuyin-tone {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+rt.has-neutral {
+  padding-top: 0.7em;
+}
+.zhuyin-neutral {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1em;
+  text-align: center;
+}
+.greeting-label {
+  line-height: 2.2;
+}
+.greeting-panel p {
+  line-height: 2.5;
+}
+
+/* 底部卡片保留公園與人物上半身；長文案與小畫面在卡片內捲動。 */
+.greeting-panel {
+  align-self: end;
+  max-height: 42dvh;
+  background: transparent;
+}
+.greeting-panel .panel {
+  margin-block: 0;
+  padding: 16px;
+}

@@ -1,4 +1,6 @@
 import { GREETING, Greeting } from '../dialogue/Greeting';
+import type { NodeId } from '../dialogue/Greeting';
+import { annotatedText, decorateButton } from './GreetingPresentation';
 
 /** DOM 對話；安全控制仍在外層，沒有計時器、語音辨識或自動前進。 */
 export class GreetingUI {
@@ -11,13 +13,24 @@ export class GreetingUI {
     private readonly panel: HTMLElement,
     private readonly launch: HTMLButtonElement,
     private readonly onActive: (active: boolean) => void,
+    private readonly onGesture: (node: NodeId | null) => void = () => {},
   ) {
+    for (const button of panel.querySelectorAll<HTMLButtonElement>('button[data-greeting]')) {
+      decorateButton(
+        button,
+        button.textContent.trim(),
+        button.dataset.greeting === 'help' ? 'help' : 'repeat',
+      );
+    }
+    const title = panel.querySelector('#greeting-title');
+    title?.replaceChildren(annotatedText('打招呼'));
     panel.addEventListener('focusin', (event) => {
       if (event.target instanceof HTMLElement) this.focusBeforePause = event.target;
     });
     launch.addEventListener('click', () => {
       if (!this.running || !this.near) return;
       this.session.start();
+      this.onGesture(this.session.node);
       this.onActive(true);
       this.render(true);
     });
@@ -38,6 +51,7 @@ export class GreetingUI {
         this.panel.querySelector<HTMLElement>('#greeting-copy')?.focus();
       } else if (action === 'choice' && this.session.choose(Number(button.dataset.choice))) {
         this.onActive(this.session.node !== null);
+        this.onGesture(this.session.node);
         this.render(true);
         if (!this.session.node) this.launch.focus();
       }
@@ -65,12 +79,13 @@ export class GreetingUI {
     this.focusBeforePause = null;
     this.focusBeforeHelp = null;
     this.onActive(false);
+    this.onGesture(null);
     this.render();
   }
   private updateLaunch(): void {
     this.launch.hidden = !this.running || this.session.node !== null;
     this.launch.disabled = !this.near;
-    this.launch.textContent = this.near ? '打招呼' : '靠近再招呼';
+    decorateButton(this.launch, this.near ? '打招呼' : '靠近再招呼', 'speech');
   }
   private render(focus = false): void {
     this.updateLaunch();
@@ -84,12 +99,12 @@ export class GreetingUI {
     content.replaceChildren();
     if (copy.line) {
       const line = document.createElement('p');
-      line.textContent = `小安：${copy.line}`;
+      line.append(annotatedText(`小安：${copy.line}`));
       content.append(line);
     }
     for (const text of copy.prompts) {
       const p = document.createElement('p');
-      p.textContent = text;
+      p.append(annotatedText(text));
       content.append(p);
     }
     // 幫助開關不重建選項，確保焦點能回到同一個按鈕。
@@ -102,11 +117,23 @@ export class GreetingUI {
         button.className = 'control';
         button.dataset.greeting = 'choice';
         button.dataset.choice = String(index);
-        button.textContent = choice.label;
+        const icon =
+          choice.target === 'spoken'
+            ? 'speech'
+            : choice.target === 'nod'
+              ? 'nod'
+              : choice.target === 'greet' || choice.target === 'repair'
+                ? 'repeat'
+                : choice.target === 'finished' || choice.target === 'skipped'
+                  ? 'done'
+                  : choice.target === 'park'
+                    ? 'park'
+                    : 'exit';
+        decorateButton(button, choice.label, icon);
         choices.append(button);
       });
     }
-    help.textContent = copy.help.join(' ');
+    help.replaceChildren(annotatedText(copy.help.join(' ')));
     const helping = this.session.helping;
     for (const id of ['greeting-copy', 'greeting-choices', 'greeting-tools']) {
       const el = this.panel.querySelector<HTMLElement>(`#${id}`);

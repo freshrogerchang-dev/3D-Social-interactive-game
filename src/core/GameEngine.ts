@@ -136,6 +136,7 @@ export class GameEngine {
     this.loop.stop();
     try {
       this.movement?.setEnabled(false);
+      this.park?.npc.playGesture(null);
       this.park?.resetToSafety();
       this.movement?.syncCamera();
       this.updateNPCPresence();
@@ -161,6 +162,11 @@ export class GameEngine {
   setInteractionActive(active: boolean): void {
     this.interacting = active;
     this.movement?.setEnabled(!active && this.currentState === 'running');
+  }
+
+  setNPCGesture(gesture: 'wave' | 'nod' | null, motionEnabled = true): void {
+    this.park?.npc.setMotionEnabled(motionEnabled);
+    this.park?.npc.playGesture(gesture);
   }
 
   setPerformanceMonitoring(enabled: boolean): void {
@@ -246,6 +252,7 @@ export class GameEngine {
   private readonly frame: FrameCallback = ({ delta }) => {
     try {
       this.movement?.update(delta);
+      this.park?.npc.update(delta);
       this.updateNPCPresence();
       this.renderOnce();
       if (this.monitoring) {

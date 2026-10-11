@@ -1,0 +1,99 @@
+{
+  "node": "v22.21.0",
+  "chromium": "154.0.8037.99",
+  "checks": [
+    {
+      "name": "遠處不開始，靠近不自動彈對話",
+      "pass": true
+    },
+    {
+      "name": "靠近後仍須明確打招呼",
+      "pass": true
+    },
+    {
+      "name": "開啟後停止移動並隱藏圓盤",
+      "pass": true
+    },
+    {
+      "name": "台詞、提示及每個選項都有注音",
+      "pass": true
+    },
+    {
+      "name": "圖示不取代中文名稱",
+      "pass": true
+    },
+    {
+      "name": "注音不加入報讀器名稱",
+      "pass": true
+    },
+    {
+      "name": "幫助保留原節點",
+      "pass": true
+    },
+    {
+      "name": "暫停恢復保留幫助和焦點",
+      "pass": true
+    },
+    {
+      "name": "關閉幫助焦點回原按鈕",
+      "pass": true
+    },
+    {
+      "name": "說你好與點頭取得相同NPC回應",
+      "pass": true
+    },
+    {
+      "name": "再看一次保留節點",
+      "pass": true
+    },
+    {
+      "name": "恢復保留點頭節點與移動鎖",
+      "pass": true
+    },
+    {
+      "name": "先不參與可回公園自由移動",
+      "pass": true
+    },
+    {
+      "name": "結束使用中性文字",
+      "pass": true
+    },
+    {
+      "name": "320x360 安全按鈕仍可命中",
+      "pass": true
+    },
+    {
+      "name": "320x360 選項至少64px可捲動",
+      "pass": true
+    },
+    {
+      "name": "844x390 安全按鈕仍可命中",
+      "pass": true
+    },
+    {
+      "name": "844x390 選項至少64px可捲動",
+      "pass": true
+    },
+    {
+      "name": "返回安全區清除對話，不恢復舊節點",
+      "pass": true
+    },
+    {
+      "name": "重新開始只有一個場景且無舊對話",
+      "pass": true
+    },
+    {
+      "name": "可明確關閉人物動作",
+      "pass": true
+    },
+    {
+      "name": "尊重系統減少動態",
+      "pass": true
+    },
+    {
+      "name": "沒有未處理例外",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

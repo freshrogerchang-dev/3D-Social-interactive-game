@@ -8,6 +8,43 @@ import { ParkScene } from '../../src/scene/ParkScene';
 const position = (z: number) => ({ x: 0, y: 1.1, z });
 
 describe('單一固定坐姿 NPC', () => {
+  it('單次點頭結束回中立，零 delta 不更新，停用動作立即重設', () => {
+    const npc = new SeatedNPC();
+    const pivot = npc.root.getObjectByName('head')?.parent;
+    if (!pivot) throw new Error('missing head pivot');
+    npc.playGesture('nod');
+    for (let i = 0; i < 16; i++) npc.update(0.05);
+    expect(pivot.rotation.x).toBeCloseTo(0.16);
+    npc.update(0);
+    expect(pivot.rotation.x).toBeCloseTo(0.16);
+    npc.setMotionEnabled(false);
+    expect(pivot.rotation.x).toBe(0);
+    npc.playGesture('nod');
+    npc.update(0.05);
+    expect(pivot.rotation.x).toBe(0);
+    npc.setMotionEnabled(true);
+    npc.playGesture('nod');
+    for (let i = 0; i < 40; i++) npc.update(0.05);
+    expect(pivot.rotation.x).toBe(0);
+    npc.dispose();
+  });
+  it('抬手不移動角色、長椅或鏡頭；退出可重設且 dispose 後不再動', () => {
+    const npc = new SeatedNPC();
+    const pivot = npc.root.getObjectByName('hand')?.parent;
+    if (!pivot) throw new Error('missing arm pivot');
+    npc.playGesture('wave');
+    for (let i = 0; i < 16; i++) npc.update(0.05);
+    expect(pivot.rotation.z).toBeCloseTo(-2);
+    expect(npc.root.position.toArray()).toEqual([0, 0, -2]);
+    expect(npc.root.getObjectByName('bench-seat')?.rotation.z).toBe(0);
+    npc.playGesture(null);
+    expect(pivot.rotation.z).toBe(0);
+    npc.dispose();
+    npc.playGesture('wave');
+    npc.update(0.05);
+    expect(pivot.rotation.z).toBe(0);
+  });
+
   it('坐姿、長椅與位置固定，接近判斷不改位置或朝向，也不依賴視線高度', () => {
     const npc = new SeatedNPC();
     expect(npc.root.getObjectByName('bench-seat')).toBeInstanceOf(Mesh);
@@ -58,13 +95,13 @@ describe('單一固定坐姿 NPC', () => {
     let geometries = 0;
     let materials = 0;
     let meshes = 0;
-    for (const child of npc.root.children) {
-      if (!(child instanceof Mesh)) continue;
+    npc.root.traverse((child) => {
+      if (!(child instanceof Mesh)) return;
       meshes += 1;
       (child.geometry as BufferGeometry).addEventListener('dispose', () => {
         geometries += 1;
       });
-    }
+    });
     for (const material of npc.materials)
       material.addEventListener('dispose', () => {
         materials += 1;
@@ -72,7 +109,7 @@ describe('單一固定坐姿 NPC', () => {
     npc.dispose();
     npc.dispose();
     expect(geometries).toBe(meshes);
-    expect(materials).toBe(5);
+    expect(materials).toBe(npc.materials.length);
     expect(npc.root.children).toHaveLength(0);
     expect(npc.root.parent).toBeNull();
   });
