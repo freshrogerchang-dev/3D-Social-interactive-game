@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-11（公園環境擬真第一版與本機 FPS／葉片細節選項）
+最後更新：2026-10-11（Phase 4 打招呼文字工程版）
 
 ## 一句話目標
 
@@ -28,7 +28,7 @@
 
 ## 功能實作狀態（路線圖 Phase 0–10）
 
-Phase 0（設定）與 Phase 1（引擎骨架）已建立並通過自動化檢查（04）；Phase 2 第一人稱移動已實作並通過工程驗證（phase2-build-log.md），收到新版手機部分正常回報；Phase 3 已加入固定坐姿 NPC 工程人形與個人空間阻擋（phase3-build-log.md），寫實素材及實機待驗證；Phase 4–10 未開始：4 對話、5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
+Phase 0（設定）與 Phase 1（引擎骨架）已建立並通過自動化檢查（04）；Phase 2 第一人稱移動已實作並通過工程驗證（phase2-build-log.md），收到新版手機部分正常回報；Phase 3 已加入固定坐姿 NPC 工程人形與個人空間阻擋（phase3-build-log.md），寫實素材及實機待驗證；Phase 4 打招呼文字工程版已實作（phase4-build-log.md）；語音／注音／人物動作與實機尚待完成。Phase 5–10 未開始：5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
 
 S1 完成不代表 Phase 0 或 Phase 1 完成；S4 不等於路線圖 Phase 4。安全控制與基本無障礙須從 Phase 0–1 建立，不等到 Phase 6 或 Phase 10。
 
@@ -297,3 +297,14 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 公園 20 次重建資源檢查 11/11、exit 0；結束 canvas／pending RAF=0、detached CANVAS=0、listener 第 5–20 次未持續增加。最後僅視覺與 FPS 顯示位置調整後另跑五項與整合／production；詳見 park-build-log.md。
 
 - 公園產品提交 5b481e4 已發布；Actions run 38111095597 success。公開檢查 12/12、exit 0，十張素材 HTTP 200、觸控安全操作及 FPS 與搖桿共用可達。證據 park-evidence/published；iPhone 12 實際 FPS／載入／卡頓待使用者回報。
+
+
+## 2026-10-11 Phase 4：打招呼文字工程版
+
+- 使用者回報 iPhone 12 Chrome 公園擬真版「都很順暢」；記錄為主觀實機觀察，未取得 FPS 值，未完成全部 S5。
+- 使用者明確指定 Phase 4。新增靠近後手動打招呼、「說你好／點頭／先不參與」、中性回饋、再練一次、換個方式、幫助／再看一次與回公園。
+- 互動停住移動，暫停／恢復保留節點及幫助焦點；返回安全區退出、重新開始清除。只記憶體中的最近結果，沒有資料累計／儲存／傳送。
+- Node 22.22.0、npm 10.9.4：五項檢查各 exit 0，7 檔 65 測試通過。build 581.59kB／gzip147.81kB，chunk 大小警告保留。
+- 文字工程版，未制作語音、注音、選項圖示與角色揮手／點頭動畫；完整 Q3、實機、旁白及專業審查待驗證。不進 Phase 5。
+
+- 正式 dist 對話檢查 18/18 exit 0；WebGL 不可用／context lost 安全回歸 15/15 exit 0。證據 phase4-evidence；完整紀錄 phase4-build-log.md。新版互動待 iPhone 實測。

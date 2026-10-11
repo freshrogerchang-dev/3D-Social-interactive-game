@@ -70,6 +70,30 @@
         </div>
       </section>
 
+      <button id="greeting-launch" type="button" class="control greeting-launch" hidden disabled>
+        靠近再招呼
+      </button>
+      <section id="greeting-panel" class="greeting-panel" aria-labelledby="greeting-title" hidden>
+        <div class="panel">
+          <h2 id="greeting-title" class="panel-title">
+            <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 4h16v12H9l-5 4V4zm2 2v10l2-2h10V6H6z" />
+            </svg>
+            打招呼
+          </h2>
+          <div id="greeting-copy" class="panel-text" tabindex="-1"></div>
+          <div id="greeting-choices" class="panel-actions"></div>
+          <div id="greeting-tools" class="panel-actions greeting-tools">
+            <button type="button" class="control" data-greeting="help">幫助</button>
+            <button type="button" class="control" data-greeting="again">再看一次</button>
+          </div>
+          <div id="greeting-help-panel" hidden>
+            <p id="greeting-help" class="panel-text"></p>
+            <button type="button" class="control" data-greeting="close-help">關閉幫助</button>
+          </div>
+        </div>
+      </section>
+
       <div
         id="movement-pad"
         class="movement-pad"

@@ -1,4 +1,5 @@
 import './styles.css';
+import { GreetingUI } from './ui/GreetingUI';
 import { GameEngine } from './core/GameEngine';
 import type { EngineState } from './core/GameEngine';
 import { SafetyUI } from './ui/SafetyUI';
@@ -22,6 +23,15 @@ const ui = new SafetyUI(app);
 let engine: GameEngine | null = null;
 let canvas: HTMLCanvasElement | null = null;
 /** 引擎進入 paused 的原因，決定顯示「休息一下」或「已返回安全區」。 */
+const greetingPanel = document.getElementById('greeting-panel');
+const greetingLaunch = document.getElementById('greeting-launch');
+const greeting =
+  greetingPanel && greetingLaunch instanceof HTMLButtonElement
+    ? new GreetingUI(greetingPanel, greetingLaunch, (active) =>
+        engine?.setInteractionActive(active),
+      )
+    : null;
+
 let pauseReason: 'paused' | 'safety' = 'paused';
 
 function viewFor(state: EngineState): SafetyView | null {
@@ -46,6 +56,7 @@ function syncView(): void {
   if (!engine) return;
   const view = viewFor(engine.state);
   if (view) ui.render(view);
+  greeting?.setRunning(engine.state === 'running');
   const output = document.getElementById('performance-info');
   const checkbox = document.getElementById('performance-check');
   if (output && checkbox instanceof HTMLInputElement)
@@ -72,6 +83,9 @@ app.addEventListener('change', (event) => {
 });
 
 function teardown(): void {
+  greeting?.clear();
+  greeting?.setRunning(false);
+  greeting?.setNear(false);
   engine?.dispose();
   engine = null;
   canvas?.remove();
@@ -102,7 +116,10 @@ async function startSession(): Promise<void> {
       if (engine === current) syncView();
     },
     onNPCPresence: (near) => {
-      if (engine === current) ui.renderNPCPresence(near);
+      if (engine === current) {
+        ui.renderNPCPresence(near);
+        greeting?.setNear(near);
+      }
     },
     onPerformance: (fps) => {
       if (engine !== current) return;
@@ -158,6 +175,7 @@ function pause(): void {
 }
 
 function returnToSafety(): void {
+  greeting?.clear(true);
   if (!engine) {
     ui.render('safety-rest');
     return;

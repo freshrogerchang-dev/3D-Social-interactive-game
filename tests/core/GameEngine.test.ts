@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { GameEngine } from '../../src/core/GameEngine';
 import type { EngineState, GameEngineOptions, RendererLike } from '../../src/core/GameEngine';
 import { FakeRenderer, FakeScheduler, fakeCanvas } from '../helpers';
+import { FirstPersonController } from '../../src/input/FirstPersonController';
 import { ParkScene } from '../../src/scene/ParkScene';
 
 afterEach(() => {
@@ -33,6 +34,24 @@ async function runningEngine() {
 }
 
 describe('GameEngine 生命週期', () => {
+  it('對話期間停止移動，暫停後恢復仍鎖定，關閉才重新啟用', async () => {
+    const enable = vi.spyOn(FirstPersonController.prototype, 'setEnabled');
+    const { engine, scheduler } = await runningEngine();
+    engine.setInteractionActive(true);
+    expect(enable).toHaveBeenLastCalledWith(false);
+    engine.pause();
+    engine.resume();
+    expect(enable).toHaveBeenLastCalledWith(false);
+    scheduler.tick(0);
+    expect(engine.state).toBe('running');
+    engine.setInteractionActive(false);
+    expect(enable).toHaveBeenLastCalledWith(true);
+    engine.pause();
+    engine.setInteractionActive(false);
+    expect(enable).toHaveBeenLastCalledWith(false);
+    engine.dispose();
+  });
+
   it('FPS 使用真實時間而非被上限截斷的模擬 delta，暫停不算入下一次量測', async () => {
     let now = 0;
     vi.spyOn(performance, 'now').mockImplementation(() => now);

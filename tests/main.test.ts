@@ -95,7 +95,15 @@ class TestDocument extends EventTarget {
 
   getElementById(id: string): object | null {
     if (id === 'app') return this.app;
-    if (id === 'environment-detail' || id === 'performance-check' || id === 'performance-info')
+    if (
+      [
+        'environment-detail',
+        'performance-check',
+        'performance-info',
+        'greeting-panel',
+        'greeting-launch',
+      ].includes(id)
+    )
       return null;
     return id === 'stage'
       ? {

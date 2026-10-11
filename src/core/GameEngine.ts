@@ -61,6 +61,7 @@ export class GameEngine {
   private movement: FirstPersonController | null = null;
   private npcNear: boolean | null = null;
   private monitoring = false;
+  private interacting = false;
   private monitorStart = 0;
   private monitorFrames = 0;
   private readonly loop: RenderLoop;
@@ -157,6 +158,11 @@ export class GameEngine {
     }
   }
 
+  setInteractionActive(active: boolean): void {
+    this.interacting = active;
+    this.movement?.setEnabled(!active && this.currentState === 'running');
+  }
+
   setPerformanceMonitoring(enabled: boolean): void {
     this.monitoring = enabled;
     this.monitorStart = performance.now();
@@ -231,7 +237,7 @@ export class GameEngine {
   private runLoop(): void {
     this.monitorStart = performance.now();
     this.monitorFrames = 0;
-    this.movement?.setEnabled(true);
+    this.movement?.setEnabled(!this.interacting);
     this.setState('running');
     this.loop.start(this.frame);
   }
