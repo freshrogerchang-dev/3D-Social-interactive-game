@@ -23,3 +23,10 @@ Node 22.22.0／npm 10.9.4，既有 playwright-core 1.57.0、Chromium 151.0.7922.
 實機 iPhone 觸控、報讀器、原生文字 200%、真實 GPU／效能仍未驗證。瀏覽器觸控與 SwiftShader 證據不等於 iPhone 通過。無新套件、版本或設定變更。
 
 資源檢查 node docs/dev-flow/s5-extended-browser.mjs http://s5.local/ docs/dev-flow/joystick-evidence/resources --local --expect-released：11/11、exit 0。20 次重建 detached CANVAS=0，結束時 canvas／pending RAF=0，listener 第 5–20 次不持續增加。Headless 切頁未產生 hidden，保留未驗證。證據 resources/browser-result.json。
+
+
+## 公開發布
+
+產品提交 463ede0d03c8a18091045ad2cc6e0fcc5c2b4bd3 已發布；[Actions run 38103017974](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/38103017974) completed／success。公開網站 production 觸控 10/10、exit 0；確認新版 index-WdRjKl0Q.js、index-CLFp_vuL.css 與同心圓 DOM。結果 published/result.json、phone-joystick.png。
+
+/tmp/joystick-published.mjs 由 joystick-production-browser.mjs 移除本地 route、替換公開網址、沿用 HTTPS_PROXY／TLS，等待 .pad-ring。不注入相機。公開 Chromium／SwiftShader 通過仍不代表 iPhone 實測。

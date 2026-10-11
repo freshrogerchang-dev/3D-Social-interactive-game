@@ -1,0 +1,46 @@
+{
+  "node": "v22.22.0",
+  "checks": [
+    {
+      "name": "正式建置斜向觸控按住可移動",
+      "pass": true
+    },
+    {
+      "name": "拖出圓盤仍捕捉且旋鈕不越界",
+      "pass": true
+    },
+    {
+      "name": "觸控放開畫面停止、旋鈕回中心",
+      "pass": true
+    },
+    {
+      "name": "多指取消輸入，不保持方向",
+      "pass": true
+    },
+    {
+      "name": "按住中暫停隱藏搖桿",
+      "pass": true
+    },
+    {
+      "name": "恢復沒有殘留方向",
+      "pass": true
+    },
+    {
+      "name": "320x360 整圓盤中心可命中",
+      "pass": true
+    },
+    {
+      "name": "390x844 整圓盤中心可命中",
+      "pass": true
+    },
+    {
+      "name": "單次按鈕替代操作仍可用",
+      "pass": true
+    },
+    {
+      "name": "沒有未處理例外",
+      "pass": true,
+      "evidence": []
+    }
+  ]
+}
