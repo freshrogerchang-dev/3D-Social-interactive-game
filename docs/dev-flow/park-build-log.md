@@ -58,3 +58,10 @@ Node 22.22.0／npm 10.9.4；playwright-core 1.57.0／Chromium 151.0.7922.173／S
 資源檢查 node docs/dev-flow/s5-extended-browser.mjs http://s5.local/ docs/dev-flow/park-evidence/resources --local --expect-released：11/11、exit 0。20 次重建後 detached CANVAS=0，結束時 canvas／pending RAF=0，最大同時 RAF=1；第 5–20 次 listener 未持續增加。Headless 切頁未產生 hidden，不算系統切頁通過。此檢查在最後僅改表面降飽和位置、邊界色及 FPS DOM 位置前開始，完整資源所有權／載入／dispose／事件程式之後未變，最後五項與公園整合／production 重跑。
 
 最後版本 GPU 上傳後快照：44 批次、22,396 三角形、12 個 renderer texture、44 個 geometry。Build JS 576.40kB／gzip 145.82kB；>500kB 既有警告保留。最後公園 9/9 與 production 10/10 已重跑，exit 0。
+
+
+## 公開發布
+
+產品提交 5b481e4a95646d96214ed4a47c2244e76bd20b24 已推 main-uv12jr；[Actions run 38111095597](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/38111095597) completed／success。公開網站檢查 12/12、exit 0：原 production 觸控 10 項，加十張材質 HTTP 200 及開 FPS／收合設定仍能操作搖桿。證據 park-evidence/published/result.json、phone-fps.png、desktop-park.png。
+
+/tmp/park-published.mjs 源自 park-production-browser.mjs：移除本地 route、替換公開網址、沿用 HTTPS_PROXY／TLS，不注入 park 或相機；追加上述兩項線上檢查。仍是 Chromium／SwiftShader，不代表 iPhone 實機通過。

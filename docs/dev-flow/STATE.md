@@ -295,3 +295,5 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 下一步在 iPhone 12 比較標準／較少葉片的 FPS、卡頓與載入；完整 S5、報讀器、其他實機、專業審查仍未完成。
 
 - 公園 20 次重建資源檢查 11/11、exit 0；結束 canvas／pending RAF=0、detached CANVAS=0、listener 第 5–20 次未持續增加。最後僅視覺與 FPS 顯示位置調整後另跑五項與整合／production；詳見 park-build-log.md。
+
+- 公園產品提交 5b481e4 已發布；Actions run 38111095597 success。公開檢查 12/12、exit 0，十張素材 HTTP 200、觸控安全操作及 FPS 與搖桿共用可達。證據 park-evidence/published；iPhone 12 實際 FPS／載入／卡頓待使用者回報。
