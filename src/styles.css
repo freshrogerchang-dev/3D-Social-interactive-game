@@ -240,40 +240,51 @@ body {
   display: none;
 }
 
-/* 五個真實按鈕組成方向圓盤；只有底色透明，圖示與焦點維持清晰。 */
+/* 半透明同心圓，全圓盤可接受任意方向；沒有分割按鈕或模糊效果。 */
 .movement-pad {
   position: fixed;
   left: max(12px, env(safe-area-inset-left));
   bottom: max(12px, env(safe-area-inset-bottom));
   z-index: 2;
-  display: grid;
-  grid-template: repeat(3, 64px) / repeat(3, 64px);
   width: 192px;
   height: 192px;
+  border: 2px solid rgb(31 42 51 / 45%);
   border-radius: 50%;
   background: rgb(251 248 242 / 35%);
-  touch-action: manipulation;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
-.movement-pad .control {
-  padding: 0;
+.pad-ring,
+.pad-thumb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   border-radius: 50%;
+  pointer-events: none;
+}
+.pad-ring {
+  width: 128px;
+  height: 128px;
+  border: 2px solid rgb(31 42 51 / 30%);
+  transform: translate(-50%, -50%);
+}
+.pad-thumb {
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--paper-edge);
   background: rgb(251 248 242 / 65%);
-  font-size: 2rem;
+  transform: translate(calc(-50% + var(--stick-x, 0px)), calc(-50% + var(--stick-y, 0px)));
 }
-.pad-forward {
-  grid-area: 1 / 2;
-}
-.pad-back {
-  grid-area: 3 / 2;
-}
-.pad-left {
-  grid-area: 2 / 1;
-}
-.pad-right {
-  grid-area: 2 / 3;
-}
-.pad-stop {
-  grid-area: 2 / 2;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .movement-controls:not([open]) {
   justify-self: end;

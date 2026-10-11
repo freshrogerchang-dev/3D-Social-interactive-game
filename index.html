@@ -70,23 +70,20 @@
         </div>
       </section>
 
-      <div id="movement-pad" class="movement-pad" role="group" aria-label="方向圓盤" hidden>
-        <button type="button" class="control pad-forward" data-move="forward" aria-label="往前一步">
-          <span aria-hidden="true">↑</span>
-        </button>
-        <button type="button" class="control pad-back" data-move="back" aria-label="往後一步">
-          <span aria-hidden="true">↓</span>
-        </button>
-        <button type="button" class="control pad-left" data-move="turn-left" aria-label="向左看">
-          <span aria-hidden="true">↶</span>
-        </button>
-        <button type="button" class="control pad-right" data-move="turn-right" aria-label="向右看">
-          <span aria-hidden="true">↷</span>
-        </button>
-        <button type="button" class="control pad-stop" data-move="stop" aria-label="停止移動">
-          <span aria-hidden="true">■</span>
-        </button>
+      <div
+        id="movement-pad"
+        class="movement-pad"
+        role="group"
+        aria-label="全方向移動搖桿"
+        aria-describedby="joystick-help"
+        hidden
+      >
+        <span class="pad-ring" aria-hidden="true"></span>
+        <span class="pad-thumb" aria-hidden="true"></span>
       </div>
+      <p id="joystick-help" class="visually-hidden">
+        按住或拖曳圓盤向任意方向移動，放開停止。也可以展開設定使用單次移動按鈕。
+      </p>
 
       <p id="npc-info" class="npc-info" hidden>小安在長椅上。</p>
 
@@ -94,12 +91,17 @@
         <summary class="control" aria-label="操作與設定">設定</summary>
         <div class="movement-content">
           <p id="movement-help">
-            點地面前往，拖曳看向。左下圓盤：↑ 前進、↓ 後退、↶ ↷ 轉向、■ 停止。電腦可先點公園，再用
+            點地面前往，拖曳看向。左下搖桿：按住或拖向任意方向移動，放開停止。電腦可先點公園，再用
             WASD 或方向鍵。
           </p>
           <div class="movement-buttons" role="group" aria-label="移動與看向">
             <button type="button" class="control" data-move="left">往左一步</button>
             <button type="button" class="control" data-move="right">往右一步</button>
+            <button type="button" class="control" data-move="forward">往前一步</button>
+            <button type="button" class="control" data-move="back">往後一步</button>
+            <button type="button" class="control" data-move="turn-left">向左看</button>
+            <button type="button" class="control" data-move="turn-right">向右看</button>
+            <button type="button" class="control" data-move="stop">停止移動</button>
           </div>
           <label class="movement-setting"
             >移動速度（慢 → 快）<input

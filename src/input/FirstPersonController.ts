@@ -49,6 +49,8 @@ export class FirstPersonController {
   }
 
   private pad: HTMLElement | null = null;
+  private stickPointer: number | null = null;
+  private readonly stick = new Vector2();
 
   attach(canvas: HTMLCanvasElement): void {
     if (this.disposed || this.canvas) return;
@@ -67,7 +69,12 @@ export class FirstPersonController {
     this.owner.addEventListener('focusin', this.focusChanged);
     this.view?.addEventListener('blur', this.clearInput);
     this.controls?.addEventListener('click', this.controlClick);
-    this.pad?.addEventListener('click', this.controlClick);
+    this.pad?.addEventListener('pointerdown', this.stickDown);
+    this.pad?.addEventListener('pointermove', this.stickMove);
+    this.pad?.addEventListener('pointerup', this.stickEnd);
+    this.pad?.addEventListener('pointercancel', this.stickEnd);
+    this.pad?.addEventListener('lostpointercapture', this.stickEnd);
+    this.controls?.addEventListener('toggle', this.clearInput);
     this.controls?.addEventListener('input', this.settingChanged);
     this.controls?.querySelectorAll<HTMLInputElement>('input').forEach((input) => {
       this.configure(input);
@@ -88,6 +95,13 @@ export class FirstPersonController {
     this.hasTarget = false;
     this.turnX = 0;
     this.turnY = 0;
+    const stickPointer = this.stickPointer;
+    this.stickPointer = null;
+    this.stick.set(0, 0);
+    this.pad?.style.removeProperty('--stick-x');
+    this.pad?.style.removeProperty('--stick-y');
+    if (stickPointer !== null && this.pad?.hasPointerCapture(stickPointer))
+      this.pad.releasePointerCapture(stickPointer);
     const pointer = this.pointer;
     this.pointer = null;
     this.touches.clear();
@@ -128,7 +142,10 @@ export class FirstPersonController {
     this.camera.quaternion.setFromEuler(this.rotation);
     let x = 0;
     let z = 0;
-    if (this.hasTarget) {
+    if (this.stickPointer !== null) {
+      x = (Math.cos(this.yaw) * this.stick.x + Math.sin(this.yaw) * this.stick.y) * this.speed;
+      z = (-Math.sin(this.yaw) * this.stick.x + Math.cos(this.yaw) * this.stick.y) * this.speed;
+    } else if (this.hasTarget) {
       x = this.target.x - this.camera.position.x;
       z = this.target.y - this.camera.position.z;
       const distance = Math.hypot(x, z);
@@ -187,13 +204,55 @@ export class FirstPersonController {
     this.owner?.removeEventListener('focusin', this.focusChanged);
     this.view?.removeEventListener('blur', this.clearInput);
     this.controls?.removeEventListener('click', this.controlClick);
-    this.pad?.removeEventListener('click', this.controlClick);
+    this.pad?.removeEventListener('pointerdown', this.stickDown);
+    this.pad?.removeEventListener('pointermove', this.stickMove);
+    this.pad?.removeEventListener('pointerup', this.stickEnd);
+    this.pad?.removeEventListener('pointercancel', this.stickEnd);
+    this.pad?.removeEventListener('lostpointercapture', this.stickEnd);
+    this.controls?.removeEventListener('toggle', this.clearInput);
     this.controls?.removeEventListener('input', this.settingChanged);
     this.canvas = null;
     this.controls = null;
     this.pad = null;
     this.owner = null;
     this.view = null;
+  }
+
+  private readonly stickDown = (event: PointerEvent): void => {
+    if (!this.enabled || !this.pad || event.button !== 0) return;
+    event.preventDefault();
+    if (!event.isPrimary || this.stickPointer !== null) {
+      this.clearInput();
+      return;
+    }
+    this.clearInput();
+    this.stickPointer = event.pointerId;
+    this.pad.setPointerCapture(event.pointerId);
+    this.readStick(event);
+  };
+
+  private readonly stickMove = (event: PointerEvent): void => {
+    if (event.pointerId !== this.stickPointer) return;
+    this.readStick(event);
+  };
+
+  private readonly stickEnd = (event: PointerEvent): void => {
+    if (event.pointerId === this.stickPointer) this.clearInput();
+  };
+
+  private readStick(event: PointerEvent): void {
+    if (!this.pad) return;
+    const rect = this.pad.getBoundingClientRect();
+    const x = event.clientX - rect.left - rect.width / 2;
+    const y = event.clientY - rect.top - rect.height / 2;
+    const length = Math.hypot(x, y);
+    if (length <= 12) this.stick.set(0, 0);
+    else this.stick.set(x / length, y / length);
+    // 中心為停止區；任何角度等速，拖到圓外仍捕捉直到放開。
+    if (length <= 12) this.velocity.set(0, 0);
+    const reach = Math.min(length, 56);
+    this.pad.style.setProperty('--stick-x', `${String(length > 0 ? (x / length) * reach : 0)}px`);
+    this.pad.style.setProperty('--stick-y', `${String(length > 0 ? (y / length) * reach : 0)}px`);
   }
 
   private readonly keyDown = (event: KeyboardEvent): void => {

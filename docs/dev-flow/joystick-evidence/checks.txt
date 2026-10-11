@@ -1,0 +1,15 @@
+
+> social-interactive-game@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json
+
+
+> social-interactive-game@0.0.0 lint
+> eslint .
+
+
+/workspace/3D-Social-interactive-game/src/input/FirstPersonController.ts
+  254:48  error  Invalid type "number" of template literal expression  @typescript-eslint/restrict-template-expressions
+  255:48  error  Invalid type "number" of template literal expression  @typescript-eslint/restrict-template-expressions
+
+✖ 2 problems (2 errors, 0 warnings)
+
