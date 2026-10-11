@@ -307,3 +307,39 @@ body {
     display: none;
   }
 }
+
+.movement-setting select {
+  min-height: 64px;
+  padding: 8px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--paper-edge);
+  border-radius: 12px;
+  font: inherit;
+}
+.movement-setting select:focus-visible {
+  outline: 4px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.movement-setting input[type='checkbox'] {
+  width: 64px;
+  height: 64px;
+  margin: 0 8px 0 0;
+  vertical-align: middle;
+}
+
+.performance-info {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(88px, calc(env(safe-area-inset-bottom) + 76px));
+  z-index: 2;
+  max-width: calc(100% - 228px);
+  margin: 0;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}

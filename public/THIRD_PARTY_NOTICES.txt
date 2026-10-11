@@ -56,3 +56,18 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+公園材質（Poly Haven，CC0 1.0）
+
+授權：https://polyhaven.com/license
+完整 CC0 文字：assets/park/CC0-1.0.txt
+來源、作者、檔案雜湊與修改：assets/park/manifest.json
+
+Grass Ground — Charlotte Baglioni
+Concrete Pavement — Charlotte Baglioni
+Wood Planks — Amal Kumar
+Bark Willow — Dario Barresi／Dimitrios Savva
+Tree Small 02 的葉片材質 — Rico Cilliers（不使用原模型）
+
+所有貼圖隨網站提供，不在執行時向 Poly Haven 連線。

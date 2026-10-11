@@ -85,6 +85,8 @@
         按住或拖曳圓盤向任意方向移動，放開停止。也可以展開設定使用單次移動按鈕。
       </p>
 
+      <p id="performance-info" class="performance-info" hidden>測量中…</p>
+
       <p id="npc-info" class="npc-info" hidden>小安在長椅上。</p>
 
       <details id="movement-controls" class="movement-controls" hidden>
@@ -103,6 +105,18 @@
             <button type="button" class="control" data-move="turn-right">向右看</button>
             <button type="button" class="control" data-move="stop">停止移動</button>
           </div>
+          <label class="movement-setting"
+            ><span
+              ><input id="performance-check" type="checkbox" />顯示流暢度數字（FPS）</span
+            ></label
+          >
+          <label class="movement-setting"
+            >場景細節
+            <select id="environment-detail" name="environment-detail">
+              <option value="standard">標準</option>
+              <option value="low">較少葉片</option>
+            </select>
+          </label>
           <label class="movement-setting"
             >移動速度（慢 → 快）<input
               type="range"

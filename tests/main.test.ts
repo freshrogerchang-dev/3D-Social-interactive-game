@@ -91,8 +91,12 @@ vi.mock('../src/ui/SafetyUI', () => ({
 class TestDocument extends EventTarget {
   visibilityState = 'visible';
   readonly canvases = new Set<object>();
+  readonly app = new EventTarget();
 
-  getElementById(id: string): object {
+  getElementById(id: string): object | null {
+    if (id === 'app') return this.app;
+    if (id === 'environment-detail' || id === 'performance-check' || id === 'performance-info')
+      return null;
     return id === 'stage'
       ? {
           append: (canvas: object) => this.canvases.add(canvas),

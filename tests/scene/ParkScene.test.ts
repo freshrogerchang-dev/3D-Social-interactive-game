@@ -1,4 +1,4 @@
-import { Mesh, MeshStandardMaterial, Texture } from 'three';
+import { InstancedMesh, Mesh, MeshStandardMaterial, Texture } from 'three';
 import type { WebGLProgramParametersWithUniforms, WebGLRenderer } from 'three';
 import { describe, expect, it } from 'vitest';
 import { ParkScene } from '../../src/scene/ParkScene';
@@ -53,6 +53,31 @@ describe('ParkScene', () => {
     expect(secondDisposals).toBe(1);
     expect(sourceDisposals).toBe(0);
     source.dispose();
+  });
+
+  it('環境 instance buffer 釋放一次，較少葉片確實降低幾何數', () => {
+    const park = new ParkScene();
+    const leaves = park.environment.root.getObjectByName('park-leaves');
+    expect(leaves).toBeInstanceOf(InstancedMesh);
+    if (!(leaves instanceof InstancedMesh)) throw new Error('需要葉片 instance');
+    expect(leaves.count).toBe(7800);
+    park.environment.setDetailLevel('low');
+    expect(leaves.count).toBe(3000);
+    park.environment.setDetailLevel('standard');
+    expect(leaves.count).toBe(7800);
+    let disposed = 0;
+    const instances: InstancedMesh[] = [];
+    park.environment.root.traverse((object) => {
+      if (object instanceof InstancedMesh) instances.push(object as InstancedMesh);
+    });
+    for (const instance of instances)
+      instance.addEventListener('dispose', () => {
+        disposed += 1;
+      });
+    park.dispose();
+    park.dispose();
+    expect(disposed).toBe(instances.length);
+    expect(park.environment.root.children).toHaveLength(0);
   });
 
   it('包含地面與安全標記', () => {

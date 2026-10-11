@@ -33,6 +33,30 @@ async function runningEngine() {
 }
 
 describe('GameEngine 生命週期', () => {
+  it('FPS 使用真實時間而非被上限截斷的模擬 delta，暫停不算入下一次量測', async () => {
+    let now = 0;
+    vi.spyOn(performance, 'now').mockImplementation(() => now);
+    const samples: number[] = [];
+    const { engine, scheduler, canvas } = setup({ onPerformance: (fps) => samples.push(fps) });
+    await engine.init(canvas);
+    engine.setPerformanceMonitoring(true);
+    engine.start();
+    scheduler.tick(0);
+    now = 1000;
+    scheduler.tick(1000);
+    expect(samples).toEqual([2]);
+    expect(engine.elapsed).toBe(0.05);
+    engine.pause();
+    now = 5000;
+    scheduler.tick(5000);
+    expect(samples).toEqual([2]);
+    engine.resume();
+    now = 6000;
+    scheduler.tick(6000);
+    expect(samples).toEqual([2, 1]);
+    engine.dispose();
+  });
+
   it('依序經過 initializing → ready → running', async () => {
     const { engine, states, canvas, renderer } = setup();
     const result = await engine.init(canvas);

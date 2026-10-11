@@ -4,6 +4,7 @@ import {
   Color,
   DirectionalLight,
   HemisphereLight,
+  Fog,
   LineBasicMaterial,
   LineLoop,
   Mesh,
@@ -15,6 +16,7 @@ import {
   Texture,
   Vector3,
 } from 'three';
+import { ParkEnvironment } from './ParkEnvironment';
 import { SeatedNPC } from '../npc/SeatedNPC';
 import { PARK_LIMIT } from '../input/FirstPersonController';
 
@@ -25,17 +27,18 @@ const CAMERA_FOV = 60;
 
 // 顏色維持低飽和（HSL S ≤ 0.6，S1 預設）。
 const SKY_COLOR = new Color().setHSL(205 / 360, 0.35, 0.82);
-const GROUND_COLOR = new Color().setHSL(100 / 360, 0.3, 0.42);
+const GROUND_COLOR = new Color().setHSL(100 / 360, 0.42, 0.73);
 const MARKER_COLOR = new Color().setHSL(40 / 360, 0.45, 0.72);
 const MARKER_EDGE_COLOR = new Color().setHSL(40 / 360, 0.35, 0.92);
 
 /**
  * 單一公園場景：地面、安全標記、相機與柔和光照。
- * 材質用 PBR（MeshStandardMaterial），之後可接寫實素材（Q6）；不做陰影、粒子、模糊或晃動。
+ * 材質用 PBR（MeshStandardMaterial），之後可接寫實素材（Q6）；不做即時陰影、粒子、模糊或晃動。
  */
 export class ParkScene {
   readonly scene = new Scene();
   readonly npc = new SeatedNPC();
+  readonly environment: ParkEnvironment;
   readonly camera = new PerspectiveCamera(CAMERA_FOV, 1, 0.1, 500);
 
   private readonly geometries = [
@@ -54,19 +57,41 @@ export class ParkScene {
     new Vector3(PARK_LIMIT, 0.03, PARK_LIMIT),
     new Vector3(-PARK_LIMIT, 0.03, PARK_LIMIT),
   ]);
-  private readonly boundaryMaterial = new LineBasicMaterial({ color: MARKER_EDGE_COLOR });
+  private readonly boundaryMaterial = new LineBasicMaterial({
+    color: new Color().setHSL(40 / 360, 0.12, 0.45),
+  });
   private disposed = false;
   private dfgTexture: Texture | null = null;
   private dfgSourceId: string | null = null;
 
-  constructor() {
+  constructor(loadTextures = false) {
+    this.environment = new ParkEnvironment(this.materials[0], this.npc.materials[4], loadTextures);
     this.scene.background = SKY_COLOR;
+    this.scene.fog = new Fog(SKY_COLOR, 28, 95);
 
     // three 0.186.1 的共用 DFG_LUT 會保留各 context 的 dispose listener。
     // 透過公開材質 hook／uniform value，讓 renderer 上傳本場景擁有的 clone；
     // 不修改共用貼圖，其他場景的 context 仍可獨立使用與釋放。
-    for (const material of [...this.materials, ...this.npc.materials]) {
+    for (const material of [
+      ...this.materials,
+      ...this.npc.materials,
+      ...this.environment.materials,
+    ]) {
       material.onBeforeCompile = (shader) => {
+        // 實拍素材也限制表面 HSL 飽和度；不做畫面後製。
+        if (typeof shader.fragmentShader === 'string') {
+          shader.fragmentShader = shader.fragmentShader.replace(
+            '#include <color_fragment>',
+            `
+            #include <color_fragment>
+            float parkMax = max(diffuseColor.r, max(diffuseColor.g, diffuseColor.b));
+            float parkMin = min(diffuseColor.r, min(diffuseColor.g, diffuseColor.b));
+            float parkLight = (parkMax + parkMin) * 0.5;
+            float parkSat = (parkMax - parkMin) / max(0.00001, 1.0 - abs(2.0 * parkLight - 1.0));
+            diffuseColor.rgb = mix(vec3(parkLight), diffuseColor.rgb, min(1.0, 0.6 / max(0.00001, parkSat)));
+          `,
+          );
+        }
         if (!shader.uniforms['dfgLUT']) return;
         const uniform: { value: Texture | null } = { value: null };
         Object.defineProperty(uniform, 'value', {
@@ -103,13 +128,13 @@ export class ParkScene {
     edge.rotation.x = -Math.PI / 2;
     edge.position.y = 0.012;
 
-    const sky = new HemisphereLight(0xf2f5f7, 0x6b7a5a, 1.2);
-    const sun = new DirectionalLight(0xfff4e5, 1.4);
+    const sky = new HemisphereLight(0xf2f5f7, 0x6b7a5a, 2.2);
+    const sun = new DirectionalLight(0xfff4e5, 2.4);
     sun.position.set(4, 8, 3);
 
     const boundary = new LineLoop(this.boundaryGeometry, this.boundaryMaterial);
     boundary.name = 'park-boundary';
-    this.scene.add(ground, marker, edge, sky, sun, boundary, this.npc.root);
+    this.scene.add(ground, marker, edge, sky, sun, boundary, this.npc.root, this.environment.root);
     this.resetToSafety();
   }
 
@@ -134,6 +159,7 @@ export class ParkScene {
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
     this.npc.dispose();
+    this.environment.dispose();
     this.boundaryGeometry.dispose();
     this.boundaryMaterial.dispose();
     this.dfgTexture?.dispose();

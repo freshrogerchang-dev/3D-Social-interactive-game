@@ -28,11 +28,31 @@ export class SeatedNPC {
     this.root.name = 'park-friend';
     this.root.position.set(this.obstacle.x, 0, this.obstacle.z);
     const [skin, shirt, trousers, hair, wood] = this.materials;
-    this.addPart('bench-seat', new BoxGeometry(1.8, 0.1, 0.46), wood, 0, 0.45, 0);
-    this.addPart('bench-back', new BoxGeometry(1.8, 0.5, 0.08), wood, 0, 0.75, -0.25);
+    for (let slat = 0; slat < 4; slat += 1) {
+      this.addPart(
+        'bench-seat',
+        new BoxGeometry(1.8, 0.065, 0.105),
+        wood,
+        0,
+        0.45,
+        -0.18 + slat * 0.12,
+      );
+      this.addPart(
+        'bench-back',
+        new BoxGeometry(1.8, 0.1, 0.065),
+        wood,
+        0,
+        0.61 + slat * 0.13,
+        -0.25,
+      );
+    }
+    for (const x of [-0.82, 0.82]) {
+      this.addPart('bench-arm', new BoxGeometry(0.08, 0.06, 0.46), wood, x, 0.65, 0);
+      this.addPart('bench-arm-support', new BoxGeometry(0.06, 0.2, 0.06), wood, x, 0.54, 0.12);
+    }
     for (const x of [-0.7, 0.7]) {
       for (const z of [-0.15, 0.15])
-        this.addPart('bench-leg', new BoxGeometry(0.09, 0.4, 0.09), wood, x, 0.2, z);
+        this.addPart('bench-leg', new BoxGeometry(0.09, 0.4, 0.09), hair, x, 0.2, z);
     }
     this.addPart('body', new CapsuleGeometry(0.15, 0.2, 4, 12), shirt, 0, 0.72, 0);
     this.addPart('head', new SphereGeometry(0.15, 16, 12), skin, 0, 1.06, 0);

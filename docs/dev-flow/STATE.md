@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-11（依使用者更正，方向按鈕改為同心圓全方向搖桿）
+最後更新：2026-10-11（公園環境擬真第一版與本機 FPS／葉片細節選項）
 
 ## 一句話目標
 
@@ -284,3 +284,14 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - Node 22.22.0 五項檢查各 exit 0、57 項單元通過；原始碼八方向整合 18/18、真正 production 觸控 10/10。證據 joystick-evidence；詳細紀錄 joystick-build-log.md。實機 iPhone 搖桿尚待回報。
 
 - 同心圓搖桿提交 463ede0 已發布，Actions run 38103017974 success；公開觸控 10/10、exit 0，新版 JS／CSS 已確認。證據 joystick-evidence/published；手機同心圓新版實測待使用者回報。
+
+
+## 公園環境擬真第一版（2026-10-11）
+
+- 使用者同意先改善公園環境及手機效能檢查。新增實拍草地、步道、木紋長椅、12 株靜止樹木及靜態接觸陰影；小安維持工程人形，不進 Phase 4。
+- 素材 10 張 1k JPG／8.36 MB，來源 Poly Haven CC0，作者、來源、雜湊與修改見 public/assets/park/manifest.json；完整授權隨網站提供。完整樹木候選模型 46–958 MB，沒有下載，改為共享幾何與 instance 葉片。
+- 設定「較少葉片」降低 7800 至 3000；可選 FPS 本機顯示，收合設定仍能移動查看。不蒐集、不傳送、不儲存。素材非阻塞載入，缺檔保留底色，晚到不修改已結束場景；維持單一 RAF、安全控制與同心圓搖桿。
+- 五項檢查各 exit 0、59 項單元通過；公園原始碼 9/9、production 觸控 10/10、缺檔／晚到 6/6、WebGL 安全 15/15。詳見 park-build-log.md 與 park-evidence。雲端 SwiftShader 不當作 iPhone 效能驗收。
+- 下一步在 iPhone 12 比較標準／較少葉片的 FPS、卡頓與載入；完整 S5、報讀器、其他實機、專業審查仍未完成。
+
+- 公園 20 次重建資源檢查 11/11、exit 0；結束 canvas／pending RAF=0、detached CANVAS=0、listener 第 5–20 次未持續增加。最後僅視覺與 FPS 顯示位置調整後另跑五項與整合／production；詳見 park-build-log.md。

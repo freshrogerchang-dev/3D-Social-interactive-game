@@ -1,0 +1,129 @@
+{
+  "source": "https://polyhaven.com/license",
+  "license": "CC0-1.0",
+  "files": [
+    {
+      "file": "grass_ground-color.jpg",
+      "asset": "grass_ground",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_diff_1k.jpg",
+      "bytes": 876584,
+      "sha256": "a79cc5ed65af0f80261b39a383b64a8c5272c5144d724deb43dbc29f0e4cd19b",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "grass_ground-normal.jpg",
+      "asset": "grass_ground",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_nor_gl_1k.jpg",
+      "bytes": 1310516,
+      "sha256": "7000e2ccd479bb7b66dcdf4faef7b47554324566886314ca620cbf03e274e826",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "concrete_pavement-color.jpg",
+      "asset": "concrete_pavement",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavement/concrete_pavement_diff_1k.jpg",
+      "bytes": 926197,
+      "sha256": "70d3ff969a7421c7ae057b5d16386d11f5e59c6740db643352e1039413f419c4",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "concrete_pavement-normal.jpg",
+      "asset": "concrete_pavement",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavement/concrete_pavement_nor_gl_1k.jpg",
+      "bytes": 1184345,
+      "sha256": "a5009e409ff0f7b2d19e1316fe5e2b2b4f28e4a6b79990a664be69d4e8a0e690",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "wood_planks-color.jpg",
+      "asset": "wood_planks",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_planks/wood_planks_diff_1k.jpg",
+      "bytes": 609525,
+      "sha256": "3b0669f683e4bf10f5a55a381cfa9669a7b8dfd921901829daa3b35acc2bbdec",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "wood_planks-normal.jpg",
+      "asset": "wood_planks",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_planks/wood_planks_nor_gl_1k.jpg",
+      "bytes": 652441,
+      "sha256": "d02abf113e17a8abe97e1be3e9d6d88add242e8c2291e2200d37aa8c68909f25",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "bark_willow-color.jpg",
+      "asset": "bark_willow",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/bark_willow/bark_willow_diff_1k.jpg",
+      "bytes": 779438,
+      "sha256": "c7de3072c2320934a3d9f5bc6c9cb58819952c0b3bd04f4e71b24cf89dbb6ad6",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "bark_willow-normal.jpg",
+      "asset": "bark_willow",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/bark_willow/bark_willow_nor_gl_1k.jpg",
+      "bytes": 1438304,
+      "sha256": "9d5a771315a85c2d890526af9826843e7967ed3330da49bef7e86c3e5a6c0b6a",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "leaves-color.jpg",
+      "asset": "tree_small_02",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_leaves_diff_1k.jpg",
+      "bytes": 340003,
+      "sha256": "261e7d7a5ac7d2e16ea8823ff8510be8f3f615999724232994039ad2885e5c36",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "leaves-alpha.jpg",
+      "asset": "tree_small_02",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_leaves_alpha_1k.jpg",
+      "bytes": 245083,
+      "sha256": "66d49e18d043c483d0f4a8638f379ec164e30a61e9c10e60384e72815ca0bb40",
+      "license": "CC0-1.0"
+    }
+  ],
+  "assets": [
+    {
+      "id": "grass_ground",
+      "source": "https://polyhaven.com/a/grass_ground",
+      "authors": {
+        "Charlotte Baglioni": "All"
+      },
+      "changes": "使用原始 1k JPG；tree_small_02 僅取葉片材質，使用左側 UV；不使用原模型。"
+    },
+    {
+      "id": "concrete_pavement",
+      "source": "https://polyhaven.com/a/concrete_pavement",
+      "authors": {
+        "Charlotte Baglioni": "All"
+      },
+      "changes": "使用原始 1k JPG；tree_small_02 僅取葉片材質，使用左側 UV；不使用原模型。"
+    },
+    {
+      "id": "wood_planks",
+      "source": "https://polyhaven.com/a/wood_planks",
+      "authors": {
+        "Amal Kumar": "All"
+      },
+      "changes": "使用原始 1k JPG；tree_small_02 僅取葉片材質，使用左側 UV；不使用原模型。"
+    },
+    {
+      "id": "bark_willow",
+      "source": "https://polyhaven.com/a/bark_willow",
+      "authors": {
+        "Dario Barresi": "Processing",
+        "Dimitrios Savva": "Photography"
+      },
+      "changes": "使用原始 1k JPG；tree_small_02 僅取葉片材質，使用左側 UV；不使用原模型。"
+    },
+    {
+      "id": "tree_small_02",
+      "source": "https://polyhaven.com/a/tree_small_02",
+      "authors": {
+        "Rico Cilliers": "All"
+      },
+      "changes": "使用原始 1k JPG；tree_small_02 僅取葉片材質，使用左側 UV；不使用原模型。"
+    }
+  ]
+}

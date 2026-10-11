@@ -1,0 +1,55 @@
+v22.22.0
+
+> social-interactive-game@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json
+
+EXIT 0
+
+> social-interactive-game@0.0.0 lint
+> eslint .
+
+EXIT 0
+
+> social-interactive-game@0.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+EXIT 0
+
+> social-interactive-game@0.0.0 test
+> vitest run
+
+
+ RUN  v5.0.3 /workspace/3D-Social-interactive-game
+
+
+ Test Files  6 passed (6)
+      Tests  59 passed (59)
+   Start at  04:10:57
+   Duration  3.09s (tests 59%, transform 22%, import 18%, worker 1%)
+
+    Isolate  6 workers spawned · ~149ms startup each (spawn + environment, per file)
+             at least ~747ms faster with isolate: false — reuses workers across files instead of one per file
+
+EXIT 0
+
+> social-interactive-game@0.0.0 build
+> vite build
+
+vite v8.3.3 building client environment for production...
+transforming...
+✓ 15 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   6.66 kB │ gzip:   2.06 kB
+dist/assets/index-7qj7IP34.css    5.21 kB │ gzip:   1.63 kB
+dist/assets/index-C6tcHzUA.js   576.40 kB │ gzip: 145.82 kB
+
+✓ built in 486ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+EXIT 0

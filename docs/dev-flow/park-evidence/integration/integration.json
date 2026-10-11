@@ -1,0 +1,51 @@
+{
+  "node": "v22.22.0",
+  "sourceProbe": true,
+  "checks": [
+    {
+      "name": "十張 CC0 材質全部載入且無失敗",
+      "pass": true
+    },
+    {
+      "name": "共享幾何減少繪製批次，初始可見場景低於80批次與40000三角形",
+      "pass": true,
+      "evidence": {
+        "calls": 44,
+        "triangles": 22396,
+        "textures": 12,
+        "geometries": 44
+      }
+    },
+    {
+      "name": "步道、十二株樹木與木紋長椅存在",
+      "pass": true
+    },
+    {
+      "name": "較少葉片將7800降至3000且保留所有樹的位置",
+      "pass": true
+    },
+    {
+      "name": "FPS 可選開啟且使用原 RAF 更新",
+      "pass": true,
+      "evidence": "目前約 6 FPS"
+    },
+    {
+      "name": "材質載入後暫停畫面不動",
+      "pass": true
+    },
+    {
+      "name": "結束釋放環境 root 與 canvas",
+      "pass": true
+    },
+    {
+      "name": "重建只有一個公園與canvas",
+      "pass": true
+    },
+    {
+      "name": "沒有未處理例外",
+      "pass": true,
+      "evidence": []
+    }
+  ],
+  "errors": []
+}

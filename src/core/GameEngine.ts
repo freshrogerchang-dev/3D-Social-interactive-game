@@ -29,11 +29,13 @@ export type ErrorReason = 'init-failed' | 'context-lost' | 'render-failed';
 
 export interface GameEngineOptions {
   readonly rendererFactory?: RendererFactory;
+  readonly loadEnvironmentTextures?: boolean;
   readonly scheduler?: FrameScheduler;
   readonly settings?: EngineSettings;
   readonly getDevicePixelRatio?: () => number;
   readonly onStateChange?: (state: EngineState) => void;
   readonly onNPCPresence?: (near: boolean) => void;
+  readonly onPerformance?: (fps: number) => void;
   readonly onError?: (reason: ErrorReason, error: unknown) => void;
 }
 
@@ -58,6 +60,9 @@ export class GameEngine {
   private park: ParkScene | null = null;
   private movement: FirstPersonController | null = null;
   private npcNear: boolean | null = null;
+  private monitoring = false;
+  private monitorStart = 0;
+  private monitorFrames = 0;
   private readonly loop: RenderLoop;
   private readonly rendererFactory: RendererFactory;
   private readonly settings: EngineSettings;
@@ -152,6 +157,16 @@ export class GameEngine {
     }
   }
 
+  setPerformanceMonitoring(enabled: boolean): void {
+    this.monitoring = enabled;
+    this.monitorStart = performance.now();
+    this.monitorFrames = 0;
+  }
+
+  setEnvironmentDetail(level: 'low' | 'standard'): void {
+    this.park?.environment.setDetailLevel(level);
+  }
+
   private applySize(): void {
     if (!this.renderer || !this.park || this.width <= 0 || this.height <= 0) return;
     this.renderer.setPixelRatio(this.pixelRatio());
@@ -176,7 +191,7 @@ export class GameEngine {
     let park: ParkScene | null = null;
     let renderer: RendererLike | null = null;
     try {
-      park = new ParkScene();
+      park = new ParkScene(this.options.loadEnvironmentTextures ?? false);
       renderer = await this.rendererFactory(canvas);
 
       // 初始化期間被 dispose：晚到的資源直接釋放，不能再啟動。
@@ -214,6 +229,8 @@ export class GameEngine {
   }
 
   private runLoop(): void {
+    this.monitorStart = performance.now();
+    this.monitorFrames = 0;
     this.movement?.setEnabled(true);
     this.setState('running');
     this.loop.start(this.frame);
@@ -225,6 +242,15 @@ export class GameEngine {
       this.movement?.update(delta);
       this.updateNPCPresence();
       this.renderOnce();
+      if (this.monitoring) {
+        this.monitorFrames += 1;
+        const elapsed = performance.now() - this.monitorStart;
+        if (elapsed >= 1000) {
+          this.options.onPerformance?.(Math.round((this.monitorFrames * 1000) / elapsed));
+          this.monitorStart = performance.now();
+          this.monitorFrames = 0;
+        }
+      }
     } catch (error: unknown) {
       this.handleRenderError(error);
     }

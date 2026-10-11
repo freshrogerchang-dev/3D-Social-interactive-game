@@ -1,0 +1,29 @@
+{
+  "node": "v22.22.0",
+  "checks": [
+    {
+      "name": "missing：安全操作不等待十張材質",
+      "pass": true
+    },
+    {
+      "name": "missing：失敗或晚到貼圖不重建已結束場景",
+      "pass": true
+    },
+    {
+      "name": "missing：沒有未處理例外",
+      "pass": true
+    },
+    {
+      "name": "late：安全操作不等待十張材質",
+      "pass": true
+    },
+    {
+      "name": "late：失敗或晚到貼圖不重建已結束場景",
+      "pass": true
+    },
+    {
+      "name": "late：沒有未處理例外",
+      "pass": true
+    }
+  ]
+}

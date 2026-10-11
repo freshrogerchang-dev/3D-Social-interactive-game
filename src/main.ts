@@ -46,7 +46,30 @@ function syncView(): void {
   if (!engine) return;
   const view = viewFor(engine.state);
   if (view) ui.render(view);
+  const output = document.getElementById('performance-info');
+  const checkbox = document.getElementById('performance-check');
+  if (output && checkbox instanceof HTMLInputElement)
+    output.hidden = engine.state !== 'running' || !checkbox.checked;
 }
+
+function applyEnvironmentDetail(): void {
+  const select = document.getElementById('environment-detail');
+  if (select && select instanceof HTMLSelectElement)
+    engine?.setEnvironmentDetail(select.value === 'low' ? 'low' : 'standard');
+  const checkbox = document.getElementById('performance-check');
+  if (checkbox && checkbox instanceof HTMLInputElement) {
+    engine?.setPerformanceMonitoring(checkbox.checked);
+    const output = document.getElementById('performance-info');
+    if (output) output.hidden = !checkbox.checked;
+  }
+}
+app.addEventListener('change', (event) => {
+  if (
+    event.target instanceof Element &&
+    ['environment-detail', 'performance-check'].includes(event.target.id)
+  )
+    applyEnvironmentDetail();
+});
 
 function teardown(): void {
   engine?.dispose();
@@ -74,11 +97,17 @@ async function startSession(): Promise<void> {
   stage.append(nextCanvas);
 
   const current = new GameEngine({
+    loadEnvironmentTextures: true,
     onStateChange: () => {
       if (engine === current) syncView();
     },
     onNPCPresence: (near) => {
       if (engine === current) ui.renderNPCPresence(near);
+    },
+    onPerformance: (fps) => {
+      if (engine !== current) return;
+      const output = document.getElementById('performance-info');
+      if (output) output.textContent = `目前約 ${String(fps)} FPS`;
     },
     onError: (reason, error) => {
       console.error(`[GameEngine] ${reason}`, error);
@@ -94,6 +123,7 @@ async function startSession(): Promise<void> {
   try {
     const result = await current.init(nextCanvas);
     if (engine !== current || !result.ok) return;
+    applyEnvironmentDetail();
     if (isPageHidden()) {
       takeOver('rest');
       return;
