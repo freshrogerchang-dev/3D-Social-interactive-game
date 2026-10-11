@@ -3,7 +3,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 const require = createRequire(`${process.env.PLAYWRIGHT_MODULE_DIR}/`);
 const { chromium } = require('playwright-core');
-const out = 'docs/dev-flow/npc-friendly-evidence';
+const out = process.argv[2] || 'docs/dev-flow/npc-friendly-evidence';
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 try {

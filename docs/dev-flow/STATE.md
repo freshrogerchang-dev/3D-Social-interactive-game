@@ -1,6 +1,6 @@
 # Social-interactive-game — Dev-Flow State
 
-最後更新：2026-10-11（本機每字右側直排注音；語音另做）
+最後更新：2026-10-11（新版已發布 GitHub Pages；語音另做）
 
 ## 一句話目標
 
@@ -335,3 +335,16 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 依使用者指示，對話與打招呼按鈕的注音由上方改到每個漢字右側，符號直排、聲調在旁、輕聲置頂；一字一組不拆開，保留中文名稱與捲動。
 - 五項檢查各 exit 0，70 單元、24 正式 dist 互動／排版、15 安全回歸通過。手機尺寸截圖已人工檢視；詳見 zhuyin-right-build-log.md 與 zhuyin-right-evidence。
 - 本機未發布，新版 iPhone／Safari／VoiceOver 未實測；語音另做、Phase 5 未開始、完整 S5 未通過。下一步本機與手機排版複測。
+
+## 2026-10-11 暫時發布 GitHub Pages
+
+- 使用者授權暫時發布。產品提交 a97c2f2b6e3b6d1b4135cb6f29d66ef0ab7d5422 已推送 main-uv12jr；沿用原 Pages workflow，未更改發布設定。
+- Actions 38149508753 completed/success：https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/38149508753 。公開 HTML、JS index-DTYWLPM1.js、CSS index-DMPMRFGz.css 均 HTTP 200。
+- 公開網址 https://freshrogerchang-dev.github.io/3D-Social-interactive-game/?v=a97c2f2 已用 Chrome 154／SwiftShader 驗證 24/24 互動排版與 15/15 安全回歸，無未處理 pageerror。公開手機尺寸截圖已人工檢視，右側注音與新人物均可見；證據 pages-release-evidence。
+- 歷史段落所述未發布狀態已由本次發布更新。本段與公開驗證證據保留本機，產品提交已完成發布。
+- 語音另做；iPhone／Safari／VoiceOver 實機尚未驗證，完整 S5 未通過，Phase 5 未開始。下一步為 iPhone 重新整理與使用者實機複測。
+## 2026-10-12 人物自然比例與細節
+- 本機完成平滑臉型、自然手指／手腕／坐姿、連續褲管與袖口／衣襬／鞋帶細節，保留和藹風格。
+- 五項工程檢查、70 單元、24/24 正式 dist 互動排版、15/15 安全回歸完成；手機／桌面與動作畫面已檢視。詳見 npc-natural-build-log.md、npc-natural-evidence。
+- 使用者授權跑完先推送，準備提交 main-uv12jr 並沿用 Pages workflow。
+- 語音另做，Phase 5 未開始；iPhone／Safari／VoiceOver 與真實 GPU 效能尚未驗證。

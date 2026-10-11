@@ -110,3 +110,6 @@ npm ls --depth=0                                              → exit 0（無 i
 ## 2026-10-11 右側注音排版
 
 依使用者要求改成每字右側直排注音，聲調在旁、輕聲置頂。五項檢查／70 單元／24 互動排版／15 安全回歸通過；詳見 [zhuyin-right-build-log.md](zhuyin-right-build-log.md)。本機未發布，新版實機與旁白待驗證。
+
+## 2026-10-12 人物自然比例與細節
+依使用者要求改善臉、手腳、衣服與坐姿；詳見 [npc-natural-build-log.md](npc-natural-build-log.md)。使用者授權檢查完推送，語音另做。
