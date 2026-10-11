@@ -7,7 +7,7 @@ const out = process.argv[2] || '/tmp/phase4-evidence';
 await mkdir(out, {recursive:true});
 const checks=[];
 const check=(name, pass)=>{checks.push({name,pass});console.log(`${pass?'PASS':'FAIL'} ${name}`);};
-const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE_PATH,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE_PATH,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader'], ...(process.env.PHASE4_URL && process.env.HTTPS_PROXY ? {proxy:{server:process.env.HTTPS_PROXY}} : {})});
 try {
  const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true});
  if (!process.env.PHASE4_URL) await context.route('**/*',async route=>{

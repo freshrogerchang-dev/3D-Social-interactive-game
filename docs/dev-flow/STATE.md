@@ -123,9 +123,9 @@ GitHub Pages（2026-10-08 使用者同意新增與公開發布）：`.github/wor
 
 ## 下一步
 
-1. F1–F4 修正已提交 `ab28b9a`；Actions run 37952794274 build／deploy success。但本輪實讀 Pages 仍為 `/src/main.ts` 原始 HTML，另有 Jekyll run 37952793354，不能算線上可用。使用者已改為 GitHub Actions，重新發布後線上 22＋15 項通過，詳見下方「Pages 修正驗證」。
-2. F6／F7 修正及回歸已完成，詳見 05-extended-review.md §7；持有鏈已定位為 three 共用 DFG_LUT 的 dispose listener；F8 現在由各場景擁有 LUT 副本；本地 20 次重建 GC 後 detached canvas=0，雙 context 及像素對照通過，紀錄見 05-lut-fix-log.md。
-3. 使用者已明確指定 Phase 2，現已完成第一人稱移動工程實作；依 phase2-build-log.md 測新版移動與既有安全操作。S5 的原生文字縮放、報讀器、效能、其他實機與專業審查仍待完成。使用者最新回覆「都正常 請繼續」，接續 Phase 3 工程版；完成後不自動進 Phase 4。
+1. 以 iPhone 12 複測 Phase 4 文字工程版：說你好／點頭、幫助與暫停恢復、先不參與、返回安全區及橫向捲動。步驟見 phase4-build-log.md。
+2. 下一輪再決定 Phase 4 注音／靜態選項圖示／語音製作或其他明確範圍；專業內容審查仍待完成。不自動進 Phase 5。
+3. 完整 S5 的原生文字縮放、旁白、跨瀏覽器、量化效能及專業審查仍待完成；先前 F1–F8 修正與回歸紀錄保留在各工程 log。
 
 Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只完成骨架，不是可玩 MVP；不宣稱療效或已核准兒童使用。
 
@@ -305,6 +305,8 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。S4 只
 - 使用者明確指定 Phase 4。新增靠近後手動打招呼、「說你好／點頭／先不參與」、中性回饋、再練一次、換個方式、幫助／再看一次與回公園。
 - 互動停住移動，暫停／恢復保留節點及幫助焦點；返回安全區退出、重新開始清除。只記憶體中的最近結果，沒有資料累計／儲存／傳送。
 - Node 22.22.0、npm 10.9.4：五項檢查各 exit 0，7 檔 65 測試通過。build 581.59kB／gzip147.81kB，chunk 大小警告保留。
-- 文字工程版，未制作語音、注音、選項圖示與角色揮手／點頭動畫；完整 Q3、實機、旁白及專業審查待驗證。不進 Phase 5。
+- 文字工程版，未製作語音、注音、選項圖示與角色揮手／點頭動畫；完整 Q3、實機、旁白及專業審查待驗證。不進 Phase 5。
 
 - 正式 dist 對話檢查 18/18 exit 0；WebGL 不可用／context lost 安全回歸 15/15 exit 0。證據 phase4-evidence；完整紀錄 phase4-build-log.md。新版互動待 iPhone 實測。
+
+- 產品提交 0047752ab819e7db63400cd32cb01e7d3766a230；Actions run 38125486147 build／deploy success。公開 Pages 對話檢查 18/18 exit 0，證據 phase4-evidence/published。網站 https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。使用者尚未實測新版對話。

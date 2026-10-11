@@ -34,3 +34,28 @@ node docs/dev-flow/phase4-browser.mjs /tmp/phase4-evidence
 初次 17/18：實際抓到幫助畫面暫停後焦點未恢復；產品已加入面板 focusin 記錄，不放寬檢查。修正後 18/18 exit 0，見 phase4-evidence/browser/result.json。另跑 `s5-local-dist-runner.mjs s5-runtime-browser.mjs http://s5.local/ /tmp/phase4-safety`：15/15 exit 0，涵蓋真實 WEBGL_lose_context extension、不可用 WebGL、三種输入與放大文字／短畫面。
 
 實機 Phase 4、旁白、其他瀏覽器、專業審查均未驗證。使用者本輪之前回報 iPhone 12 Chrome 公園、移動／轉向「都很順暢」；僅為使用者觀察，沒有 FPS 數值，不能延伸為新版對話已通過。
+
+## iPhone 12 手動複測
+
+重新整理公開網站；走近小安後按「打招呼」。依序試：
+
+1. 說你好 → 換個方式 → 回到開始 → 點頭：比較相同小安回應及選項。
+2. 幫助 → 暫停 → 繼續 → 關閉幫助：應回到原節點。
+3. 再練一次 → 先不參與 → 好 → 回公園：圓盤應恢復，沒有評價語。
+4. 任何節點按返回安全區 → 繼續：不應重新顯示舊對話。
+5. 轉橫向，捲動面板：頂部暫停／返回安全區仍可按。
+
+「說你好」是選擇按鈕，不需要對手機說話；本版沒有聲音或麥克風。
+
+## 公開發布證據
+
+產品提交 `0047752ab819e7db63400cd32cb01e7d3766a230` 已推到 main-uv12jr；GitHub Actions run [38125486147](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/38125486147) 的 build／deploy success。使用既有代理存取實際 Pages：
+
+```bash
+PHASE4_URL=https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ \
+PLAYWRIGHT_MODULE_DIR=/opt/codex/runtimes/cua/lib/node_modules \
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium \
+node docs/dev-flow/phase4-browser.mjs /tmp/phase4-published
+```
+
+18/18 exit 0，見 phase4-evidence/published/result.json 與手機尺寸截圖。沒有對公開程式注入探針。這是雲端 Chromium 軟體 WebGL，不代表 iPhone／旁白／專業內容審查通過。後續文件提交也會觸發既有 workflow，但沒有修改產品內容。
