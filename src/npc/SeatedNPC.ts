@@ -15,6 +15,7 @@ import {
   TorusGeometry,
 } from 'three';
 import type { BufferGeometry, Vector3Like } from 'three';
+import { createFriendlyFaceTexture } from './FriendlyFaceTexture';
 import type { CircularObstacle } from '../input/FirstPersonController';
 
 /** 單一坐姿工程人形；僅明確互動觸發單次動作，不追人或追蹤視線。 */
@@ -33,8 +34,10 @@ export class SeatedNPC {
     new MeshStandardMaterial({ color: new Color().setHSL(40 / 360, 0.4, 0.64), roughness: 0.95 }),
     new MeshStandardMaterial({ color: new Color().setHSL(155 / 360, 0.18, 0.53), roughness: 1 }),
     new MeshStandardMaterial({ color: new Color().setHSL(215 / 360, 0.12, 0.3), roughness: 1 }),
+    new MeshStandardMaterial({ color: 0xffffff, roughness: 0.95 }),
   ] as const;
   private readonly geometries: BufferGeometry[] = [];
+  private readonly faceTexture = createFriendlyFaceTexture();
   private disposed = false;
   private gesture: 'wave' | 'nod' | null = null;
   private gestureTime = 0;
@@ -45,8 +48,19 @@ export class SeatedNPC {
   constructor() {
     this.root.name = 'park-friend';
     this.root.position.set(this.obstacle.x, 0, this.obstacle.z);
-    const [skin, shirt, trousers, hair, wood, ivory, eyes, blush, accent, clothShade, seam] =
+    const [skin, shirt, trousers, hair, wood, ivory, , , accent, clothShade, seam, faceMaterial] =
       this.materials;
+    skin.color.setHex(0xeeb694);
+    skin.emissive.setHex(0xb87251);
+    skin.emissiveIntensity = 0.22;
+    faceMaterial.map = this.faceTexture;
+    faceMaterial.emissive.setHex(0xffffff);
+    faceMaterial.emissiveMap = this.faceTexture;
+    faceMaterial.emissiveIntensity = 0.18;
+    shirt.color.setHex(0x769ba2);
+    clothShade.color.setHex(0x66838c);
+    hair.color.setHex(0x63452f);
+    trousers.color.setHex(0x526780);
     for (let slat = 0; slat < 4; slat += 1) {
       this.addPart(
         'bench-seat',
@@ -134,6 +148,33 @@ export class SeatedNPC {
         0,
         0,
       );
+    const softLimb = (
+      name: string,
+      material: MeshStandardMaterial,
+      points: readonly (readonly [number, number, number])[],
+      radius: number,
+      taper: number,
+    ): Mesh => {
+      const path = new CatmullRomCurve3(points.map((point) => new Vector3(...point)));
+      const geometry = new TubeGeometry(path, 24, radius, 16, false);
+      const vertices = geometry.getAttribute('position');
+      const anchor = path.getPointAt(0.5);
+      for (let ring = 0; ring <= 24; ring++) {
+        const center = path.getPointAt(ring / 24);
+        const factor = 1 - taper * (ring / 24);
+        for (let radial = 0; radial <= 16; radial++) {
+          const i = ring * 17 + radial;
+          vertices.setXYZ(
+            i,
+            center.x + (vertices.getX(i) - center.x) * factor - anchor.x,
+            center.y + (vertices.getY(i) - center.y) * factor - anchor.y,
+            center.z + (vertices.getZ(i) - center.z) * factor - anchor.z,
+          );
+        }
+      }
+      geometry.computeVertexNormals();
+      return this.addPart(name, geometry, material, anchor.x, anchor.y, anchor.z);
+    };
     const torso = this.addPart(
       'body',
       profile([
@@ -166,28 +207,7 @@ export class SeatedNPC {
       ],
       0.003,
     );
-    for (const side of [-1, 1]) {
-      curve(
-        'shirt-fold',
-        clothShade,
-        [
-          [side * 0.12, 0.63, 0.071],
-          [side * 0.07, 0.646, 0.079],
-          [side * 0.095, 0.66, 0.077],
-        ],
-        0.002,
-      );
-      curve(
-        'shoulder-seam',
-        clothShade,
-        [
-          [side * 0.061, 0.901, 0.002],
-          [side * 0.14, 0.871, 0.038],
-          [side * 0.186, 0.84, 0.047],
-        ],
-        0.0025,
-      );
-    }
+
     segment('neck', skin, [0, 0.894, -0.012], [0, 0.96, -0.012], 0.047, 0.041);
     const collar = this.addPart(
       'collar',
@@ -208,109 +228,51 @@ export class SeatedNPC {
       );
       badge.rotation.z = side * 0.4;
     }
-    this.headPivot.position.set(0, 0.99, -0.012);
+    this.headPivot.position.set(0, 0.945, -0.005);
     this.headPivot.name = 'head-pivot';
     this.root.add(this.headPivot);
-    const face = (
-      name: string,
-      material: MeshStandardMaterial,
-      position: readonly [number, number, number],
-      size: readonly [number, number, number],
-    ): Mesh => {
-      const part = oval(name, material, position, size);
-      this.headPivot.attach(part);
-      return part;
-    };
-    const head = this.addPart(
-      'head',
-      profile([
-        [0, 0],
-        [0.045, 0.008],
-        [0.073, 0.027],
-        [0.092, 0.06],
-        [0.114, 0.095],
-        [0.123, 0.14],
-        [0.122, 0.185],
-        [0.118, 0.22],
-        [0.101, 0.252],
-        [0.066, 0.275],
-        [0, 0.285],
-      ]),
-      skin,
-      0,
-      0.985,
-      -0.012,
-    );
-    head.scale.set(1, 1, 0.93);
+    // 五官繪於連續皮膚表面，鼻子僅保留輕微體積，移除分離眼球／腮紅／嘴唇。
+    const headGeometry = new SphereGeometry(1, 48, 32);
+    const vertices = headGeometry.getAttribute('position');
+    for (let i = 0; i < vertices.count; i++) {
+      const y = vertices.getY(i);
+      const jaw = y < -0.1 ? 0.78 + 0.22 * ((y + 1) / 0.9) : 1;
+      vertices.setX(i, vertices.getX(i) * jaw);
+      if (y < -0.55) vertices.setY(i, -0.55 + (y + 0.55) * 0.72);
+    }
+    headGeometry.computeVertexNormals();
+    const head = this.addPart('head', headGeometry, faceMaterial, 0, 1.08, 0.008);
+    head.scale.set(0.161, 0.184, 0.145);
     this.headPivot.attach(head);
-    const hairCap = this.addPart(
+    for (const side of [-1, 1]) {
+      const ear = oval('ear', skin, [side * 0.153, 1.062, -0.006], [0.02, 0.03, 0.023]);
+      this.headPivot.attach(ear);
+    }
+    const nose = oval('nose', skin, [0, 1.066, 0.147], [0.017, 0.014, 0.012]);
+    this.headPivot.attach(nose);
+    const cap = this.addPart(
       'hair',
-      new SphereGeometry(1, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.56),
+      new SphereGeometry(1, 40, 20, 0, Math.PI * 2, 0, Math.PI * 0.37),
       hair,
       0,
-      1.198,
-      -0.023,
+      1.08,
+      -0.003,
     );
-    hairCap.scale.set(0.126, 0.087, 0.119);
-    this.headPivot.attach(hairCap);
-    for (let lockIndex = 0; lockIndex < 7; lockIndex++) {
-      const x = -0.096 + lockIndex * 0.03;
-      const lock = face(
+    cap.position.z = 0.01;
+    cap.scale.set(0.17, 0.194, 0.158);
+    this.headPivot.attach(cap);
+    // 偏側瀏海連成髮束，不再排列五顆球形髮片。
+    for (let lock = 0; lock < 4; lock++) {
+      const x = -0.107 + lock * 0.051;
+      const strand = oval(
         'hair-lock',
         hair,
-        [x, 1.211 + lockIndex * 0.0035, 0.071 - Math.abs(x) * 0.23],
-        [0.025, 0.018, 0.015],
+        [x, 1.188 + lock * 0.006, 0.139 - Math.abs(x) * 0.16],
+        [0.041, 0.023, 0.018],
       );
-      lock.rotation.z = -0.3;
+      strand.rotation.z = -0.35;
+      this.headPivot.attach(strand);
     }
-    for (const side of [-1, 1]) {
-      face('ear', skin, [side * 0.124, 1.117, -0.012], [0.017, 0.03, 0.018]);
-      face('ear-inner', blush, [side * 0.132, 1.117, 0.003], [0.006, 0.018, 0.005]);
-      face('eye-white', ivory, [side * 0.046, 1.152, 0.094], [0.025, 0.012, 0.008]);
-      face('eye', eyes, [side * 0.046, 1.152, 0.101], [0.0105, 0.0105, 0.003]);
-      face('eye-glint', ivory, [side * 0.046 - 0.003, 1.156, 0.104], [0.0025, 0.0025, 0.001]);
-      const lid = curve(
-        'eyelid',
-        skin,
-        [
-          [side * 0.022, 1.152, 0.098],
-          [side * 0.046, 1.164, 0.099],
-          [side * 0.069, 1.154, 0.086],
-        ],
-        0.0035,
-      );
-      this.headPivot.attach(lid);
-      const brow = curve(
-        'eyebrow',
-        hair,
-        [
-          [side * 0.022, 1.182, 0.093],
-          [side * 0.047, 1.187, 0.091],
-          [side * 0.074, 1.177, 0.08],
-        ],
-        0.003,
-      );
-      this.headPivot.attach(brow);
-      face('cheek', blush, [side * 0.075, 1.108, 0.072], [0.021, 0.011, 0.001]);
-    }
-    face('nose-bridge', skin, [0, 1.129, 0.098], [0.012, 0.026, 0.012]);
-    face('nose', skin, [0, 1.109, 0.107], [0.017, 0.012, 0.018]);
-    for (const side of [-1, 1])
-      face('nose-wing', skin, [side * 0.013, 1.108, 0.103], [0.008, 0.007, 0.009]);
-    const smile = curve(
-      'smile',
-      blush,
-      [
-        [-0.03, 1.08, 0.079],
-        [-0.015, 1.071, 0.091],
-        [0, 1.07, 0.094],
-        [0.015, 1.071, 0.091],
-        [0.03, 1.08, 0.079],
-      ],
-      0.003,
-    );
-    this.headPivot.attach(smile);
-    face('lower-lip', blush, [0, 1.065, 0.092], [0.02, 0.003, 0.002]);
     oval('hips', trousers, [0, 0.505, 0.034], [0.171, 0.082, 0.13]);
     this.armPivot.position.set(-0.19, 0.844, -0.004);
     this.armPivot.name = 'arm-pivot';
@@ -342,26 +304,7 @@ export class SeatedNPC {
       }
       legGeometry.computeVertexNormals();
       this.addPart('trouser-leg', legGeometry, trousers, 0, 0, 0);
-      curve(
-        'trouser-seam',
-        seam,
-        [
-          [x + side * 0.058, 0.478, 0.29],
-          [x + side * 0.053, 0.401, 0.347],
-          [side * 0.12 + side * 0.035, 0.143, 0.321],
-        ],
-        0.002,
-      );
-      curve(
-        'knee-fold',
-        seam,
-        [
-          [x - 0.042, 0.449, 0.392],
-          [x, 0.443, 0.41],
-          [x + 0.044, 0.459, 0.39],
-        ],
-        0.0025,
-      );
+
       segment(
         'sock',
         ivory,
@@ -382,39 +325,29 @@ export class SeatedNPC {
           0.002,
           0.002,
         );
-      oval('shoulder', shirt, [side * 0.184, 0.838, -0.003], [0.066, 0.065, 0.064]);
-      segment(
+      softLimb(
         'upper-arm',
         shirt,
-        [side * 0.193, 0.825, 0],
-        [side * 0.227, 0.707, 0.046],
-        0.062,
-        0.046,
+        [
+          [side * 0.163, 0.844, -0.009],
+          [side * 0.205, 0.821, 0.006],
+          [side * 0.226, 0.745, 0.031],
+          [side * 0.229, 0.7, 0.05],
+        ],
+        0.058,
+        0.2,
       );
-      segment(
-        'sleeve-cuff',
-        clothShade,
-        [side * 0.225, 0.716, 0.042],
-        [side * 0.229, 0.702, 0.047],
-        0.047,
-        0.047,
-      );
-      segment(
-        'elbow',
-        skin,
-        [side * 0.229, 0.704, 0.047],
-        [side * 0.228, 0.66, 0.083],
-        0.038,
-        0.038,
-      );
-      oval('elbow-joint', skin, [side * 0.228, 0.655, 0.086], [0.038, 0.037, 0.037]);
-      segment(
+      softLimb(
         'forearm',
         skin,
-        [side * 0.228, 0.655, 0.086],
-        [side * 0.145, 0.574, 0.286],
+        [
+          [side * 0.229, 0.706, 0.047],
+          [side * 0.227, 0.655, 0.087],
+          [side * 0.201, 0.624, 0.178],
+          [side * 0.145, 0.574, 0.294],
+        ],
         0.037,
-        0.025,
+        0.32,
       );
       oval('hand', skin, [side * 0.14, 0.562, 0.318], [0.038, 0.018, 0.046]);
       for (let finger = 0; finger < 4; finger++) {
@@ -442,7 +375,7 @@ export class SeatedNPC {
       oval('thumb-tip', skin, [side * 0.096, 0.555, 0.35], [0.009, 0.009, 0.009]);
     }
     // 縮短外露頸部，頭部維持原點頭 pivot；五官整組同步移動。
-    for (const part of this.headPivot.children) part.position.y -= 0.045;
+
     const movingParts = [
       'shoulder',
       'upper-arm',
@@ -501,6 +434,7 @@ export class SeatedNPC {
     if (this.disposed) return;
     this.disposed = true;
     this.resetGesture();
+    this.faceTexture.dispose();
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
     this.headPivot.clear();

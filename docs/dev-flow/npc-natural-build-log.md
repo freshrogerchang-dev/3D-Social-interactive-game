@@ -21,3 +21,8 @@ Chrome 154.0.8037.99／Playwright 1.62.1／SwiftShader，手機／桌面、打�
 ## 限制
 較自然的工程模型，仍是風格化外觀。iPhone／Safari／VoiceOver 與真實 GPU 效能未驗證。
 語音另做；完整 S5 未通過，Phase 5 未開始。
+## 發布收尾（2026-10-12）
+- 產品提交 af50a54b14fcd65fce36e1fe827ba6727bec6097 已推送 main-uv12jr。
+- Pages Actions 38183337447 completed/success，公開 HTML、JS index-BDRvPafY.js 與 CSS index-DMPMRFGz.css 均 HTTP 200，JS 含 fingernail、trouser-leg。
+- 公開网址 https://freshrogerchang-dev.github.io/3D-Social-interactive-game/?v=af50a54 的 24/24 互動排版檢查通過、exit 0；手機尺寸截圖人工檢視，未處理 pageerror=[]。
+- 本次公開證據 npc-natural-public-evidence 與本收尾紀錄保留本机，產品與發布前證據已提交推送。iPhone/Safari 實機未驗證。

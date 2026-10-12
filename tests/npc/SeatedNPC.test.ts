@@ -8,6 +8,30 @@ import { ParkScene } from '../../src/scene/ParkScene';
 const position = (z: number) => ({ x: 0, y: 1.1, z });
 
 describe('單一固定坐姿 NPC', () => {
+  it('臉部貼圖在暫停／動作切換後保持同一資源，重複 dispose 僅釋放一次', () => {
+    const npc = new SeatedNPC();
+    const head = npc.root.getObjectByName('head');
+    if (!(head instanceof Mesh) || !(head.material instanceof MeshStandardMaterial))
+      throw new Error('需要完整臉部材質');
+    const texture = head.material.map;
+    if (!(texture instanceof Texture)) throw new Error('需要原創臉部貼圖');
+    expect(texture.colorSpace).toBe('srgb');
+    expect(texture.source.data).toHaveProperty('data');
+    let disposed = 0;
+    texture.addEventListener('dispose', () => {
+      disposed += 1;
+    });
+    npc.playGesture('wave');
+    for (let i = 0; i < 40; i++) npc.update(0.05);
+    npc.setMotionEnabled(false);
+    npc.playGesture('nod');
+    expect(head.material.map).toBe(texture);
+    expect(disposed).toBe(0);
+    npc.dispose();
+    npc.dispose();
+    expect(disposed).toBe(1);
+  });
+
   it('單次點頭結束回中立，零 delta 不更新，停用動作立即重設', () => {
     const npc = new SeatedNPC();
     const pivot = npc.root.getObjectByName('head')?.parent;

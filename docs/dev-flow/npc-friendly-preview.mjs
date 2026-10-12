@@ -8,7 +8,7 @@ await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE_PATH, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 try {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
-  await context.route('**/*', async route => {
+  if (!process.env.NPC_URL) await context.route('**/*', async route => {
     const relative = new URL(route.request().url()).pathname.slice(1) || 'index.html';
     const target = path.resolve('dist', relative);
     if (!target.startsWith(path.resolve('dist') + path.sep)) return route.abort();
@@ -17,7 +17,7 @@ try {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', e => errors.push(String(e)));
-  await page.goto('http://npc.local/', { waitUntil: 'networkidle' });
+  await page.goto(process.env.NPC_URL || 'http://npc.local/', { waitUntil: 'networkidle' });
   await page.locator('#greeting-launch').waitFor({ state: 'visible' });
   await page.locator('canvas').focus();
   await page.keyboard.down('w');
