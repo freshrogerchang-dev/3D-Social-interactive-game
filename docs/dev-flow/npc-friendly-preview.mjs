@@ -27,6 +27,10 @@ try {
   await page.locator('#greeting-launch').tap();
   await page.waitForTimeout(600);
   await page.screenshot({ path: `${out}/phone-greeting.png` });
+  await page.waitForTimeout(250);
+  await page.screenshot({ path: `${out}/phone-wave-left.png` });
+  await page.waitForTimeout(375);
+  await page.screenshot({ path: `${out}/phone-wave-right.png` });
   await page.getByRole('button', { name: '點頭', exact: true }).tap();
   await page.waitForTimeout(600);
   await page.screenshot({ path: `${out}/phone-nod.png` });
@@ -36,7 +40,7 @@ try {
   await page.getByRole('button', { name: '好', exact: true }).tap();
   await page.getByRole('button', { name: '回公園', exact: true }).tap();
   await page.screenshot({ path: `${out}/desktop-character.png` });
-  await writeFile(`${out}/preview.json`, JSON.stringify({ browser: browser.version(), errors, screenshots: ['phone-character.png', 'phone-greeting.png', 'phone-nod.png', 'desktop-character.png'] }, null, 2));
+  await writeFile(`${out}/preview.json`, JSON.stringify({ browser: browser.version(), errors, screenshots: ['phone-character.png', 'phone-greeting.png', 'phone-wave-left.png', 'phone-wave-right.png', 'phone-nod.png', 'desktop-character.png'] }, null, 2));
   console.log(`visual capture errors=${errors.length}`);
   process.exitCode = errors.length ? 1 : 0;
 } finally { await browser.close(); }

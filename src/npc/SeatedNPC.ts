@@ -9,6 +9,7 @@ import {
   CapsuleGeometry,
   Color,
   Group,
+  Quaternion,
   Mesh,
   MeshStandardMaterial,
   SphereGeometry,
@@ -44,6 +45,13 @@ export class SeatedNPC {
   private motionEnabled = true;
   private readonly headPivot = new Group();
   private readonly armPivot = new Group();
+  private readonly elbowPivot = new Group();
+  private readonly wristPivot = new Group();
+  private readonly neutralElbow = new Quaternion();
+  private readonly raisedElbow = new Quaternion().setFromUnitVectors(
+    new Vector3(0.089, -0.138, 0.268).normalize(),
+    new Vector3(0, 0.31, 0.035).applyAxisAngle(new Vector3(0, 0, 1), 1.35).normalize(),
+  );
 
   constructor() {
     this.root.name = 'park-friend';
@@ -194,7 +202,7 @@ export class SeatedNPC {
       0.535,
       -0.012,
     );
-    torso.scale.set(1.4, 1, 0.76);
+    torso.scale.set(1.48, 1, 0.9);
     curve(
       'shirt-hem',
       clothShade,
@@ -223,7 +231,7 @@ export class SeatedNPC {
       const badge = oval(
         'leaf-badge',
         accent,
-        [0.07 + side * 0.005, 0.819, 0.088],
+        [0.07 + side * 0.005, 0.819, 0.11],
         [0.006, 0.012, 0.002],
       );
       badge.rotation.z = side * 0.4;
@@ -236,19 +244,19 @@ export class SeatedNPC {
     const vertices = headGeometry.getAttribute('position');
     for (let i = 0; i < vertices.count; i++) {
       const y = vertices.getY(i);
-      const jaw = y < -0.1 ? 0.78 + 0.22 * ((y + 1) / 0.9) : 1;
+      const jaw = y < -0.1 ? 0.86 + 0.14 * ((y + 1) / 0.9) : 1;
       vertices.setX(i, vertices.getX(i) * jaw);
       if (y < -0.55) vertices.setY(i, -0.55 + (y + 0.55) * 0.72);
     }
     headGeometry.computeVertexNormals();
     const head = this.addPart('head', headGeometry, faceMaterial, 0, 1.08, 0.008);
-    head.scale.set(0.161, 0.184, 0.145);
+    head.scale.set(0.174, 0.192, 0.157);
     this.headPivot.attach(head);
     for (const side of [-1, 1]) {
-      const ear = oval('ear', skin, [side * 0.153, 1.062, -0.006], [0.02, 0.03, 0.023]);
+      const ear = oval('ear', skin, [side * 0.165, 1.062, -0.006], [0.02, 0.03, 0.023]);
       this.headPivot.attach(ear);
     }
-    const nose = oval('nose', skin, [0, 1.066, 0.147], [0.017, 0.014, 0.012]);
+    const nose = oval('nose', skin, [0, 1.066, 0.16], [0.019, 0.016, 0.014]);
     this.headPivot.attach(nose);
     const cap = this.addPart(
       'hair',
@@ -259,7 +267,7 @@ export class SeatedNPC {
       -0.003,
     );
     cap.position.z = 0.01;
-    cap.scale.set(0.17, 0.194, 0.158);
+    cap.scale.set(0.183, 0.202, 0.17);
     this.headPivot.attach(cap);
     // 偏側瀏海連成髮束，不再排列五顆球形髮片。
     for (let lock = 0; lock < 4; lock++) {
@@ -267,7 +275,7 @@ export class SeatedNPC {
       const strand = oval(
         'hair-lock',
         hair,
-        [x, 1.188 + lock * 0.006, 0.139 - Math.abs(x) * 0.16],
+        [x, 1.188 + lock * 0.006, 0.15 - Math.abs(x) * 0.16],
         [0.041, 0.023, 0.018],
       );
       strand.rotation.z = -0.35;
@@ -287,7 +295,7 @@ export class SeatedNPC {
         new Vector3(side * 0.117, 0.25, 0.328),
         new Vector3(side * 0.12, 0.117, 0.315),
       ]);
-      const legGeometry = new TubeGeometry(legPath, 32, 0.071, 16, false);
+      const legGeometry = new TubeGeometry(legPath, 32, 0.077, 16, false);
       const vertices = legGeometry.getAttribute('position');
       for (let ring = 0; ring <= 32; ring++) {
         const center = legPath.getPointAt(ring / 32);
@@ -313,8 +321,8 @@ export class SeatedNPC {
         0.043,
         0.044,
       );
-      oval('shoe', ivory, [side * 0.12, 0.063, 0.375], [0.06, 0.048, 0.116]);
-      oval('shoe-sole', seam, [side * 0.12, 0.028, 0.377], [0.061, 0.014, 0.117]);
+      oval('shoe', ivory, [side * 0.12, 0.063, 0.375], [0.065, 0.052, 0.12]);
+      oval('shoe-sole', seam, [side * 0.12, 0.028, 0.377], [0.066, 0.015, 0.121]);
       oval('shoe-tongue', ivory, [side * 0.12, 0.102, 0.352], [0.035, 0.009, 0.04]);
       for (let lace = 0; lace < 3; lace++)
         segment(
@@ -349,7 +357,7 @@ export class SeatedNPC {
         0.037,
         0.32,
       );
-      oval('hand', skin, [side * 0.14, 0.562, 0.318], [0.038, 0.018, 0.046]);
+      oval('hand', skin, [side * 0.14, 0.562, 0.318], [0.04, 0.021, 0.046]);
       for (let finger = 0; finger < 4; finger++) {
         const fingerX = side * 0.14 + (finger - 1.5) * 0.015;
         const length = [0.038, 0.049, 0.046, 0.034][finger] ?? 0.038;
@@ -374,26 +382,23 @@ export class SeatedNPC {
       );
       oval('thumb-tip', skin, [side * 0.096, 0.555, 0.35], [0.009, 0.009, 0.009]);
     }
-    // 縮短外露頸部，頭部維持原點頭 pivot；五官整組同步移動。
-
-    const movingParts = [
-      'shoulder',
-      'upper-arm',
-      'sleeve-cuff',
-      'elbow',
-      'elbow-joint',
-      'forearm',
-      'hand',
-      'finger',
-      'fingernail',
-      'thumb',
-      'thumb-tip',
-    ];
+    // 肩、肘、腕分開控制；attach 保留中立坐姿，單一引擎 RAF 驅動。
+    this.elbowPivot.name = 'elbow-pivot';
+    this.elbowPivot.position.set(-0.229, 0.7, 0.05);
+    this.wristPivot.name = 'wrist-pivot';
+    this.wristPivot.rotation.order = 'ZYX';
+    this.wristPivot.position.set(-0.14, 0.562, 0.318);
+    this.root.add(this.elbowPivot, this.wristPivot);
+    const handParts = ['hand', 'finger', 'fingernail', 'thumb', 'thumb-tip'];
     for (const part of [...this.root.children]) {
-      if (part.position.x < 0 && movingParts.includes(part.name)) this.armPivot.attach(part);
+      if (part.position.x >= 0) continue;
+      if (part.name === 'upper-arm') this.armPivot.attach(part);
+      else if (part.name === 'forearm') this.elbowPivot.attach(part);
+      else if (handParts.includes(part.name)) this.wristPivot.attach(part);
     }
+    this.elbowPivot.attach(this.wristPivot);
+    this.armPivot.attach(this.elbowPivot);
   }
-
   setMotionEnabled(enabled: boolean): void {
     this.motionEnabled = enabled;
     if (!enabled) this.resetGesture();
@@ -407,11 +412,24 @@ export class SeatedNPC {
   /** 共用引擎模擬 delta，僅單次柔和動作；暫停不更新，不自動循環。 */
   update(delta: number): void {
     if (this.disposed || !this.gesture || !Number.isFinite(delta) || delta <= 0) return;
-    this.gestureTime = Math.min(1.6, this.gestureTime + Math.min(delta, 0.05));
-    const envelope = Math.sin((Math.PI * this.gestureTime) / 1.6) ** 2;
-    if (this.gesture === 'nod') this.headPivot.rotation.x = 0.16 * envelope;
-    else this.armPivot.rotation.z = -2 * envelope;
-    if (this.gestureTime >= 1.6) this.resetGesture();
+    const duration = this.gesture === 'wave' ? 2.8 : 1.6;
+    this.gestureTime = Math.min(duration, this.gestureTime + Math.min(delta, 0.05));
+    if (this.gesture === 'nod') {
+      this.headPivot.rotation.x = 0.16 * Math.sin((Math.PI * this.gestureTime) / duration) ** 2;
+    } else {
+      const ease = (value: number): number => {
+        const t = Math.max(0, Math.min(1, value));
+        return t * t * (3 - 2 * t);
+      };
+      const lift = ease(this.gestureTime / 0.65) * (1 - ease((this.gestureTime - 2.15) / 0.65));
+      this.armPivot.rotation.z = -1.35 * lift;
+      this.elbowPivot.quaternion.slerpQuaternions(this.neutralElbow, this.raisedElbow, lift);
+      // 到臉旁才開始兩次柔和擺手，不自動循環、不動頭或相機。
+      const waving = Math.max(0, Math.min(1, (this.gestureTime - 0.65) / 1.5));
+      this.wristPivot.rotation.z = 1.77 * lift;
+      this.wristPivot.rotation.y = 0.3 * Math.sin(waving * Math.PI * 4) * lift;
+    }
+    if (this.gestureTime >= duration) this.resetGesture();
   }
 
   private resetGesture(): void {
@@ -419,8 +437,9 @@ export class SeatedNPC {
     this.gestureTime = 0;
     this.headPivot.rotation.x = 0;
     this.armPivot.rotation.z = 0;
+    this.elbowPivot.quaternion.identity();
+    this.wristPivot.rotation.set(0, 0, 0);
   }
-
   distanceTo(position: Vector3Like): number {
     return Math.hypot(position.x - this.obstacle.x, position.z - this.obstacle.z);
   }
@@ -438,6 +457,8 @@ export class SeatedNPC {
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
     this.headPivot.clear();
+    this.wristPivot.clear();
+    this.elbowPivot.clear();
     this.armPivot.clear();
     this.root.clear();
     this.root.removeFromParent();

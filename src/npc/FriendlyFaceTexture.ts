@@ -25,7 +25,7 @@ export function createFriendlyFaceTexture(): DataTexture {
         const cheek = ellipse(u, v, 0.25 + side * 0.081, 0.445, 0.032, 0.038);
         blend([220, 142, 124], 0.38 * Math.exp(-cheek * 2.5));
         const eyeX = 0.25 + side * 0.052;
-        const eye = ellipse(u, v, eyeX, 0.533, 0.025, 0.038);
+        const eye = ellipse(u, v, eyeX, 0.533, 0.03, 0.031);
         if (eye < 1) blend([247, 237, 218], 0.98);
         const iris = ellipse(u, v, eyeX, 0.532, 0.017, 0.032);
         if (iris < 1) blend([86, 64, 48], 1);
@@ -33,9 +33,9 @@ export function createFriendlyFaceTexture(): DataTexture {
         if (ellipse(u, v, eyeX - 0.006, 0.546, 0.0045, 0.0065) < 1) blend([250, 243, 229], 0.95);
         const browX = (u - eyeX) / 0.028;
         const browY = 0.604 - 0.012 * browX ** 2;
-        if (Math.abs(browX) < 1 && Math.abs(v - browY) < 0.0045) blend([91, 66, 46], 0.95);
-        const lidX = (u - eyeX) / 0.025;
-        const lidY = 0.533 + 0.038 * Math.sqrt(Math.max(0, 1 - lidX ** 2));
+        if (Math.abs(browX) < 1 && Math.abs(v - browY) < 0.0055) blend([91, 66, 46], 0.95);
+        const lidX = (u - eyeX) / 0.03;
+        const lidY = 0.533 + 0.031 * Math.sqrt(Math.max(0, 1 - lidX ** 2));
         if (Math.abs(lidX) < 1 && Math.abs(v - lidY) < 0.0025) blend([110, 75, 53], 0.65);
       }
       // 小鼻翼陰影與向上嘴角，避免蒼白唇形／無表情細線。

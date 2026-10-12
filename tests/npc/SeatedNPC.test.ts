@@ -1,4 +1,4 @@
-import { Mesh, MeshStandardMaterial, PerspectiveCamera, Texture } from 'three';
+import { Mesh, MeshStandardMaterial, PerspectiveCamera, Texture, Vector3, Quaternion } from 'three';
 import type { BufferGeometry, WebGLProgramParametersWithUniforms, WebGLRenderer } from 'three';
 import { describe, expect, it } from 'vitest';
 import { FirstPersonController } from '../../src/input/FirstPersonController';
@@ -54,11 +54,26 @@ describe('單一固定坐姿 NPC', () => {
   });
   it('抬手不移動角色、長椅或鏡頭；退出可重設且 dispose 後不再動', () => {
     const npc = new SeatedNPC();
-    const pivot = npc.root.getObjectByName('hand')?.parent;
+    const pivot = npc.root.getObjectByName('arm-pivot');
     if (!pivot) throw new Error('missing arm pivot');
     npc.playGesture('wave');
     for (let i = 0; i < 16; i++) npc.update(0.05);
-    expect(pivot.rotation.z).toBeCloseTo(-2);
+    const hand = npc.root.getObjectByName('hand');
+    const head = npc.root.getObjectByName('head');
+    const finger = npc.root.getObjectByName('finger');
+    if (!hand || !head || !finger) throw new Error('missing wave parts');
+    expect(hand.getWorldPosition(new Vector3()).y).toBeGreaterThan(
+      head.getWorldPosition(new Vector3()).y + 0.04,
+    );
+    const palm = new Vector3(0, -1, 0).applyQuaternion(hand.getWorldQuaternion(new Quaternion()));
+    expect(palm.z).toBeGreaterThan(0.85);
+    const firstFinger = finger.getWorldPosition(new Vector3()).clone();
+    for (let i = 0; i < 6; i++) npc.update(0.05);
+    const nextFinger = finger.getWorldPosition(new Vector3());
+    expect(firstFinger.distanceTo(nextFinger)).toBeGreaterThan(0.008);
+    for (let i = 0; i < 60; i++) npc.update(0.05);
+    expect(pivot.rotation.z).toBe(0);
+    expect(hand.getWorldPosition(new Vector3()).y).toBeCloseTo(0.562);
     expect(npc.root.position.toArray()).toEqual([0, 0, -2]);
     expect(npc.root.getObjectByName('bench-seat')?.rotation.z).toBe(0);
     npc.playGesture(null);

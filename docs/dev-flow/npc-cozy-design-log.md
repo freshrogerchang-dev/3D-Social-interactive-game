@@ -32,3 +32,9 @@ Chrome 154.0.8037.99／Playwright 1.62.1／SwiftShader：人物預覽 exit 0／p
 使用者外觀評估未完成；不能因單元與互動通過就宣稱人偶感消失。
 iPhone／Safari／VoiceOver、真實 GPU 效能與專業評估未完成，語音另做，Phase 5 未開始。
 程序幾何成本的原生 Node strip-types 臨時檢查因無副檔名 ESM import 失敗，未據此宣稱模型成本；Vite、TypeScript 與 71 項 Vitest 的正式工具鏈正常。
+## 發布收尾
+產品提交 36fc84c6a0ca61080db524a2be26852fd85f2898 已推送 main-uv12jr。
+公開 HTML、JS index-CZJ9EK4c.js、CSS index-DMPMRFGz.css HTTP 200，與本機 Pages base 建置資源一致；JS 含 original-friendly-face。
+GitHub 公開 Actions API 限流，未藉 API 確認此次 run 結論；實際公開資源與瀏覽器畫面確認新版已部署。
+公開版 npc-friendly-preview.mjs exit 0、pageerror=[]，打招呼／點頭／退出操作完成，手機與桌面截圖已保存 npc-cozy-public-evidence，手機畫面人工檢視。
+本段與公開證據保留本機，產品與發布前證據已提交推送。外觀接受度仍待使用者評估，iPhone／Safari 實機未驗證。

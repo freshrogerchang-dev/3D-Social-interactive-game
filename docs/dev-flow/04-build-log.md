@@ -115,4 +115,7 @@ npm ls --depth=0                                              → exit 0（無 i
 依使用者要求改善臉、手腳、衣服與坐姿；詳見 [npc-natural-build-log.md](npc-natural-build-log.md)。使用者授權檢查完推送，語音另做。
 
 ## 2026-10-12 參考市售遊戲重做親切人物
-依使用者人偶／紙紮人外觀回饋，搜尋 MySims、Tomodachi Life、Palia、Disney Dreamlight Valley 官方资料並檢視展示圖，重做暖色表情、連續手臂／袖子與柔和臉型。71 單元、24 互動與 15 安全回歸通過；詳見 [npc-cozy-design-log.md](npc-cozy-design-log.md)。
+依使用者人偶／紙紮人外觀回饋，搜尋 MySims、Tomodachi Life、Palia、Disney Dreamlight Valley 官方資料並檢視展示圖，重做暖色表情、連續手臂／袖子與柔和臉型。71 單元、24 互動與 15 安全回歸通過；詳見 [npc-cozy-design-log.md](npc-cozy-design-log.md)。
+
+## 2026-10-12 圓潤造型與舉手揮動
+依使用者 Disney Dreamlight Valley 風格與揮手要求調整原創人物。肩肘腕三段動作，抬到臉旁、掌心向前、揮兩下後回腿上；五項工程、71 單元、24 互動與 15 安全回歸完成。詳見 [npc-rounded-wave-build-log.md](npc-rounded-wave-build-log.md)。
