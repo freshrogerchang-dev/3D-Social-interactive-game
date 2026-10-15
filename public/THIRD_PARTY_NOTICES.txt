@@ -71,3 +71,14 @@ Bark Willow — Dario Barresi／Dimitrios Savva
 Tree Small 02 的葉片材質 — Rico Cilliers（不使用原模型）
 
 所有貼圖隨網站提供，不在執行時向 Poly Haven 連線。
+
+
+公園人物模型（MakeHuman 資料，CC0 1.0）
+
+來源：https://github.com/makehumancommunity/makehuman（commit 見 manifest）
+資產授權：MakeHuman 的基礎網格、體型參數（targets）、骨架、權重、眼睛模型與貼圖皆為 CC0 1.0
+完整 CC0 文字：assets/characters/CC0-1.0.txt
+產生方式、來源 commit 與檔案雜湊：assets/characters/manifest.json
+
+小安、小宇、小晴、媽媽四位人物由 tools/characters/build_characters.py 從上述資料產生；
+衣服、頭髮與臉部顏色由程式生成，沒有使用其他遊戲的素材。所有模型隨網站提供，不在執行時連線。

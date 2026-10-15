@@ -1,0 +1,3757 @@
+{
+  "source": "線上 Pages",
+  "url": "http://127.0.0.1:4173/",
+  "browser": "141.0.7390.37",
+  "checks": [
+    {
+      "name": "正式網站 HTTP 200 與場景啟動",
+      "pass": true,
+      "evidence": 200
+    },
+    {
+      "name": "DPR 3 裝置的 canvas 比例上限為 2",
+      "pass": true,
+      "evidence": {
+        "device": 3,
+        "width": 2560,
+        "cssWidth": 1280,
+        "ratio": 2
+      }
+    },
+    {
+      "name": "執行中安全按鈕具可及名稱",
+      "pass": true,
+      "evidence": [
+        {
+          "role": "button",
+          "name": "靠近再說話",
+          "properties": [
+            {
+              "name": "disabled",
+              "value": {
+                "type": "boolean",
+                "value": true
+              }
+            },
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "暫停",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "返回安全區",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "休息畫面可及樹含標題與動作，隱藏動作不外露",
+      "pass": true,
+      "evidence": [
+        {
+          "role": "button",
+          "name": "暫停",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "返回安全區",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "heading",
+          "name": "休息一下",
+          "properties": [
+            {
+              "name": "live",
+              "value": {
+                "type": "token",
+                "value": "polite"
+              }
+            },
+            {
+              "name": "atomic",
+              "value": {
+                "type": "boolean",
+                "value": false
+              }
+            },
+            {
+              "name": "relevant",
+              "value": {
+                "type": "tokenList",
+                "value": "additions text"
+              }
+            },
+            {
+              "name": "level",
+              "value": {
+                "type": "integer",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "繼續",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            },
+            {
+              "name": "focused",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "role": "button",
+          "name": "結束本次",
+          "properties": [
+            {
+              "name": "invalid",
+              "value": {
+                "type": "token",
+                "value": "false"
+              }
+            },
+            {
+              "name": "focusable",
+              "value": {
+                "type": "booleanOrUndefined",
+                "value": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "暫停沒有待執行 RAF，回呼計數停住",
+      "pass": true,
+      "evidence": {
+        "stopped": {
+          "pending": 0,
+          "maxPending": 1,
+          "callbacks": 6
+        },
+        "stoppedLater": {
+          "pending": 0,
+          "maxPending": 1,
+          "callbacks": 6
+        }
+      }
+    },
+    {
+      "name": "20 次重建後每次結束 canvas 與 RAF 均為零",
+      "pass": true,
+      "evidence": [
+        {
+          "cycle": 0,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 6
+          }
+        },
+        {
+          "cycle": 5,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 34
+          }
+        },
+        {
+          "cycle": 10,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 64
+          }
+        },
+        {
+          "cycle": 15,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 98
+          }
+        },
+        {
+          "cycle": 20,
+          "canvases": 0,
+          "raf": {
+            "pending": 0,
+            "maxPending": 1,
+            "callbacks": 126
+          }
+        }
+      ]
+    },
+    {
+      "name": "強制 GC 後監聽數在第 5–20 次重建未持續增加",
+      "pass": true,
+      "evidence": [
+        36,
+        36,
+        36,
+        36,
+        36
+      ]
+    },
+    {
+      "name": "320px 文字間距調整後安全與面板按鈕可聚焦命中",
+      "pass": true,
+      "evidence": [
+        {
+          "action": "pause",
+          "width": 124.8125,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "safety",
+          "width": 192,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "resume",
+          "width": 88.8125,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        },
+        {
+          "action": "end",
+          "width": 133.609375,
+          "height": 64,
+          "focused": true,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "name": "正常路徑無未處理 JS 例外",
+      "pass": true,
+      "evidence": []
+    },
+    {
+      "name": "頁面請求只有本站靜態 GET 資源",
+      "pass": true,
+      "evidence": [
+        {
+          "url": "http://127.0.0.1:4173/",
+          "method": "GET",
+          "type": "document"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/index-CmUnYYe1.js",
+          "method": "GET",
+          "type": "script"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/index-DMPMRFGz.css",
+          "method": "GET",
+          "type": "stylesheet"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/6b05b5d5-010c-4519-af44-a0afcd513e69",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/2f674766-0a66-4540-a985-da9b1d9c1f4e",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/27a405dd-652a-4621-9dbc-011c48970150",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/384dfa43-4ad9-4df0-b6d8-db64877b68da",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/92f2b9b9-43f8-498a-8c1c-3f42a3ea9ba5",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/d04935ac-651c-4353-9148-59edc8111e7b",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/511f6c6c-320c-417f-8ca7-7131d1c8e796",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/4f9aab03-2ec8-4cee-b953-fc706cc04652",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/532e394d-9ed4-4b59-a920-af92f4139885",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/1e034445-2f25-4908-94fb-e88c7852a8d5",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/ccd0757a-9f00-48ce-be25-0be6e9f90d7f",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/140eed8b-c64f-402b-9d6f-223224d55e9f",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/d73193ce-00ff-4b37-a7d3-af7fb78acb00",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/f679a0e3-dc7a-4246-9bda-7d0c2e6f4e3c",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/4e80f130-49f2-427e-bfbd-58c6e6237816",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/b5fa7eb2-c20f-43d3-ba5c-864a196f1a6f",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/397b049e-6cf1-43b8-8f23-a626f70ae5f5",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/20fbea4c-5966-4639-a000-7d9e9404eccc",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/ca10f17b-74d4-4530-a64d-771197f6cdac",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/1b2aeb82-7dfc-4285-a0c2-dca12d0c5f91",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/62e36b93-5486-427c-b70e-92bb1d983ff6",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/04158049-fbca-47e2-bee6-1170ef043120",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/05f78e5a-1724-4bda-9c8b-6e346400d83b",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/1d5cb645-87e1-47bd-96d4-f44c80d4f4f7",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/19ea6073-15c7-4f4b-8acb-35bcc10b97c8",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/868937ee-ce89-4746-9429-4647e9939cd0",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/8a09bec7-be8d-40f8-9cab-0ac3ea2a92cc",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/499c9d32-8ee3-4d50-b464-5638dfd4daae",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/79565f50-d56a-49b6-8bf8-ac5ff5b0102c",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/8f6100a5-53fc-408f-9ab4-87e6db8dc80a",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/f55e6797-e611-48f6-956d-cbc63cc80ab6",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/41bd476e-49d1-44e1-b948-1814815dd235",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/c5213dc5-6e72-42f7-8b41-34c56ad62498",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/9163043d-42fc-4d19-8387-55636ba810ec",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/11cb93b7-3bd4-4a25-91c9-e4f58c48bc1d",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/ab0e7a1d-f4af-4941-b9e2-7c07ef05b34a",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/19a855a6-f66f-4449-ac3b-596b1ebd72f1",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/02f33717-1757-4f93-8826-5a6a38b5b29c",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/787b77ba-db54-4781-97b5-7fb5b53aea3d",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/c914d6e4-1d81-4917-af6c-59d087bbb6cf",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/c75defdd-0cd1-432e-896a-9d3537ec4104",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/8572f432-2b90-4b3f-993b-eedbcef80e38",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/04f47095-9827-43fc-b2d5-754d3f847f8e",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/13343965-eead-44fb-84d1-d1c7619e2053",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/8d823684-4add-4b04-ad47-a1893ea0d007",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/b81c77f9-2ca0-4ef3-ba67-750c23b9d34e",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/d8c4f329-886c-4b42-a563-43d9decf4145",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/014ab4ef-f6ea-43db-ab9e-edee1299b3df",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/11b8db37-b292-4756-af8d-0a9a7042174a",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/0e3e6dfc-4286-48ac-98d3-96725af09774",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/94a26b21-43a8-44c8-8cb9-de17ca980816",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/a0c5e446-71e4-44ed-9129-9085805c5716",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/7e47126b-7ca9-45c5-9d1c-d7c7613b47d8",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/44a54589-a413-47c8-b9b0-fb4908b75ff2",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/8caebc60-8e40-4c08-a04e-4f226288ed7e",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/a10fd03f-744c-434a-9c3f-53c9b173f23e",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/0e271a8f-2387-4c0d-900c-3a285749b2c9",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/6b52c4ae-8d8c-434f-8f37-9980c2e4a966",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/3c8b38e7-3d4b-4e50-865c-d4707ef81deb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/f84ad91a-32f6-4b03-a067-e6c7e9860a36",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/d22fe2c8-d504-442a-9f63-584c2f520626",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/7bcd33af-4e56-462d-a3ae-0467495cafb0",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/ff7d9d7e-8250-45ed-916e-8fd75206d46e",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/12be02d5-aa69-46a0-863a-791869b4e920",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/0f43904d-b427-472b-a851-e9a6862e0703",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/2f513941-f4e8-4835-8919-d49ffa65c596",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/916d1cf6-472b-4e70-b398-f680b8d1f9d4",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/1e9a833e-6142-4e1a-b78c-fd1ed3ba7c8b",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/13a84931-6d17-48c6-8408-984bd875a0eb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/a3d628e3-0e91-4483-b34c-307ea2ebe481",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/4e7f6956-c17a-4900-9cc0-bdb5ba02028b",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/973f36b4-5825-499d-8b18-e37f9328986e",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/0a81f69f-f5a2-4683-8873-0ba94767308c",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/c1303d4f-5a5d-4be7-8fb2-11260d44081b",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/74448e3f-6cef-4c86-a17a-12723474732e",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/51a7e62a-e5d1-45f4-bade-777bd2847e82",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/c1188596-d71a-44f4-a284-4d5f970decde",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/9e5af40a-db62-43ae-b915-ed9ab29e0b1c",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/45940f13-84aa-46fc-9435-94ab8ed6aef0",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/ab40f8ab-e2d2-46fc-9b19-fd353d935cd2",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/7392b931-0751-43a5-84eb-3b87d0aaba6c",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/76d25110-12a3-4126-afe8-6d46cecb917c",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/dab3dca0-5805-49e4-9722-7ead5cec910c",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/98c1d98a-1d2d-4583-a4f4-a6789baf91e0",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+          "method": "GET",
+          "type": "image"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/e7e6ab32-360e-41d2-816d-1a8d35b13bc4",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/53aeb2fd-0dc3-4626-a7e3-b7271a094063",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/12c6683b-a14a-4f62-9710-aeaeac7f9d1e",
+          "method": "GET",
+          "type": "fetch"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/db1a073f-e756-46fc-95c5-53eb7d286ed1",
+          "method": "GET",
+          "type": "fetch"
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "cycle": 0,
+      "heap": {
+        "usedSize": 4782264,
+        "totalSize": 6103040,
+        "embedderHeapUsedSize": 1230048,
+        "backingStorageSize": 1392021
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 399,
+        "jsEventListeners": 36
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 6
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 5,
+      "heap": {
+        "usedSize": 5309544,
+        "totalSize": 6889472,
+        "embedderHeapUsedSize": 1041376,
+        "backingStorageSize": 1391799
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 402,
+        "jsEventListeners": 36
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 34
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 10,
+      "heap": {
+        "usedSize": 5607660,
+        "totalSize": 6627328,
+        "embedderHeapUsedSize": 1150448,
+        "backingStorageSize": 1391799
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 402,
+        "jsEventListeners": 36
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 64
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 15,
+      "heap": {
+        "usedSize": 5634960,
+        "totalSize": 6103040,
+        "embedderHeapUsedSize": 1209960,
+        "backingStorageSize": 1391799
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 402,
+        "jsEventListeners": 36
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 98
+      },
+      "canvases": 0
+    },
+    {
+      "cycle": 20,
+      "heap": {
+        "usedSize": 5670952,
+        "totalSize": 6627328,
+        "embedderHeapUsedSize": 1435728,
+        "backingStorageSize": 1391799
+      },
+      "dom": {
+        "documents": 1,
+        "nodes": 402,
+        "jsEventListeners": 36
+      },
+      "raf": {
+        "pending": 0,
+        "maxPending": 1,
+        "callbacks": 126
+      },
+      "canvases": 0
+    }
+  ],
+  "accessibility": {
+    "running": [
+      {
+        "role": "RootWebArea",
+        "name": "公園社交練習",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "focused",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "url",
+            "value": {
+              "type": "string",
+              "value": "http://127.0.0.1:4173/"
+            }
+          }
+        ]
+      },
+      {
+        "role": "generic",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "toolbar",
+        "name": "隨時可用的按鈕",
+        "properties": [
+          {
+            "name": "orientation",
+            "value": {
+              "type": "token",
+              "value": "horizontal"
+            }
+          }
+        ]
+      },
+      {
+        "role": "region",
+        "name": "公園場景",
+        "properties": []
+      },
+      {
+        "role": "button",
+        "name": "靠近再說話",
+        "properties": [
+          {
+            "name": "disabled",
+            "value": {
+              "type": "boolean",
+              "value": true
+            }
+          },
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          }
+        ]
+      },
+      {
+        "role": "group",
+        "name": "全方向移動搖桿",
+        "properties": [
+          {
+            "name": "describedby",
+            "value": {
+              "type": "idrefList",
+              "value": "joystick-help",
+              "relatedNodes": [
+                {
+                  "backendDOMNodeId": 156,
+                  "idref": "joystick-help"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "paragraph",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "paragraph",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "group",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "button",
+        "name": "暫停",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "返回安全區",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "Canvas",
+        "name": "公園操作區。前方長椅有小安，左前方有小宇，右前方溜滑梯有小晴，最遠的門口有媽媽",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "Ruby",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "Ruby",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "Ruby",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "Ruby",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "Ruby",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "按住或拖曳圓盤向任意方向移動，放開停止。也可以展開設定使用單次移動按鈕。",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "公園裡有小安、小宇、小晴和媽媽。",
+        "properties": []
+      },
+      {
+        "role": "DisclosureTriangle",
+        "name": "操作與設定",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "expanded",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": false
+            }
+          }
+        ]
+      },
+      {
+        "role": "StaticText",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "靠",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "近",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "再",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "說",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "話",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "按住或拖曳圓盤向任意方向移動，放開停止。也可以展開設定使用單次移動按鈕。",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "公園裡有小安、小宇、小晴和媽媽。",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "設定",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "靠",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "近",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "再",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "說",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "話",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "設定",
+        "properties": []
+      }
+    ],
+    "paused": [
+      {
+        "role": "RootWebArea",
+        "name": "公園社交練習",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "focused",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "url",
+            "value": {
+              "type": "string",
+              "value": "http://127.0.0.1:4173/"
+            }
+          }
+        ]
+      },
+      {
+        "role": "generic",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "toolbar",
+        "name": "隨時可用的按鈕",
+        "properties": [
+          {
+            "name": "orientation",
+            "value": {
+              "type": "token",
+              "value": "horizontal"
+            }
+          }
+        ]
+      },
+      {
+        "role": "region",
+        "name": "公園場景",
+        "properties": []
+      },
+      {
+        "role": "region",
+        "name": "休息一下",
+        "properties": [
+          {
+            "name": "labelledby",
+            "value": {
+              "type": "nodeList",
+              "relatedNodes": [
+                {
+                  "backendDOMNodeId": 37,
+                  "idref": "overlay-title",
+                  "text": "休息一下"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "paragraph",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "button",
+        "name": "暫停",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "返回安全區",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "Canvas",
+        "name": "公園操作區。前方長椅有小安，左前方有小宇，右前方溜滑梯有小晴，最遠的門口有媽媽",
+        "properties": [
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "describedby",
+            "value": {
+              "type": "idrefList",
+              "value": "movement-help",
+              "relatedNodes": [
+                {
+                  "backendDOMNodeId": 167,
+                  "idref": "movement-help"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "heading",
+        "name": "休息一下",
+        "properties": [
+          {
+            "name": "live",
+            "value": {
+              "type": "token",
+              "value": "polite"
+            }
+          },
+          {
+            "name": "atomic",
+            "value": {
+              "type": "boolean",
+              "value": false
+            }
+          },
+          {
+            "name": "relevant",
+            "value": {
+              "type": "tokenList",
+              "value": "additions text"
+            }
+          },
+          {
+            "name": "level",
+            "value": {
+              "type": "integer",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "role": "paragraph",
+        "name": "",
+        "properties": []
+      },
+      {
+        "role": "button",
+        "name": "繼續",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          },
+          {
+            "name": "focused",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "button",
+        "name": "結束本次",
+        "properties": [
+          {
+            "name": "invalid",
+            "value": {
+              "type": "token",
+              "value": "false"
+            }
+          },
+          {
+            "name": "focusable",
+            "value": {
+              "type": "booleanOrUndefined",
+              "value": true
+            }
+          }
+        ]
+      },
+      {
+        "role": "StaticText",
+        "name": "按住或拖曳圓盤向任意方向移動，放開停止。也可以展開設定使用單次移動按鈕。",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "休息一下",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "畫面停住了。準備好再按「繼續」。",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "繼續",
+        "properties": []
+      },
+      {
+        "role": "StaticText",
+        "name": "結束本次",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "按住或拖曳圓盤向任意方向移動，放開停止。也可以展開設定使用單次移動按鈕。",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "暫停",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "返回安全區",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "休息一下",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "畫面停住了。準備好再按「繼續」。",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "繼續",
+        "properties": []
+      },
+      {
+        "role": "InlineTextBox",
+        "name": "結束本次",
+        "properties": []
+      }
+    ]
+  },
+  "visibility": [
+    {
+      "stage": "before",
+      "state": "visible"
+    },
+    {
+      "stage": "second tab active",
+      "state": "visible",
+      "paused": false
+    }
+  ],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:4173/",
+      "method": "GET",
+      "type": "document"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-CmUnYYe1.js",
+      "method": "GET",
+      "type": "script"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/index-DMPMRFGz.css",
+      "method": "GET",
+      "type": "stylesheet"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/6b05b5d5-010c-4519-af44-a0afcd513e69",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/2f674766-0a66-4540-a985-da9b1d9c1f4e",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/27a405dd-652a-4621-9dbc-011c48970150",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/384dfa43-4ad9-4df0-b6d8-db64877b68da",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/92f2b9b9-43f8-498a-8c1c-3f42a3ea9ba5",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/d04935ac-651c-4353-9148-59edc8111e7b",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/511f6c6c-320c-417f-8ca7-7131d1c8e796",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/4f9aab03-2ec8-4cee-b953-fc706cc04652",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/532e394d-9ed4-4b59-a920-af92f4139885",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/1e034445-2f25-4908-94fb-e88c7852a8d5",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/ccd0757a-9f00-48ce-be25-0be6e9f90d7f",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/140eed8b-c64f-402b-9d6f-223224d55e9f",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/d73193ce-00ff-4b37-a7d3-af7fb78acb00",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/f679a0e3-dc7a-4246-9bda-7d0c2e6f4e3c",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/4e80f130-49f2-427e-bfbd-58c6e6237816",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/b5fa7eb2-c20f-43d3-ba5c-864a196f1a6f",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/397b049e-6cf1-43b8-8f23-a626f70ae5f5",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/20fbea4c-5966-4639-a000-7d9e9404eccc",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/ca10f17b-74d4-4530-a64d-771197f6cdac",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/1b2aeb82-7dfc-4285-a0c2-dca12d0c5f91",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/62e36b93-5486-427c-b70e-92bb1d983ff6",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/04158049-fbca-47e2-bee6-1170ef043120",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/05f78e5a-1724-4bda-9c8b-6e346400d83b",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/1d5cb645-87e1-47bd-96d4-f44c80d4f4f7",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/19ea6073-15c7-4f4b-8acb-35bcc10b97c8",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/868937ee-ce89-4746-9429-4647e9939cd0",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/8a09bec7-be8d-40f8-9cab-0ac3ea2a92cc",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/499c9d32-8ee3-4d50-b464-5638dfd4daae",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/79565f50-d56a-49b6-8bf8-ac5ff5b0102c",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/8f6100a5-53fc-408f-9ab4-87e6db8dc80a",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/f55e6797-e611-48f6-956d-cbc63cc80ab6",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/41bd476e-49d1-44e1-b948-1814815dd235",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/c5213dc5-6e72-42f7-8b41-34c56ad62498",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/9163043d-42fc-4d19-8387-55636ba810ec",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/11cb93b7-3bd4-4a25-91c9-e4f58c48bc1d",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/ab0e7a1d-f4af-4941-b9e2-7c07ef05b34a",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/19a855a6-f66f-4449-ac3b-596b1ebd72f1",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/02f33717-1757-4f93-8826-5a6a38b5b29c",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/787b77ba-db54-4781-97b5-7fb5b53aea3d",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/c914d6e4-1d81-4917-af6c-59d087bbb6cf",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/c75defdd-0cd1-432e-896a-9d3537ec4104",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/8572f432-2b90-4b3f-993b-eedbcef80e38",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/04f47095-9827-43fc-b2d5-754d3f847f8e",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/13343965-eead-44fb-84d1-d1c7619e2053",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/8d823684-4add-4b04-ad47-a1893ea0d007",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/b81c77f9-2ca0-4ef3-ba67-750c23b9d34e",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/d8c4f329-886c-4b42-a563-43d9decf4145",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/014ab4ef-f6ea-43db-ab9e-edee1299b3df",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/11b8db37-b292-4756-af8d-0a9a7042174a",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/0e3e6dfc-4286-48ac-98d3-96725af09774",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/94a26b21-43a8-44c8-8cb9-de17ca980816",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/a0c5e446-71e4-44ed-9129-9085805c5716",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/7e47126b-7ca9-45c5-9d1c-d7c7613b47d8",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/44a54589-a413-47c8-b9b0-fb4908b75ff2",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/8caebc60-8e40-4c08-a04e-4f226288ed7e",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/a10fd03f-744c-434a-9c3f-53c9b173f23e",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/0e271a8f-2387-4c0d-900c-3a285749b2c9",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/6b52c4ae-8d8c-434f-8f37-9980c2e4a966",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/3c8b38e7-3d4b-4e50-865c-d4707ef81deb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/f84ad91a-32f6-4b03-a067-e6c7e9860a36",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/d22fe2c8-d504-442a-9f63-584c2f520626",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/7bcd33af-4e56-462d-a3ae-0467495cafb0",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/ff7d9d7e-8250-45ed-916e-8fd75206d46e",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/12be02d5-aa69-46a0-863a-791869b4e920",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/0f43904d-b427-472b-a851-e9a6862e0703",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/2f513941-f4e8-4835-8919-d49ffa65c596",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/916d1cf6-472b-4e70-b398-f680b8d1f9d4",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/1e9a833e-6142-4e1a-b78c-fd1ed3ba7c8b",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/13a84931-6d17-48c6-8408-984bd875a0eb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/a3d628e3-0e91-4483-b34c-307ea2ebe481",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/4e7f6956-c17a-4900-9cc0-bdb5ba02028b",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/973f36b4-5825-499d-8b18-e37f9328986e",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/0a81f69f-f5a2-4683-8873-0ba94767308c",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/c1303d4f-5a5d-4be7-8fb2-11260d44081b",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/74448e3f-6cef-4c86-a17a-12723474732e",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/51a7e62a-e5d1-45f4-bade-777bd2847e82",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/c1188596-d71a-44f4-a284-4d5f970decde",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/9e5af40a-db62-43ae-b915-ed9ab29e0b1c",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/45940f13-84aa-46fc-9435-94ab8ed6aef0",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/ab40f8ab-e2d2-46fc-9b19-fd353d935cd2",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/7392b931-0751-43a5-84eb-3b87d0aaba6c",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/76d25110-12a3-4126-afe8-6d46cecb917c",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/dab3dca0-5805-49e4-9722-7ead5cec910c",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/98c1d98a-1d2d-4583-a4f4-a6789baf91e0",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoan.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoyu.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/xiaoqing.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/characters/mom.glb",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/grass_ground-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/concrete_pavement-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/wood_planks-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/bark_willow-normal.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-color.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/park/leaves-alpha.jpg",
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/e7e6ab32-360e-41d2-816d-1a8d35b13bc4",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/53aeb2fd-0dc3-4626-a7e3-b7271a094063",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/12c6683b-a14a-4f62-9710-aeaeac7f9d1e",
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "url": "blob:http://127.0.0.1:4173/db1a073f-e756-46fc-95c5-53eb7d286ed1",
+      "method": "GET",
+      "type": "fetch"
+    }
+  ],
+  "errors": [],
+  "detachedDom": {
+    "detachedNodes": []
+  },
+  "contrast": {
+    "text": "rgb(31, 42, 51)",
+    "background": "rgb(251, 248, 242)",
+    "border": "rgb(138, 127, 108)",
+    "fontSize": "20px"
+  }
+}

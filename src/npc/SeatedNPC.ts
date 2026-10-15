@@ -15,8 +15,9 @@ import {
   SphereGeometry,
   TorusGeometry,
 } from 'three';
-import type { BufferGeometry, Vector3Like } from 'three';
+import type { Bone, BufferGeometry, Object3D, Vector3Like } from 'three';
 import { createFriendlyFaceTexture } from './FriendlyFaceTexture';
+import { HumanRig, disposeModel } from './HumanModel';
 import type { CircularObstacle } from '../input/FirstPersonController';
 
 export interface CharacterOptions {
@@ -43,6 +44,10 @@ export interface CharacterOptions {
 /** 站姿時上半身抬高的距離，讓腿伸直。 */
 const STANDING_LIFT = 0.18;
 const LEG_PARTS = new Set(['trouser-leg', 'sock', 'shoe', 'shoe-sole', 'shoe-tongue', 'shoe-lace']);
+/** 換上人物模型後仍保留的自製部件（長椅、球）。 */
+const PROP_PARTS = ['bench', 'ball'];
+const X_AXIS = new Vector3(1, 0, 0);
+const Z_AXIS = new Vector3(0, 0, 1);
 
 /** 公園固定人物（坐姿或站姿）；僅明確互動觸發單次動作，不移動、不追人或追蹤視線。 */
 export class ParkCharacter {
@@ -66,6 +71,12 @@ export class ParkCharacter {
   private readonly geometries: BufferGeometry[] = [];
   private readonly faceTexture = createFriendlyFaceTexture();
   private disposed = false;
+  private readonly seated: boolean;
+  private readonly holdsBall: boolean;
+  private rig: HumanRig | null = null;
+  private model: Object3D | null = null;
+  private readonly restPose = new Map<Bone, Quaternion>();
+  private readonly turn = new Quaternion();
   private gesture: 'wave' | 'nod' | null = null;
   private gestureTime = 0;
   private motionEnabled = true;
@@ -82,6 +93,8 @@ export class ParkCharacter {
   constructor(options: CharacterOptions = {}) {
     this.id = options.id ?? 'xiaoan';
     const seated = (options.pose ?? 'seated') === 'seated';
+    this.seated = seated;
+    this.holdsBall = options.prop === 'ball';
     this.obstacle = { x: options.x ?? 0, z: options.z ?? -2, radius: options.radius ?? 1.2 };
     this.root.name = this.id === 'xiaoan' ? 'park-friend' : `park-friend-${this.id}`;
     this.root.position.set(this.obstacle.x, 0, this.obstacle.z);
@@ -451,6 +464,90 @@ export class ParkCharacter {
         if (!LEG_PARTS.has(part.name)) part.position.y += STANDING_LIFT;
     }
   }
+  get hasModel(): boolean {
+    return this.model !== null;
+  }
+
+  /**
+   * 換上 MakeHuman CC0 人物模型（長椅與球保留），擺出坐姿、站姿或拿球的靜態姿勢。
+   * 已釋放、已有模型或骨架不完整時回傳 false，模型由呼叫端釋放。
+   */
+  attachModel(model: Object3D): boolean {
+    if (this.disposed || this.model) return false;
+    const rig = new HumanRig(model);
+    if (!rig.bone('shoulder01', 1) || !rig.bone('shoulder01', -1) || !rig.bone('neck02'))
+      return false;
+    for (const child of this.root.children)
+      if (!PROP_PARTS.some((prefix) => child.name.startsWith(prefix))) child.visible = false;
+    // 模型已是真實身高，抵銷自製人形用的縮放。
+    model.scale.setScalar(1 / this.root.scale.x);
+    model.name = `${this.root.name}-model`;
+    this.root.add(model);
+    this.model = model;
+    this.rig = rig;
+    this.poseModel(rig, model);
+    return true;
+  }
+
+  private poseModel(rig: HumanRig, model: Object3D): void {
+    for (const side of [1, -1] as const) {
+      // 模型綁定姿勢的手臂斜舉約 45°，往下放到身體兩側。
+      rig.bone('shoulder01', side)?.rotation.set(0, 0, -0.5 * side);
+      if (this.seated) {
+        rig.bone('upperleg01', side)?.rotation.set(-1.5, 0, 0);
+        rig.bone('lowerleg01', side)?.rotation.set(1.5, 0, 0);
+      }
+    }
+    // 手肘往前彎：以模型的左右軸為準（上臂轉過後，骨頭自己的 x 軸已經斜了）。
+    const bend = this.seated ? 0.75 : this.holdsBall ? 1.35 : 0;
+    if (bend)
+      for (const side of [1, -1] as const)
+        this.bendInModel(model, rig.bone('lowerarm01', side), X_AXIS, -bend);
+    this.root.updateMatrixWorld(true);
+    const local = (bone: Bone | undefined): Vector3 | null =>
+      bone ? this.root.worldToLocal(bone.getWorldPosition(new Vector3())) : null;
+    if (this.seated) {
+      // 臀部坐在長椅座面上。
+      const hip = local(rig.bone('upperleg01', 1));
+      if (hip) {
+        model.position.y += 0.53 - hip.y;
+        model.position.z += -0.02 - hip.z;
+      }
+    }
+    if (this.holdsBall) {
+      const left = local(rig.bone('wrist', 1));
+      const right = local(rig.bone('wrist', -1));
+      const ball = this.root.getObjectByName('ball');
+      if (left && right && ball)
+        ball.position.copy(left.add(right).multiplyScalar(0.5)).add(new Vector3(0, -0.02, 0.07));
+    }
+    for (const side of [1, -1] as const)
+      for (const name of ['shoulder01', 'lowerarm01', 'wrist'] as const) {
+        const bone = rig.bone(name, side);
+        if (bone) this.restPose.set(bone, bone.quaternion.clone());
+      }
+    const neck = rig.bone('neck02');
+    if (neck) this.restPose.set(neck, neck.quaternion.clone());
+  }
+
+  /** 繞「模型座標」的軸旋轉骨頭（換算到骨頭父節點的座標）。 */
+  private bendInModel(model: Object3D, bone: Bone | undefined, axis: Vector3, angle: number): void {
+    if (!bone?.parent) return;
+    this.root.updateMatrixWorld(true);
+    const modelQuat = model.getWorldQuaternion(new Quaternion());
+    const parentQuat = bone.parent.getWorldQuaternion(new Quaternion());
+    const worldAxis = axis.clone().applyQuaternion(modelQuat);
+    const localAxis = worldAxis.applyQuaternion(parentQuat.invert());
+    bone.quaternion.premultiply(new Quaternion().setFromAxisAngle(localAxis, angle));
+  }
+
+  /** 以靜止姿勢為基準，再轉一個角度。 */
+  private turnBone(bone: Bone | undefined, axis: Vector3, angle: number): void {
+    const rest = bone ? this.restPose.get(bone) : undefined;
+    if (!bone || !rest) return;
+    bone.quaternion.copy(rest).multiply(this.turn.setFromAxisAngle(axis, angle));
+  }
+
   setMotionEnabled(enabled: boolean): void {
     this.motionEnabled = enabled;
     if (!enabled) this.resetGesture();
@@ -466,7 +563,25 @@ export class ParkCharacter {
     if (this.disposed || !this.gesture || !Number.isFinite(delta) || delta <= 0) return;
     const duration = this.gesture === 'wave' ? 2.8 : 1.6;
     this.gestureTime = Math.min(duration, this.gestureTime + Math.min(delta, 0.05));
-    if (this.gesture === 'nod') {
+    const rig = this.rig;
+    if (rig && this.gesture === 'nod') {
+      this.turnBone(
+        rig.bone('neck02'),
+        X_AXIS,
+        0.2 * Math.sin((Math.PI * this.gestureTime) / duration) ** 2,
+      );
+    } else if (rig) {
+      const ease = (value: number): number => {
+        const t = Math.max(0, Math.min(1, value));
+        return t * t * (3 - 2 * t);
+      };
+      const lift = ease(this.gestureTime / 0.65) * (1 - ease((this.gestureTime - 2.15) / 0.65));
+      const waving = Math.max(0, Math.min(1, (this.gestureTime - 0.65) / 1.5));
+      // -x 側手臂往側上方舉起、前臂朝上，手腕柔和擺兩次；不動頭或相機。
+      this.turnBone(rig.bone('shoulder01', -1), Z_AXIS, -2 * lift);
+      this.turnBone(rig.bone('lowerarm01', -1), Z_AXIS, -0.9 * lift);
+      this.turnBone(rig.bone('wrist', -1), Z_AXIS, 0.35 * Math.sin(waving * Math.PI * 4) * lift);
+    } else if (this.gesture === 'nod') {
       this.headPivot.rotation.x = 0.16 * Math.sin((Math.PI * this.gestureTime) / duration) ** 2;
     } else {
       const ease = (value: number): number => {
@@ -491,6 +606,7 @@ export class ParkCharacter {
     this.armPivot.rotation.z = 0;
     this.elbowPivot.quaternion.identity();
     this.wristPivot.rotation.set(0, 0, 0);
+    for (const [bone, rest] of this.restPose) bone.quaternion.copy(rest);
   }
   distanceTo(position: Vector3Like): number {
     return Math.hypot(position.x - this.obstacle.x, position.z - this.obstacle.z);
@@ -506,6 +622,10 @@ export class ParkCharacter {
     this.disposed = true;
     this.resetGesture();
     this.faceTexture.dispose();
+    if (this.model) disposeModel(this.model);
+    this.model = null;
+    this.rig = null;
+    this.restPose.clear();
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
     this.headPivot.clear();

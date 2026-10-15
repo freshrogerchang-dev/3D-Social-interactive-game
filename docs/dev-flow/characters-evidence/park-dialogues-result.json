@@ -1,0 +1,187 @@
+{
+  "node": "v22.22.0",
+  "chromium": "141.0.7390.37",
+  "url": "local dist",
+  "checks": [
+    {
+      "name": "出發點不能開始對話，按鈕寫「靠近再說話」",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "人物提示列出四位人物",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "出發點沒有例外",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "向左轉 45° 往前走靠近小宇，按鈕變成「跟小宇說話」",
+      "pass": true,
+      "detail": "跟小宇說話"
+    },
+    {
+      "name": "靠近不自動開啟對話",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "人物提示：小宇在這裡玩球",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "對話標題為「一起玩」，小宇不先開口",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "對話中隱藏移動搖桿",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "選項至少 64px、有注音、圖示與名稱",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "問一起玩：小宇說等一下",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "一起玩完成",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "換個回答：小宇說現在不行",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "幫助保留原節點",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "關閉幫助後焦點回到幫助按鈕",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "說我難過：中性回應",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "回公園後關閉對話、恢復搖桿",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "小宇路徑沒有例外",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "向右轉 45° 往前走靠近小晴，按鈕變成「去排隊」",
+      "pass": true,
+      "detail": "去排隊"
+    },
+    {
+      "name": "小晴回答在排隊",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "插隊有四種做法",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "暫停後繼續仍在插隊節點",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "找大人：大人請他排後面",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "返回安全區清除對話，不恢復舊節點",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "小晴路徑沒有例外",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "繞過長椅往前走到入口，按鈕變成「跟媽媽說話」",
+      "pass": true,
+      "detail": "跟媽媽說話"
+    },
+    {
+      "name": "媽媽先說明行程",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "「媽媽」第二字標輕聲",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "媽媽複述：你今天不想去游泳",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "媽媽提出先游泳再玩 Switch",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "休息後同意出發",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "320x568 選項可命中、安全按鈕可命中",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "844x390 選項可命中、安全按鈕可命中",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "媽媽路徑沒有例外",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "往前走靠近小安，按鈕仍是「打招呼」",
+      "pass": true,
+      "detail": "打招呼"
+    },
+    {
+      "name": "小安回應不變",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "小安路徑沒有例外",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

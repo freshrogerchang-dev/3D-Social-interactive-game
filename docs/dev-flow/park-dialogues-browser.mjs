@@ -21,7 +21,7 @@ const browser = await chromium.launch({
     ? { proxy: { server: process.env.HTTPS_PROXY } }
     : {}),
 });
-const types = { js: 'text/javascript', css: 'text/css', jpg: 'image/jpeg', json: 'application/json', txt: 'text/plain' };
+const types = { js: 'text/javascript', css: 'text/css', jpg: 'image/jpeg', json: 'application/json', txt: 'text/plain', glb: 'model/gltf-binary' };
 
 async function openPark() {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });

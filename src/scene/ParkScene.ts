@@ -18,7 +18,10 @@ import {
   Texture,
   Vector3,
 } from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { Material, Object3D } from 'three';
 import { ParkEnvironment } from './ParkEnvironment';
+import { disposeModel } from '../npc/HumanModel';
 import { ParkCharacter } from '../npc/SeatedNPC';
 import { PARK_LIMIT } from '../input/FirstPersonController';
 import type { CircularObstacle } from '../input/FirstPersonController';
@@ -135,47 +138,13 @@ export class ParkScene {
     this.scene.background = SKY_COLOR;
     this.scene.fog = new Fog(SKY_COLOR, 28, 95);
 
-    // three 0.186.1 的共用 DFG_LUT 會保留各 context 的 dispose listener。
-    // 透過公開材質 hook／uniform value，讓 renderer 上傳本場景擁有的 clone；
-    // 不修改共用貼圖，其他場景的 context 仍可獨立使用與釋放。
     for (const material of [
       ...this.materials,
       ...this.characters.flatMap((character) => character.materials),
       ...this.propMaterials,
       ...this.environment.materials,
-    ]) {
-      material.onBeforeCompile = (shader) => {
-        // 實拍素材也限制表面 HSL 飽和度；不做畫面後製。
-        if (typeof shader.fragmentShader === 'string') {
-          shader.fragmentShader = shader.fragmentShader.replace(
-            '#include <color_fragment>',
-            `
-            #include <color_fragment>
-            float parkMax = max(diffuseColor.r, max(diffuseColor.g, diffuseColor.b));
-            float parkMin = min(diffuseColor.r, min(diffuseColor.g, diffuseColor.b));
-            float parkLight = (parkMax + parkMin) * 0.5;
-            float parkSat = (parkMax - parkMin) / max(0.00001, 1.0 - abs(2.0 * parkLight - 1.0));
-            diffuseColor.rgb = mix(vec3(parkLight), diffuseColor.rgb, min(1.0, 0.6 / max(0.00001, parkSat)));
-          `,
-          );
-        }
-        if (!shader.uniforms['dfgLUT']) return;
-        const uniform: { value: Texture | null } = { value: null };
-        Object.defineProperty(uniform, 'value', {
-          enumerable: true,
-          get: () => this.dfgTexture,
-          set: (source: unknown) => {
-            if (this.disposed || !(source instanceof Texture)) return;
-            if (this.dfgSourceId === source.uuid) return;
-            this.dfgTexture?.dispose();
-            this.dfgTexture = source.clone();
-            this.dfgTexture.needsUpdate = true;
-            this.dfgSourceId = source.uuid;
-          },
-        });
-        shader.uniforms['dfgLUT'] = uniform;
-      };
-    }
+    ])
+      this.prepareMaterial(material);
 
     const [groundGeometry, markerGeometry, edgeGeometry] = this.geometries;
     const [groundMaterial, markerMaterial, edgeMaterial] = this.materials;
@@ -214,6 +183,74 @@ export class ParkScene {
     this.buildSlide();
     this.buildGate();
     this.resetToSafety();
+    if (loadTextures) this.loadCharacterModels();
+  }
+
+  /**
+   * three 0.186.1 的共用 DFG_LUT 會保留各 context 的 dispose listener。
+   * 透過公開材質 hook／uniform value，讓 renderer 上傳本場景擁有的 clone；
+   * 不修改共用貼圖，其他場景的 context 仍可獨立使用與釋放。
+   */
+  private prepareMaterial(material: Material): void {
+    material.onBeforeCompile = (shader) => {
+      // 實拍素材與人物模型也限制表面 HSL 飽和度；不做畫面後製。
+      if (typeof shader.fragmentShader === 'string') {
+        shader.fragmentShader = shader.fragmentShader.replace(
+          '#include <color_fragment>',
+          `
+          #include <color_fragment>
+          float parkMax = max(diffuseColor.r, max(diffuseColor.g, diffuseColor.b));
+          float parkMin = min(diffuseColor.r, min(diffuseColor.g, diffuseColor.b));
+          float parkLight = (parkMax + parkMin) * 0.5;
+          float parkSat = (parkMax - parkMin) / max(0.00001, 1.0 - abs(2.0 * parkLight - 1.0));
+          diffuseColor.rgb = mix(vec3(parkLight), diffuseColor.rgb, min(1.0, 0.6 / max(0.00001, parkSat)));
+        `,
+        );
+      }
+      if (!shader.uniforms['dfgLUT']) return;
+      const uniform: { value: Texture | null } = { value: null };
+      Object.defineProperty(uniform, 'value', {
+        enumerable: true,
+        get: () => this.dfgTexture,
+        set: (source: unknown) => {
+          if (this.disposed || !(source instanceof Texture)) return;
+          if (this.dfgSourceId === source.uuid) return;
+          this.dfgTexture?.dispose();
+          this.dfgTexture = source.clone();
+          this.dfgTexture.needsUpdate = true;
+          this.dfgSourceId = source.uuid;
+        },
+      });
+      shader.uniforms['dfgLUT'] = uniform;
+    };
+  }
+
+  /**
+   * 非阻塞載入 MakeHuman CC0 人物模型（public/assets/characters）。
+   * 載入前與失敗時保留自製人形；場景已釋放才載到的模型直接釋放。
+   */
+  private loadCharacterModels(): void {
+    const loader = new GLTFLoader();
+    for (const character of this.characters) {
+      loader.load(
+        `${import.meta.env.BASE_URL}assets/characters/${character.id}.glb`,
+        (gltf) => {
+          const model: Object3D = gltf.scene;
+          if (this.disposed) {
+            disposeModel(model);
+            return;
+          }
+          model.traverse((object) => {
+            if (object instanceof Mesh)
+              for (const material of [object.material as Material | Material[]].flat())
+                this.prepareMaterial(material);
+          });
+          if (!character.attachModel(model)) disposeModel(model);
+        },
+        undefined,
+        () => undefined,
+      );
+    }
   }
 
   /** 低矮溜滑梯：梯子在 +z（排隊端），平台、滑道往 -z 降到地面。 */
