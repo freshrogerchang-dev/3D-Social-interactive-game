@@ -1,5 +1,7 @@
 import {
+  BoxGeometry,
   BufferGeometry,
+  CylinderGeometry,
   CircleGeometry,
   Color,
   DirectionalLight,
@@ -17,8 +19,9 @@ import {
   Vector3,
 } from 'three';
 import { ParkEnvironment } from './ParkEnvironment';
-import { SeatedNPC } from '../npc/SeatedNPC';
+import { ParkCharacter } from '../npc/SeatedNPC';
 import { PARK_LIMIT } from '../input/FirstPersonController';
+import type { CircularObstacle } from '../input/FirstPersonController';
 
 /** 安全區的相機姿態：約 5–8 歲兒童的視線高度，面向公園中央。 */
 const SAFE_CAMERA_POSITION = new Vector3(0, 1.1, 3.5);
@@ -35,9 +38,64 @@ const MARKER_EDGE_COLOR = new Color().setHSL(40 / 360, 0.35, 0.92);
  * 單一公園場景：地面、安全標記、相機與柔和光照。
  * 材質用 PBR（MeshStandardMaterial），之後可接寫實素材（Q6）；不做即時陰影、粒子、模糊或晃動。
  */
+/**
+ * 公園裡固定位置的人物。彼此距離大於靠近範圍（約 6.4m），一次只會靠近一位。
+ * 出發點 (0, 3.5) 面向 -z，所有人都在前方：長椅小安、左前小宇、右前小晴與溜滑梯，
+ * 最遠的公園入口是媽媽。小宇、小晴各在出發點左右 45° 的方向（轉三次「向左／右看」
+ * 就在正前方），並略轉向玩家走來的方向，手機直向也看得到臉。
+ */
+function createCharacters(): readonly ParkCharacter[] {
+  return [
+    new ParkCharacter(),
+    new ParkCharacter({
+      id: 'xiaoyu',
+      x: -6.5,
+      z: -3,
+      // 面向出發點方向（固定，不追蹤玩家）。
+      rotationY: Math.PI / 4,
+      pose: 'standing',
+      radius: 1,
+      colors: { shirt: 0xa98f6a, shirtShade: 0x8f7859, trousers: 0x55657a, hair: 0x2f2620 },
+      prop: 'ball',
+    }),
+    new ParkCharacter({
+      id: 'xiaoqing',
+      x: 6.5,
+      z: -3,
+      // 側身排隊、回頭朝公園中央（固定角度，不追蹤玩家），走近時看得到四分之三側臉。
+      rotationY: -1.2,
+      pose: 'standing',
+      radius: 1,
+      colors: { shirt: 0xb48a8f, shirtShade: 0x9a767b, trousers: 0x5d6a63, hair: 0x3a2a22 },
+      longHair: true,
+    }),
+    new ParkCharacter({
+      id: 'mom',
+      // 站在入口內、步道左側，從長椅左邊走過去就在正前方。
+      x: -1.2,
+      z: -8.6,
+      rotationY: 0,
+      pose: 'standing',
+      scale: 1.3,
+      radius: 1,
+      colors: { shirt: 0x8a9a7c, shirtShade: 0x75846a, trousers: 0x4f5560, hair: 0x2b211c },
+      longHair: true,
+    }),
+  ];
+}
+
+/** 溜滑梯位置：小晴排在梯子前方（+z），滑道往 -z 方向。 */
+const SLIDE = { x: 6.5, z: -4.6 } as const;
+/** 公園入口在最遠端（-z），媽媽站在入口內側。 */
+const GATE_Z = -9.6;
+
 export class ParkScene {
   readonly scene = new Scene();
-  readonly npc = new SeatedNPC();
+  readonly characters = createCharacters();
+  /** 長椅上的小安（第一位人物）。 */
+  readonly npc: ParkCharacter = this.characters[0] as ParkCharacter;
+  /** 人物以外會擋住移動的設施。 */
+  readonly obstacles: readonly CircularObstacle[] = [{ x: SLIDE.x, z: SLIDE.z - 1, radius: 1.4 }];
   readonly environment: ParkEnvironment;
   readonly camera = new PerspectiveCamera(CAMERA_FOV, 1, 0.1, 500);
 
@@ -60,6 +118,14 @@ export class ParkScene {
   private readonly boundaryMaterial = new LineBasicMaterial({
     color: new Color().setHSL(40 / 360, 0.12, 0.45),
   });
+  /** 溜滑梯與公園入口：靜態自製幾何，不動、不發光。 */
+  private readonly propGeometries: BoxGeometry[] = [];
+  private readonly propMaterials = [
+    new MeshStandardMaterial({ color: new Color().setHSL(205 / 360, 0.25, 0.55), roughness: 0.7 }),
+    new MeshStandardMaterial({ color: new Color().setHSL(40 / 360, 0.35, 0.62), roughness: 0.6 }),
+    new MeshStandardMaterial({ color: new Color().setHSL(30 / 360, 0.15, 0.4), roughness: 0.9 }),
+  ] as const;
+  private readonly postGeometry = new CylinderGeometry(0.05, 0.05, 1, 12);
   private disposed = false;
   private dfgTexture: Texture | null = null;
   private dfgSourceId: string | null = null;
@@ -74,7 +140,8 @@ export class ParkScene {
     // 不修改共用貼圖，其他場景的 context 仍可獨立使用與釋放。
     for (const material of [
       ...this.materials,
-      ...this.npc.materials,
+      ...this.characters.flatMap((character) => character.materials),
+      ...this.propMaterials,
       ...this.environment.materials,
     ]) {
       material.onBeforeCompile = (shader) => {
@@ -134,8 +201,68 @@ export class ParkScene {
 
     const boundary = new LineLoop(this.boundaryGeometry, this.boundaryMaterial);
     boundary.name = 'park-boundary';
-    this.scene.add(ground, marker, edge, sky, sun, boundary, this.npc.root, this.environment.root);
+    this.scene.add(
+      ground,
+      marker,
+      edge,
+      sky,
+      sun,
+      boundary,
+      this.environment.root,
+      ...this.characters.map((character) => character.root),
+    );
+    this.buildSlide();
+    this.buildGate();
     this.resetToSafety();
+  }
+
+  /** 低矮溜滑梯：梯子在 +z（排隊端），平台、滑道往 -z 降到地面。 */
+  private buildSlide(): void {
+    const [frame, chute] = this.propMaterials;
+    const box = (
+      name: string,
+      material: MeshStandardMaterial,
+      size: readonly [number, number, number],
+      position: readonly [number, number, number],
+      tiltX = 0,
+    ): void => {
+      const geometry = new BoxGeometry(...size);
+      this.propGeometries.push(geometry);
+      const mesh = new Mesh(geometry, material);
+      mesh.name = name;
+      mesh.position.set(SLIDE.x + position[0], position[1], SLIDE.z + position[2]);
+      mesh.rotation.x = tiltX;
+      this.scene.add(mesh);
+    };
+    for (const side of [-0.3, 0.3])
+      box('slide-ladder-rail', frame, [0.05, 1.3, 0.05], [side, 0.65, 0]);
+    for (let step = 0; step < 4; step += 1)
+      box('slide-ladder-step', frame, [0.6, 0.04, 0.08], [0, 0.25 + step * 0.3, 0]);
+    box('slide-platform', frame, [0.7, 0.06, 0.6], [0, 1.3, -0.3]);
+    for (const side of [-0.32, 0.32])
+      box('slide-platform-post', frame, [0.05, 1.3, 0.05], [side, 0.65, -0.6]);
+    // 滑道從平台 (y 1.3) 斜降到 z -2.6 的地面。
+    box('slide-chute', chute, [0.6, 0.05, 2.4], [0, 0.68, -1.6], -0.52);
+    for (const side of [-0.32, 0.32])
+      box('slide-chute-edge', chute, [0.04, 0.12, 2.4], [side, 0.74, -1.6], -0.52);
+  }
+
+  /** 公園入口：兩根柱子與橫梁，媽媽站在入口內側。 */
+  private buildGate(): void {
+    const [, , post] = this.propMaterials;
+    for (const x of [-2.2, 2.2]) {
+      const pillar = new Mesh(this.postGeometry, post);
+      pillar.name = 'park-gate-post';
+      pillar.scale.set(1.6, 2.2, 1.6);
+      pillar.position.set(x, 1.1, GATE_Z);
+      this.scene.add(pillar);
+    }
+    const beamGeometry = new BoxGeometry(4.6, 0.12, 0.12);
+    this.propGeometries.push(beamGeometry);
+    const beam = new Mesh(beamGeometry, post);
+    beam.name = 'park-gate-beam';
+    beam.position.set(0, 2.2, GATE_Z);
+    this.scene.add(beam);
   }
 
   /** 把相機放回安全區的固定姿態。 */
@@ -158,7 +285,10 @@ export class ParkScene {
     this.disposed = true;
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
-    this.npc.dispose();
+    for (const character of this.characters) character.dispose();
+    for (const geometry of this.propGeometries) geometry.dispose();
+    for (const material of this.propMaterials) material.dispose();
+    this.postGeometry.dispose();
     this.environment.dispose();
     this.boundaryGeometry.dispose();
     this.boundaryMaterial.dispose();

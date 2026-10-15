@@ -31,14 +31,11 @@ const greeting =
         greetingPanel,
         greetingLaunch,
         (active) => engine?.setInteractionActive(active),
-        (node) => {
+        (gesture, characterId) => {
           const enabled =
             document.querySelector<HTMLInputElement>('#npc-motion')?.checked === true &&
             !matchMedia('(prefers-reduced-motion: reduce)').matches;
-          engine?.setNPCGesture(
-            node === 'greet' ? 'wave' : node === 'spoken' || node === 'nod' ? 'nod' : null,
-            enabled,
-          );
+          engine?.setNPCGesture(gesture, enabled, characterId ?? undefined);
         },
       )
     : null;
@@ -105,7 +102,7 @@ app.addEventListener('change', (event) => {
 function teardown(): void {
   greeting?.clear();
   greeting?.setRunning(false);
-  greeting?.setNear(false);
+  greeting?.setNear(null);
   engine?.dispose();
   engine = null;
   canvas?.remove();
@@ -126,7 +123,10 @@ async function startSession(): Promise<void> {
   const nextCanvas = document.createElement('canvas');
   nextCanvas.className = 'scene-canvas';
   nextCanvas.tabIndex = 0;
-  nextCanvas.setAttribute('aria-label', '公園操作區，小安坐在前方的長椅上');
+  nextCanvas.setAttribute(
+    'aria-label',
+    '公園操作區。前方長椅有小安，左前方有小宇，右前方溜滑梯有小晴，最遠的門口有媽媽',
+  );
   nextCanvas.setAttribute('aria-describedby', 'movement-help');
   stage.append(nextCanvas);
 
@@ -135,10 +135,10 @@ async function startSession(): Promise<void> {
     onStateChange: () => {
       if (engine === current) syncView();
     },
-    onNPCPresence: (near) => {
+    onNPCPresence: (nearId) => {
       if (engine === current) {
-        ui.renderNPCPresence(near);
-        greeting?.setNear(near);
+        ui.renderNPCPresence(nearId);
+        greeting?.setNear(nearId);
       }
     },
     onPerformance: (fps) => {

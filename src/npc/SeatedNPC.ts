@@ -19,10 +19,36 @@ import type { BufferGeometry, Vector3Like } from 'three';
 import { createFriendlyFaceTexture } from './FriendlyFaceTexture';
 import type { CircularObstacle } from '../input/FirstPersonController';
 
-/** 單一坐姿工程人形；僅明確互動觸發單次動作，不追人或追蹤視線。 */
-export class SeatedNPC {
+export interface CharacterOptions {
+  /** 與對話情境對應的人物 id；預設為長椅上的小安。 */
+  readonly id?: string;
+  readonly x?: number;
+  readonly z?: number;
+  /** 人物正面預設朝 +z；只在建立時設定，之後不轉向玩家。 */
+  readonly rotationY?: number;
+  readonly pose?: 'seated' | 'standing';
+  readonly scale?: number;
+  /** 個人空間半徑（公尺）。 */
+  readonly radius?: number;
+  readonly colors?: {
+    readonly shirt?: number;
+    readonly shirtShade?: number;
+    readonly trousers?: number;
+    readonly hair?: number;
+  };
+  readonly longHair?: boolean;
+  readonly prop?: 'ball';
+}
+
+/** 站姿時上半身抬高的距離，讓腿伸直。 */
+const STANDING_LIFT = 0.18;
+const LEG_PARTS = new Set(['trouser-leg', 'sock', 'shoe', 'shoe-sole', 'shoe-tongue', 'shoe-lace']);
+
+/** 公園固定人物（坐姿或站姿）；僅明確互動觸發單次動作，不移動、不追人或追蹤視線。 */
+export class ParkCharacter {
+  readonly id: string;
   readonly root = new Group();
-  readonly obstacle: CircularObstacle = { x: 0, z: -2, radius: 1.2 };
+  readonly obstacle: CircularObstacle;
   readonly materials = [
     new MeshStandardMaterial({ color: new Color().setHSL(28 / 360, 0.42, 0.69), roughness: 0.9 }),
     new MeshStandardMaterial({ color: new Color().setHSL(155 / 360, 0.24, 0.61), roughness: 0.95 }),
@@ -53,9 +79,14 @@ export class SeatedNPC {
     new Vector3(0, 0.31, 0.035).applyAxisAngle(new Vector3(0, 0, 1), 1.35).normalize(),
   );
 
-  constructor() {
-    this.root.name = 'park-friend';
+  constructor(options: CharacterOptions = {}) {
+    this.id = options.id ?? 'xiaoan';
+    const seated = (options.pose ?? 'seated') === 'seated';
+    this.obstacle = { x: options.x ?? 0, z: options.z ?? -2, radius: options.radius ?? 1.2 };
+    this.root.name = this.id === 'xiaoan' ? 'park-friend' : `park-friend-${this.id}`;
     this.root.position.set(this.obstacle.x, 0, this.obstacle.z);
+    this.root.rotation.y = options.rotationY ?? 0;
+    this.root.scale.setScalar(options.scale ?? 1);
     const [skin, shirt, trousers, hair, wood, ivory, , , accent, clothShade, seam, faceMaterial] =
       this.materials;
     skin.color.setHex(0xeeb694);
@@ -65,11 +96,11 @@ export class SeatedNPC {
     faceMaterial.emissive.setHex(0xffffff);
     faceMaterial.emissiveMap = this.faceTexture;
     faceMaterial.emissiveIntensity = 0.18;
-    shirt.color.setHex(0x769ba2);
-    clothShade.color.setHex(0x66838c);
-    hair.color.setHex(0x63452f);
-    trousers.color.setHex(0x526780);
-    for (let slat = 0; slat < 4; slat += 1) {
+    shirt.color.setHex(options.colors?.shirt ?? 0x769ba2);
+    clothShade.color.setHex(options.colors?.shirtShade ?? 0x66838c);
+    hair.color.setHex(options.colors?.hair ?? 0x63452f);
+    trousers.color.setHex(options.colors?.trousers ?? 0x526780);
+    for (let slat = 0; seated && slat < 4; slat += 1) {
       this.addPart(
         'bench-seat',
         new BoxGeometry(1.8, 0.065, 0.105),
@@ -87,11 +118,11 @@ export class SeatedNPC {
         -0.25,
       );
     }
-    for (const x of [-0.82, 0.82]) {
+    for (const x of seated ? [-0.82, 0.82] : []) {
       this.addPart('bench-arm', new BoxGeometry(0.08, 0.06, 0.46), wood, x, 0.65, 0);
       this.addPart('bench-arm-support', new BoxGeometry(0.06, 0.2, 0.06), wood, x, 0.54, 0.12);
     }
-    for (const x of [-0.7, 0.7]) {
+    for (const x of seated ? [-0.7, 0.7] : []) {
       for (const z of [-0.15, 0.15])
         this.addPart('bench-leg', new BoxGeometry(0.09, 0.4, 0.09), hair, x, 0.2, z);
     }
@@ -287,14 +318,25 @@ export class SeatedNPC {
     this.root.add(this.armPivot);
     for (const side of [-1, 1]) {
       const x = side * 0.105;
-      const legPath = new CatmullRomCurve3([
-        new Vector3(x, 0.503, 0.036),
-        new Vector3(x, 0.492, 0.18),
-        new Vector3(x, 0.477, 0.312),
-        new Vector3(x, 0.425, 0.35),
-        new Vector3(side * 0.117, 0.25, 0.328),
-        new Vector3(side * 0.12, 0.117, 0.315),
-      ]);
+      // 站姿：腿從抬高後的臀部直直往下，腳在身體正下方。
+      const footZ = seated ? 0.315 : 0.04;
+      const legPath = new CatmullRomCurve3(
+        seated
+          ? [
+              new Vector3(x, 0.503, 0.036),
+              new Vector3(x, 0.492, 0.18),
+              new Vector3(x, 0.477, 0.312),
+              new Vector3(x, 0.425, 0.35),
+              new Vector3(side * 0.117, 0.25, 0.328),
+              new Vector3(side * 0.12, 0.117, 0.315),
+            ]
+          : [
+              new Vector3(x, 0.503 + STANDING_LIFT, 0.036),
+              new Vector3(side * 0.11, 0.45, 0.04),
+              new Vector3(side * 0.117, 0.28, 0.042),
+              new Vector3(side * 0.12, 0.117, footZ),
+            ],
+      );
       const legGeometry = new TubeGeometry(legPath, 32, 0.077, 16, false);
       const vertices = legGeometry.getAttribute('position');
       for (let ring = 0; ring <= 32; ring++) {
@@ -316,20 +358,20 @@ export class SeatedNPC {
       segment(
         'sock',
         ivory,
-        [side * 0.12, 0.089, 0.315],
-        [side * 0.12, 0.129, 0.315],
+        [side * 0.12, 0.089, footZ],
+        [side * 0.12, 0.129, footZ],
         0.043,
         0.044,
       );
-      oval('shoe', ivory, [side * 0.12, 0.063, 0.375], [0.065, 0.052, 0.12]);
-      oval('shoe-sole', seam, [side * 0.12, 0.028, 0.377], [0.066, 0.015, 0.121]);
-      oval('shoe-tongue', ivory, [side * 0.12, 0.102, 0.352], [0.035, 0.009, 0.04]);
+      oval('shoe', ivory, [side * 0.12, 0.063, footZ + 0.06], [0.065, 0.052, 0.12]);
+      oval('shoe-sole', seam, [side * 0.12, 0.028, footZ + 0.062], [0.066, 0.015, 0.121]);
+      oval('shoe-tongue', ivory, [side * 0.12, 0.102, footZ + 0.037], [0.035, 0.009, 0.04]);
       for (let lace = 0; lace < 3; lace++)
         segment(
           'shoe-lace',
           clothShade,
-          [side * 0.12 - 0.025, 0.108 - lace * 0.002, 0.345 + lace * 0.017],
-          [side * 0.12 + 0.025, 0.108 - lace * 0.002, 0.345 + lace * 0.017],
+          [side * 0.12 - 0.025, 0.108 - lace * 0.002, footZ + 0.03 + lace * 0.017],
+          [side * 0.12 + 0.025, 0.108 - lace * 0.002, footZ + 0.03 + lace * 0.017],
           0.002,
           0.002,
         );
@@ -398,6 +440,16 @@ export class SeatedNPC {
     }
     this.elbowPivot.attach(this.wristPivot);
     this.armPivot.attach(this.elbowPivot);
+    if (options.longHair) {
+      const back = oval('hair-back', hair, [0, 1.02, -0.07], [0.17, 0.2, 0.11]);
+      this.headPivot.attach(back);
+    }
+    if (options.prop === 'ball') oval('ball', accent, [0, 0.57, 0.36], [0.11, 0.11, 0.11]);
+    if (!seated) {
+      // 腿以外的部位（含動作 pivot）一起抬高；腿已用站姿座標建立。
+      for (const part of this.root.children)
+        if (!LEG_PARTS.has(part.name)) part.position.y += STANDING_LIFT;
+    }
   }
   setMotionEnabled(enabled: boolean): void {
     this.motionEnabled = enabled;
@@ -480,3 +532,6 @@ export class SeatedNPC {
     return part;
   }
 }
+
+/** 舊名稱：公園長椅上的小安。 */
+export { ParkCharacter as SeatedNPC };

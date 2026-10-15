@@ -1,3 +1,10 @@
+const PRESENCE: Readonly<Record<string, string>> = {
+  xiaoan: '小安坐在這裡。',
+  xiaoyu: '小宇在這裡玩球。',
+  xiaoqing: '小晴在溜滑梯前排隊。',
+  mom: '媽媽在公園門口。',
+};
+
 export type SafetyAction = 'pause' | 'safety' | 'resume' | 'retry' | 'restart' | 'end';
 
 export type SafetyActions = Readonly<Record<SafetyAction, () => void>>;
@@ -134,8 +141,9 @@ export class SafetyUI {
     if (firstAction !== undefined) this.panelButtons[firstAction].focus();
   }
 
-  renderNPCPresence(near: boolean): void {
-    this.npcInfo.textContent = near ? '小安坐在這裡。' : '小安在長椅上。';
+  /** 只描述人物在哪裡；不催促玩家去說話。 */
+  renderNPCPresence(nearId: string | null): void {
+    this.npcInfo.textContent = PRESENCE[nearId ?? ''] ?? '公園裡有小安、小宇、小晴和媽媽。';
   }
 
   dispose(): void {

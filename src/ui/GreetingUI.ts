@@ -1,19 +1,30 @@
-import { GREETING, Greeting } from '../dialogue/Greeting';
-import type { NodeId } from '../dialogue/Greeting';
+import { PARK_SCENARIOS } from '../dialogue/ParkScenarios';
+import { DialogueSession } from '../dialogue/Scenario';
+import type { Gesture, Scenario } from '../dialogue/Scenario';
 import { annotatedText, decorateButton } from './GreetingPresentation';
 
-/** DOM 對話；安全控制仍在外層，沒有計時器、語音辨識或自動前進。 */
+const SCENARIOS: Readonly<Record<string, Scenario<string>>> = PARK_SCENARIOS;
+
+/**
+ * 公園人物對話（原本只有打招呼，現在依靠近的人物切換情境）。
+ * 安全控制仍在外層，沒有計時器、語音辨識或自動前進。
+ */
 export class GreetingUI {
-  readonly session = new Greeting();
+  session: DialogueSession<string> | null = null;
   private running = false;
-  private near = false;
+  private nearId: string | null = null;
+  /** 正在對話的人物；對話中走開或靠近別人都不換對象。 */
+  private talkingTo: string | null = null;
   private focusBeforeHelp: HTMLElement | null = null;
   private focusBeforePause: HTMLElement | null = null;
   constructor(
     private readonly panel: HTMLElement,
     private readonly launch: HTMLButtonElement,
     private readonly onActive: (active: boolean) => void,
-    private readonly onGesture: (node: NodeId | null) => void = () => {},
+    private readonly onGesture: (
+      gesture: Gesture | null,
+      characterId: string | null,
+    ) => void = () => {},
   ) {
     for (const button of panel.querySelectorAll<HTMLButtonElement>('button[data-greeting]')) {
       decorateButton(
@@ -22,84 +33,99 @@ export class GreetingUI {
         button.dataset.greeting === 'help' ? 'help' : 'repeat',
       );
     }
-    const title = panel.querySelector('#greeting-title');
-    title?.replaceChildren(annotatedText('打招呼'));
     panel.addEventListener('focusin', (event) => {
       if (event.target instanceof HTMLElement) this.focusBeforePause = event.target;
     });
     launch.addEventListener('click', () => {
-      if (!this.running || !this.near) return;
+      const scenario = this.nearId === null ? undefined : SCENARIOS[this.nearId];
+      if (!this.running || !scenario) return;
+      this.talkingTo = this.nearId;
+      this.session = new DialogueSession(scenario);
       this.session.start();
-      this.onGesture(this.session.node);
+      this.panel.querySelector('#greeting-title')?.replaceChildren(annotatedText(scenario.title));
+      this.playGesture();
       this.onActive(true);
       this.render(true);
     });
     panel.addEventListener('click', (event) => {
-      if (!this.running || !(event.target instanceof Element)) return;
+      const session = this.session;
+      if (!this.running || !session || !(event.target instanceof Element)) return;
       const button = event.target.closest<HTMLButtonElement>('button[data-greeting]');
       if (!button) return;
       const action = button.dataset.greeting;
       if (action === 'help') {
         this.focusBeforeHelp = button;
-        this.session.helping = true;
+        session.helping = true;
         this.render(true);
       } else if (action === 'close-help') {
-        this.session.helping = false;
+        session.helping = false;
         this.render();
         this.focusBeforeHelp?.focus();
       } else if (action === 'again') {
         this.panel.querySelector<HTMLElement>('#greeting-copy')?.focus();
-      } else if (action === 'choice' && this.session.choose(Number(button.dataset.choice))) {
-        this.onActive(this.session.node !== null);
-        this.onGesture(this.session.node);
+      } else if (action === 'choice' && session.choose(Number(button.dataset.choice))) {
+        this.onActive(session.node !== null);
+        this.playGesture();
         this.render(true);
-        if (!this.session.node) this.launch.focus();
+        if (!session.node) this.launch.focus();
       }
     });
   }
-  setNear(near: boolean): void {
-    this.near = near;
+
+  /** 引擎回報目前靠近的人物；對話中不切換對象。 */
+  setNear(characterId: string | null): void {
+    this.nearId = characterId;
     this.updateLaunch();
   }
+
   setRunning(running: boolean): void {
     const changed = running !== this.running;
     if (changed && !running && this.panel.contains(document.activeElement))
       this.focusBeforePause = document.activeElement as HTMLElement;
     this.running = running;
-    this.panel.hidden = !running || this.session.node === null;
+    this.panel.hidden = !running || !this.session?.node;
     this.updateLaunch();
-    if (changed && running && this.session.node) {
+    if (changed && running && this.session?.node) {
       if (this.focusBeforePause?.isConnected) this.focusBeforePause.focus();
       else this.panel.querySelector<HTMLButtonElement>('button:not([hidden])')?.focus();
     }
   }
+
   clear(exited = false): void {
-    if (exited) this.session.exit();
-    else this.session.reset();
+    if (exited) this.session?.exit();
+    else this.session?.reset();
     this.focusBeforePause = null;
     this.focusBeforeHelp = null;
     this.onActive(false);
-    this.onGesture(null);
+    this.onGesture(null, null);
     this.render();
   }
-  private updateLaunch(): void {
-    this.launch.hidden = !this.running || this.session.node !== null;
-    this.launch.disabled = !this.near;
-    decorateButton(this.launch, this.near ? '打招呼' : '靠近再招呼', 'speech');
+
+  private playGesture(): void {
+    this.onGesture(this.session?.current?.gesture ?? null, this.talkingTo);
   }
+
+  private updateLaunch(): void {
+    const scenario = this.nearId === null ? undefined : SCENARIOS[this.nearId];
+    this.launch.hidden = !this.running || Boolean(this.session?.node);
+    this.launch.disabled = !scenario;
+    decorateButton(this.launch, scenario ? scenario.launchLabel : '靠近再說話', 'speech');
+  }
+
   private render(focus = false): void {
     this.updateLaunch();
-    this.panel.hidden = !this.running || this.session.node === null;
-    if (!this.session.node) return;
-    const copy = GREETING[this.session.node];
+    const session = this.session;
+    const copy = session?.current;
+    this.panel.hidden = !this.running || !copy;
+    if (!session || !copy || session.node === null) return;
     const content = this.panel.querySelector<HTMLElement>('#greeting-copy');
     const choices = this.panel.querySelector<HTMLElement>('#greeting-choices');
     const help = this.panel.querySelector<HTMLElement>('#greeting-help');
-    if (!content || !choices || !help) throw new Error('缺少打招呼介面');
+    if (!content || !choices || !help) throw new Error('缺少對話介面');
     content.replaceChildren();
     if (copy.line) {
       const line = document.createElement('p');
-      line.append(annotatedText(`小安：${copy.line}`));
+      line.append(annotatedText(`${session.scenario.speaker}：${copy.line}`));
       content.append(line);
     }
     for (const text of copy.prompts) {
@@ -108,33 +134,22 @@ export class GreetingUI {
       content.append(p);
     }
     // 幫助開關不重建選項，確保焦點能回到同一個按鈕。
-    if (choices.dataset.node !== this.session.node) {
+    const nodeKey = `${session.scenario.id}:${session.node}`;
+    if (choices.dataset.node !== nodeKey) {
       choices.replaceChildren();
-      choices.dataset.node = this.session.node;
+      choices.dataset.node = nodeKey;
       copy.choices.forEach((choice, index) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'control';
         button.dataset.greeting = 'choice';
         button.dataset.choice = String(index);
-        const icon =
-          choice.target === 'spoken'
-            ? 'speech'
-            : choice.target === 'nod'
-              ? 'nod'
-              : choice.target === 'greet' || choice.target === 'repair'
-                ? 'repeat'
-                : choice.target === 'finished' || choice.target === 'skipped'
-                  ? 'done'
-                  : choice.target === 'park'
-                    ? 'park'
-                    : 'exit';
-        decorateButton(button, choice.label, icon);
+        decorateButton(button, choice.label, choice.icon);
         choices.append(button);
       });
     }
     help.replaceChildren(annotatedText(copy.help.join(' ')));
-    const helping = this.session.helping;
+    const helping = session.helping;
     for (const id of ['greeting-copy', 'greeting-choices', 'greeting-tools']) {
       const el = this.panel.querySelector<HTMLElement>(`#${id}`);
       if (el) el.hidden = helping;

@@ -75,14 +75,138 @@ export const READINGS: Readonly<Record<string, string>> = {
   物: 'ㄨˋ',
   動: 'ㄉㄨㄥˋ',
   作: 'ㄗㄨㄛˋ',
+  // 公園練習情境（一起玩、排隊、游泳課）；同樣是人工標註，待注音審查。
+  問: 'ㄨㄣˋ',
+  起: 'ㄑㄧˇ',
+  玩: 'ㄨㄢˊ',
+  用: 'ㄩㄥˋ',
+  手: 'ㄕㄡˇ',
+  指: 'ㄓˇ',
+  球: 'ㄑㄧㄡˊ',
+  下: 'ㄒㄧㄚˋ',
+  現: 'ㄒㄧㄢˋ',
+  就: 'ㄐㄧㄡˋ',
+  去: 'ㄑㄩˋ',
+  別: 'ㄅㄧㄝˊ',
+  的: '˙ㄉㄜ',
+  難: 'ㄋㄢˊ',
+  過: 'ㄍㄨㄛˋ',
+  宇: 'ㄩˇ',
+  跟: 'ㄍㄣ',
+  話: 'ㄏㄨㄚˋ',
+  旁: 'ㄆㄤˊ',
+  邊: 'ㄅㄧㄢ',
+  決: 'ㄐㄩㄝˊ',
+  定: 'ㄉㄧㄥˋ',
+  等: 'ㄉㄥˇ',
+  踢: 'ㄊㄧ',
+  完: 'ㄨㄢˊ',
+  嗎: '˙ㄇㄚ',
+  輪: 'ㄌㄨㄣˊ',
+  把: 'ㄅㄚˇ',
+  傳: 'ㄔㄨㄢˊ',
+  給: 'ㄍㄟˇ',
+  答: 'ㄉㄚˊ',
+  習: 'ㄒㄧˊ',
+  被: 'ㄅㄟˋ',
+  拒: 'ㄐㄩˋ',
+  絕: 'ㄐㄩㄝˊ',
+  行: 'ㄒㄧㄥˊ',
+  比: 'ㄅㄧˇ',
+  賽: 'ㄙㄞˋ',
+  時: 'ㄕˊ',
+  有: 'ㄧㄡˇ',
+  很: 'ㄏㄣˇ',
+  多: 'ㄉㄨㄛ',
+  做: 'ㄗㄨㄛˋ',
+  法: 'ㄈㄚˇ',
+  每: 'ㄇㄟˇ',
+  謝: 'ㄒㄧㄝˋ',
+  來: 'ㄌㄞˊ',
+  是: 'ㄕˋ',
+  事: 'ㄕˋ',
+  溜: 'ㄌㄧㄡ',
+  排: 'ㄆㄞˊ',
+  隊: 'ㄉㄨㄟˋ',
+  晴: 'ㄑㄧㄥˊ',
+  滑: 'ㄏㄨㄚˊ',
+  梯: 'ㄊㄧ',
+  後: 'ㄏㄡˋ',
+  面: 'ㄇㄧㄢˋ',
+  直: 'ㄓˊ',
+  接: 'ㄐㄧㄝ',
+  對: 'ㄉㄨㄟˋ',
+  插: 'ㄔㄚ',
+  站: 'ㄓㄢˋ',
+  前: 'ㄑㄧㄢˊ',
+  請: 'ㄑㄧㄥˇ',
+  向: 'ㄒㄧㄤˋ',
+  找: 'ㄓㄠˇ',
+  大: 'ㄉㄚˋ',
+  讓: 'ㄖㄤˋ',
+  他: 'ㄊㄚ',
+  四: 'ㄙˋ',
+  種: 'ㄓㄨㄥˇ',
+  走: 'ㄗㄡˇ',
+  忙: 'ㄇㄤˊ',
+  游: 'ㄧㄡˊ',
+  泳: 'ㄩㄥˇ',
+  課: 'ㄎㄜˋ',
+  媽: 'ㄇㄚ',
+  們: '˙ㄇㄣ',
+  家: 'ㄐㄧㄚ',
+  具: 'ㄐㄩˋ',
+  搖: 'ㄧㄠˊ',
+  出: 'ㄔㄨ',
+  今: 'ㄐㄧㄣ',
+  天: 'ㄊㄧㄢ',
+  告: 'ㄍㄠˋ',
+  訴: 'ㄙㄨˋ',
+  辦: 'ㄅㄢˋ',
+  聽: 'ㄊㄧㄥ',
+  需: 'ㄒㄩ',
+  要: 'ㄧㄠˋ',
+  什: 'ㄕㄣˊ',
+  坐: 'ㄗㄨㄛˋ',
+  發: 'ㄈㄚ',
+  吧: '˙ㄅㄚ',
+  門: 'ㄇㄣˊ',
+  口: 'ㄎㄡˇ',
 };
+
+/** 詞語讀音優先於單字，用於疊字後字輕聲等依上下文變化的讀音。 */
+export const PHRASE_READINGS: Readonly<Record<string, readonly string[]>> = {
+  媽媽: ['ㄇㄚ', '˙ㄇㄚ'],
+  謝謝: ['ㄒㄧㄝˋ', '˙ㄒㄧㄝ'],
+};
+
+/** 逐字回傳讀音（詞語優先、再查單字），沒有讀音的字回傳 null。 */
+export function readingsOf(text: string): (string | null)[] {
+  const characters = Array.from(text);
+  const result: (string | null)[] = [];
+  for (let index = 0; index < characters.length;) {
+    const phrase = Object.entries(PHRASE_READINGS).find(
+      ([word]) => characters.slice(index, index + Array.from(word).length).join('') === word,
+    );
+    if (phrase) {
+      result.push(...phrase[1]);
+      index += phrase[1].length;
+    } else {
+      result.push(READINGS[characters[index] ?? ''] ?? null);
+      index += 1;
+    }
+  }
+  return result;
+}
+
 export function annotatedText(text: string): DocumentFragment {
   const fragment = document.createDocumentFragment();
-  for (const character of text) {
-    const reading = READINGS[character];
+  const readings = readingsOf(text);
+  Array.from(text).forEach((character, index) => {
+    const reading = readings[index];
     if (!reading) {
       fragment.append(character);
-      continue;
+      return;
     }
     const ruby = document.createElement('ruby');
     const base = document.createElement('span');
@@ -106,7 +230,7 @@ export function annotatedText(text: string): DocumentFragment {
     rt.setAttribute('aria-hidden', 'true');
     ruby.append(rt);
     fragment.append(ruby);
-  }
+  });
   return fragment;
 }
 /** 圖示僅作輔助，按鈕名稱維持原中文，不讓報讀器重複讀注音。 */

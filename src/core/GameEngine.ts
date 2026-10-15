@@ -34,7 +34,8 @@ export interface GameEngineOptions {
   readonly settings?: EngineSettings;
   readonly getDevicePixelRatio?: () => number;
   readonly onStateChange?: (state: EngineState) => void;
-  readonly onNPCPresence?: (near: boolean) => void;
+  /** 目前靠近的人物 id；沒有靠近任何人時為 null。 */
+  readonly onNPCPresence?: (nearId: string | null) => void;
   readonly onPerformance?: (fps: number) => void;
   readonly onError?: (reason: ErrorReason, error: unknown) => void;
 }
@@ -59,7 +60,8 @@ export class GameEngine {
   private renderer: RendererLike | null = null;
   private park: ParkScene | null = null;
   private movement: FirstPersonController | null = null;
-  private npcNear: boolean | null = null;
+  /** undefined：尚未計算；null：沒有靠近任何人。 */
+  private npcNear: string | null | undefined = undefined;
   private monitoring = false;
   private interacting = false;
   private monitorStart = 0;
@@ -136,7 +138,7 @@ export class GameEngine {
     this.loop.stop();
     try {
       this.movement?.setEnabled(false);
-      this.park?.npc.playGesture(null);
+      for (const character of this.park?.characters ?? []) character.playGesture(null);
       this.park?.resetToSafety();
       this.movement?.syncCamera();
       this.updateNPCPresence();
@@ -164,9 +166,15 @@ export class GameEngine {
     this.movement?.setEnabled(!active && this.currentState === 'running');
   }
 
-  setNPCGesture(gesture: 'wave' | 'nod' | null, motionEnabled = true): void {
-    this.park?.npc.setMotionEnabled(motionEnabled);
-    this.park?.npc.playGesture(gesture);
+  /** 指定人物做一次動作；沒有指定時為小安。null 會停止所有人物的動作。 */
+  setNPCGesture(gesture: 'wave' | 'nod' | null, motionEnabled = true, characterId?: string): void {
+    for (const character of this.park?.characters ?? []) {
+      character.setMotionEnabled(motionEnabled);
+      if (gesture === null) character.playGesture(null);
+    }
+    if (gesture === null) return;
+    const id = characterId ?? this.park?.npc.id;
+    this.park?.characters.find((character) => character.id === id)?.playGesture(gesture);
   }
 
   setPerformanceMonitoring(enabled: boolean): void {
@@ -219,7 +227,10 @@ export class GameEngine {
       park = null;
       renderer = null;
       this.canvas = canvas;
-      this.movement = new FirstPersonController(this.park.camera, [this.park.npc.obstacle]);
+      this.movement = new FirstPersonController(this.park.camera, [
+        ...this.park.characters.map((character) => character.obstacle),
+        ...this.park.obstacles,
+      ]);
       this.movement.attach(canvas);
       canvas.addEventListener('webglcontextlost', this.handleContextLost);
       this.setState('ready');
@@ -252,7 +263,7 @@ export class GameEngine {
   private readonly frame: FrameCallback = ({ delta }) => {
     try {
       this.movement?.update(delta);
-      this.park?.npc.update(delta);
+      for (const character of this.park?.characters ?? []) character.update(delta);
       this.updateNPCPresence();
       this.renderOnce();
       if (this.monitoring) {
@@ -269,12 +280,23 @@ export class GameEngine {
     }
   };
 
+  /** 取最近且在靠近範圍內的人物；目前靠近的人物用較寬的離開門檻，避免邊界反覆切換。 */
   private updateNPCPresence(): void {
     if (!this.park) return;
-    const near = this.park.npc.isNear(this.park.camera.position, this.npcNear === true);
-    if (near === this.npcNear) return;
-    this.npcNear = near;
-    this.options.onNPCPresence?.(near);
+    const position = this.park.camera.position;
+    let nearest: string | null = null;
+    let nearestDistance = Infinity;
+    for (const character of this.park.characters) {
+      if (!character.isNear(position, character.id === this.npcNear)) continue;
+      const distance = character.distanceTo(position);
+      if (distance < nearestDistance) {
+        nearest = character.id;
+        nearestDistance = distance;
+      }
+    }
+    if (nearest === this.npcNear) return;
+    this.npcNear = nearest;
+    this.options.onNPCPresence?.(nearest);
   }
 
   private handleRenderError(error: unknown): void {
@@ -302,7 +324,7 @@ export class GameEngine {
   };
 
   private releaseResources(): void {
-    this.npcNear = null;
+    this.npcNear = undefined;
     this.movement?.dispose();
     this.movement = null;
     this.park?.dispose();
