@@ -6,6 +6,7 @@
 import json
 import struct
 import sys
+import zlib
 from pathlib import Path
 
 import numpy as np
@@ -230,6 +231,54 @@ def vertex_normals(positions, tris):
     return n / np.maximum(length, 1e-12)
 
 
+def png_rgb(img):
+    """把 uint8 RGB 陣列存成 PNG（只用標準函式庫的 zlib）。"""
+    h, w, _ = img.shape
+    raw = b''.join(b'\x00' + img[y].tobytes() for y in range(h))
+
+    def chunk(kind, data):
+        return struct.pack('>I', len(data)) + kind + data + struct.pack('>I', zlib.crc32(kind + data))
+    return b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0)) \
+        + chunk(b'IDAT', zlib.compress(raw, 9)) + chunk(b'IEND', b'')
+
+
+def eye_texture(size=512):
+    """柔和的眼睛貼圖：乾淨眼白、深棕虹膜、較大的瞳孔。
+
+    位置與 MakeHuman brown_eye.png 相同（兩個眼球的 UV 中心），但不畫血絲、虹膜不偏紅。
+    """
+    y, x = np.mgrid[0:size, 0:size] / size
+    img = np.empty((size, size, 3))
+    img[:] = [0.93, 0.92, 0.9]
+    for cx, cy in ((0.703, 0.278), (0.288, 0.688)):
+        r = np.hypot(x - cx, y - cy) / 0.13  # 虹膜半徑 = 1（比原貼圖稍大，眼神柔和）
+        ang = np.arctan2(y - cy, x - cx)
+        iris = np.array([0.40, 0.27, 0.19]) * (1 - 0.45 * np.clip(r, 0, 1) ** 2)[..., None]
+        iris *= (1 + 0.06 * np.sin(ang * 23) * np.clip(r - 0.4, 0, 1))[..., None]  # 淡淡的放射紋
+        t = np.clip((1.04 - r) / 0.08, 0, 1)[..., None]  # 虹膜邊緣柔和過渡到眼白
+        img = img * (1 - t) + iris * t
+        pupil = np.clip((0.42 - r) / 0.05, 0, 1)[..., None]
+        img = img * (1 - pupil) + np.array([0.05, 0.04, 0.04]) * pupil
+    return png_rgb(np.round(np.clip(img, 0, 1) * 255).astype(np.uint8))
+
+
+def brow_strip(surface_z, eye, head_scale, thickness):
+    """沿眉骨貼在皮膚上的細長眉毛（兩排頂點的帶狀網格）。"""
+    side = np.sign(eye[0])
+    pts = []
+    for k in range(13):
+        u = -1 + 2 * k / 12  # -1 靠鼻子、1 靠耳朵（在 +x 側）
+        x = eye[0] + side * u * 0.019 * head_scale
+        y = eye[1] + (0.024 + 0.0045 * (1 - u ** 2) - 0.002 * max(u, 0)) * head_scale
+        w = thickness * head_scale * (1.0 - 0.55 * (u + 1) / 2)  # 眉頭較粗、眉尾漸細
+        for yy in (y - w / 2, y + w / 2):
+            pts.append([x, yy, surface_z(x, yy) + 0.0012])
+    quads = [[2 * k, 2 * k + 2, 2 * k + 3, 2 * k + 1] for k in range(12)]
+    if side < 0:
+        quads = [q[::-1] for q in quads]
+    return np.array(pts), quads
+
+
 # ---------- 人物 ----------
 
 CHARACTERS = {
@@ -261,11 +310,12 @@ def adjacency(quads, nverts):
     return nb
 
 
-def shell(P, quads, offset, smooth_iters, edge_offset, drape=0, border_iters=None):
+def shell(P, quads, offset, smooth_iters, edge_offset, drape=0, border_iters=None, taper=0):
     """把一組面複製成往外推的殼（疊在完整皮膚上）。
 
     內部頂點：Taubin 平滑（不縮小）後，保證至少在皮膚外 0.6*offset。
     邊界頂點：只沿邊界線互相平滑，讓衣領、袖口、髮際線變順，並保持貼近皮膚。
+    taper：離邊界幾圈內的厚度逐漸增加（頭髮前緣變薄，不像帽簷）。
     """
     used = sorted({v for c in quads for v, _ in c})
     if not used:
@@ -300,9 +350,18 @@ def shell(P, quads, offset, smooth_iters, edge_offset, drape=0, border_iters=Non
                 m[v] = n[v] + np.sum([n[u] for u in nb[v]], axis=0)
         m[used_arr] /= np.maximum(np.linalg.norm(m[used_arr], axis=1, keepdims=True), 1e-12)
         n = m
+    thick = {v: offset for v in used}
+    ring, frontier = 0, set(border_nb)
+    seen = set(frontier)
+    while frontier and ring <= taper:
+        for v in frontier:
+            thick[v] = edge_offset + (offset - edge_offset) * ring / (taper + 1)
+        frontier = {u for v in frontier for u in nb[v] if u not in seen}
+        seen |= frontier
+        ring += 1
     Q = P.copy()
     for v in used:
-        Q[v] = P[v] + n[v] * (edge_offset if v in border_nb else offset)
+        Q[v] = P[v] + n[v] * thick[v]
     interior = [v for v in used if v not in border_nb]
     border = list(border_nb)
     for _ in range(smooth_iters):
@@ -336,7 +395,7 @@ def shell(P, quads, offset, smooth_iters, edge_offset, drape=0, border_iters=Non
             R[v] = Q[v] * 0.5 + np.mean([Q[u] for u in border_nb[v]], axis=0) * 0.5
         Q = R
     for v in used:
-        floor = edge_offset if v in border_nb else offset * 0.6
+        floor = edge_offset if v in border_nb else min(offset * 0.6, thick[v])
         depth = np.dot(Q[v] - P[v], n[v])
         if depth < floor:
             Q[v] += n[v] * (floor - depth)
@@ -427,10 +486,13 @@ def load_eye_proxy():
 def build(char_id, spec, base_verts, uvs, faces):
     verts = base_verts.copy()
     child = spec['age'] < 15
-    eyes = spec.get('eyes', 0.8 if child else 0.4)
-    # 模擬人生式的柔和臉：微笑嘴角、較大眼睛；小孩臉頰較圓、臉型較稚嫩。
-    face = [('mouth/mouth-angles-up.target', 0.6 if child else 0.45),
-            ('eyes/l-eye-scale-incr.target', eyes), ('eyes/r-eye-scale-incr.target', eyes)]
+    eyes = spec.get('eyes', 1.5 if child else 1.15)
+    opening = spec.get('eye_opening', 0.3 if child else 0.4)
+    # 模擬人生式的柔和臉：微笑嘴角、大而張開的眼睛；小孩臉頰較圓、臉型較稚嫩。
+    face = [('mouth/mouth-angles-up.target', 0.6 if child else 0.45)]
+    for side in 'lr':
+        face += [(f'eyes/{side}-eye-scale-incr.target', eyes),
+                 (f'eyes/{side}-eye-height2-incr.target', opening)]
     if child:
         face += [('cheek/l-cheek-volume-incr.target', 0.4), ('cheek/r-cheek-volume-incr.target', 0.4),
                  ('head/head-age-decr.target', 0.5)]
@@ -484,11 +546,11 @@ def build(char_id, spec, base_verts, uvs, faces):
                 continue
             front = c[2] > eye_z - 0.075 * head_scale
             if hair == 'short':
-                scalp = c[1] > eye_y + 0.05 * head_scale or (not front and c[1] > mouth[1] + 0.005)
+                scalp = c[1] > eye_y + 0.036 * head_scale or (not front and c[1] > mouth[1] + 0.005)
             elif hair == 'bob':
-                scalp = c[1] > eye_y + 0.045 * head_scale or (c[2] < eye_z - 0.055 * head_scale and c[1] > mouth[1] - 0.025 * head_scale)
+                scalp = c[1] > eye_y + 0.03 * head_scale or (c[2] < eye_z - 0.055 * head_scale and c[1] > mouth[1] - 0.025 * head_scale)
             else:
-                scalp = c[1] > eye_y + 0.045 * head_scale or (c[2] < eye_z - 0.05 * head_scale and c[1] > mouth[1] - 0.04 * head_scale)
+                scalp = c[1] > eye_y + 0.036 * head_scale or (c[2] < eye_z - 0.05 * head_scale and c[1] > mouth[1] - 0.04 * head_scale)
             if scalp:
                 regions['hair'].append(corners)
             continue
@@ -537,30 +599,41 @@ def build(char_id, spec, base_verts, uvs, faces):
     shells['pants'] = shell(P, regions['pants'], 0.007, 4, 0.003)
     shells['shoes'] = shell(P, regions['shoes'], 0.01, 4, 0.004)
     thick = {'short': 0.012, 'bob': 0.018, 'long': 0.02}[hair]
-    shells['hair'] = shell(P, regions['hair'], thick, 6, 0.004)
+    shells['hair'] = shell(P, regions['hair'], thick, 6, 0.002, border_iters=40, taper=3)
+    # 臉部表面（眉毛貼合用）：眼睛附近、朝前的皮膚頂點。
+    surface = P[sorted({v for c in body for v, _ in c})]
+    surface = surface[(np.abs(surface[:, 1] - eye_y) < 0.08 * head_scale) & (surface[:, 2] > eye_z - 0.03)]
 
-    # 臉部顏色：眉毛、嘴唇、淡淡腮紅（頂點色，線性色彩空間）。
+    def surface_z(x, y):
+        dist = np.hypot(surface[:, 0] - x, surface[:, 1] - y)
+        return surface[np.argsort(dist)[:6], 2].max()
+
+    hair_edges = {}
+    for corners in regions['hair']:
+        ids = [v for v, _ in corners]
+        for i, a in enumerate(ids):
+            e = tuple(sorted((a, ids[(i + 1) % len(ids)])))
+            hair_edges[e] = hair_edges.get(e, 0) + 1
+    hair_border = {v for e, k in hair_edges.items() if k == 1 for v in e}
+
+    # 臉部顏色：嘴唇、淡淡腮紅（頂點色，線性色彩空間）。
     skin_rgb = np.array(srgb(spec['skin']))
     color = np.tile(skin_rgb, (len(P), 1))
-    brow_rgb, lip_rgb, blush_rgb = np.array(srgb(spec['hair'])), np.array(srgb(0xc9787a)), np.array(srgb(0xe8a0a0))
+    lip_rgb, blush_rgb = np.array(srgb(0xc9787a)), np.array(srgb(0xe8a0a0))
     for eye in (eyeL, eyeR):
-        d = P - eye
-        # 細而略帶弧度的眉毛：中段最高，兩端往下。
-        arch = 0.004 * head_scale * (1 - (d[:, 0] / (0.02 * head_scale)) ** 2)
-        brow = (d[:, 1] > 0.018 * head_scale + arch) & (d[:, 1] < 0.0235 * head_scale + arch) \
-            & (np.abs(d[:, 0]) < 0.019 * head_scale) & (d[:, 2] > -0.012)
-        color[brow] = brow_rgb * 0.6 + color[brow] * 0.4
         cheek = np.linalg.norm(P - (eye + [np.sign(eye[0]) * 0.008, -0.03 * head_scale, 0]), axis=1)
         blush = np.clip(1 - cheek / (0.018 * head_scale), 0, 1)[:, None] * 0.35 * (P[:, 2:3] > eye[2] - 0.02)
         color = color * (1 - blush) + blush_rgb * blush
-    scalp = sorted({v for c in regions['hair'] for v, _ in c})
+    # 頭皮染成髮色（只染髮殼內部，邊界留膚色，髮際線才不會出現深色三角形）。
+    scalp = sorted({v for c in regions['hair'] for v, _ in c} - hair_border)
     color[scalp] = np.array(srgb(spec['hair'])) * 0.9
     dm = P - mouth
-    lips = (np.abs(dm[:, 0]) < 0.021 * head_scale) & (np.abs(dm[:, 1]) < 0.0085 * head_scale) & (dm[:, 2] > -0.006)
-    color[lips] = lip_rgb * 0.7 + color[lips] * 0.3
+    lips = np.clip(1 - np.hypot(dm[:, 0] / (0.022 * head_scale), dm[:, 1] / (0.009 * head_scale)), 0, 1)
+    lips = (np.clip(lips * 2.5, 0, 1) * (dm[:, 2] > -0.006))[:, None] * 0.55
+    color = color * (1 - lips) + lip_rgb * lips
 
     gl = Gltf()
-    eye_tex = gl.image((DATA / 'eyes/materials/brown_eye.png').read_bytes())
+    eye_tex = gl.image(eye_texture())
     mats = {
         'skin': gl.material('skin', [1, 1, 1], 0.62),
         'shirt': gl.material('shirt', srgb(spec['shirt']), 0.9),
@@ -568,6 +641,8 @@ def build(char_id, spec, base_verts, uvs, faces):
         'shoes': gl.material('shoes', srgb(spec['shoes']), 0.7),
         'hair': gl.material('hair', srgb(spec['hair']), 0.6),
         'eye': gl.material('eye', [1, 1, 1], 0.2, eye_tex),
+        # 眉毛比頭髮淡一些（混一點膚色），看起來柔和。
+        'brow': gl.material('brow', list(np.array(srgb(spec['hair'])) * 0.85 + np.array(srgb(spec['skin'])) * 0.15), 0.85),
         'skirt': gl.material('skirt', srgb(spec.get('skirt_color', spec['pants'])), 0.9),
     }
     parts = [(k, quads, shells.get(k, P)) for k, quads in regions.items()]
@@ -615,6 +690,20 @@ def build(char_id, spec, base_verts, uvs, faces):
         primitives.append({'attributes': attrs, 'indices': idx_acc,
                            'material': mats[region]})
         all_pos.append(p)
+
+    # 眉毛：貼在臉部皮膚表面的細帶，跟著頭部骨頭。
+    for eye in (eyeL, eyeR):
+        bp, bq = brow_strip(surface_z, eye, head_scale, spec.get('brow', 0.0038 if child else 0.0042))
+        tris = np.array([[q[0], q[i], q[i + 1]] for q in bq for i in (1, 2)], dtype=np.uint32)
+        nb = np.tile([0.0, 0.25, 0.97], (len(bp), 1)) / np.linalg.norm([0.0, 0.25, 0.97])
+        head_joint = np.tile([KEEP.index('head'), 0, 0, 0], (len(bp), 1)).astype(np.uint8)
+        primitives.append({'attributes': {
+            'POSITION': gl.accessor(bp.astype(np.float32), 'VEC3', 5126, 34962, True),
+            'NORMAL': gl.accessor(nb.astype(np.float32), 'VEC3', 5126, 34962),
+            'JOINTS_0': gl.accessor(head_joint, 'VEC4', 5121, 34962),
+            'WEIGHTS_0': gl.weights(np.tile([1.0, 0, 0, 0], (len(bp), 1))),
+        }, 'indices': gl.accessor(tris.reshape(-1).astype(np.uint16), 'SCALAR', 5123, 34963),
+            'material': mats['brow']})
 
     # 眼睛：low-poly 代理，位置取自基礎網格對應頂點。
     eye_map, eye_uv, eye_faces = EYE

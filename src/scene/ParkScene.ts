@@ -134,7 +134,12 @@ export class ParkScene {
   private dfgSourceId: string | null = null;
 
   constructor(loadTextures = false) {
-    this.environment = new ParkEnvironment(this.materials[0], this.npc.materials[4], loadTextures);
+    this.environment = new ParkEnvironment(
+      this.materials[0],
+      this.npc.materials[4],
+      loadTextures,
+      SKY_COLOR,
+    );
     this.scene.background = SKY_COLOR;
     this.scene.fog = new Fog(SKY_COLOR, 28, 95);
 
@@ -143,6 +148,7 @@ export class ParkScene {
       ...this.characters.flatMap((character) => character.materials),
       ...this.propMaterials,
       ...this.environment.materials,
+      ...this.environment.details.materials,
     ])
       this.prepareMaterial(material);
 

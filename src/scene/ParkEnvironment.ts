@@ -19,6 +19,7 @@ import {
   Vector3,
 } from 'three';
 import type { BufferGeometry, Texture } from 'three';
+import { ParkDetails } from './ParkDetails';
 
 /** 靜態背景與本地 CC0 貼圖；只有本場景持有資源，不使用 RAF 或全域快取。 */
 export class ParkEnvironment {
@@ -37,6 +38,8 @@ export class ParkEnvironment {
   private readonly geometries: BufferGeometry[] = [];
   private readonly textures = new Set<Texture>();
   private readonly instances: InstancedMesh[] = [];
+  /** 樹籬、花圃、遊具、路燈與遠景。 */
+  readonly details: ParkDetails;
   private disposed = false;
   private readonly shadowMaterial = new MeshBasicMaterial({
     color: new Color().setHSL(75 / 360, 0.1, 0.12),
@@ -49,7 +52,12 @@ export class ParkEnvironment {
   private readonly loaded = new Set<string>();
   private readonly failed = new Set<string>();
 
-  constructor(ground: MeshStandardMaterial, bench: MeshStandardMaterial, loadTextures = false) {
+  constructor(
+    ground: MeshStandardMaterial,
+    bench: MeshStandardMaterial,
+    loadTextures = false,
+    horizon = new Color(0xd6e2ea),
+  ) {
     this.surfaceMaterials = [ground, bench, ...this.materials];
     this.root.name = 'park-environment';
     const [stone, wood, bark, leaves] = this.materials;
@@ -189,6 +197,8 @@ export class ParkEnvironment {
     shadows.computeBoundingSphere();
     this.instances.push(shadows);
     this.root.add(shadows);
+    this.details = new ParkDetails(wood, leaves, bark, horizon);
+    this.root.add(this.details.root);
 
     // 貼圖非阻塞載入；缺檔保留材質底色，安全 UI 與場景不等候網路。
     if (loadTextures) {
@@ -208,6 +218,7 @@ export class ParkEnvironment {
   setDetailLevel(level: 'low' | 'standard'): void {
     const foliage = this.instances.find((mesh) => mesh.name === 'park-leaves');
     if (foliage) foliage.count = level === 'low' ? 3000 : 7800;
+    this.details.setDetailLevel(level);
   }
 
   get assetStatus(): { loaded: number; failed: number } {
@@ -217,6 +228,7 @@ export class ParkEnvironment {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.details.dispose();
     for (const instance of this.instances) instance.dispose();
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
