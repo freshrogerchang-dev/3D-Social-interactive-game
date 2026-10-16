@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  BORROW_SCENARIO,
+  CARE_SCENARIO,
+  DROPPED_SCENARIO,
   LINE_SCENARIO,
   PARK_SCENARIOS,
   PLAY_SCENARIO,
@@ -61,6 +64,10 @@ describe('公園練習情境：路徑', () => {
       [PLAY_SCENARIO.nodes['declined-spoken'], PLAY_SCENARIO.nodes['declined-gesture']],
       [LINE_SCENARIO.nodes['cut-spoken'], LINE_SCENARIO.nodes['cut-gesture']],
       [SWIM_SCENARIO.nodes['said-no'], SWIM_SCENARIO.nodes['shook-head']],
+      [BORROW_SCENARIO.nodes['asked-spoken'], BORROW_SCENARIO.nodes['asked-gesture']],
+      [BORROW_SCENARIO.nodes['declined-spoken'], BORROW_SCENARIO.nodes['declined-gesture']],
+      [DROPPED_SCENARIO.nodes['told-spoken'], DROPPED_SCENARIO.nodes['told-gesture']],
+      [CARE_SCENARIO.nodes['asked-spoken'], CARE_SCENARIO.nodes['asked-gesture']],
     ] as const;
     for (const [spoken, gesture] of pairs) {
       expect(gesture.line).toBe(spoken.line);
@@ -203,6 +210,60 @@ describe('公園練習情境：對話狀態', () => {
       expect(session.node, choice.label).toBe('cut-end');
       expect(session.outcome).toBe('finished');
     }
+  });
+  it('借泡泡：借到後要還；對方不借時四種做法都能結束練習', () => {
+    const session = new DialogueSession(BORROW_SCENARIO);
+    const pick = (label: string): void => {
+      const index = session.current?.choices.findIndex((c) => c.label === label) ?? -1;
+      expect(session.choose(index), label).toBe(true);
+    };
+    session.start();
+    pick('指泡泡');
+    pick('說謝謝');
+    pick('還給她');
+    expect(session.outcome).toBe('finished');
+    pick('換個回答');
+    expect(session.outcome).toBeNull();
+    const cope = BORROW_SCENARIO.nodes['declined-spoken'].choices;
+    expect(cope).toHaveLength(4);
+    for (const choice of cope) {
+      const s = new DialogueSession(BORROW_SCENARIO);
+      s.node = 'declined-spoken';
+      s.choose(cope.indexOf(choice));
+      s.choose(0);
+      expect(s.node, choice.label).toBe('decline-end');
+      expect(s.outcome).toBe('finished');
+    }
+  });
+
+  it('東西掉了：說的、用手指、撿起來都得到道謝；走遠時可以找大人', () => {
+    for (const label of ['跟他說', '指地上', '撿給阿公']) {
+      const session = new DialogueSession(DROPPED_SCENARIO);
+      session.start();
+      session.choose(session.current?.choices.findIndex((c) => c.label === label) ?? -1);
+      expect(session.current?.line, label).toMatch(/謝謝/);
+      session.choose(1);
+      expect(session.node).toBe('thanked');
+      expect(session.outcome).toBe('finished');
+    }
+    const session = new DialogueSession(DROPPED_SCENARIO);
+    session.node = 'far';
+    session.choose(1);
+    session.choose(0);
+    expect(session.node).toBe('far-end');
+    expect(session.outcome).toBe('finished');
+  });
+
+  it('關心朋友：問一問、陪著、找大人都能讓小哲好一點；不強迫說話', () => {
+    for (const way of CARE_SCENARIO.nodes['asked-spoken'].choices) {
+      const session = new DialogueSession(CARE_SCENARIO);
+      session.node = 'asked-spoken';
+      session.choose(CARE_SCENARIO.nodes['asked-spoken'].choices.indexOf(way));
+      session.choose(0);
+      expect(session.node, way.label).toBe('better');
+      expect(session.outcome).toBe('finished');
+    }
+    expect(CARE_SCENARIO.nodes.see.choices.map((c) => c.label)).toContain('坐他旁邊');
   });
 });
 

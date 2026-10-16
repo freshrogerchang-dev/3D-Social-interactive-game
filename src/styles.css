@@ -476,6 +476,17 @@ rt.has-neutral {
 .greeting-panel .panel {
   margin-block: 0 auto;
   padding: 16px;
+  /* 卡片半透明：看得到後面的公園，文字與按鈕仍清楚。 */
+  background: rgb(251 248 242 / 62%);
+}
+/* 問題（例如「你想怎麼做？」）加粗放大，一眼看出要回答什麼。 */
+.greeting-panel .prompt-question {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+#greeting-choices .control,
+.greeting-panel .greeting-tools .control {
+  background: rgb(251 248 242 / 82%);
 }
 /* 對方說的話像對話泡泡；提示文字在下面。 */
 .greeting-panel .npc-line {
@@ -483,7 +494,7 @@ rt.has-neutral {
   padding: 8px 16px;
   border: 2px solid var(--paper-edge);
   border-radius: 16px;
-  background: #fff;
+  background: rgb(255 255 255 / 80%);
   font-weight: 600;
 }
 /* 選項：兩欄大按鈕，圖示在上、文字在下。 */

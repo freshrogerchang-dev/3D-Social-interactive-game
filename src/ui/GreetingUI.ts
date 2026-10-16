@@ -172,6 +172,7 @@ export class GreetingUI {
     }
     for (const text of copy.prompts) {
       const p = document.createElement('p');
+      if (text.endsWith('？')) p.className = 'prompt-question';
       p.append(annotatedText(text));
       content.append(p);
     }

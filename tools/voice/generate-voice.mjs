@@ -28,6 +28,9 @@ const SPEAKERS = {
   xiaoyu: { voice: 'Fenrir', persona: '一位八歲、活潑愛玩球的台灣小男孩' },
   xiaoqing: { voice: 'Leda', persona: '一位七歲、溫柔的台灣小女孩' },
   mom: { voice: 'Sulafat', persona: '一位溫柔、有耐心的台灣媽媽' },
+  xiaoyun: { voice: 'Aoede', persona: '一位六歲、開朗的台灣小女孩' },
+  agong: { voice: 'Algenib', persona: '一位和藹、說話慢的台灣阿公' },
+  xiaozhe: { voice: 'Achird', persona: '一位七歲、有點難過但溫和的台灣小男孩' },
   narrator: { voice: 'Achernar', persona: '一位溫和、說話清楚的說故事老師' },
 };
 const TONES = {

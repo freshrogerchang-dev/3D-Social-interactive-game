@@ -116,7 +116,7 @@ try {
     const { context, page, errors } = await openPark();
     check('出發點不能開始對話，按鈕寫「靠近再說話」', (await page.locator('#greeting-launch').isDisabled()) &&
       (await page.locator('#greeting-launch').getAttribute('aria-label')) === '靠近再說話');
-    check('人物提示列出四位人物', (await page.locator('#npc-info').textContent()) === '公園裡有小安、小宇、小晴和媽媽。');
+    check('人物提示說公園裡有七個人', (await page.locator('#npc-info').textContent()) === '公園裡有七個人，轉身看看。');
     await page.screenshot({ path: path.join(out, 'start.png') });
     check('出發點沒有例外', errors.length === 0, errors.join(' | '));
     await context.close();
@@ -222,6 +222,76 @@ try {
       }));
     }
     check('媽媽路徑沒有例外', errors.length === 0, errors.join(' | '));
+    await context.close();
+  }
+
+  // 5a. 小芸（右後方）：借泡泡，含不借的練習；檢查問題加粗、卡片半透明。
+  {
+    const { context, page, errors } = await openPark();
+    await settingsSteps(page, '向右看', 7);
+    const label = await walkTo(page, ['w'], '跟小芸說話');
+    check('轉身往右後方走靠近小芸，按鈕變成「跟小芸說話」', label === '跟小芸說話', String(label));
+    await page.locator('#greeting-launch').tap();
+    check('借泡泡：開場三句提示', (await plain(page, '#greeting-copy')) === '小芸在吹泡泡。你也想吹吹看。你想怎麼開始？');
+    check('問題那一句加粗顯示', (await page.locator('#greeting-copy .prompt-question').count()) === 1 &&
+      (await plain(page, '#greeting-copy .prompt-question')) === '你想怎麼開始？');
+    check('對話卡片半透明（看得到後面的公園）', await page.locator('#greeting-panel .panel').evaluate((el) => {
+      const m = getComputedStyle(el).backgroundColor.match(/rgba?\(([^)]+)\)/);
+      const alpha = Number(m?.[1].split(/[\s,/]+/).filter(Boolean)[3] ?? 1);
+      return alpha > 0.4 && alpha < 0.9;
+    }));
+    await page.screenshot({ path: path.join(out, 'xiaoyun-dialogue.png') });
+    await button(page, '問能借嗎').tap();
+    check('小芸借一次', (await plain(page, '#greeting-copy')).includes('小芸：可以，借你吹一次。'));
+    await button(page, '說謝謝').tap();
+    await button(page, '還給她').tap();
+    check('還給小芸', (await plain(page, '#greeting-copy')).includes('小芸：謝謝你還給我。'));
+    await button(page, '換個回答').tap();
+    await button(page, '指泡泡').tap();
+    check('不借：小芸說這是我的', (await plain(page, '#greeting-copy')).includes('小芸：這是我的，不想借。'));
+    await button(page, '看她吹').tap();
+    await button(page, '結束練習').tap();
+    await button(page, '回公園').tap();
+    check('小芸路徑回到公園', !(await page.locator('#greeting-panel').isVisible()));
+    check('小芸路徑沒有例外', errors.length === 0, errors.join(' | '));
+    await context.close();
+  }
+
+  // 5b. 阿公（左後方）：東西掉了。
+  {
+    const { context, page, errors } = await openPark();
+    await settingsSteps(page, '向左看', 7);
+    const label = await walkTo(page, ['w'], '跟阿公說話');
+    check('轉身往左後方走靠近阿公，按鈕變成「跟阿公說話」', label === '跟阿公說話', String(label));
+    await page.locator('#greeting-launch').tap();
+    await button(page, '撿給阿公').tap();
+    check('撿起來：阿公道謝', (await plain(page, '#greeting-copy')).includes('阿公：謝謝你幫我撿。'));
+    await page.screenshot({ path: path.join(out, 'agong-dialogue.png') });
+    await button(page, '說不客氣').tap();
+    await button(page, '換個情況').tap();
+    await button(page, '交給大人').tap();
+    check('走遠了：交給大人', (await plain(page, '#greeting-copy')).includes('媽媽拿去還給阿公。'));
+    await button(page, '結束練習').tap();
+    await button(page, '回公園').tap();
+    check('阿公路徑沒有例外', errors.length === 0, errors.join(' | '));
+    await context.close();
+  }
+
+  // 5c. 小哲（正後方長椅）：關心朋友。
+  {
+    const { context, page, errors } = await openPark();
+    await settingsSteps(page, '向左看', 12);
+    const label = await walkTo(page, ['w'], '跟小哲說話');
+    check('轉身往後走靠近小哲，按鈕變成「跟小哲說話」', label === '跟小哲說話', String(label));
+    await page.locator('#greeting-launch').tap();
+    await button(page, '坐他旁邊').tap();
+    check('小哲說氣球飛走了', (await plain(page, '#greeting-copy')).includes('小哲：我的氣球飛走了。'));
+    await page.screenshot({ path: path.join(out, 'xiaozhe-dialogue.png') });
+    await button(page, '陪著他').tap();
+    await button(page, '點頭').tap();
+    check('小哲好一點了', (await plain(page, '#greeting-copy')).includes('小哲：我好一點了。'));
+    await button(page, '回公園').tap();
+    check('小哲路徑沒有例外', errors.length === 0, errors.join(' | '));
     await context.close();
   }
 

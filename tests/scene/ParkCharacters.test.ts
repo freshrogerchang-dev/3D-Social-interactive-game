@@ -8,9 +8,10 @@ import { ParkScene } from '../../src/scene/ParkScene';
 import { FakeRenderer, FakeScheduler, fakeCanvas } from '../helpers';
 
 describe('公園人物配置', () => {
-  it('四位人物各對應一個情境，彼此距離大於靠近範圍，靠近範圍都走得到', () => {
+  it('七位人物各對應一個情境，彼此距離大於靠近範圍，靠近範圍都走得到', () => {
     const park = new ParkScene();
     const ids = park.characters.map((character) => character.id);
+    expect(ids).toHaveLength(7);
     expect(ids.sort()).toEqual(Object.keys(PARK_SCENARIOS).sort());
     for (const a of park.characters) {
       // 人物可以略在步行邊界外（例如入口的媽媽），但靠近範圍必須走得到。
@@ -77,7 +78,7 @@ describe('公園人物配置', () => {
   it('背景小朋友不能對話、不搶靠近提示；有個人空間，且不在出發點附近', () => {
     const park = new ParkScene();
     const ids = park.extras.map((kid) => kid.id);
-    expect(ids).toEqual(['slide-top', 'slide-ladder', 'bubbles']);
+    expect(ids).toEqual(['slide-top', 'slide-ladder']);
     for (const kid of park.extras) {
       expect(Object.keys(PARK_SCENARIOS)).not.toContain(kid.id);
       expect(park.obstacles).toContain(kid.obstacle);

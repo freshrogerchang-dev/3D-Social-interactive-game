@@ -443,12 +443,412 @@ export const SWIM_SCENARIO: Scenario<SwimNode> = {
   },
 };
 
+type BorrowNode =
+  | 'see'
+  | 'watch'
+  | 'asked-spoken'
+  | 'asked-gesture'
+  | 'blow'
+  | 'returned'
+  | 'decline'
+  | 'declined-spoken'
+  | 'declined-gesture'
+  | 'cope-ok'
+  | 'cope-watch'
+  | 'cope-other'
+  | 'decline-end'
+  | 'not-now'
+  | 'skipped';
+
+const borrowAsk: readonly DialogueChoice<BorrowNode>[] = [
+  { label: '問能借嗎', target: 'asked-spoken', icon: 'speech' },
+  { label: '指泡泡', target: 'asked-gesture', icon: 'nod' },
+  { label: '先看一下', target: 'watch', icon: 'pause' },
+  { label: '先不參與', target: 'not-now', icon: 'exit' },
+];
+const borrowThanks: readonly DialogueChoice<BorrowNode>[] = [
+  { label: '說謝謝', target: 'blow', icon: 'speech' },
+  { label: '點頭', target: 'blow', icon: 'nod' },
+];
+const borrowCope: readonly DialogueChoice<BorrowNode>[] = [
+  { label: '說好', target: 'cope-ok', icon: 'speech' },
+  { label: '點頭', target: 'cope-ok', icon: 'nod' },
+  { label: '看她吹', target: 'cope-watch', icon: 'pause' },
+  { label: '去玩別的', target: 'cope-other', icon: 'park' },
+];
+const borrowEnd: readonly DialogueChoice<BorrowNode>[] = [
+  { label: '結束練習', target: 'decline-end', icon: 'done' },
+];
+
+/** 小芸：想玩別人的東西時先問、用完還回去；也練習對方說「不借」。 */
+export const BORROW_SCENARIO: Scenario<BorrowNode> = {
+  id: 'borrow',
+  title: '借泡泡',
+  speaker: '小芸',
+  launchLabel: '跟小芸說話',
+  start: 'see',
+  nodes: {
+    see: {
+      line: '',
+      expression: 'happy',
+      prompts: ['小芸在吹泡泡。', '你也想吹吹看。', '你想怎麼開始？'],
+      choices: borrowAsk,
+      help: ['可以用說的或用手指。', '也可以先看一下。'],
+    },
+    watch: {
+      line: '',
+      expression: 'happy',
+      prompts: ['你在旁邊看泡泡飛。', '想好了再選。'],
+      choices: borrowAsk.filter((choice) => choice.target !== 'watch'),
+      help: ['看一下再決定也可以。'],
+    },
+    'asked-spoken': {
+      line: '可以，借你吹一次。',
+      expression: 'happy',
+      prompts: ['你問：「可以借我吹嗎？」'],
+      choices: borrowThanks,
+      help: ['說謝謝或點頭都可以。'],
+      gesture: 'nod',
+    },
+    'asked-gesture': {
+      line: '可以，借你吹一次。',
+      expression: 'happy',
+      prompts: ['你用手指了泡泡。'],
+      choices: borrowThanks,
+      help: ['說謝謝或點頭都可以。'],
+      gesture: 'nod',
+    },
+    blow: {
+      line: '',
+      expression: 'excited',
+      prompts: ['你吹出好多泡泡。', '吹完要還給小芸。'],
+      choices: [{ label: '還給她', target: 'returned', icon: 'done' }],
+      help: ['按「還給她」。'],
+    },
+    returned: {
+      line: '謝謝你還給我。',
+      expression: 'happy',
+      prompts: ['你把泡泡水還給小芸。'],
+      choices: [
+        { label: '再練一次', target: 'see', icon: 'repeat' },
+        { label: '換個回答', target: 'decline', icon: 'repeat' },
+        { label: '回公園', target: 'park', icon: 'park' },
+      ],
+      help: ['換個回答會練習不借。'],
+      gesture: 'wave',
+      outcome: 'finished',
+    },
+    decline: {
+      line: '',
+      prompts: ['這次小芸會說不借。', '你想怎麼開始？'],
+      choices: [
+        { label: '問能借嗎', target: 'declined-spoken', icon: 'speech' },
+        { label: '指泡泡', target: 'declined-gesture', icon: 'nod' },
+        { label: '先不參與', target: 'not-now', icon: 'exit' },
+      ],
+      help: ['可以用說的或用手指。'],
+    },
+    'declined-spoken': {
+      line: '這是我的，不想借。',
+      expression: 'worried',
+      prompts: ['你問：「可以借我吹嗎？」'],
+      choices: borrowCope,
+      help: ['東西是她的，可以不借。', '每一個做法都可以選。'],
+    },
+    'declined-gesture': {
+      line: '這是我的，不想借。',
+      expression: 'worried',
+      prompts: ['你用手指了泡泡。'],
+      choices: borrowCope,
+      help: ['東西是她的，可以不借。', '每一個做法都可以選。'],
+    },
+    'cope-ok': {
+      line: '謝謝你。',
+      expression: 'happy',
+      prompts: ['東西是她的，可以不借。'],
+      choices: borrowEnd,
+      help: ['按「結束練習」。'],
+    },
+    'cope-watch': {
+      line: '你可以看我吹。',
+      expression: 'happy',
+      prompts: ['你在旁邊看泡泡飛。'],
+      choices: borrowEnd,
+      help: ['按「結束練習」。'],
+    },
+    'cope-other': {
+      line: '',
+      prompts: ['你先去玩別的。', '等一下可以再問。'],
+      choices: borrowEnd,
+      help: ['按「結束練習」。'],
+    },
+    'decline-end': {
+      line: '',
+      prompts: ['這次練習結束了。'],
+      choices: [
+        { label: '再練一次', target: 'see', icon: 'repeat' },
+        { label: '回公園', target: 'park', icon: 'park' },
+      ],
+      help: ['可以再練或回公園。'],
+      outcome: 'finished',
+    },
+    'not-now': {
+      line: '',
+      prompts: ['你選了先不參與。'],
+      choices: [{ label: '好', target: 'skipped', icon: 'done' }],
+      help: ['按「好」回到公園。'],
+    },
+    skipped: {
+      line: '',
+      prompts: ['你回到公園。'],
+      choices: [{ label: '回公園', target: 'park', icon: 'park' }],
+      help: ['小芸還在吹泡泡。'],
+      outcome: 'skipped',
+    },
+  },
+};
+
+type DroppedNode =
+  | 'see'
+  | 'told-spoken'
+  | 'told-gesture'
+  | 'picked'
+  | 'thanked'
+  | 'far'
+  | 'caught-up'
+  | 'gave-adult'
+  | 'far-end'
+  | 'not-now'
+  | 'skipped';
+
+const welcome: readonly DialogueChoice<DroppedNode>[] = [
+  { label: '說不客氣', target: 'thanked', icon: 'speech' },
+  { label: '點頭', target: 'thanked', icon: 'nod' },
+];
+const droppedEnd: readonly DialogueChoice<DroppedNode>[] = [
+  { label: '結束練習', target: 'far-end', icon: 'done' },
+];
+
+/** 阿公：看到別人東西掉了，用說的、用手指或撿起來還；也練習對方走遠時怎麼辦。 */
+export const DROPPED_SCENARIO: Scenario<DroppedNode> = {
+  id: 'dropped',
+  title: '東西掉了',
+  speaker: '阿公',
+  launchLabel: '跟阿公說話',
+  start: 'see',
+  nodes: {
+    see: {
+      line: '',
+      prompts: ['阿公的手帕掉在地上。', '他還沒有發現。', '你想怎麼做？'],
+      choices: [
+        { label: '跟他說', target: 'told-spoken', icon: 'speech' },
+        { label: '指地上', target: 'told-gesture', icon: 'nod' },
+        { label: '撿給阿公', target: 'picked', icon: 'done' },
+        { label: '先不參與', target: 'not-now', icon: 'exit' },
+      ],
+      help: ['說的、用手指或撿起來，', '每一個做法都可以選。'],
+    },
+    'told-spoken': {
+      line: '喔，謝謝你告訴我。',
+      expression: 'surprised',
+      prompts: ['你說：「你的手帕掉了。」'],
+      choices: welcome,
+      help: ['說不客氣或點頭都可以。'],
+      gesture: 'nod',
+    },
+    'told-gesture': {
+      line: '喔，謝謝你告訴我。',
+      expression: 'surprised',
+      prompts: ['你指一指地上的手帕。'],
+      choices: welcome,
+      help: ['說不客氣或點頭都可以。'],
+      gesture: 'nod',
+    },
+    picked: {
+      line: '謝謝你幫我撿。',
+      expression: 'happy',
+      prompts: ['你把手帕撿起來給阿公。'],
+      choices: welcome,
+      help: ['說不客氣或點頭都可以。'],
+      gesture: 'nod',
+    },
+    thanked: {
+      line: '我差點找不到。',
+      expression: 'happy',
+      prompts: ['阿公把手帕收好了。'],
+      choices: [
+        { label: '再練一次', target: 'see', icon: 'repeat' },
+        { label: '換個情況', target: 'far', icon: 'repeat' },
+        { label: '回公園', target: 'park', icon: 'park' },
+      ],
+      help: ['換個情況會練習他走遠了。'],
+      gesture: 'wave',
+      outcome: 'finished',
+    },
+    far: {
+      line: '',
+      prompts: ['這次阿公已經走遠了。', '你想怎麼做？'],
+      choices: [
+        { label: '走過去說', target: 'caught-up', icon: 'speech' },
+        { label: '交給大人', target: 'gave-adult', icon: 'nod' },
+        { label: '先不參與', target: 'not-now', icon: 'exit' },
+      ],
+      help: ['走過去或找大人都可以。'],
+    },
+    'caught-up': {
+      line: '咦？謝謝你。',
+      expression: 'surprised',
+      prompts: ['你走過去說手帕掉了。'],
+      choices: droppedEnd,
+      help: ['按「結束練習」。'],
+      gesture: 'nod',
+    },
+    'gave-adult': {
+      line: '',
+      prompts: ['你把手帕交給媽媽。', '媽媽拿去還給阿公。'],
+      choices: droppedEnd,
+      help: ['按「結束練習」。'],
+    },
+    'far-end': {
+      line: '',
+      expression: 'happy',
+      prompts: ['阿公拿回手帕了。', '這次練習結束了。'],
+      choices: [
+        { label: '再練一次', target: 'see', icon: 'repeat' },
+        { label: '回公園', target: 'park', icon: 'park' },
+      ],
+      help: ['可以再練或回公園。'],
+      outcome: 'finished',
+    },
+    'not-now': {
+      line: '',
+      prompts: ['你選了先不參與。'],
+      choices: [{ label: '好', target: 'skipped', icon: 'done' }],
+      help: ['按「好」回到公園。'],
+    },
+    skipped: {
+      line: '',
+      prompts: ['你回到公園。'],
+      choices: [{ label: '回公園', target: 'park', icon: 'park' }],
+      help: ['阿公還在散步。'],
+      outcome: 'skipped',
+    },
+  },
+};
+
+type CareNode =
+  | 'see'
+  | 'asked-spoken'
+  | 'asked-gesture'
+  | 'said-ok'
+  | 'stayed'
+  | 'got-adult'
+  | 'better'
+  | 'not-now'
+  | 'skipped';
+
+const careWays: readonly DialogueChoice<CareNode>[] = [
+  { label: '說會難過', target: 'said-ok', icon: 'speech' },
+  { label: '陪著他', target: 'stayed', icon: 'nod' },
+  { label: '找大人', target: 'got-adult', icon: 'exit' },
+];
+const careNext: readonly DialogueChoice<CareNode>[] = [
+  { label: '說好', target: 'better', icon: 'speech' },
+  { label: '點頭', target: 'better', icon: 'nod' },
+];
+
+/** 小哲：氣球飛走了；練習關心別人的心情（問一問、陪著、找大人都可以）。 */
+export const CARE_SCENARIO: Scenario<CareNode> = {
+  id: 'care',
+  title: '關心朋友',
+  speaker: '小哲',
+  launchLabel: '跟小哲說話',
+  start: 'see',
+  nodes: {
+    see: {
+      line: '',
+      expression: 'worried',
+      prompts: ['小哲的氣球飛走了。', '他看起來很難過。', '你想怎麼做？'],
+      choices: [
+        { label: '問還好嗎', target: 'asked-spoken', icon: 'speech' },
+        { label: '坐他旁邊', target: 'asked-gesture', icon: 'nod' },
+        { label: '找大人', target: 'got-adult', icon: 'exit' },
+        { label: '先不參與', target: 'not-now', icon: 'exit' },
+      ],
+      help: ['問一問或安靜陪著，', '每一個做法都可以選。'],
+    },
+    'asked-spoken': {
+      line: '我的氣球飛走了。',
+      expression: 'worried',
+      prompts: ['你問：「你還好嗎？」', '你想怎麼做？'],
+      choices: careWays,
+      help: ['說的、陪著或找大人，', '每一個做法都可以選。'],
+    },
+    'asked-gesture': {
+      line: '我的氣球飛走了。',
+      expression: 'worried',
+      prompts: ['你坐在小哲旁邊。', '你想怎麼做？'],
+      choices: careWays,
+      help: ['說的、陪著或找大人，', '每一個做法都可以選。'],
+    },
+    'said-ok': {
+      line: '嗯，我好難過。',
+      expression: 'thinking',
+      prompts: ['你說：「難過是可以的。」'],
+      choices: careNext,
+      help: ['說好或點頭都可以。'],
+    },
+    stayed: {
+      line: '謝謝你陪我。',
+      expression: 'thinking',
+      prompts: ['你安靜地陪在旁邊。'],
+      choices: careNext,
+      help: ['說好或點頭都可以。'],
+    },
+    'got-adult': {
+      line: '',
+      expression: 'thinking',
+      prompts: ['你去找大人來。', '大人陪小哲說話。'],
+      choices: [{ label: '結束練習', target: 'better', icon: 'done' }],
+      help: ['按「結束練習」。'],
+    },
+    better: {
+      line: '我好一點了。',
+      expression: 'happy',
+      prompts: ['小哲想去玩溜滑梯。'],
+      choices: [
+        { label: '再練一次', target: 'see', icon: 'repeat' },
+        { label: '回公園', target: 'park', icon: 'park' },
+      ],
+      help: ['可以再練或回公園。'],
+      gesture: 'wave',
+      outcome: 'finished',
+    },
+    'not-now': {
+      line: '',
+      prompts: ['你選了先不參與。'],
+      choices: [{ label: '好', target: 'skipped', icon: 'done' }],
+      help: ['按「好」回到公園。'],
+    },
+    skipped: {
+      line: '',
+      prompts: ['你回到公園。'],
+      choices: [{ label: '回公園', target: 'park', icon: 'park' }],
+      help: ['小哲還坐在那裡。'],
+      outcome: 'skipped',
+    },
+  },
+};
+
 /** 公園中每位人物對應的情境；`id` 與 ParkScene 的人物 id 相同。 */
 export const PARK_SCENARIOS = {
   xiaoan: GREETING_SCENARIO,
   xiaoyu: PLAY_SCENARIO,
   xiaoqing: LINE_SCENARIO,
   mom: SWIM_SCENARIO,
+  xiaoyun: BORROW_SCENARIO,
+  agong: DROPPED_SCENARIO,
+  xiaozhe: CARE_SCENARIO,
 } as const;
 
 export type CharacterId = keyof typeof PARK_SCENARIOS;

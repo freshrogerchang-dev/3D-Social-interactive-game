@@ -29,6 +29,9 @@ export const SPEECH_STYLE: Readonly<Record<Speaker, { pitch: number; rate: numbe
   xiaoyu: { pitch: 1.35, rate: 0.95 },
   xiaoqing: { pitch: 1.7, rate: 0.9 },
   mom: { pitch: 1.1, rate: 0.85 },
+  xiaoyun: { pitch: 1.6, rate: 0.9 },
+  agong: { pitch: 0.8, rate: 0.8 },
+  xiaozhe: { pitch: 1.4, rate: 0.85 },
   narrator: { pitch: 1, rate: 0.85 },
 };
 

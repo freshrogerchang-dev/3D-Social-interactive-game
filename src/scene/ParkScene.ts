@@ -42,7 +42,7 @@ const MARKER_EDGE_COLOR = new Color().setHSL(40 / 360, 0.35, 0.92);
 /**
  * 公園裡固定位置的人物。彼此距離大於靠近範圍（約 6.4m），一次只會靠近一位。
  * 出發點 (0, 3.5) 面向 -z，所有人都在前方：長椅小安、左前小宇、右前小晴與溜滑梯，
- * 最遠的公園入口是媽媽。小宇、小晴各在出發點左右 45° 的方向（轉三次「向左／右看」
+ * 最遠的公園入口是媽媽；出發點後方還有小芸、阿公與小哲。小宇、小晴各在出發點左右 45° 的方向（轉三次「向左／右看」
  * 就在正前方），並略轉向玩家走來的方向，手機直向也看得到臉。
  */
 function createCharacters(): readonly ParkCharacter[] {
@@ -113,6 +113,59 @@ function createCharacters(): readonly ParkCharacter[] {
         accent: 0xc9a77a,
       },
     }),
+    // 出發點後方（轉身才看得到）的三位：右後方吹泡泡的小芸、左後方散步的阿公、
+    // 正後方長椅上的小哲。都略轉向出發點，彼此與前方人物的距離都大於靠近範圍。
+    new ParkCharacter({
+      id: 'xiaoyun',
+      x: 6.5,
+      z: 4.5,
+      rotationY: -1.72,
+      pose: 'standing',
+      prop: 'bubbles',
+      radius: 1,
+      look: {
+        hair: 'bob',
+        hairColor: 0x4d3527,
+        skin: 0xf2c8a8,
+        shirt: 0xc3b1dc,
+        bottom: 'shorts',
+        bottomColor: 0x6d7f9c,
+        accent: 0xf0d27a,
+      },
+    }),
+    new ParkCharacter({
+      id: 'agong',
+      x: -6.5,
+      z: 4.5,
+      rotationY: 1.72,
+      pose: 'standing',
+      radius: 1,
+      look: {
+        adult: true,
+        hair: 'short',
+        hairColor: 0xa8a39b,
+        skin: 0xe6b994,
+        shirt: 0xa7b6c4,
+        bottom: 'shorts',
+        bottomColor: 0x6a6458,
+        shoes: 0x5b5048,
+        accent: 0xd9d2c3,
+      },
+    }),
+    new ParkCharacter({
+      id: 'xiaozhe',
+      x: 0,
+      z: 9,
+      rotationY: Math.PI,
+      look: {
+        hair: 'spiky',
+        hairColor: 0x2f241d,
+        skin: 0xe9b995,
+        shirt: 0x9cc0a2,
+        bottom: 'shorts',
+        bottomColor: 0x5d6b7d,
+      },
+    }),
   ];
 }
 
@@ -120,8 +173,8 @@ function createCharacters(): readonly ParkCharacter[] {
 const SLIDE = { x: 6.5, z: -4.6 } as const;
 
 /**
- * 不能對話的背景小朋友：溜滑梯平台上準備溜的、扶著梯子的（都排在小晴前面），
- * 以及在步道旁吹泡泡的。只有閒置動態，沒有對話或動作。
+ * 不能對話的背景小朋友：溜滑梯平台上準備溜的、扶著梯子的（都排在小晴前面）。
+ * 只有閒置動態，沒有對話或動作。
  */
 function createExtras(): readonly ParkCharacter[] {
   return [
@@ -159,25 +212,6 @@ function createExtras(): readonly ParkCharacter[] {
         bottom: 'skirt',
         bottomColor: 0xc98f7a,
         accent: 0x9ec6d6,
-      },
-    }),
-    new ParkCharacter({
-      id: 'bubbles',
-      // 從出發點往前看就看得到（長椅右後方），不在走向人物的路線上。
-      x: 2.4,
-      z: -7,
-      rotationY: -0.35,
-      pose: 'standing',
-      prop: 'bubbles',
-      radius: 0.45,
-      look: {
-        hair: 'bob',
-        hairColor: 0x4d3527,
-        skin: 0xf2c8a8,
-        shirt: 0xc3b1dc,
-        bottom: 'shorts',
-        bottomColor: 0x6d7f9c,
-        accent: 0xf0d27a,
       },
     }),
   ];
