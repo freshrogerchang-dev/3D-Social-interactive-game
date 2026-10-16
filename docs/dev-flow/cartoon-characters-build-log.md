@@ -54,10 +54,10 @@ MakeHuman 人物模型與授權檔（`public/assets/characters/`，約 6.6 MB）
 | 檢查 | 結果 |
 |---|---|
 | `npm run typecheck`／`lint`／`format:check`／`test`／`build` | 全部 exit 0；12 檔 103 項測試 |
-| `park-dialogues-browser.mjs`／`phase4-browser.mjs` | 36/36、24/24，exit 0（眼睛縮小前）；縮小後重跑對話檢查見下方 |
+| `park-dialogues-browser.mjs`／`phase4-browser.mjs` | 36/36、24/24，exit 0（眼睛縮小前）；縮小後重跑對話檢查 36/36，exit 0 |
 | 新增單元測試 | `tests/npc/CartoonFace.test.ts`（六種表情都不同、過渡柔和且收斂、不會自己變、釋放）；情境表情規則；引擎只給對話中的人物換表情、null 與返回安全區回到平常；坐姿與站姿位置、大人比例；揮手與點頭改寫 |
 
-證據：`cartoon-evidence/expressions.jpg`（四位人物各六種表情）、`cartoon-evidence/in-game.jpg`（遊戲內，眼睛縮小前拍的）。
+證據：`cartoon-evidence/expressions.jpg`（四位人物各六種表情）、`cartoon-evidence/in-game.jpg`（遊戲內，眼睛縮小後）。
 
 ## 4. 使用者回饋：眼睛小一點
 

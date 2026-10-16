@@ -10,7 +10,7 @@ describe('人工注音內容', () => {
       ...copy.choices.map((choice) => choice.label),
     ]);
     texts.push(
-      '小安打招呼靠近再招呼幫助關閉幫助再看一次暫停返回安全區繼續重試重新開始結束本次人物動作',
+      '小安打招呼靠近再招呼幫助關閉幫助再看一次暫停返回安全區繼續重試重新開始結束本次人物動作再聽一次語音',
     );
     for (const text of texts)
       for (const character of text)

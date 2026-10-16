@@ -164,6 +164,8 @@ export const READINGS: Readonly<Record<string, string>> = {
   訴: 'ㄙㄨˋ',
   辦: 'ㄅㄢˋ',
   聽: 'ㄊㄧㄥ',
+  語: 'ㄩˇ',
+  音: 'ㄧㄣ',
   需: 'ㄒㄩ',
   要: 'ㄧㄠˋ',
   什: 'ㄕㄣˊ',
@@ -244,6 +246,8 @@ export function decorateButton(button: HTMLButtonElement, label: string, icon: s
     exit: 'M4 3h9v2H6v14h7v2H4zM14 7l6 5-6 5v-4H8v-2h6z',
     done: 'M4 12l5 5L21 5l-2-2L9 13l-3-3z',
     pause: 'M6 4h4v16H6zM14 4h4v16h-4z',
+    listen:
+      'M4 9h4l5-4v14l-5-4H4zm12-1a5 5 0 0 1 0 8l-1-2a3 3 0 0 0 0-4zm2-4a10 10 0 0 1 0 16l-1-2a8 8 0 0 0 0-12z',
   };
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', '0 0 24 24');

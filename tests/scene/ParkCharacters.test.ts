@@ -74,6 +74,24 @@ describe('公園人物配置', () => {
     adult.dispose();
   });
 
+  it('背景小朋友不能對話、不搶靠近提示；有個人空間，且不在出發點附近', () => {
+    const park = new ParkScene();
+    const ids = park.extras.map((kid) => kid.id);
+    expect(ids).toEqual(['slide-top', 'slide-ladder', 'bubbles']);
+    for (const kid of park.extras) {
+      expect(Object.keys(PARK_SCENARIOS)).not.toContain(kid.id);
+      expect(park.obstacles).toContain(kid.obstacle);
+      expect(kid.distanceTo(park.camera.position)).toBeGreaterThan(5);
+    }
+    // 溜滑梯的兩位排在小晴前面（更靠近梯子），玩家仍是排在小晴後面。
+    const xiaoqing = park.characters.find((c) => c.id === 'xiaoqing');
+    for (const id of ['slide-top', 'slide-ladder'])
+      expect(park.extras.find((k) => k.id === id)?.obstacle.z).toBeLessThan(
+        xiaoqing?.obstacle.z ?? 0,
+      );
+    park.dispose();
+  });
+
   it('dispose 釋放所有人物與設施，可重複呼叫', () => {
     const park = new ParkScene();
     const disposeCharacter = vi.spyOn(ParkCharacter.prototype, 'dispose');
@@ -84,7 +102,7 @@ describe('公園人物配置', () => {
     });
     park.dispose();
     park.dispose();
-    expect(disposeCharacter).toHaveBeenCalledTimes(park.characters.length);
+    expect(disposeCharacter).toHaveBeenCalledTimes(park.everyone.length);
     expect(geometries).toBeGreaterThan(0);
     disposeCharacter.mockRestore();
   });
@@ -151,7 +169,7 @@ describe('引擎與多位人物', () => {
     expect(play.mock.contexts).toEqual([park.characters.find((c) => c.id === 'mom')]);
     play.mockClear();
     engine.setNPCGesture(null);
-    expect(play).toHaveBeenCalledTimes(park.characters.length);
+    expect(play).toHaveBeenCalledTimes(park.everyone.length);
     play.mockRestore();
     engine.dispose();
   });

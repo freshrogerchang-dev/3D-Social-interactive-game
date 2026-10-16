@@ -3,6 +3,7 @@ import { GreetingUI } from './ui/GreetingUI';
 import { GameEngine } from './core/GameEngine';
 import type { EngineState } from './core/GameEngine';
 import { SafetyUI } from './ui/SafetyUI';
+import { VoicePlayer, browserSpeech } from './ui/VoicePlayer';
 import type { SafetyView } from './ui/SafetyUI';
 
 function requireById(id: string): HTMLElement {
@@ -23,6 +24,13 @@ const ui = new SafetyUI(app);
 let engine: GameEngine | null = null;
 let canvas: HTMLCanvasElement | null = null;
 /** 引擎進入 paused 的原因，決定顯示「休息一下」或「已返回安全區」。 */
+// 語音：有預先產生的靜態音檔就播音檔，其餘用裝置內建語音；不呼叫雲端語音 API。
+const voice = new VoicePlayer(import.meta.env.BASE_URL, () => new Audio(), browserSpeech());
+if (typeof fetch === 'function')
+  void voice.load(async () => {
+    const response = await fetch(`${import.meta.env.BASE_URL}assets/voice/manifest.json`);
+    return response.ok ? ((await response.json()) as unknown) : null;
+  });
 const greetingPanel = document.getElementById('greeting-panel');
 const greetingLaunch = document.getElementById('greeting-launch');
 const greeting =
@@ -32,23 +40,31 @@ const greeting =
         greetingLaunch,
         (active) => engine?.setInteractionActive(active),
         (gesture, characterId, expression) => {
-          const enabled =
-            document.querySelector<HTMLInputElement>('#npc-motion')?.checked === true &&
-            !matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const enabled = motionAllowed();
           engine?.setNPCGesture(gesture, enabled, characterId ?? undefined);
           // 表情和動作開關無關，一律顯示；停用動作時直接切換、不做過渡。
           engine?.setNPCExpression(expression, characterId ?? undefined, enabled);
         },
+        voice,
       )
     : null;
 
-const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-reducedMotion.addEventListener('change', () => {
-  if (reducedMotion.matches) engine?.setNPCGesture(null, false);
+/** 「人物動作」開著、而且系統沒有要求減少動態時，人物才有動作與閒置動態。 */
+function motionAllowed(): boolean {
+  const checkbox = document.getElementById('npc-motion') as HTMLInputElement | null;
+  return checkbox?.checked === true && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => {
+  engine?.setNPCGesture(null, motionAllowed());
 });
 app.addEventListener('change', (event) => {
   if (event.target instanceof HTMLInputElement && event.target.id === 'npc-motion')
-    engine?.setNPCGesture(null, event.target.checked && !reducedMotion.matches);
+    engine?.setNPCGesture(null, motionAllowed());
+  if (event.target instanceof HTMLInputElement && event.target.id === 'voice-enabled') {
+    voice.setEnabled(event.target.checked);
+    greeting?.voiceChanged();
+  }
 });
 
 let pauseReason: 'paused' | 'safety' = 'paused';
@@ -163,6 +179,7 @@ async function startSession(): Promise<void> {
     const result = await current.init(nextCanvas);
     if (engine !== current || !result.ok) return;
     applyEnvironmentDetail();
+    current.setNPCGesture(null, motionAllowed());
     if (isPageHidden()) {
       takeOver('rest');
       return;

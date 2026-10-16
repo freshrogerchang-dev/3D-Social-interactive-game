@@ -123,7 +123,8 @@ const Z = new Vector3(0, 0, 1);
 
 /**
  * 卡通臉：眼白、虹膜、瞳孔與高光、上下眼皮、眉毛、嘴巴（morph target）、腮紅。
- * 表情只在呼叫 setExpression 時改變，過渡約 0.3 秒；沒有自動眨眼或循環動作。
+ * 表情只在呼叫 setExpression 時改變，過渡約 0.3 秒。
+ * 閒置動態（setIdle）：偶爾眨眼、看向旁邊；關閉時臉完全靜止。
  */
 export class CartoonFace {
   readonly root = new Group();
@@ -136,13 +137,23 @@ export class CartoonFace {
   private readonly blushes: Mesh[] = [];
   private readonly mouth: Mesh;
   private readonly eyeSize: number;
+  private idle = false;
+  private seed: number;
+  private blinkIn = 3;
+  private blinkTime = -1;
+  private glanceIn = 4;
+  private readonly glance = { x: 0, y: 0, targetX: 0, targetY: 0 };
 
-  /** radii：頭（橢球）三軸半徑；臉朝 +z。 */
+  /** radii：頭（橢球）三軸半徑；臉朝 +z。seed 讓每個人眨眼的時間不同（可重現）。 */
   constructor(
     private readonly radii: Vector3,
     materials: FaceMaterials,
+    seed = 1,
   ) {
     this.root.name = 'face';
+    this.seed = seed;
+    this.blinkIn = 1.5 + this.random() * 3;
+    this.glanceIn = 2 + this.random() * 4;
     const r = radii.x;
     this.eyeSize = r * 0.24;
     const sphere = this.geometry(new SphereGeometry(1, 24, 16));
@@ -238,9 +249,24 @@ export class CartoonFace {
     }
   }
 
+  /** 開關閒置動態（眨眼、看旁邊）；關閉時立即回到張眼、看前方。 */
+  setIdle(enabled: boolean): void {
+    this.idle = enabled;
+    if (!enabled) {
+      this.blinkTime = -1;
+      Object.assign(this.glance, { x: 0, y: 0, targetX: 0, targetY: 0 });
+      this.apply();
+    }
+  }
+
+  get idleEnabled(): boolean {
+    return this.idle;
+  }
+
   /** 由引擎的單一 RAF 驅動；delta 0（剛恢復）不改變畫面。 */
   update(delta: number): void {
     if (!Number.isFinite(delta) || delta <= 0) return;
+    if (this.idle) this.updateIdle(Math.min(delta, 0.05));
     const k = 1 - Math.exp(-Math.min(delta, 0.05) * 12);
     const c = this.current;
     const t = this.target;
@@ -265,14 +291,46 @@ export class CartoonFace {
     this.root.removeFromParent();
   }
 
+  /** 眨眼約 0.18 秒、每 2.5–6 秒一次；偶爾看向旁邊 1.5–3 秒再看回來。 */
+  private updateIdle(dt: number): void {
+    this.blinkIn -= dt;
+    if (this.blinkTime >= 0) {
+      this.blinkTime += dt;
+      if (this.blinkTime > 0.18) this.blinkTime = -1;
+    } else if (this.blinkIn <= 0) {
+      this.blinkTime = 0;
+      this.blinkIn = 2.5 + this.random() * 3.5;
+    }
+    this.glanceIn -= dt;
+    if (this.glanceIn <= 0) {
+      const looking = this.glance.targetX !== 0 || this.glance.targetY !== 0;
+      this.glance.targetX = looking
+        ? 0
+        : (this.random() < 0.5 ? -1 : 1) * (0.25 + this.random() * 0.2);
+      this.glance.targetY = looking ? 0 : (this.random() - 0.5) * 0.3;
+      this.glanceIn = looking ? 3 + this.random() * 4 : 1.5 + this.random() * 1.5;
+    }
+    const k = 1 - Math.exp(-dt * 8);
+    this.glance.x += (this.glance.targetX - this.glance.x) * k;
+    this.glance.y += (this.glance.targetY - this.glance.y) * k;
+  }
+
+  private random(): number {
+    this.seed = (1664525 * this.seed + 1013904223) >>> 0;
+    return this.seed / 4294967296;
+  }
+
   private apply(): void {
     const c = this.current;
     const w = this.eyeSize;
+    const blink = this.blinkTime >= 0 ? Math.sin((Math.PI * this.blinkTime) / 0.18) : 0;
+    const lookX = c.lookX + this.glance.x;
+    const lookY = c.lookY + this.glance.y;
     for (const { eye, iris, upper, lower } of this.eyes) {
       eye.scale.setScalar(c.eyeScale);
-      iris.position.set(c.lookX * w * 0.22, c.lookY * w * 0.25, 0);
+      iris.position.set(lookX * w * 0.22, lookY * w * 0.25, 0);
       // 上眼皮：-1.45 rad 全開、π/2 閉合；下眼皮：1.45 rad 收起、往 0 推成笑眼。
-      upper.rotation.x = Math.PI / 2 + (-1.45 - Math.PI / 2) * c.upper;
+      upper.rotation.x = Math.PI / 2 + (-1.45 - Math.PI / 2) * c.upper * (1 - blink);
       lower.rotation.x = 1.45 - 1.35 * c.lower;
     }
     for (const { side, mesh } of this.brows) {

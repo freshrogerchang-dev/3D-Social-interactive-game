@@ -16,6 +16,7 @@ import {
   Vector3,
 } from 'three';
 import type { BufferGeometry, Euler, Vector3Like } from 'three';
+import { Bubbles } from './Bubbles';
 import { CartoonFace } from './CartoonFace';
 import type { Expression } from '../dialogue/Scenario';
 import type { CircularObstacle } from '../input/FirstPersonController';
@@ -48,7 +49,16 @@ export interface CharacterOptions {
   /** 個人空間半徑（公尺）。 */
   readonly radius?: number;
   readonly look?: CharacterLook;
-  readonly prop?: 'ball';
+  /** 球（雙手抱著）或泡泡棒（右手舉到嘴前，會吹出泡泡）。 */
+  readonly prop?: 'ball' | 'bubbles';
+  /** 站在高處（例如溜滑梯平台）時的高度。 */
+  readonly y?: number;
+  /** 坐姿時是否附長椅；坐在溜滑梯平台等地方時不要長椅。 */
+  readonly bench?: boolean;
+  /** 雙手往前（例如扶著梯子）。 */
+  readonly reach?: boolean;
+  /** 閒置動態（呼吸、看四周、眨眼、晃腿等）；仍受「人物動作」開關控制。 */
+  readonly idle?: boolean;
 }
 
 interface Dims {
@@ -119,7 +129,8 @@ const X = new Vector3(1, 0, 0);
 
 /**
  * 公園固定人物（坐姿或站姿）的卡通造型：大頭、圓臉、表情豐富。
- * 只有明確互動才做單次動作或換表情；不移動、不追人、不追蹤視線，也沒有自動循環動作。
+ * 不移動位置、不追人、不追蹤視線。閒置時有慢而小的動態（呼吸、看四周、眨眼、晃腿、玩球、吹泡泡），
+ * 關閉「人物動作」或系統減少動態時全部停止；對話中的揮手、點頭優先。
  */
 export class ParkCharacter {
   readonly id: string;
@@ -137,16 +148,34 @@ export class ParkCharacter {
   private readonly headPivot = new Group();
   private readonly arms: { side: number; shoulder: Group; elbow: Group; wrist: Group }[] = [];
   private readonly rest = new Map<Group, Euler>();
+  private readonly knees: { side: number; pivot: Group }[] = [];
+  private readonly idleEnabled: boolean;
+  private idleTime = 0;
+  private readonly phase: number;
+  private readonly seated: boolean;
+  private readonly reach: boolean;
+  private body: Mesh | null = null;
+  private ball: Mesh | null = null;
+  private ballRestY = 0;
+  private readonly bubbles: Bubbles | null = null;
 
   constructor(options: CharacterOptions = {}) {
     this.id = options.id ?? 'xiaoan';
     const look = options.look ?? {};
     const seated = (options.pose ?? 'seated') === 'seated';
     const holdsBall = options.prop === 'ball';
+    const blowsBubbles = options.prop === 'bubbles';
+    this.seated = seated;
+    this.reach = options.reach ?? false;
+    this.idleEnabled = options.idle ?? true;
+    // 每個人的動作節奏錯開（依 id 決定，可重現）。
+    const seed =
+      Array.from(this.id).reduce((sum, ch) => sum * 31 + (ch.codePointAt(0) ?? 0), 7) >>> 0;
+    this.phase = ((seed % 1000) / 1000) * Math.PI * 2;
     const d: Dims = look.adult ? ADULT : KID;
     this.obstacle = { x: options.x ?? 0, z: options.z ?? -2, radius: options.radius ?? 1.2 };
     this.root.name = this.id === 'xiaoan' ? 'park-friend' : `park-friend-${this.id}`;
-    this.root.position.set(this.obstacle.x, 0, this.obstacle.z);
+    this.root.position.set(this.obstacle.x, options.y ?? 0, this.obstacle.z);
     this.root.rotation.y = options.rotationY ?? 0;
 
     const standard = (hex: number, roughness = 0.8): MeshStandardMaterial =>
@@ -211,7 +240,7 @@ export class ParkCharacter {
       collar,
     ];
 
-    if (seated) this.buildBench(wood, metal);
+    if (seated && (options.bench ?? true)) this.buildBench(wood, metal);
     // 坐姿：臀部在長椅座面上，略往後坐；站姿：腳在地面。
     const lift = seated ? 0.5 - d.hipY : 0;
     const back = seated ? -0.03 : 0;
@@ -234,6 +263,7 @@ export class ParkCharacter {
       ...at(0),
     );
     torso.scale.z = d.depth;
+    this.body = torso;
     const collarRing = this.part(
       'collar',
       new TorusGeometry(d.head.x * 0.32, 0.012, 8, 24),
@@ -293,12 +323,12 @@ export class ParkCharacter {
         ? knee.clone().add(new Vector3(0, -Math.min(d.shin, knee.y - 0.08), 0.02))
         : new Vector3(side * (d.hipX + 0.012), 0.075, 0);
       this.limb('thigh', hip, knee, d.legRadius, skin);
-      this.limb('shin', knee, ankle, d.legRadius * 0.86, skin);
+      const lowerLeg: Mesh[] = [this.limb('shin', knee, ankle, d.legRadius * 0.86, skin)];
       if (style === 'shorts')
         this.limb('shorts-leg', hip, hip.clone().lerp(knee, 0.62), d.legRadius * 1.38, bottom);
       if (!look.adult) {
         const sockTop = ankle.clone().lerp(knee, 0.22);
-        this.limb('sock', ankle, sockTop, d.legRadius * 0.92, sock);
+        lowerLeg.push(this.limb('sock', ankle, sockTop, d.legRadius * 0.92, sock));
       }
       const foot = this.part(
         'shoe',
@@ -309,6 +339,19 @@ export class ParkCharacter {
         ankle.z + d.shoe.z * 0.45,
       );
       foot.scale.copy(d.shoe);
+      lowerLeg.push(foot);
+      if (seated) {
+        // 坐著晃腿：小腿、襪子、鞋子掛在膝蓋軸點上。
+        const knee_ = new Group();
+        knee_.name = 'knee-pivot';
+        knee_.position.copy(knee);
+        this.root.add(knee_);
+        for (const mesh of lowerLeg) {
+          mesh.position.sub(knee);
+          knee_.add(mesh);
+        }
+        this.knees.push({ side, pivot: knee_ });
+      }
     }
 
     // 頭：以脖子為軸點頭；臉、頭髮、耳朵都在頭部群組內。
@@ -330,17 +373,21 @@ export class ParkCharacter {
       ear.scale.set(d.head.x * 0.13, d.head.y * 0.2, d.head.z * 0.13);
       headCenter.add(ear);
     }
-    this.face = new CartoonFace(d.head, {
-      skin,
-      lid,
-      eyeWhite,
-      iris,
-      pupil,
-      highlight,
-      brow,
-      mouth,
-      blush,
-    });
+    this.face = new CartoonFace(
+      d.head,
+      {
+        skin,
+        lid,
+        eyeWhite,
+        iris,
+        pupil,
+        highlight,
+        brow,
+        mouth,
+        blush,
+      },
+      seed,
+    );
     headCenter.add(this.face.root);
     this.buildHair(headCenter, d.head, look.hair ?? 'short', hair, accent);
 
@@ -393,6 +440,13 @@ export class ParkCharacter {
       } else if (holdsBall) {
         shoulder.rotation.set(-0.35, 0, side * 0.25);
         elbow.rotation.set(-1.25, 0, -side * 0.35);
+      } else if (this.reach) {
+        shoulder.rotation.set(-1.2, 0, side * 0.05);
+        elbow.rotation.x = -0.35;
+      } else if (blowsBubbles && side > 0) {
+        // 右手把泡泡棒舉到嘴巴前。
+        shoulder.rotation.set(-0.55, 0, 0.1);
+        elbow.rotation.set(-2.05, 0, -0.55);
       } else {
         elbow.rotation.x = -0.15;
       }
@@ -407,7 +461,29 @@ export class ParkCharacter {
         ...at(d.waistY + 0.07, 0.17),
       );
       ball.scale.setScalar(0.11);
+      this.ball = ball;
+      this.ballRestY = ball.position.y;
     }
+    const wrist = this.arms.find((arm) => arm.side > 0)?.wrist;
+    if (blowsBubbles && wrist) {
+      const stick = new Mesh(this.geometry(new CylinderGeometry(0.005, 0.005, 0.12, 6)), accent);
+      stick.name = 'bubble-wand';
+      stick.position.y = -0.07;
+      wrist.add(stick);
+      const ring = new Mesh(this.geometry(new TorusGeometry(0.028, 0.005, 6, 16)), accent);
+      ring.name = 'bubble-wand-ring';
+      ring.position.y = -0.155;
+      ring.rotation.y = Math.PI / 2;
+      wrist.add(ring);
+      this.root.updateMatrixWorld(true);
+      const origin = this.root
+        .worldToLocal(ring.getWorldPosition(new Vector3()))
+        .add(new Vector3(0, 0, 0.04));
+      this.bubbles = new Bubbles(origin, 18, seed);
+      this.root.add(this.bubbles.mesh);
+      this.materials = [...this.materials, this.bubbles.material];
+    }
+    this.face.setIdle(this.idleEnabled);
   }
 
   get expression(): Expression {
@@ -422,8 +498,11 @@ export class ParkCharacter {
 
   setMotionEnabled(enabled: boolean): void {
     this.motionEnabled = enabled;
+    this.face.setIdle(enabled && this.idleEnabled);
+    this.bubbles?.setEnabled(enabled && this.idleEnabled);
     if (!enabled) {
       this.resetGesture();
+      this.resetIdle();
       this.face.setExpression(this.face.expression, false);
     }
   }
@@ -437,6 +516,7 @@ export class ParkCharacter {
   update(delta: number): void {
     if (this.disposed || !Number.isFinite(delta) || delta <= 0) return;
     this.face.update(delta);
+    if (this.motionEnabled && this.idleEnabled) this.updateIdle(Math.min(delta, 0.05));
     if (!this.gesture) return;
     const duration = this.gesture === 'wave' ? 2.8 : 1.6;
     this.gestureTime = Math.min(duration, this.gestureTime + Math.min(delta, 0.05));
@@ -478,11 +558,55 @@ export class ParkCharacter {
     this.disposed = true;
     this.resetGesture();
     this.face.dispose();
+    this.bubbles?.dispose();
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
     this.headPivot.clear();
     this.root.clear();
     this.root.removeFromParent();
+  }
+
+  /** 閒置動態：都很慢、幅度小；之後的手勢（揮手、點頭）會覆寫同一個軸點。 */
+  private updateIdle(dt: number): void {
+    this.idleTime += dt;
+    const t = this.idleTime;
+    const p = this.phase;
+    const wave = (period: number, offset = 0): number =>
+      Math.sin((Math.PI * 2 * t) / period + p + offset);
+    if (this.body) {
+      const breath = 1 + 0.012 * wave(3.4);
+      this.body.scale.x = breath;
+    }
+    this.headPivot.rotation.y = 0.12 * wave(8.5);
+    this.headPivot.rotation.z = 0.035 * wave(5.7, 1);
+    if (!this.seated && !this.ball && !this.bubbles && !this.reach) {
+      for (const { side, shoulder } of this.arms) {
+        const rest = this.rest.get(shoulder);
+        if (rest) shoulder.rotation.x = rest.x + 0.05 * wave(3.6, side * 1.3);
+      }
+    }
+    for (const { side, pivot } of this.knees)
+      pivot.rotation.x = 0.22 * wave(2.2, side > 0 ? 0 : Math.PI);
+    if (this.ball) {
+      // 手上的球輕輕往上拋一點再接住。
+      const lift = 0.5 - 0.5 * Math.cos((Math.PI * 2 * t) / 1.6 + p);
+      this.ball.position.y = this.ballRestY + 0.035 * lift;
+      for (const { elbow } of this.arms) {
+        const rest = this.rest.get(elbow);
+        if (rest) elbow.rotation.x = rest.x - 0.12 * lift;
+      }
+    }
+    this.bubbles?.update(dt);
+  }
+
+  private resetIdle(): void {
+    this.idleTime = 0;
+    if (this.body) this.body.scale.x = 1;
+    this.headPivot.rotation.y = 0;
+    this.headPivot.rotation.z = 0;
+    for (const { pivot } of this.knees) pivot.rotation.x = 0;
+    if (this.ball) this.ball.position.y = this.ballRestY;
+    for (const [pivot, rotation] of this.rest) pivot.rotation.copy(rotation);
   }
 
   private resetGesture(): void {

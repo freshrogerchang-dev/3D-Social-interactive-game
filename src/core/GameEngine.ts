@@ -172,7 +172,7 @@ export class GameEngine {
 
   /** 指定人物做一次動作；沒有指定時為小安。null 會停止所有人物的動作。 */
   setNPCGesture(gesture: 'wave' | 'nod' | null, motionEnabled = true, characterId?: string): void {
-    for (const character of this.park?.characters ?? []) {
+    for (const character of this.park?.everyone ?? []) {
       character.setMotionEnabled(motionEnabled);
       if (gesture === null) character.playGesture(null);
     }
@@ -278,7 +278,7 @@ export class GameEngine {
   private readonly frame: FrameCallback = ({ delta }) => {
     try {
       this.movement?.update(delta);
-      for (const character of this.park?.characters ?? []) character.update(delta);
+      for (const character of this.park?.everyone ?? []) character.update(delta);
       this.updateNPCPresence();
       this.renderOnce();
       if (this.monitoring) {

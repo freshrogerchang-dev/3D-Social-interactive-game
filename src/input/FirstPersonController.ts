@@ -7,6 +7,10 @@ export interface CircularObstacle {
   readonly radius: number;
 }
 const STOP_DISTANCE = 0.08;
+/** 搖桿往左右推到底時的轉身速度（rad/s）；約每秒 75 度，柔和不暈。 */
+const STICK_TURN_RATE = 1.3;
+/** 搖桿各軸的死區：往上推不會順便轉身，往旁邊推不會順便前進。 */
+const STICK_AXIS_DEADZONE = 0.35;
 const GROUND = new Plane(new Vector3(0, 1, 0), 0);
 
 /** 一個引擎擁有一個控制器；沒有自己的 RAF、計時器或 pointer lock。 */
@@ -130,6 +134,7 @@ export class FirstPersonController {
   update(delta: number): void {
     if (!this.enabled || !Number.isFinite(delta) || delta <= 0) return;
     const dt = Math.min(delta, 0.05);
+    if (this.stickPointer !== null) this.yaw += stickAxis(-this.stick.x) * STICK_TURN_RATE * dt;
     this.yaw -= MathUtils.clamp(this.turnX, -0.08, 0.08);
     this.pitch = MathUtils.clamp(
       this.pitch - MathUtils.clamp(this.turnY, -0.08, 0.08),
@@ -143,8 +148,10 @@ export class FirstPersonController {
     let x = 0;
     let z = 0;
     if (this.stickPointer !== null) {
-      x = (Math.cos(this.yaw) * this.stick.x + Math.sin(this.yaw) * this.stick.y) * this.speed;
-      z = (-Math.sin(this.yaw) * this.stick.x + Math.cos(this.yaw) * this.stick.y) * this.speed;
+      // 同心圓搖桿：往上推前進、往下推後退；左右推是轉身（上面已處理），斜推邊走邊轉。
+      const forward = stickAxis(-this.stick.y);
+      x = -Math.sin(this.yaw) * forward * this.speed;
+      z = -Math.cos(this.yaw) * forward * this.speed;
     } else if (this.hasTarget) {
       x = this.target.x - this.camera.position.x;
       z = this.target.y - this.camera.position.z;
@@ -248,7 +255,7 @@ export class FirstPersonController {
     const length = Math.hypot(x, y);
     if (length <= 12) this.stick.set(0, 0);
     else this.stick.set(x / length, y / length);
-    // 中心為停止區；任何角度等速，拖到圓外仍捕捉直到放開。
+    // 中心為停止區；拖到圓外仍捕捉直到放開。
     if (length <= 12) this.velocity.set(0, 0);
     const reach = Math.min(length, 56);
     this.pad.style.setProperty('--stick-x', `${String(length > 0 ? (x / length) * reach : 0)}px`);
@@ -373,4 +380,11 @@ export class FirstPersonController {
       this.camera.updateProjectionMatrix();
     }
   }
+}
+
+/** 搖桿單軸：死區內為 0，之外線性放大到 ±1。 */
+function stickAxis(value: number): number {
+  const size = Math.abs(value);
+  if (size <= STICK_AXIS_DEADZONE) return 0;
+  return (Math.sign(value) * (size - STICK_AXIS_DEADZONE)) / (1 - STICK_AXIS_DEADZONE);
 }

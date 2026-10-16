@@ -39,7 +39,7 @@ try {
  await button('說你好').tap();const spoken=await plainCopy();
  await button('換個方式').tap();await button('回到開始').tap();await button('點頭').tap();
  check('說你好與點頭取得相同NPC回應',spoken.includes('你好。我在這裡休息。')&&(await plainCopy()).includes('你好。我在這裡休息。'));
- await button('再看一次').tap();check('再看一次保留節點',await button('換個方式').isVisible());
+ await page.getByRole('button',{name:/^再(看|聽)一次$/}).tap();check('再看／再聽一次保留節點',await button('換個方式').isVisible());
  await button('暫停').tap();await button('繼續').tap();check('恢復保留點頭節點與移動鎖', (await plainCopy()).includes('你點頭打招呼。')&&!(await page.locator('#movement-pad').isVisible()));
  await button('再練一次').tap();await button('先不參與').tap();await button('好').tap();await button('回公園').tap();
  check('先不參與可回公園自由移動',!(await panel.isVisible())&&await page.locator('#movement-pad').isVisible());

@@ -94,3 +94,27 @@ describe('卡通臉部表情', () => {
     expect(f.root.children).toHaveLength(0);
   });
 });
+
+describe('卡通臉部閒置動態', () => {
+  it('開啟後會眨眼（短暫閉眼再張開）與看旁邊；關閉後立刻張眼看前方', () => {
+    const f = face();
+    const lid = f.root.getObjectByName('eyelid-upper');
+    const iris = f.root.getObjectByName('iris-group');
+    if (!lid || !iris) throw new Error('需要眼皮與虹膜');
+    const open = lid.rotation.x;
+    f.setIdle(true);
+    let closed = false;
+    let glanced = false;
+    for (let i = 0; i < 400; i += 1) {
+      f.update(0.025);
+      if (lid.rotation.x > open + 1) closed = true;
+      if (Math.abs(iris.position.x) > 0.001) glanced = true;
+    }
+    expect(closed).toBe(true);
+    expect(glanced).toBe(true);
+    f.setIdle(false);
+    expect(lid.rotation.x).toBeCloseTo(open, 6);
+    expect(iris.position.x).toBe(0);
+    f.dispose();
+  });
+});

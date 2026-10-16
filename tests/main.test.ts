@@ -29,6 +29,8 @@ vi.mock('../src/core/GameEngine', () => ({
 
     resize(): void {}
 
+    setNPCGesture(): void {}
+
     init(): Promise<InitResult> {
       this.state = 'initializing';
       this.options.onStateChange?.(this.state);

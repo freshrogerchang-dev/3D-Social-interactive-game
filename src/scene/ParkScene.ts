@@ -118,16 +118,86 @@ function createCharacters(): readonly ParkCharacter[] {
 
 /** 溜滑梯位置：小晴排在梯子前方（+z），滑道往 -z 方向。 */
 const SLIDE = { x: 6.5, z: -4.6 } as const;
+
+/**
+ * 不能對話的背景小朋友：溜滑梯平台上準備溜的、扶著梯子的（都排在小晴前面），
+ * 以及在步道旁吹泡泡的。只有閒置動態，沒有對話或動作。
+ */
+function createExtras(): readonly ParkCharacter[] {
+  return [
+    new ParkCharacter({
+      id: 'slide-top',
+      x: SLIDE.x,
+      z: SLIDE.z - 0.28,
+      // 坐在平台（高 1.33 m）上，面向滑道。
+      y: 0.85,
+      rotationY: Math.PI,
+      pose: 'seated',
+      bench: false,
+      radius: 0.4,
+      look: {
+        hair: 'short',
+        hairColor: 0x2f241d,
+        shirt: 0x8fb3d9,
+        bottom: 'shorts',
+        bottomColor: 0x6b6f86,
+      },
+    }),
+    new ParkCharacter({
+      id: 'slide-ladder',
+      x: SLIDE.x,
+      z: SLIDE.z + 0.4,
+      rotationY: Math.PI + 0.35,
+      pose: 'standing',
+      reach: true,
+      radius: 0.45,
+      look: {
+        hair: 'bob',
+        hairColor: 0x3b2a22,
+        skin: 0xeab896,
+        shirt: 0xb7c98e,
+        bottom: 'skirt',
+        bottomColor: 0xc98f7a,
+        accent: 0x9ec6d6,
+      },
+    }),
+    new ParkCharacter({
+      id: 'bubbles',
+      // 從出發點往前看就看得到（長椅右後方），不在走向人物的路線上。
+      x: 2.4,
+      z: -7,
+      rotationY: -0.35,
+      pose: 'standing',
+      prop: 'bubbles',
+      radius: 0.45,
+      look: {
+        hair: 'bob',
+        hairColor: 0x4d3527,
+        skin: 0xf2c8a8,
+        shirt: 0xc3b1dc,
+        bottom: 'shorts',
+        bottomColor: 0x6d7f9c,
+        accent: 0xf0d27a,
+      },
+    }),
+  ];
+}
+
 /** 公園入口在最遠端（-z），媽媽站在入口內側。 */
 const GATE_Z = -9.6;
 
 export class ParkScene {
   readonly scene = new Scene();
   readonly characters = createCharacters();
+  /** 背景小朋友（不能對話）。 */
+  readonly extras = createExtras();
   /** 長椅上的小安（第一位人物）。 */
   readonly npc: ParkCharacter = this.characters[0] as ParkCharacter;
   /** 人物以外會擋住移動的設施。 */
-  readonly obstacles: readonly CircularObstacle[] = [{ x: SLIDE.x, z: SLIDE.z - 1, radius: 1.4 }];
+  readonly obstacles: readonly CircularObstacle[] = [
+    { x: SLIDE.x, z: SLIDE.z - 1, radius: 1.4 },
+    ...this.extras.map((kid) => kid.obstacle),
+  ];
   readonly environment: ParkEnvironment;
   readonly camera = new PerspectiveCamera(CAMERA_FOV, 1, 0.1, 500);
 
@@ -162,6 +232,11 @@ export class ParkScene {
   private dfgTexture: Texture | null = null;
   private dfgSourceId: string | null = null;
 
+  /** 對話人物與背景小朋友（一起更新閒置動態、一起套用「人物動作」開關）。 */
+  get everyone(): readonly ParkCharacter[] {
+    return [...this.characters, ...this.extras];
+  }
+
   constructor(loadTextures = false) {
     this.environment = new ParkEnvironment(
       this.materials[0],
@@ -174,7 +249,7 @@ export class ParkScene {
 
     for (const material of [
       ...this.materials,
-      ...this.characters.flatMap((character) => character.materials),
+      ...this.everyone.flatMap((character) => character.materials),
       ...this.propMaterials,
       ...this.environment.materials,
       ...this.environment.details.materials,
@@ -213,7 +288,7 @@ export class ParkScene {
       sun,
       boundary,
       this.environment.root,
-      ...this.characters.map((character) => character.root),
+      ...this.everyone.map((character) => character.root),
     );
     this.buildSlide();
     this.buildGate();
@@ -328,7 +403,7 @@ export class ParkScene {
     this.disposed = true;
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
-    for (const character of this.characters) character.dispose();
+    for (const character of this.everyone) character.dispose();
     for (const geometry of this.propGeometries) geometry.dispose();
     for (const material of this.propMaterials) material.dispose();
     this.postGeometry.dispose();

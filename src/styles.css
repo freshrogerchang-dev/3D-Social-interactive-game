@@ -276,6 +276,31 @@ body {
   background: rgb(251 248 242 / 65%);
   transform: translate(calc(-50% + var(--stick-x, 0px)), calc(-50% + var(--stick-y, 0px)));
 }
+/* 搖桿上的方向提示（不攔截觸控）：上下是前進後退，左右是轉身。 */
+.pad-hint {
+  position: absolute;
+  pointer-events: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: rgb(31 42 51 / 60%);
+  transform: translate(-50%, -50%);
+}
+.pad-hint-up {
+  left: 50%;
+  top: 14px;
+}
+.pad-hint-down {
+  left: 50%;
+  top: calc(100% - 14px);
+}
+.pad-hint-left {
+  left: 14px;
+  top: 50%;
+}
+.pad-hint-right {
+  left: calc(100% - 14px);
+  top: 50%;
+}
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -427,13 +452,78 @@ rt.has-neutral {
   line-height: 2.5;
 }
 
-/* 底部卡片保留公園與人物上半身；長文案與小畫面在卡片內捲動。 */
+/*
+ * 對話時：一層半透明的暮色蓋住公園（沒有模糊），對話卡片與選項在畫面中間；
+ * 選完回到公園才收起。頂部「暫停」「返回安全區」仍在最上層、隨時可按。
+ */
 .greeting-panel {
-  align-self: end;
-  max-height: 42dvh;
-  background: transparent;
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  justify-content: flex-start;
+  padding: max(104px, calc(env(safe-area-inset-top) + 96px)) max(16px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  background: rgb(31 42 51 / 35%);
+}
+/* 上方留給說話的人（臉和表情在暮色裡看得到）：卡片從畫面一半開始；選項多、卡片高時自動往上移，整張卡片都看得到。 */
+.greeting-panel::before {
+  content: '';
+  flex: 0 1 calc(50dvh - 104px);
+}
+.toolbar {
+  z-index: 4;
 }
 .greeting-panel .panel {
-  margin-block: 0;
+  margin-block: 0 auto;
   padding: 16px;
+}
+/* 對方說的話像對話泡泡；提示文字在下面。 */
+.greeting-panel .npc-line {
+  margin: 0 0 12px;
+  padding: 8px 16px;
+  border: 2px solid var(--paper-edge);
+  border-radius: 16px;
+  background: #fff;
+  font-weight: 600;
+}
+/* 選項：兩欄大按鈕，圖示在上、文字在下。 */
+#greeting-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+  gap: 8px;
+}
+#greeting-choices .control {
+  flex-direction: column;
+  gap: 0;
+  min-height: 80px;
+  padding: 4px 2px;
+  font-size: 0.95rem;
+}
+#greeting-choices .control-icon {
+  width: 32px;
+  height: 32px;
+}
+/* 標題留給讀屏軟體；畫面上對話泡泡已經寫出是誰在說話。 */
+.greeting-panel .panel-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.greeting-panel .panel-text p:last-child {
+  margin-bottom: 0;
+}
+.greeting-panel .greeting-tools {
+  flex-wrap: nowrap;
+  margin-top: 12px;
+}
+.greeting-panel .greeting-tools .control {
+  flex: 1;
+  padding-inline: 4px;
+  font-size: 0.95rem;
+}
+.greeting-panel .panel-text {
+  margin-bottom: 12px;
 }

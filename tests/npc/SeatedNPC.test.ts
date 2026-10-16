@@ -1,4 +1,12 @@
-import { Mesh, MeshStandardMaterial, PerspectiveCamera, Texture, Vector3 } from 'three';
+import {
+  InstancedMesh,
+  Matrix4,
+  Mesh,
+  MeshStandardMaterial,
+  PerspectiveCamera,
+  Texture,
+  Vector3,
+} from 'three';
 import type { BufferGeometry, WebGLProgramParametersWithUniforms, WebGLRenderer } from 'three';
 import { describe, expect, it } from 'vitest';
 import { FirstPersonController } from '../../src/input/FirstPersonController';
@@ -176,5 +184,66 @@ describe('卡通人物（長椅上的小安）', () => {
     park.dispose();
     expect(disposed).toBe(0);
     source.dispose();
+  });
+});
+
+describe('閒置動態', () => {
+  it('坐著會晃腿、頭會慢慢轉；關閉「人物動作」立刻回到靜止姿勢且不再動', () => {
+    const npc = new SeatedNPC();
+    const knee = npc.root.getObjectByName('knee-pivot');
+    const head = npc.root.getObjectByName('head-pivot');
+    if (!knee || !head) throw new Error('需要膝蓋與頭部軸點');
+    for (let i = 0; i < 20; i++) npc.update(0.05);
+    expect(Math.abs(knee.rotation.x)).toBeGreaterThan(0.01);
+    expect(Math.abs(head.rotation.y)).toBeGreaterThan(0.001);
+    // 幅度小：晃腿不超過 0.25 rad，轉頭不超過 0.13 rad。
+    for (let i = 0; i < 200; i++) {
+      npc.update(0.05);
+      expect(Math.abs(knee.rotation.x)).toBeLessThanOrEqual(0.25);
+      expect(Math.abs(head.rotation.y)).toBeLessThanOrEqual(0.13);
+    }
+    npc.setMotionEnabled(false);
+    expect(knee.rotation.x).toBe(0);
+    expect(head.rotation.y).toBe(0);
+    for (let i = 0; i < 20; i++) npc.update(0.05);
+    expect(knee.rotation.x).toBe(0);
+    npc.dispose();
+  });
+
+  it('idle: false 時完全不動；delta 0 不前進', () => {
+    const npc = new SeatedNPC({ idle: false });
+    const knee = npc.root.getObjectByName('knee-pivot');
+    if (!knee) throw new Error('需要膝蓋軸點');
+    for (let i = 0; i < 40; i++) npc.update(0.05);
+    expect(knee.rotation.x).toBe(0);
+    npc.dispose();
+    const moving = new SeatedNPC();
+    const movingKnee = moving.root.getObjectByName('knee-pivot');
+    moving.update(0.05);
+    const before = movingKnee?.rotation.x;
+    moving.update(0);
+    expect(movingKnee?.rotation.x).toBe(before);
+    moving.dispose();
+  });
+
+  it('吹泡泡：泡泡會飄，關閉動作時隱藏；材質只釋放一次', () => {
+    const kid = new SeatedNPC({ id: 'bubbles', pose: 'standing', prop: 'bubbles' });
+    const bubbles = kid.root.getObjectByName('bubbles');
+    if (!(bubbles instanceof InstancedMesh)) throw new Error('需要泡泡');
+    const before = new Matrix4();
+    const after = new Matrix4();
+    bubbles.getMatrixAt(0, before);
+    for (let i = 0; i < 10; i++) kid.update(0.05);
+    bubbles.getMatrixAt(0, after);
+    expect(after.equals(before)).toBe(false);
+    kid.setMotionEnabled(false);
+    expect(bubbles.visible).toBe(false);
+    kid.setMotionEnabled(true);
+    expect(bubbles.visible).toBe(true);
+    let disposed = 0;
+    for (const material of kid.materials)
+      material.addEventListener('dispose', () => (disposed += 1));
+    kid.dispose();
+    expect(disposed).toBe(kid.materials.length);
   });
 });

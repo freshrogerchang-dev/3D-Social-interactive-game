@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from 'three';
+import { PerspectiveCamera, Vector3 } from 'three';
 import { describe, expect, it } from 'vitest';
 import { fakeCanvas } from '../helpers';
 import { FirstPersonController, PARK_LIMIT } from '../../src/input/FirstPersonController';
@@ -129,5 +129,82 @@ describe('鍵盤操作邊界', () => {
     expect(key('ArrowDown').defaultPrevented).toBe(false);
     controller.dispose();
     expect(key('w').defaultPrevented).toBe(false);
+  });
+});
+
+describe('同心圓搖桿：上下前進後退、左右轉身', () => {
+  function withPad() {
+    const pad = Object.assign(new EventTarget(), {
+      hidden: false,
+      style: { setProperty: () => undefined, removeProperty: () => undefined },
+      getBoundingClientRect: () => ({ left: 0, top: 0, width: 192, height: 192 }),
+      setPointerCapture: () => undefined,
+      hasPointerCapture: () => false,
+      releasePointerCapture: () => undefined,
+    });
+    const canvas = new EventTarget();
+    const owner = Object.assign(new EventTarget(), {
+      defaultView: null,
+      activeElement: null,
+      getElementById: (id: string) => (id === 'movement-pad' ? pad : null),
+    });
+    Object.assign(canvas, { ownerDocument: owner });
+    const camera = new PerspectiveCamera(60, 1, 0.1, 500);
+    camera.position.set(0, 1.1, 3.5);
+    const controller = new FirstPersonController(camera);
+    controller.attach(canvas as unknown as HTMLCanvasElement);
+    controller.setEnabled(true);
+    const press = (type: string, x: number, y: number) =>
+      pad.dispatchEvent(
+        Object.assign(new Event(type), {
+          button: 0,
+          isPrimary: true,
+          pointerId: 1,
+          clientX: 96 + x,
+          clientY: 96 + y,
+        }),
+      );
+    const yaw = () => {
+      const d = camera.getWorldDirection(new Vector3());
+      return Math.atan2(-d.x, -d.z);
+    };
+    return { camera, controller, press, yaw };
+  }
+
+  it('往上推前進、不轉身；往下推後退', () => {
+    const { camera, controller, press, yaw } = withPad();
+    press('pointerdown', 0, -80);
+    walk(controller, 1);
+    expect(camera.position.z).toBeLessThan(3.0);
+    expect(camera.position.x).toBeCloseTo(0, 6);
+    expect(yaw()).toBeCloseTo(0, 6);
+    press('pointermove', 0, 80);
+    walk(controller, 2);
+    expect(camera.position.z).toBeGreaterThan(3.0);
+  });
+
+  it('往左推原地向左轉、往右推向右轉；放開就停', () => {
+    const { camera, controller, press, yaw } = withPad();
+    press('pointerdown', -80, 0);
+    walk(controller, 1);
+    expect(yaw()).toBeGreaterThan(1);
+    expect(camera.position.distanceTo(new Vector3(0, 1.1, 3.5))).toBeLessThan(1e-6);
+    press('pointermove', 80, 0);
+    walk(controller, 2);
+    expect(yaw()).toBeLessThan(-0.5);
+    press('pointerup', 80, 0);
+    const stopped = yaw();
+    walk(controller, 1);
+    expect(yaw()).toBe(stopped);
+  });
+
+  it('斜推邊走邊轉；轉身速度有上限（每秒不超過 1.3 rad）', () => {
+    const { camera, controller, press, yaw } = withPad();
+    press('pointerdown', -70, -70);
+    controller.update(0.05);
+    expect(Math.abs(yaw())).toBeLessThanOrEqual(1.3 * 0.05 + 1e-9);
+    walk(controller, 1);
+    expect(yaw()).toBeGreaterThan(0.1);
+    expect(camera.position.distanceTo(new Vector3(0, 1.1, 3.5))).toBeGreaterThan(0.2);
   });
 });

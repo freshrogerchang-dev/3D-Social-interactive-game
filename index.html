@@ -98,15 +98,19 @@
         id="movement-pad"
         class="movement-pad"
         role="group"
-        aria-label="全方向移動搖桿"
+        aria-label="移動與轉身搖桿"
         aria-describedby="joystick-help"
         hidden
       >
         <span class="pad-ring" aria-hidden="true"></span>
+        <span class="pad-hint pad-hint-up" aria-hidden="true">▲</span>
+        <span class="pad-hint pad-hint-down" aria-hidden="true">▼</span>
+        <span class="pad-hint pad-hint-left" aria-hidden="true">↺</span>
+        <span class="pad-hint pad-hint-right" aria-hidden="true">↻</span>
         <span class="pad-thumb" aria-hidden="true"></span>
       </div>
       <p id="joystick-help" class="visually-hidden">
-        按住或拖曳圓盤向任意方向移動，放開停止。也可以展開設定使用單次移動按鈕。
+        按住圓盤往上推前進、往下推後退，往左右推轉身，放開停止。也可以展開設定使用單次移動按鈕。
       </p>
 
       <p id="performance-info" class="performance-info" hidden>測量中…</p>
@@ -119,8 +123,11 @@
           <label class="movement-setting"
             ><input id="npc-motion" type="checkbox" checked />人物動作</label
           >
+          <label class="movement-setting"
+            ><input id="voice-enabled" type="checkbox" checked />語音</label
+          >
           <p id="movement-help">
-            點地面前往，拖曳看向。左下搖桿：按住或拖向任意方向移動，放開停止。電腦可先點公園，再用
+            點地面前往，拖曳看向。左下搖桿：往上推前進、往下推後退、往左右推轉身，放開停止。電腦可先點公園，再用
             WASD 或方向鍵。
           </p>
           <div class="movement-buttons" role="group" aria-label="移動與看向">
