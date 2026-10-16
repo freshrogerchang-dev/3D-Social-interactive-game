@@ -205,3 +205,27 @@ describe('公園練習情境：對話狀態', () => {
     }
   });
 });
+
+describe('公園練習情境：表情', () => {
+  it.each(SCENARIOS.map((s) => [s.id, s] as const))(
+    '%s：先不參與、結束與回到公園的節點表情平和，不用擔心或驚訝的臉',
+    (_, scenario) => {
+      for (const [id, node] of Object.entries(scenario.nodes)) {
+        const calm =
+          id === 'not-now' ||
+          node.outcome !== undefined ||
+          node.choices.every((c) => c.target === 'park');
+        if (calm) expect(['neutral', 'happy', 'excited', undefined], id).toContain(node.expression);
+      }
+    },
+  );
+
+  it('每個情境都有不只一種表情', () => {
+    for (const scenario of SCENARIOS) {
+      const kinds = new Set(
+        Object.values(scenario.nodes).map((node) => node.expression ?? 'neutral'),
+      );
+      expect(kinds.size, scenario.id).toBeGreaterThan(1);
+    }
+  });
+});

@@ -18,10 +18,8 @@ import {
   Texture,
   Vector3,
 } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import type { Material, Object3D } from 'three';
+import type { Material } from 'three';
 import { ParkEnvironment } from './ParkEnvironment';
-import { disposeModel } from '../npc/HumanModel';
 import { ParkCharacter } from '../npc/SeatedNPC';
 import { PARK_LIMIT } from '../input/FirstPersonController';
 import type { CircularObstacle } from '../input/FirstPersonController';
@@ -49,7 +47,15 @@ const MARKER_EDGE_COLOR = new Color().setHSL(40 / 360, 0.35, 0.92);
  */
 function createCharacters(): readonly ParkCharacter[] {
   return [
-    new ParkCharacter(),
+    new ParkCharacter({
+      look: {
+        hair: 'short',
+        hairColor: 0x4a3326,
+        shirt: 0x78a9b0,
+        bottom: 'shorts',
+        bottomColor: 0x55708f,
+      },
+    }),
     new ParkCharacter({
       id: 'xiaoyu',
       x: -6.5,
@@ -58,7 +64,15 @@ function createCharacters(): readonly ParkCharacter[] {
       rotationY: Math.PI / 4,
       pose: 'standing',
       radius: 1,
-      colors: { shirt: 0xa98f6a, shirtShade: 0x8f7859, trousers: 0x55657a, hair: 0x2f2620 },
+      look: {
+        hair: 'spiky',
+        hairColor: 0x3e2c22,
+        skin: 0xeebd9a,
+        shirt: 0xe0bb6c,
+        bottom: 'shorts',
+        bottomColor: 0x4f6d8f,
+        accent: 0xf1ede4,
+      },
       prop: 'ball',
     }),
     new ParkCharacter({
@@ -69,8 +83,15 @@ function createCharacters(): readonly ParkCharacter[] {
       rotationY: -1.2,
       pose: 'standing',
       radius: 1,
-      colors: { shirt: 0xb48a8f, shirtShade: 0x9a767b, trousers: 0x5d6a63, hair: 0x3a2a22 },
-      longHair: true,
+      look: {
+        hair: 'bob',
+        hairColor: 0x4b3227,
+        skin: 0xf3c9aa,
+        shirt: 0xe3a1aa,
+        bottom: 'skirt',
+        bottomColor: 0x6f8f80,
+        accent: 0xe9cf7a,
+      },
     }),
     new ParkCharacter({
       id: 'mom',
@@ -79,10 +100,18 @@ function createCharacters(): readonly ParkCharacter[] {
       z: -8.6,
       rotationY: 0,
       pose: 'standing',
-      scale: 1.3,
       radius: 1,
-      colors: { shirt: 0x8a9a7c, shirtShade: 0x75846a, trousers: 0x4f5560, hair: 0x2b211c },
-      longHair: true,
+      look: {
+        adult: true,
+        hair: 'ponytail',
+        hairColor: 0x4a3329,
+        skin: 0xefc3a2,
+        shirt: 0x97b089,
+        bottom: 'long-skirt',
+        bottomColor: 0x535b6e,
+        shoes: 0x7a6250,
+        accent: 0xc9a77a,
+      },
     }),
   ];
 }
@@ -136,7 +165,7 @@ export class ParkScene {
   constructor(loadTextures = false) {
     this.environment = new ParkEnvironment(
       this.materials[0],
-      this.npc.materials[4],
+      this.npc.benchMaterial,
       loadTextures,
       SKY_COLOR,
     );
@@ -189,7 +218,6 @@ export class ParkScene {
     this.buildSlide();
     this.buildGate();
     this.resetToSafety();
-    if (loadTextures) this.loadCharacterModels();
   }
 
   /**
@@ -229,34 +257,6 @@ export class ParkScene {
       });
       shader.uniforms['dfgLUT'] = uniform;
     };
-  }
-
-  /**
-   * 非阻塞載入 MakeHuman CC0 人物模型（public/assets/characters）。
-   * 載入前與失敗時保留自製人形；場景已釋放才載到的模型直接釋放。
-   */
-  private loadCharacterModels(): void {
-    const loader = new GLTFLoader();
-    for (const character of this.characters) {
-      loader.load(
-        `${import.meta.env.BASE_URL}assets/characters/${character.id}.glb`,
-        (gltf) => {
-          const model: Object3D = gltf.scene;
-          if (this.disposed) {
-            disposeModel(model);
-            return;
-          }
-          model.traverse((object) => {
-            if (object instanceof Mesh)
-              for (const material of [object.material as Material | Material[]].flat())
-                this.prepareMaterial(material);
-          });
-          if (!character.attachModel(model)) disposeModel(model);
-        },
-        undefined,
-        () => undefined,
-      );
-    }
   }
 
   /** 低矮溜滑梯：梯子在 +z（排隊端），平台、滑道往 -z 降到地面。 */

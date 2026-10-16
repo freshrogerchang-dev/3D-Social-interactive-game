@@ -57,6 +57,7 @@ export const PLAY_SCENARIO: Scenario<PlayNode> = {
   nodes: {
     see: {
       line: '',
+      expression: 'excited',
       prompts: ['小宇在玩球。', '你想怎麼開始？'],
       choices: askChoices,
       help: ['可以用說的或用手指。', '也可以先看一下。'],
@@ -69,6 +70,7 @@ export const PLAY_SCENARIO: Scenario<PlayNode> = {
     },
     'asked-spoken': {
       line: '可以。等我踢完這球。',
+      expression: 'happy',
       prompts: ['你說：「可以一起玩嗎？」'],
       choices: waitChoices,
       help: ['說好或點頭都可以。', '也可以說現在就想玩。'],
@@ -76,6 +78,7 @@ export const PLAY_SCENARIO: Scenario<PlayNode> = {
     },
     'asked-gesture': {
       line: '可以。等我踢完這球。',
+      expression: 'happy',
       prompts: ['你用手指了球。'],
       choices: waitChoices,
       help: ['說好或點頭都可以。', '也可以說現在就想玩。'],
@@ -83,18 +86,21 @@ export const PLAY_SCENARIO: Scenario<PlayNode> = {
     },
     'want-now': {
       line: '我踢完就換你。',
+      expression: 'thinking',
       prompts: ['等一下就輪到你。'],
       choices: waitChoices.filter((choice) => choice.target === 'waiting'),
       help: ['說好或點頭都可以。'],
     },
     waiting: {
       line: '好了，換你踢。',
+      expression: 'excited',
       prompts: ['小宇把球傳給你。'],
       choices: [{ label: '踢球', target: 'played', icon: 'done' }],
       help: ['按「踢球」把球踢回去。'],
     },
     played: {
       line: '',
+      expression: 'excited',
       prompts: ['你跟小宇一起玩球。'],
       choices: [
         { label: '再練一次', target: 'see', icon: 'repeat' },
@@ -116,18 +122,21 @@ export const PLAY_SCENARIO: Scenario<PlayNode> = {
     },
     'declined-spoken': {
       line: '現在不行，在比賽。',
+      expression: 'worried',
       prompts: ['你說：「可以一起玩嗎？」'],
       choices: copeChoices,
       help: ['被拒絕時有很多做法。', '每一個都可以選。'],
     },
     'declined-gesture': {
       line: '現在不行，在比賽。',
+      expression: 'worried',
       prompts: ['你用手指了球。'],
       choices: copeChoices,
       help: ['被拒絕時有很多做法。', '每一個都可以選。'],
     },
     'cope-later': {
       line: '謝謝。等一下再來。',
+      expression: 'happy',
       prompts: ['你可以等一下再問。'],
       choices: [{ label: '結束練習', target: 'decline-end', icon: 'done' }],
       help: ['按「結束練習」。'],
@@ -206,6 +215,7 @@ export const LINE_SCENARIO: Scenario<LineNode> = {
     },
     asked: {
       line: '對，我在排隊。',
+      expression: 'happy',
       prompts: ['你問：「這是排隊嗎？」'],
       choices: [{ label: '排在後面', target: 'in-line', icon: 'nod' }],
       help: ['按「排在後面」。'],
@@ -213,6 +223,7 @@ export const LINE_SCENARIO: Scenario<LineNode> = {
     },
     'in-line': {
       line: '我先溜，再換你。',
+      expression: 'happy',
       prompts: ['你排在小晴後面。'],
       choices: [
         { label: '說好', target: 'her-turn', icon: 'speech' },
@@ -222,12 +233,14 @@ export const LINE_SCENARIO: Scenario<LineNode> = {
     },
     'her-turn': {
       line: '',
+      expression: 'excited',
       prompts: ['小晴溜下去了。', '現在輪到你。'],
       choices: [{ label: '溜下去', target: 'slid', icon: 'done' }],
       help: ['按「溜下去」。'],
     },
     slid: {
       line: '',
+      expression: 'happy',
       prompts: ['你溜下去了。', '溜完可以再排一次。'],
       choices: [
         { label: '再練一次', target: 'arrive', icon: 'repeat' },
@@ -239,6 +252,7 @@ export const LINE_SCENARIO: Scenario<LineNode> = {
     },
     cut: {
       line: '',
+      expression: 'surprised',
       prompts: ['有人站到你前面。', '你想怎麼做？'],
       choices: [
         { label: '說請排隊', target: 'cut-spoken', icon: 'speech' },
@@ -274,6 +288,7 @@ export const LINE_SCENARIO: Scenario<LineNode> = {
     },
     'cut-end': {
       line: '',
+      expression: 'happy',
       prompts: ['輪到你，你溜下去了。'],
       choices: [
         { label: '再練一次', target: 'arrive', icon: 'repeat' },
@@ -326,6 +341,7 @@ export const SWIM_SCENARIO: Scenario<SwimNode> = {
   nodes: {
     plan: {
       line: '我們等一下去游泳。',
+      expression: 'happy',
       prompts: ['你想回家玩玩具。', '你想怎麼說？'],
       choices: [
         { label: '說不想去', target: 'said-no', icon: 'speech' },
@@ -337,24 +353,28 @@ export const SWIM_SCENARIO: Scenario<SwimNode> = {
     },
     'said-no': {
       line: '你今天不想去游泳。',
+      expression: 'thinking',
       prompts: ['你說：「我不想去。」'],
       choices: confirmChoices,
       help: ['說對或點頭都可以。'],
     },
     'shook-head': {
       line: '你今天不想去游泳。',
+      expression: 'thinking',
       prompts: ['你搖頭。'],
       choices: confirmChoices,
       help: ['說對或點頭都可以。'],
     },
     'said-home': {
       line: '你想回家玩玩具。',
+      expression: 'thinking',
       prompts: ['你說：「我想回家玩。」'],
       choices: confirmChoices,
       help: ['說對或點頭都可以。'],
     },
     heard: {
       line: '謝謝你告訴我。',
+      expression: 'happy',
       prompts: ['媽媽想到辦法了。'],
       choices: [{ label: '聽媽媽說', target: 'offer', icon: 'speech' }],
       help: ['按「聽媽媽說」。'],
@@ -362,6 +382,7 @@ export const SWIM_SCENARIO: Scenario<SwimNode> = {
     },
     offer: {
       line: '先游泳，再玩Switch。',
+      expression: 'excited',
       prompts: ['游完回家可以玩Switch。'],
       choices: [
         { label: '說好', target: 'agree', icon: 'speech' },
@@ -373,6 +394,7 @@ export const SWIM_SCENARIO: Scenario<SwimNode> = {
     },
     'still-no': {
       line: '你還是不想去。',
+      expression: 'thinking',
       prompts: ['可以說你需要什麼。'],
       choices: [
         { label: '想先休息', target: 'rest', icon: 'pause' },
@@ -384,6 +406,7 @@ export const SWIM_SCENARIO: Scenario<SwimNode> = {
     },
     rest: {
       line: '好，我們先坐一下。',
+      expression: 'happy',
       prompts: ['休息好了再出發。'],
       choices: [
         { label: '說我好了', target: 'agree', icon: 'speech' },
@@ -393,6 +416,7 @@ export const SWIM_SCENARIO: Scenario<SwimNode> = {
     },
     agree: {
       line: '好，我們出發吧。',
+      expression: 'happy',
       prompts: ['先游泳，再玩Switch。'],
       choices: [
         { label: '再練一次', target: 'plan', icon: 'repeat' },
@@ -404,6 +428,7 @@ export const SWIM_SCENARIO: Scenario<SwimNode> = {
     },
     'not-now': {
       line: '好，想說再跟我說。',
+      expression: 'happy',
       prompts: ['你選了先不說。'],
       choices: [{ label: '好', target: 'skipped', icon: 'done' }],
       help: ['按「好」回到公園。'],

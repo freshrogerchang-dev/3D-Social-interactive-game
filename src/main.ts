@@ -31,11 +31,13 @@ const greeting =
         greetingPanel,
         greetingLaunch,
         (active) => engine?.setInteractionActive(active),
-        (gesture, characterId) => {
+        (gesture, characterId, expression) => {
           const enabled =
             document.querySelector<HTMLInputElement>('#npc-motion')?.checked === true &&
             !matchMedia('(prefers-reduced-motion: reduce)').matches;
           engine?.setNPCGesture(gesture, enabled, characterId ?? undefined);
+          // 表情和動作開關無關，一律顯示；停用動作時直接切換、不做過渡。
+          engine?.setNPCExpression(expression, characterId ?? undefined, enabled);
         },
       )
     : null;

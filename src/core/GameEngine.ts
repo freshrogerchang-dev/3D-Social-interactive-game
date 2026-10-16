@@ -1,5 +1,6 @@
 import { ACESFilmicToneMapping, SRGBColorSpace, WebGLRenderer } from 'three';
 import type { Camera, Scene } from 'three';
+import type { Expression } from '../dialogue/Scenario';
 import { FirstPersonController } from '../input/FirstPersonController';
 import { ParkScene } from '../scene/ParkScene';
 import { RenderLoop } from './RenderLoop';
@@ -138,7 +139,10 @@ export class GameEngine {
     this.loop.stop();
     try {
       this.movement?.setEnabled(false);
-      for (const character of this.park?.characters ?? []) character.playGesture(null);
+      for (const character of this.park?.characters ?? []) {
+        character.playGesture(null);
+        character.setExpression('neutral', false);
+      }
       this.park?.resetToSafety();
       this.movement?.syncCamera();
       this.updateNPCPresence();
@@ -175,6 +179,17 @@ export class GameEngine {
     if (gesture === null) return;
     const id = characterId ?? this.park?.npc.id;
     this.park?.characters.find((character) => character.id === id)?.playGesture(gesture);
+  }
+
+  /** 指定人物換表情；沒有指定時為小安。null 讓所有人物回到平常的表情。 */
+  setNPCExpression(expression: Expression | null, characterId?: string, animate = true): void {
+    const characters = this.park?.characters ?? [];
+    if (expression === null) {
+      for (const character of characters) character.setExpression('neutral', animate);
+      return;
+    }
+    const id = characterId ?? this.park?.npc.id;
+    characters.find((character) => character.id === id)?.setExpression(expression, animate);
   }
 
   setPerformanceMonitoring(enabled: boolean): void {

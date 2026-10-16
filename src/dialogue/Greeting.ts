@@ -20,6 +20,7 @@ export const GREETING_SCENARIO: Scenario<NodeId> = {
   nodes: {
     greet: {
       line: '你好。',
+      expression: 'happy',
       prompts: ['你想怎麼回應？'],
       choices: [
         { label: '說你好', target: 'spoken', icon: 'speech' },
@@ -31,6 +32,7 @@ export const GREETING_SCENARIO: Scenario<NodeId> = {
     },
     spoken: {
       line: '你好。我在這裡休息。',
+      expression: 'happy',
       prompts: ['你說了「你好」。', '小安回應了你。'],
       choices: followup,
       help: ['可以結束或再練一次。', '也可以換個方式。'],
@@ -38,6 +40,7 @@ export const GREETING_SCENARIO: Scenario<NodeId> = {
     },
     nod: {
       line: '你好。我在這裡休息。',
+      expression: 'happy',
       prompts: ['你點頭打招呼。', '小安回應了你。'],
       choices: followup,
       help: ['可以結束或再練一次。', '也可以換個方式。'],
@@ -54,6 +57,7 @@ export const GREETING_SCENARIO: Scenario<NodeId> = {
     },
     'not-now': {
       line: '好。我會在這裡。',
+      expression: 'neutral',
       prompts: ['你選了先不參與。'],
       choices: [{ label: '好', target: 'skipped', icon: 'done' }],
       help: ['按「好」回到公園。'],

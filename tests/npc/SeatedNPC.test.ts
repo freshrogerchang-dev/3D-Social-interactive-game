@@ -1,4 +1,4 @@
-import { Mesh, MeshStandardMaterial, PerspectiveCamera, Texture, Vector3, Quaternion } from 'three';
+import { Mesh, MeshStandardMaterial, PerspectiveCamera, Texture, Vector3 } from 'three';
 import type { BufferGeometry, WebGLProgramParametersWithUniforms, WebGLRenderer } from 'three';
 import { describe, expect, it } from 'vitest';
 import { FirstPersonController } from '../../src/input/FirstPersonController';
@@ -7,34 +7,30 @@ import { ParkScene } from '../../src/scene/ParkScene';
 
 const position = (z: number) => ({ x: 0, y: 1.1, z });
 
-describe('單一固定坐姿 NPC', () => {
-  it('臉部貼圖在暫停／動作切換後保持同一資源，重複 dispose 僅釋放一次', () => {
+describe('卡通人物（長椅上的小安）', () => {
+  it('表情在動作與停用動作切換後保留，重複 dispose 只釋放一次臉部資源', () => {
     const npc = new SeatedNPC();
-    const head = npc.root.getObjectByName('head');
-    if (!(head instanceof Mesh) || !(head.material instanceof MeshStandardMaterial))
-      throw new Error('需要完整臉部材質');
-    const texture = head.material.map;
-    if (!(texture instanceof Texture)) throw new Error('需要原創臉部貼圖');
-    expect(texture.colorSpace).toBe('srgb');
-    expect(texture.source.data).toHaveProperty('data');
+    const mouth = npc.root.getObjectByName('mouth');
+    if (!(mouth instanceof Mesh)) throw new Error('需要嘴巴');
     let disposed = 0;
-    texture.addEventListener('dispose', () => {
+    (mouth.geometry as BufferGeometry).addEventListener('dispose', () => {
       disposed += 1;
     });
+    npc.setExpression('surprised');
     npc.playGesture('wave');
     for (let i = 0; i < 40; i++) npc.update(0.05);
     npc.setMotionEnabled(false);
-    npc.playGesture('nod');
-    expect(head.material.map).toBe(texture);
-    expect(disposed).toBe(0);
+    expect(npc.expression).toBe('surprised');
     npc.dispose();
     npc.dispose();
     expect(disposed).toBe(1);
+    npc.setExpression('happy');
+    expect(npc.expression).toBe('surprised');
   });
 
   it('單次點頭結束回中立，零 delta 不更新，停用動作立即重設', () => {
     const npc = new SeatedNPC();
-    const pivot = npc.root.getObjectByName('head')?.parent;
+    const pivot = npc.root.getObjectByName('head-pivot');
     if (!pivot) throw new Error('missing head pivot');
     npc.playGesture('nod');
     for (let i = 0; i < 16; i++) npc.update(0.05);
@@ -52,36 +48,35 @@ describe('單一固定坐姿 NPC', () => {
     expect(pivot.rotation.x).toBe(0);
     npc.dispose();
   });
-  it('抬手不移動角色、長椅或鏡頭；退出可重設且 dispose 後不再動', () => {
+  it('揮手時手舉到頭旁並擺動；不移動角色、長椅或鏡頭；結束、退出會回到原姿勢', () => {
     const npc = new SeatedNPC();
     const pivot = npc.root.getObjectByName('arm-pivot');
-    if (!pivot) throw new Error('missing arm pivot');
+    const hand = pivot?.getObjectByName('hand');
+    const head = npc.root.getObjectByName('head');
+    if (!pivot || !hand || !head) throw new Error('missing wave parts');
+    const rest = pivot.rotation.clone();
+    const restHand = hand.getWorldPosition(new Vector3());
     npc.playGesture('wave');
     for (let i = 0; i < 16; i++) npc.update(0.05);
-    const hand = npc.root.getObjectByName('hand');
-    const head = npc.root.getObjectByName('head');
-    const finger = npc.root.getObjectByName('finger');
-    if (!hand || !head || !finger) throw new Error('missing wave parts');
     expect(hand.getWorldPosition(new Vector3()).y).toBeGreaterThan(
-      head.getWorldPosition(new Vector3()).y + 0.04,
+      head.getWorldPosition(new Vector3()).y,
     );
-    const palm = new Vector3(0, -1, 0).applyQuaternion(hand.getWorldQuaternion(new Quaternion()));
-    expect(palm.z).toBeGreaterThan(0.85);
-    const firstFinger = finger.getWorldPosition(new Vector3()).clone();
+    const first = hand.getWorldPosition(new Vector3());
     for (let i = 0; i < 6; i++) npc.update(0.05);
-    const nextFinger = finger.getWorldPosition(new Vector3());
-    expect(firstFinger.distanceTo(nextFinger)).toBeGreaterThan(0.008);
+    expect(first.distanceTo(hand.getWorldPosition(new Vector3()))).toBeGreaterThan(0.005);
     for (let i = 0; i < 60; i++) npc.update(0.05);
-    expect(pivot.rotation.z).toBe(0);
-    expect(hand.getWorldPosition(new Vector3()).y).toBeCloseTo(0.562);
+    expect(pivot.rotation.equals(rest)).toBe(true);
+    expect(hand.getWorldPosition(new Vector3()).distanceTo(restHand)).toBeLessThan(1e-9);
     expect(npc.root.position.toArray()).toEqual([0, 0, -2]);
     expect(npc.root.getObjectByName('bench-seat')?.rotation.z).toBe(0);
+    npc.playGesture('wave');
+    npc.update(0.05);
     npc.playGesture(null);
-    expect(pivot.rotation.z).toBe(0);
+    expect(pivot.rotation.equals(rest)).toBe(true);
     npc.dispose();
     npc.playGesture('wave');
     npc.update(0.05);
-    expect(pivot.rotation.z).toBe(0);
+    expect(pivot.rotation.equals(rest)).toBe(true);
   });
 
   it('坐姿、長椅與位置固定，接近判斷不改位置或朝向，也不依賴視線高度', () => {

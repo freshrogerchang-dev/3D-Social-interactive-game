@@ -1,24 +1,41 @@
 import {
   BoxGeometry,
-  CylinderGeometry,
-  LatheGeometry,
-  Vector2,
-  Vector3,
-  CatmullRomCurve3,
-  TubeGeometry,
   CapsuleGeometry,
+  CatmullRomCurve3,
   Color,
+  ConeGeometry,
+  CylinderGeometry,
+  DoubleSide,
   Group,
-  Quaternion,
+  LatheGeometry,
   Mesh,
   MeshStandardMaterial,
   SphereGeometry,
   TorusGeometry,
+  Vector2,
+  Vector3,
 } from 'three';
-import type { Bone, BufferGeometry, Object3D, Vector3Like } from 'three';
-import { createFriendlyFaceTexture } from './FriendlyFaceTexture';
-import { HumanRig, disposeModel } from './HumanModel';
+import type { BufferGeometry, Euler, Vector3Like } from 'three';
+import { CartoonFace } from './CartoonFace';
+import type { Expression } from '../dialogue/Scenario';
 import type { CircularObstacle } from '../input/FirstPersonController';
+
+export type HairStyle = 'short' | 'spiky' | 'bob' | 'ponytail';
+export type Bottom = 'shorts' | 'skirt' | 'long-skirt';
+
+export interface CharacterLook {
+  /** 大人比例（頭比例較小、身體較長）。 */
+  readonly adult?: boolean;
+  readonly hair?: HairStyle;
+  readonly skin?: number;
+  readonly hairColor?: number;
+  readonly shirt?: number;
+  readonly bottom?: Bottom;
+  readonly bottomColor?: number;
+  readonly shoes?: number;
+  /** 髮夾、球等點綴色。 */
+  readonly accent?: number;
+}
 
 export interface CharacterOptions {
   /** 與對話情境對應的人物 id；預設為長椅上的小安。 */
@@ -28,529 +45,387 @@ export interface CharacterOptions {
   /** 人物正面預設朝 +z；只在建立時設定，之後不轉向玩家。 */
   readonly rotationY?: number;
   readonly pose?: 'seated' | 'standing';
-  readonly scale?: number;
   /** 個人空間半徑（公尺）。 */
   readonly radius?: number;
-  readonly colors?: {
-    readonly shirt?: number;
-    readonly shirtShade?: number;
-    readonly trousers?: number;
-    readonly hair?: number;
-  };
-  readonly longHair?: boolean;
+  readonly look?: CharacterLook;
   readonly prop?: 'ball';
 }
 
-/** 站姿時上半身抬高的距離，讓腿伸直。 */
-const STANDING_LIFT = 0.18;
-const LEG_PARTS = new Set(['trouser-leg', 'sock', 'shoe', 'shoe-sole', 'shoe-tongue', 'shoe-lace']);
-/** 換上人物模型後仍保留的自製部件（長椅、球）。 */
-const PROP_PARTS = ['bench', 'ball'];
-const X_AXIS = new Vector3(1, 0, 0);
-const Z_AXIS = new Vector3(0, 0, 1);
+interface Dims {
+  readonly head: Vector3;
+  readonly neckY: number;
+  readonly shoulderY: number;
+  readonly chestY: number;
+  readonly waistY: number;
+  readonly hipY: number;
+  readonly shoulderX: number;
+  /** 腰、胸、肚子、肩的半徑。 */
+  readonly torso: readonly [number, number, number, number];
+  readonly depth: number;
+  readonly upperArm: number;
+  readonly forearm: number;
+  readonly armRadius: number;
+  readonly hand: number;
+  readonly hipX: number;
+  readonly thigh: number;
+  readonly shin: number;
+  readonly legRadius: number;
+  readonly shoe: Vector3;
+}
 
-/** 公園固定人物（坐姿或站姿）；僅明確互動觸發單次動作，不移動、不追人或追蹤視線。 */
+/** 卡通比例（公尺）：小孩頭大、四肢短；大人頭比例較小。 */
+const KID: Dims = {
+  head: new Vector3(0.175, 0.165, 0.16),
+  neckY: 0.8,
+  shoulderY: 0.76,
+  chestY: 0.68,
+  waistY: 0.55,
+  hipY: 0.47,
+  shoulderX: 0.145,
+  torso: [0.105, 0.125, 0.13, 0.115],
+  depth: 0.78,
+  upperArm: 0.16,
+  forearm: 0.14,
+  armRadius: 0.036,
+  hand: 0.04,
+  hipX: 0.062,
+  thigh: 0.2,
+  shin: 0.2,
+  legRadius: 0.048,
+  shoe: new Vector3(0.05, 0.042, 0.085),
+};
+const ADULT: Dims = {
+  head: new Vector3(0.13, 0.142, 0.128),
+  neckY: 1.3,
+  shoulderY: 1.26,
+  chestY: 1.12,
+  waistY: 0.97,
+  hipY: 0.84,
+  shoulderX: 0.175,
+  torso: [0.13, 0.12, 0.145, 0.135],
+  depth: 0.72,
+  upperArm: 0.27,
+  forearm: 0.24,
+  armRadius: 0.04,
+  hand: 0.045,
+  hipX: 0.08,
+  thigh: 0.38,
+  shin: 0.4,
+  legRadius: 0.06,
+  shoe: new Vector3(0.05, 0.04, 0.1),
+};
+
+const X = new Vector3(1, 0, 0);
+
+/**
+ * 公園固定人物（坐姿或站姿）的卡通造型：大頭、圓臉、表情豐富。
+ * 只有明確互動才做單次動作或換表情；不移動、不追人、不追蹤視線，也沒有自動循環動作。
+ */
 export class ParkCharacter {
   readonly id: string;
   readonly root = new Group();
   readonly obstacle: CircularObstacle;
-  readonly materials = [
-    new MeshStandardMaterial({ color: new Color().setHSL(28 / 360, 0.42, 0.69), roughness: 0.9 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(155 / 360, 0.24, 0.61), roughness: 0.95 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(215 / 360, 0.18, 0.37), roughness: 0.95 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(25 / 360, 0.32, 0.16), roughness: 0.95 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(30 / 360, 0.3, 0.45), roughness: 0.95 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(30 / 360, 0.2, 0.94), roughness: 0.9 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(25 / 360, 0.25, 0.17), roughness: 0.8 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(8 / 360, 0.22, 0.65), roughness: 0.95 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(40 / 360, 0.4, 0.64), roughness: 0.95 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(155 / 360, 0.18, 0.53), roughness: 1 }),
-    new MeshStandardMaterial({ color: new Color().setHSL(215 / 360, 0.12, 0.3), roughness: 1 }),
-    new MeshStandardMaterial({ color: 0xffffff, roughness: 0.95 }),
-  ] as const;
+  readonly materials: readonly MeshStandardMaterial[];
+  readonly face: CartoonFace;
+  /** 長椅木頭材質（ParkScene 讓環境的木紋貼圖也套到長椅）。 */
+  readonly benchMaterial: MeshStandardMaterial;
   private readonly geometries: BufferGeometry[] = [];
-  private readonly faceTexture = createFriendlyFaceTexture();
   private disposed = false;
-  private readonly seated: boolean;
-  private readonly holdsBall: boolean;
-  private rig: HumanRig | null = null;
-  private model: Object3D | null = null;
-  private readonly restPose = new Map<Bone, Quaternion>();
-  private readonly turn = new Quaternion();
   private gesture: 'wave' | 'nod' | null = null;
   private gestureTime = 0;
   private motionEnabled = true;
   private readonly headPivot = new Group();
-  private readonly armPivot = new Group();
-  private readonly elbowPivot = new Group();
-  private readonly wristPivot = new Group();
-  private readonly neutralElbow = new Quaternion();
-  private readonly raisedElbow = new Quaternion().setFromUnitVectors(
-    new Vector3(0.089, -0.138, 0.268).normalize(),
-    new Vector3(0, 0.31, 0.035).applyAxisAngle(new Vector3(0, 0, 1), 1.35).normalize(),
-  );
+  private readonly arms: { side: number; shoulder: Group; elbow: Group; wrist: Group }[] = [];
+  private readonly rest = new Map<Group, Euler>();
 
   constructor(options: CharacterOptions = {}) {
     this.id = options.id ?? 'xiaoan';
+    const look = options.look ?? {};
     const seated = (options.pose ?? 'seated') === 'seated';
-    this.seated = seated;
-    this.holdsBall = options.prop === 'ball';
+    const holdsBall = options.prop === 'ball';
+    const d: Dims = look.adult ? ADULT : KID;
     this.obstacle = { x: options.x ?? 0, z: options.z ?? -2, radius: options.radius ?? 1.2 };
     this.root.name = this.id === 'xiaoan' ? 'park-friend' : `park-friend-${this.id}`;
     this.root.position.set(this.obstacle.x, 0, this.obstacle.z);
     this.root.rotation.y = options.rotationY ?? 0;
-    this.root.scale.setScalar(options.scale ?? 1);
-    const [skin, shirt, trousers, hair, wood, ivory, , , accent, clothShade, seam, faceMaterial] =
-      this.materials;
-    skin.color.setHex(0xeeb694);
-    skin.emissive.setHex(0xb87251);
-    skin.emissiveIntensity = 0.22;
-    faceMaterial.map = this.faceTexture;
-    faceMaterial.emissive.setHex(0xffffff);
-    faceMaterial.emissiveMap = this.faceTexture;
-    faceMaterial.emissiveIntensity = 0.18;
-    shirt.color.setHex(options.colors?.shirt ?? 0x769ba2);
-    clothShade.color.setHex(options.colors?.shirtShade ?? 0x66838c);
-    hair.color.setHex(options.colors?.hair ?? 0x63452f);
-    trousers.color.setHex(options.colors?.trousers ?? 0x526780);
-    for (let slat = 0; seated && slat < 4; slat += 1) {
-      this.addPart(
-        'bench-seat',
-        new BoxGeometry(1.8, 0.065, 0.105),
-        wood,
-        0,
-        0.45,
-        -0.18 + slat * 0.12,
-      );
-      this.addPart(
-        'bench-back',
-        new BoxGeometry(1.8, 0.1, 0.065),
-        wood,
-        0,
-        0.61 + slat * 0.13,
-        -0.25,
-      );
-    }
-    for (const x of seated ? [-0.82, 0.82] : []) {
-      this.addPart('bench-arm', new BoxGeometry(0.08, 0.06, 0.46), wood, x, 0.65, 0);
-      this.addPart('bench-arm-support', new BoxGeometry(0.06, 0.2, 0.06), wood, x, 0.54, 0.12);
-    }
-    for (const x of seated ? [-0.7, 0.7] : []) {
-      for (const z of [-0.15, 0.15])
-        this.addPart('bench-leg', new BoxGeometry(0.09, 0.4, 0.09), hair, x, 0.2, z);
-    }
-    // 輪廓截面取代球形頭／膠囊衣服，保持自製模型與可釋放資源。
-    const profile = (points: readonly (readonly [number, number])[]): LatheGeometry =>
-      new LatheGeometry(
-        new CatmullRomCurve3(points.map(([radius, height]) => new Vector3(radius, height, 0)))
-          .getPoints(64)
-          .map((point) => new Vector2(Math.max(0, point.x), point.y)),
-        32,
-      );
-    const oval = (
-      name: string,
-      material: MeshStandardMaterial,
-      position: readonly [number, number, number],
-      size: readonly [number, number, number],
-    ): Mesh => {
-      const part = this.addPart(name, new SphereGeometry(1, 20, 14), material, ...position);
-      part.scale.set(...size);
-      return part;
-    };
-    const segment = (
-      name: string,
-      material: MeshStandardMaterial,
-      from: readonly [number, number, number],
-      to: readonly [number, number, number],
-      startRadius: number,
-      endRadius: number,
-    ): Mesh => {
-      const a = new Vector3(...from),
-        b = new Vector3(...to);
-      const direction = b.clone().sub(a);
-      const midpoint = a.clone().add(b).multiplyScalar(0.5);
-      const part = this.addPart(
-        name,
-        new CylinderGeometry(endRadius, startRadius, direction.length(), 16, 1),
-        material,
-        midpoint.x,
-        midpoint.y,
-        midpoint.z,
-      );
-      part.quaternion.setFromUnitVectors(new Vector3(0, 1, 0), direction.normalize());
-      return part;
-    };
-    const curve = (
-      name: string,
-      material: MeshStandardMaterial,
-      points: readonly (readonly [number, number, number])[],
-      radius: number,
-    ): Mesh =>
-      this.addPart(
-        name,
-        new TubeGeometry(
-          new CatmullRomCurve3(points.map((point) => new Vector3(...point))),
-          16,
-          radius,
-          6,
-          false,
-        ),
-        material,
-        0,
-        0,
-        0,
-      );
-    const softLimb = (
-      name: string,
-      material: MeshStandardMaterial,
-      points: readonly (readonly [number, number, number])[],
-      radius: number,
-      taper: number,
-    ): Mesh => {
-      const path = new CatmullRomCurve3(points.map((point) => new Vector3(...point)));
-      const geometry = new TubeGeometry(path, 24, radius, 16, false);
-      const vertices = geometry.getAttribute('position');
-      const anchor = path.getPointAt(0.5);
-      for (let ring = 0; ring <= 24; ring++) {
-        const center = path.getPointAt(ring / 24);
-        const factor = 1 - taper * (ring / 24);
-        for (let radial = 0; radial <= 16; radial++) {
-          const i = ring * 17 + radial;
-          vertices.setXYZ(
-            i,
-            center.x + (vertices.getX(i) - center.x) * factor - anchor.x,
-            center.y + (vertices.getY(i) - center.y) * factor - anchor.y,
-            center.z + (vertices.getZ(i) - center.z) * factor - anchor.z,
-          );
-        }
-      }
-      geometry.computeVertexNormals();
-      return this.addPart(name, geometry, material, anchor.x, anchor.y, anchor.z);
-    };
-    const torso = this.addPart(
+
+    const standard = (hex: number, roughness = 0.8): MeshStandardMaterial =>
+      new MeshStandardMaterial({ color: hex, roughness });
+    const skinHex = look.skin ?? 0xf1c4a3;
+    const skin = standard(skinHex, 0.65);
+    const shirt = standard(look.shirt ?? 0x7aa7ad, 0.9);
+    const bottom = standard(look.bottomColor ?? 0x55708f, 0.9);
+    const hair = standard(look.hairColor ?? 0x4a3226, 0.55);
+    hair.side = DoubleSide; // 髮型的開口邊緣從內側看也是頭髮
+    const wood = new MeshStandardMaterial({
+      color: new Color().setHSL(30 / 360, 0.3, 0.45),
+      roughness: 0.95,
+    });
+    const sock = standard(0xf4f1ea, 0.9);
+    const shoe = standard(look.shoes ?? 0xe9e6df, 0.7);
+    const metal = standard(0x5c605d, 0.6);
+    const accent = standard(look.accent ?? 0xe7c873, 0.7);
+    const lid = standard(new Color(skinHex).multiplyScalar(0.92).getHex(), 0.65);
+    const eyeWhite = standard(0xfbf8f2, 0.3);
+    const iris = standard(0x5a3b2a, 0.35);
+    const pupil = standard(0x1c1410, 0.3);
+    const highlight = new MeshStandardMaterial({
+      color: 0xffffff,
+      emissive: 0xffffff,
+      emissiveIntensity: 0.7,
+    });
+    const brow = standard(new Color(look.hairColor ?? 0x4a3226).multiplyScalar(0.85).getHex(), 0.8);
+    const mouth = standard(0x8a4a43, 0.6);
+    // 嘴巴、腮紅貼在臉上：深度偏移避免與臉的表面互相穿插。
+    mouth.polygonOffset = true;
+    mouth.polygonOffsetFactor = -2;
+    const blush = new MeshStandardMaterial({
+      color: new Color().setHSL(5 / 360, 0.55, 0.74),
+      roughness: 0.9,
+      transparent: true,
+      opacity: 0.55,
+      depthWrite: false,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+    });
+    const collar = standard(new Color(look.shirt ?? 0x7aa7ad).multiplyScalar(0.85).getHex(), 0.9);
+    this.benchMaterial = wood;
+    this.materials = [
+      skin,
+      shirt,
+      bottom,
+      hair,
+      wood,
+      sock,
+      shoe,
+      metal,
+      accent,
+      lid,
+      eyeWhite,
+      iris,
+      pupil,
+      highlight,
+      brow,
+      mouth,
+      blush,
+      collar,
+    ];
+
+    if (seated) this.buildBench(wood, metal);
+    // 坐姿：臀部在長椅座面上，略往後坐；站姿：腳在地面。
+    const lift = seated ? 0.5 - d.hipY : 0;
+    const back = seated ? -0.03 : 0;
+    const at = (y: number, z = 0): [number, number, number] => [0, y + lift, z + back];
+
+    // 身體：上衣是一個圓潤的旋轉體，下擺略寬。
+    const [waistR, chestR, bellyR, shoulderR] = d.torso;
+    const torso = this.part(
       'body',
-      profile([
-        [0, 0],
-        [0.095, 0.01],
-        [0.125, 0.035],
-        [0.128, 0.08],
-        [0.118, 0.16],
-        [0.135, 0.255],
-        [0.145, 0.305],
-        [0.132, 0.33],
-        [0.07, 0.37],
-        [0.045, 0.375],
+      this.lathe([
+        [0, d.hipY - 0.02],
+        [waistR * 1.05, d.hipY + 0.01],
+        [bellyR, d.waistY],
+        [chestR, d.chestY],
+        [shoulderR, d.shoulderY],
+        [shoulderR * 0.55, d.neckY - 0.005],
+        [0, d.neckY],
       ]),
       shirt,
-      0,
-      0.535,
-      -0.012,
+      ...at(0),
     );
-    torso.scale.set(1.48, 1, 0.9);
-    curve(
-      'shirt-hem',
-      clothShade,
-      [
-        [-0.154, 0.576, 0.052],
-        [-0.09, 0.568, 0.079],
-        [0, 0.566, 0.084],
-        [0.09, 0.568, 0.079],
-        [0.154, 0.576, 0.052],
-      ],
-      0.003,
-    );
-
-    segment('neck', skin, [0, 0.894, -0.012], [0, 0.96, -0.012], 0.047, 0.041);
-    const collar = this.addPart(
+    torso.scale.z = d.depth;
+    const collarRing = this.part(
       'collar',
-      new TorusGeometry(0.049, 0.008, 8, 32),
-      clothShade,
-      0,
-      0.908,
-      -0.012,
+      new TorusGeometry(d.head.x * 0.32, 0.012, 8, 24),
+      collar,
+      ...at(d.neckY - 0.01),
     );
-    collar.rotation.x = Math.PI / 2;
-    collar.scale.set(1.1, 0.85, 1);
-    for (const side of [-1, 1]) {
-      const badge = oval(
-        'leaf-badge',
-        accent,
-        [0.07 + side * 0.005, 0.819, 0.11],
-        [0.006, 0.012, 0.002],
+    collarRing.rotation.x = Math.PI / 2;
+    collarRing.scale.y = d.depth;
+    this.part(
+      'neck',
+      new CylinderGeometry(d.head.x * 0.28, d.head.x * 0.3, 0.06, 16),
+      skin,
+      ...at(d.neckY + 0.02),
+    );
+
+    // 下半身。
+    const style = look.bottom ?? 'shorts';
+    if (style === 'shorts') {
+      const hips = this.part(
+        'hips',
+        this.lathe([
+          [0, d.hipY - 0.06],
+          [waistR * 1.05, d.hipY - 0.05],
+          [waistR * 1.08, d.waistY - 0.02],
+          [0, d.waistY],
+        ]),
+        bottom,
+        ...at(0),
       );
-      badge.rotation.z = side * 0.4;
+      hips.scale.z = d.depth + 0.05;
+    } else {
+      const length = style === 'skirt' ? d.thigh * 0.75 : d.waistY - 0.1;
+      const skirt = this.part(
+        'skirt',
+        // 裙頭比上衣腰圍寬一點，蓋住上衣下擺，兩個面不互相穿插。
+        new CylinderGeometry(
+          bellyR * 1.06,
+          waistR * (style === 'skirt' ? 1.75 : 1.6),
+          length,
+          28,
+          1,
+          true,
+        ),
+        bottom,
+        ...at(d.waistY - length / 2 + 0.02),
+      );
+      skirt.scale.z = d.depth + 0.12;
     }
-    this.headPivot.position.set(0, 0.945, -0.005);
+
+    // 腿：膠囊（短褲褲管、襪子、鞋子）。坐姿大腿往前、小腿往下。
+    for (const side of [-1, 1]) {
+      const hip = new Vector3(side * d.hipX, d.hipY + lift, back + 0.01);
+      const knee = seated
+        ? hip.clone().add(new Vector3(side * 0.01, 0.0, d.thigh))
+        : hip.clone().add(new Vector3(side * 0.008, -d.thigh, 0));
+      const ankle = seated
+        ? knee.clone().add(new Vector3(0, -Math.min(d.shin, knee.y - 0.08), 0.02))
+        : new Vector3(side * (d.hipX + 0.012), 0.075, 0);
+      this.limb('thigh', hip, knee, d.legRadius, skin);
+      this.limb('shin', knee, ankle, d.legRadius * 0.86, skin);
+      if (style === 'shorts')
+        this.limb('shorts-leg', hip, hip.clone().lerp(knee, 0.62), d.legRadius * 1.38, bottom);
+      if (!look.adult) {
+        const sockTop = ankle.clone().lerp(knee, 0.22);
+        this.limb('sock', ankle, sockTop, d.legRadius * 0.92, sock);
+      }
+      const foot = this.part(
+        'shoe',
+        new SphereGeometry(1, 20, 14),
+        shoe,
+        ankle.x,
+        ankle.y - 0.025,
+        ankle.z + d.shoe.z * 0.45,
+      );
+      foot.scale.copy(d.shoe);
+    }
+
+    // 頭：以脖子為軸點頭；臉、頭髮、耳朵都在頭部群組內。
     this.headPivot.name = 'head-pivot';
+    this.headPivot.position.set(...at(d.neckY + 0.03));
     this.root.add(this.headPivot);
-    // 五官繪於連續皮膚表面，鼻子僅保留輕微體積，移除分離眼球／腮紅／嘴唇。
-    const headGeometry = new SphereGeometry(1, 48, 32);
-    const vertices = headGeometry.getAttribute('position');
-    for (let i = 0; i < vertices.count; i++) {
-      const y = vertices.getY(i);
-      const jaw = y < -0.1 ? 0.86 + 0.14 * ((y + 1) / 0.9) : 1;
-      vertices.setX(i, vertices.getX(i) * jaw);
-      if (y < -0.55) vertices.setY(i, -0.55 + (y + 0.55) * 0.72);
-    }
-    headGeometry.computeVertexNormals();
-    const head = this.addPart('head', headGeometry, faceMaterial, 0, 1.08, 0.008);
-    head.scale.set(0.174, 0.192, 0.157);
-    this.headPivot.attach(head);
+    const headCenter = new Group();
+    headCenter.name = 'head-center';
+    headCenter.position.y = d.head.y * 0.92;
+    this.headPivot.add(headCenter);
+    const head = new Mesh(this.geometry(new SphereGeometry(1, 40, 28)), skin);
+    head.name = 'head';
+    head.scale.copy(d.head);
+    headCenter.add(head);
     for (const side of [-1, 1]) {
-      const ear = oval('ear', skin, [side * 0.165, 1.062, -0.006], [0.02, 0.03, 0.023]);
-      this.headPivot.attach(ear);
+      const ear = new Mesh(this.geometry(new SphereGeometry(1, 16, 12)), skin);
+      ear.name = 'ear';
+      ear.position.set(side * d.head.x * 0.97, -d.head.y * 0.05, -d.head.z * 0.05);
+      ear.scale.set(d.head.x * 0.13, d.head.y * 0.2, d.head.z * 0.13);
+      headCenter.add(ear);
     }
-    const nose = oval('nose', skin, [0, 1.066, 0.16], [0.019, 0.016, 0.014]);
-    this.headPivot.attach(nose);
-    const cap = this.addPart(
-      'hair',
-      new SphereGeometry(1, 40, 20, 0, Math.PI * 2, 0, Math.PI * 0.37),
-      hair,
-      0,
-      1.08,
-      -0.003,
-    );
-    cap.position.z = 0.01;
-    cap.scale.set(0.183, 0.202, 0.17);
-    this.headPivot.attach(cap);
-    // 偏側瀏海連成髮束，不再排列五顆球形髮片。
-    for (let lock = 0; lock < 4; lock++) {
-      const x = -0.107 + lock * 0.051;
-      const strand = oval(
-        'hair-lock',
-        hair,
-        [x, 1.188 + lock * 0.006, 0.15 - Math.abs(x) * 0.16],
-        [0.041, 0.023, 0.018],
-      );
-      strand.rotation.z = -0.35;
-      this.headPivot.attach(strand);
-    }
-    oval('hips', trousers, [0, 0.505, 0.034], [0.171, 0.082, 0.13]);
-    this.armPivot.position.set(-0.19, 0.844, -0.004);
-    this.armPivot.name = 'arm-pivot';
-    this.root.add(this.armPivot);
-    for (const side of [-1, 1]) {
-      const x = side * 0.105;
-      // 站姿：腿從抬高後的臀部直直往下，腳在身體正下方。
-      const footZ = seated ? 0.315 : 0.04;
-      const legPath = new CatmullRomCurve3(
-        seated
-          ? [
-              new Vector3(x, 0.503, 0.036),
-              new Vector3(x, 0.492, 0.18),
-              new Vector3(x, 0.477, 0.312),
-              new Vector3(x, 0.425, 0.35),
-              new Vector3(side * 0.117, 0.25, 0.328),
-              new Vector3(side * 0.12, 0.117, 0.315),
-            ]
-          : [
-              new Vector3(x, 0.503 + STANDING_LIFT, 0.036),
-              new Vector3(side * 0.11, 0.45, 0.04),
-              new Vector3(side * 0.117, 0.28, 0.042),
-              new Vector3(side * 0.12, 0.117, footZ),
-            ],
-      );
-      const legGeometry = new TubeGeometry(legPath, 32, 0.077, 16, false);
-      const vertices = legGeometry.getAttribute('position');
-      for (let ring = 0; ring <= 32; ring++) {
-        const center = legPath.getPointAt(ring / 32);
-        const taper = 1 - 0.38 * (ring / 32);
-        for (let radial = 0; radial <= 16; radial++) {
-          const vertex = ring * 17 + radial;
-          vertices.setXYZ(
-            vertex,
-            center.x + (vertices.getX(vertex) - center.x) * taper,
-            center.y + (vertices.getY(vertex) - center.y) * taper,
-            center.z + (vertices.getZ(vertex) - center.z) * taper,
-          );
-        }
-      }
-      legGeometry.computeVertexNormals();
-      this.addPart('trouser-leg', legGeometry, trousers, 0, 0, 0);
+    this.face = new CartoonFace(d.head, {
+      skin,
+      lid,
+      eyeWhite,
+      iris,
+      pupil,
+      highlight,
+      brow,
+      mouth,
+      blush,
+    });
+    headCenter.add(this.face.root);
+    this.buildHair(headCenter, d.head, look.hair ?? 'short', hair, accent);
 
-      segment(
-        'sock',
-        ivory,
-        [side * 0.12, 0.089, footZ],
-        [side * 0.12, 0.129, footZ],
-        0.043,
-        0.044,
-      );
-      oval('shoe', ivory, [side * 0.12, 0.063, footZ + 0.06], [0.065, 0.052, 0.12]);
-      oval('shoe-sole', seam, [side * 0.12, 0.028, footZ + 0.062], [0.066, 0.015, 0.121]);
-      oval('shoe-tongue', ivory, [side * 0.12, 0.102, footZ + 0.037], [0.035, 0.009, 0.04]);
-      for (let lace = 0; lace < 3; lace++)
-        segment(
-          'shoe-lace',
-          clothShade,
-          [side * 0.12 - 0.025, 0.108 - lace * 0.002, footZ + 0.03 + lace * 0.017],
-          [side * 0.12 + 0.025, 0.108 - lace * 0.002, footZ + 0.03 + lace * 0.017],
-          0.002,
-          0.002,
-        );
-      softLimb(
-        'upper-arm',
+    // 手臂：肩、肘、腕三個軸點；揮手時只動 -x 側。
+    for (const side of [-1, 1]) {
+      const shoulder = new Group();
+      shoulder.name = side < 0 ? 'arm-pivot' : 'arm-pivot-right';
+      shoulder.position.set(...at(d.shoulderY - 0.02));
+      shoulder.position.x = side * d.shoulderX;
+      this.root.add(shoulder);
+      const sleeve = new Mesh(
+        this.geometry(new CapsuleGeometry(d.armRadius * 1.35, d.upperArm * 0.55, 6, 14)),
         shirt,
-        [
-          [side * 0.163, 0.844, -0.009],
-          [side * 0.205, 0.821, 0.006],
-          [side * 0.226, 0.745, 0.031],
-          [side * 0.229, 0.7, 0.05],
-        ],
-        0.058,
-        0.2,
       );
-      softLimb(
-        'forearm',
+      sleeve.name = 'sleeve';
+      sleeve.position.y = -d.upperArm * 0.3;
+      shoulder.add(sleeve);
+      const upper = new Mesh(
+        this.geometry(new CapsuleGeometry(d.armRadius, d.upperArm, 6, 12)),
         skin,
-        [
-          [side * 0.229, 0.706, 0.047],
-          [side * 0.227, 0.655, 0.087],
-          [side * 0.201, 0.624, 0.178],
-          [side * 0.145, 0.574, 0.294],
-        ],
-        0.037,
-        0.32,
       );
-      oval('hand', skin, [side * 0.14, 0.562, 0.318], [0.04, 0.021, 0.046]);
-      for (let finger = 0; finger < 4; finger++) {
-        const fingerX = side * 0.14 + (finger - 1.5) * 0.015;
-        const length = [0.038, 0.049, 0.046, 0.034][finger] ?? 0.038;
-        const digit = this.addPart(
-          'finger',
-          new CapsuleGeometry(0.007, length, 4, 10),
-          skin,
-          fingerX,
-          0.556,
-          0.356 + length / 2,
-        );
-        digit.rotation.x = Math.PI / 2 + 0.08;
-        oval('fingernail', ivory, [fingerX, 0.561, 0.356 + length], [0.0045, 0.001, 0.006]);
-      }
-      segment(
-        'thumb',
+      upper.name = 'upper-arm';
+      upper.position.y = -d.upperArm / 2;
+      shoulder.add(upper);
+      const elbow = new Group();
+      elbow.name = side < 0 ? 'elbow-pivot' : 'elbow-pivot-right';
+      elbow.position.y = -d.upperArm;
+      shoulder.add(elbow);
+      const forearm = new Mesh(
+        this.geometry(new CapsuleGeometry(d.armRadius * 0.9, d.forearm, 6, 12)),
         skin,
-        [side * 0.115, 0.564, 0.316],
-        [side * 0.096, 0.555, 0.35],
-        0.011,
-        0.009,
       );
-      oval('thumb-tip', skin, [side * 0.096, 0.555, 0.35], [0.009, 0.009, 0.009]);
-    }
-    // 肩、肘、腕分開控制；attach 保留中立坐姿，單一引擎 RAF 驅動。
-    this.elbowPivot.name = 'elbow-pivot';
-    this.elbowPivot.position.set(-0.229, 0.7, 0.05);
-    this.wristPivot.name = 'wrist-pivot';
-    this.wristPivot.rotation.order = 'ZYX';
-    this.wristPivot.position.set(-0.14, 0.562, 0.318);
-    this.root.add(this.elbowPivot, this.wristPivot);
-    const handParts = ['hand', 'finger', 'fingernail', 'thumb', 'thumb-tip'];
-    for (const part of [...this.root.children]) {
-      if (part.position.x >= 0) continue;
-      if (part.name === 'upper-arm') this.armPivot.attach(part);
-      else if (part.name === 'forearm') this.elbowPivot.attach(part);
-      else if (handParts.includes(part.name)) this.wristPivot.attach(part);
-    }
-    this.elbowPivot.attach(this.wristPivot);
-    this.armPivot.attach(this.elbowPivot);
-    if (options.longHair) {
-      const back = oval('hair-back', hair, [0, 1.02, -0.07], [0.17, 0.2, 0.11]);
-      this.headPivot.attach(back);
-    }
-    if (options.prop === 'ball') oval('ball', accent, [0, 0.57, 0.36], [0.11, 0.11, 0.11]);
-    if (!seated) {
-      // 腿以外的部位（含動作 pivot）一起抬高；腿已用站姿座標建立。
-      for (const part of this.root.children)
-        if (!LEG_PARTS.has(part.name)) part.position.y += STANDING_LIFT;
-    }
-  }
-  get hasModel(): boolean {
-    return this.model !== null;
-  }
-
-  /**
-   * 換上 MakeHuman CC0 人物模型（長椅與球保留），擺出坐姿、站姿或拿球的靜態姿勢。
-   * 已釋放、已有模型或骨架不完整時回傳 false，模型由呼叫端釋放。
-   */
-  attachModel(model: Object3D): boolean {
-    if (this.disposed || this.model) return false;
-    const rig = new HumanRig(model);
-    if (!rig.bone('shoulder01', 1) || !rig.bone('shoulder01', -1) || !rig.bone('neck02'))
-      return false;
-    for (const child of this.root.children)
-      if (!PROP_PARTS.some((prefix) => child.name.startsWith(prefix))) child.visible = false;
-    // 模型已是真實身高，抵銷自製人形用的縮放。
-    model.scale.setScalar(1 / this.root.scale.x);
-    model.name = `${this.root.name}-model`;
-    this.root.add(model);
-    this.model = model;
-    this.rig = rig;
-    this.poseModel(rig, model);
-    return true;
-  }
-
-  private poseModel(rig: HumanRig, model: Object3D): void {
-    for (const side of [1, -1] as const) {
-      // 模型綁定姿勢的手臂斜舉約 45°，往下放到身體兩側。
-      rig.bone('shoulder01', side)?.rotation.set(0, 0, -0.5 * side);
-      if (this.seated) {
-        rig.bone('upperleg01', side)?.rotation.set(-1.5, 0, 0);
-        rig.bone('lowerleg01', side)?.rotation.set(1.5, 0, 0);
+      forearm.name = 'forearm';
+      forearm.position.y = -d.forearm / 2;
+      elbow.add(forearm);
+      const wrist = new Group();
+      wrist.name = side < 0 ? 'wrist-pivot' : 'wrist-pivot-right';
+      wrist.position.y = -d.forearm;
+      elbow.add(wrist);
+      const hand = new Mesh(this.geometry(new SphereGeometry(1, 16, 12)), skin);
+      hand.name = 'hand';
+      hand.scale.set(d.hand * 0.85, d.hand, d.hand * 0.7);
+      hand.position.y = -d.hand * 0.6;
+      wrist.add(hand);
+      // 姿勢：自然下垂略張開；坐著手放腿上；拿球時兩手往前抱球。
+      shoulder.rotation.z = side * 0.12;
+      if (seated) {
+        shoulder.rotation.x = -0.25;
+        elbow.rotation.x = -1.05;
+      } else if (holdsBall) {
+        shoulder.rotation.set(-0.35, 0, side * 0.25);
+        elbow.rotation.set(-1.25, 0, -side * 0.35);
+      } else {
+        elbow.rotation.x = -0.15;
       }
+      this.arms.push({ side, shoulder, elbow, wrist });
+      for (const pivot of [shoulder, elbow, wrist]) this.rest.set(pivot, pivot.rotation.clone());
     }
-    // 手肘往前彎：以模型的左右軸為準（上臂轉過後，骨頭自己的 x 軸已經斜了）。
-    const bend = this.seated ? 0.75 : this.holdsBall ? 1.35 : 0;
-    if (bend)
-      for (const side of [1, -1] as const)
-        this.bendInModel(model, rig.bone('lowerarm01', side), X_AXIS, -bend);
-    this.root.updateMatrixWorld(true);
-    const local = (bone: Bone | undefined): Vector3 | null =>
-      bone ? this.root.worldToLocal(bone.getWorldPosition(new Vector3())) : null;
-    if (this.seated) {
-      // 臀部坐在長椅座面上。
-      const hip = local(rig.bone('upperleg01', 1));
-      if (hip) {
-        model.position.y += 0.53 - hip.y;
-        model.position.z += -0.02 - hip.z;
-      }
+    if (holdsBall) {
+      const ball = this.part(
+        'ball',
+        new SphereGeometry(1, 28, 20),
+        accent,
+        ...at(d.waistY + 0.07, 0.17),
+      );
+      ball.scale.setScalar(0.11);
     }
-    if (this.holdsBall) {
-      const left = local(rig.bone('wrist', 1));
-      const right = local(rig.bone('wrist', -1));
-      const ball = this.root.getObjectByName('ball');
-      if (left && right && ball)
-        ball.position.copy(left.add(right).multiplyScalar(0.5)).add(new Vector3(0, -0.02, 0.07));
-    }
-    for (const side of [1, -1] as const)
-      for (const name of ['shoulder01', 'lowerarm01', 'wrist'] as const) {
-        const bone = rig.bone(name, side);
-        if (bone) this.restPose.set(bone, bone.quaternion.clone());
-      }
-    const neck = rig.bone('neck02');
-    if (neck) this.restPose.set(neck, neck.quaternion.clone());
   }
 
-  /** 繞「模型座標」的軸旋轉骨頭（換算到骨頭父節點的座標）。 */
-  private bendInModel(model: Object3D, bone: Bone | undefined, axis: Vector3, angle: number): void {
-    if (!bone?.parent) return;
-    this.root.updateMatrixWorld(true);
-    const modelQuat = model.getWorldQuaternion(new Quaternion());
-    const parentQuat = bone.parent.getWorldQuaternion(new Quaternion());
-    const worldAxis = axis.clone().applyQuaternion(modelQuat);
-    const localAxis = worldAxis.applyQuaternion(parentQuat.invert());
-    bone.quaternion.premultiply(new Quaternion().setFromAxisAngle(localAxis, angle));
+  get expression(): Expression {
+    return this.face.expression;
   }
 
-  /** 以靜止姿勢為基準，再轉一個角度。 */
-  private turnBone(bone: Bone | undefined, axis: Vector3, angle: number): void {
-    const rest = bone ? this.restPose.get(bone) : undefined;
-    if (!bone || !rest) return;
-    bone.quaternion.copy(rest).multiply(this.turn.setFromAxisAngle(axis, angle));
+  /** 換表情；animate 為 false 時立即切換（停用動作、減少動態）。 */
+  setExpression(expression: Expression, animate = true): void {
+    if (this.disposed) return;
+    this.face.setExpression(expression, animate && this.motionEnabled);
   }
 
   setMotionEnabled(enabled: boolean): void {
     this.motionEnabled = enabled;
-    if (!enabled) this.resetGesture();
+    if (!enabled) {
+      this.resetGesture();
+      this.face.setExpression(this.face.expression, false);
+    }
   }
 
   playGesture(gesture: 'wave' | 'nod' | null): void {
@@ -558,30 +433,14 @@ export class ParkCharacter {
     if (!this.disposed && this.motionEnabled) this.gesture = gesture;
   }
 
-  /** 共用引擎模擬 delta，僅單次柔和動作；暫停不更新，不自動循環。 */
+  /** 共用引擎模擬 delta；暫停不更新，不自動循環。 */
   update(delta: number): void {
-    if (this.disposed || !this.gesture || !Number.isFinite(delta) || delta <= 0) return;
+    if (this.disposed || !Number.isFinite(delta) || delta <= 0) return;
+    this.face.update(delta);
+    if (!this.gesture) return;
     const duration = this.gesture === 'wave' ? 2.8 : 1.6;
     this.gestureTime = Math.min(duration, this.gestureTime + Math.min(delta, 0.05));
-    const rig = this.rig;
-    if (rig && this.gesture === 'nod') {
-      this.turnBone(
-        rig.bone('neck02'),
-        X_AXIS,
-        0.2 * Math.sin((Math.PI * this.gestureTime) / duration) ** 2,
-      );
-    } else if (rig) {
-      const ease = (value: number): number => {
-        const t = Math.max(0, Math.min(1, value));
-        return t * t * (3 - 2 * t);
-      };
-      const lift = ease(this.gestureTime / 0.65) * (1 - ease((this.gestureTime - 2.15) / 0.65));
-      const waving = Math.max(0, Math.min(1, (this.gestureTime - 0.65) / 1.5));
-      // -x 側手臂往側上方舉起、前臂朝上，手腕柔和擺兩次；不動頭或相機。
-      this.turnBone(rig.bone('shoulder01', -1), Z_AXIS, -2 * lift);
-      this.turnBone(rig.bone('lowerarm01', -1), Z_AXIS, -0.9 * lift);
-      this.turnBone(rig.bone('wrist', -1), Z_AXIS, 0.35 * Math.sin(waving * Math.PI * 4) * lift);
-    } else if (this.gesture === 'nod') {
+    if (this.gesture === 'nod') {
       this.headPivot.rotation.x = 0.16 * Math.sin((Math.PI * this.gestureTime) / duration) ** 2;
     } else {
       const ease = (value: number): number => {
@@ -589,25 +448,22 @@ export class ParkCharacter {
         return t * t * (3 - 2 * t);
       };
       const lift = ease(this.gestureTime / 0.65) * (1 - ease((this.gestureTime - 2.15) / 0.65));
-      this.armPivot.rotation.z = -1.35 * lift;
-      this.elbowPivot.quaternion.slerpQuaternions(this.neutralElbow, this.raisedElbow, lift);
-      // 到臉旁才開始兩次柔和擺手，不自動循環、不動頭或相機。
       const waving = Math.max(0, Math.min(1, (this.gestureTime - 0.65) / 1.5));
-      this.wristPivot.rotation.z = 1.77 * lift;
-      this.wristPivot.rotation.y = 0.3 * Math.sin(waving * Math.PI * 4) * lift;
+      const arm = this.arms.find((item) => item.side < 0);
+      if (arm) {
+        // -x 側手臂往側上方舉起、前臂朝上，手腕柔和擺兩次；不動頭或相機。
+        const restShoulder = this.rest.get(arm.shoulder);
+        const restElbow = this.rest.get(arm.elbow);
+        if (restShoulder && restElbow) {
+          arm.shoulder.rotation.set(restShoulder.x * (1 - lift), 0, restShoulder.z - 2.25 * lift);
+          arm.elbow.rotation.set(restElbow.x * (1 - lift), 0, -0.85 * lift);
+        }
+        arm.wrist.rotation.z = 0.4 * Math.sin(waving * Math.PI * 4) * lift;
+      }
     }
     if (this.gestureTime >= duration) this.resetGesture();
   }
 
-  private resetGesture(): void {
-    this.gesture = null;
-    this.gestureTime = 0;
-    this.headPivot.rotation.x = 0;
-    this.armPivot.rotation.z = 0;
-    this.elbowPivot.quaternion.identity();
-    this.wristPivot.rotation.set(0, 0, 0);
-    for (const [bone, rest] of this.restPose) bone.quaternion.copy(rest);
-  }
   distanceTo(position: Vector3Like): number {
     return Math.hypot(position.x - this.obstacle.x, position.z - this.obstacle.z);
   }
@@ -621,22 +477,169 @@ export class ParkCharacter {
     if (this.disposed) return;
     this.disposed = true;
     this.resetGesture();
-    this.faceTexture.dispose();
-    if (this.model) disposeModel(this.model);
-    this.model = null;
-    this.rig = null;
-    this.restPose.clear();
+    this.face.dispose();
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
     this.headPivot.clear();
-    this.wristPivot.clear();
-    this.elbowPivot.clear();
-    this.armPivot.clear();
     this.root.clear();
     this.root.removeFromParent();
   }
 
-  private addPart(
+  private resetGesture(): void {
+    this.gesture = null;
+    this.gestureTime = 0;
+    this.headPivot.rotation.x = 0;
+    for (const [pivot, rotation] of this.rest) pivot.rotation.copy(rotation);
+  }
+
+  private buildBench(wood: MeshStandardMaterial, metal: MeshStandardMaterial): void {
+    for (let slat = 0; slat < 4; slat += 1) {
+      this.part(
+        'bench-seat',
+        new BoxGeometry(1.8, 0.065, 0.105),
+        wood,
+        0,
+        0.45,
+        -0.18 + slat * 0.12,
+      );
+      this.part('bench-back', new BoxGeometry(1.8, 0.1, 0.065), wood, 0, 0.61 + slat * 0.13, -0.25);
+    }
+    for (const x of [-0.82, 0.82]) {
+      this.part('bench-arm', new BoxGeometry(0.08, 0.06, 0.46), wood, x, 0.65, 0);
+      this.part('bench-arm-support', new BoxGeometry(0.06, 0.2, 0.06), wood, x, 0.54, 0.12);
+    }
+    for (const x of [-0.7, 0.7])
+      for (const z of [-0.15, 0.15])
+        this.part('bench-leg', new BoxGeometry(0.09, 0.4, 0.09), metal, x, 0.2, z);
+  }
+
+  /** 卡通髮型：都是圓潤的大塊形狀，臉部保持露出。 */
+  private buildHair(
+    head: Group,
+    r: Vector3,
+    style: HairStyle,
+    hair: MeshStandardMaterial,
+    accent: MeshStandardMaterial,
+  ): void {
+    const add = (name: string, geometry: BufferGeometry, material = hair): Mesh => {
+      const mesh = new Mesh(this.geometry(geometry), material);
+      mesh.name = name;
+      head.add(mesh);
+      return mesh;
+    };
+    // 頭頂髮帽：向後傾，前面髮際線在額頭上方、後面蓋到後頸。
+    const cap = add('hair', new SphereGeometry(1, 40, 20, 0, Math.PI * 2, 0, 1.46));
+    cap.scale.set(r.x * 1.07, r.y * 1.08, r.z * 1.1);
+    cap.rotation.x = -0.42;
+    const front = Math.PI / 2;
+    if (style === 'short' || style === 'bob') {
+      // 瀏海：前額一圈，停在眉毛上方。
+      const fringe = add(
+        'hair-fringe',
+        new SphereGeometry(1, 28, 6, front - 0.95, 1.9, 0.62, style === 'bob' ? 0.55 : 0.42),
+      );
+      fringe.scale.set(r.x * 1.09, r.y * 1.08, r.z * 1.12);
+      fringe.rotation.x = -0.12;
+    }
+    if (style === 'short') {
+      for (let i = 0; i < 3; i += 1) {
+        const tuft = add('hair-tuft', new SphereGeometry(1, 16, 10));
+        tuft.position.set(r.x * (-0.35 + i * 0.32), r.y * 0.62, r.z * 0.78);
+        tuft.scale.set(r.x * 0.26, r.y * 0.16, r.z * 0.14);
+        tuft.rotation.z = 0.5;
+      }
+    }
+    if (style === 'spiky') {
+      // 幾撮往上翹的頭髮，圓頭錐形，不尖銳。
+      const spikes: [number, number][] = [
+        [0, 0.15],
+        [-0.45, 0.35],
+        [0.45, 0.35],
+        [-0.25, -0.15],
+        [0.25, -0.15],
+        [0, -0.5],
+        [-0.6, -0.25],
+        [0.6, -0.25],
+      ];
+      for (const [a, tilt] of spikes) {
+        const spike = add('hair-spike', new ConeGeometry(r.x * 0.3, r.y * 0.55, 12));
+        const dir = new Vector3(Math.sin(a) * 0.7, 1, 0.55 + tilt).normalize();
+        spike.position.copy(dir.clone().multiply(r).multiplyScalar(1.12));
+        spike.quaternion.setFromUnitVectors(new Vector3(0, 1, 0), dir);
+        spike.rotateOnAxis(X, -0.35);
+      }
+      const fringe = add('hair-fringe', new SphereGeometry(1, 24, 6, front - 0.8, 1.6, 0.62, 0.32));
+      fringe.scale.set(r.x * 1.09, r.y * 1.08, r.z * 1.12);
+    }
+    if (style === 'bob') {
+      // 鮑伯頭：側面與後面蓬蓬地垂到下巴，前面留出臉。
+      const bob = add(
+        'hair-bob',
+        new SphereGeometry(1, 40, 20, front + 1.05, Math.PI * 2 - 2.1, 0.2, 1.85),
+      );
+      bob.scale.set(r.x * 1.16, r.y * 1.1, r.z * 1.14);
+      bob.position.y = -r.y * 0.06;
+      const clip = add('hair-clip', new CapsuleGeometry(r.x * 0.05, r.x * 0.18, 4, 8), accent);
+      clip.position.set(r.x * 0.62, r.y * 0.6, r.z * 0.62);
+      clip.rotation.z = -0.9;
+    }
+    if (style === 'ponytail') {
+      // 往後梳、旁分瀏海，後腦綁一束馬尾。
+      const sweep = add('hair-fringe', new SphereGeometry(1, 20, 12));
+      sweep.position.set(-r.x * 0.22, r.y * 0.62, r.z * 0.72);
+      sweep.scale.set(r.x * 0.62, r.y * 0.2, r.z * 0.28);
+      sweep.rotation.set(-0.5, 0, 0.35);
+      const back = add('hair-back', new SphereGeometry(1, 28, 18));
+      back.position.set(0, -r.y * 0.05, -r.z * 0.3);
+      back.scale.set(r.x * 1.04, r.y * 0.98, r.z * 0.85);
+      const tie = add('hair-tie', new TorusGeometry(r.x * 0.12, r.x * 0.04, 8, 16), accent);
+      tie.position.set(0, -r.y * 0.25, -r.z * 1.12);
+      for (let i = 0; i < 3; i += 1) {
+        const tail = add('hair-ponytail', new SphereGeometry(1, 18, 14));
+        tail.position.set(0, -r.y * (0.42 + i * 0.3), -r.z * (1.18 + i * 0.04));
+        tail.scale.set(r.x * (0.22 - i * 0.03), r.y * 0.26, r.z * (0.2 - i * 0.025));
+      }
+    }
+  }
+
+  /** 兩點之間的膠囊。 */
+  private limb(
+    name: string,
+    from: Vector3,
+    to: Vector3,
+    radius: number,
+    material: MeshStandardMaterial,
+  ): Mesh {
+    const direction = to.clone().sub(from);
+    const length = direction.length();
+    const mid = from.clone().add(to).multiplyScalar(0.5);
+    const mesh = this.part(
+      name,
+      new CapsuleGeometry(radius, Math.max(0.001, length), 6, 14),
+      material,
+      mid.x,
+      mid.y,
+      mid.z,
+    );
+    mesh.quaternion.setFromUnitVectors(new Vector3(0, 1, 0), direction.normalize());
+    return mesh;
+  }
+
+  private lathe(points: readonly (readonly [number, number])[]): LatheGeometry {
+    return new LatheGeometry(
+      new CatmullRomCurve3(points.map(([radius, height]) => new Vector3(radius, height, 0)))
+        .getPoints(48)
+        .map((point) => new Vector2(Math.max(0, point.x), point.y)),
+      32,
+    );
+  }
+
+  private geometry<T extends BufferGeometry>(geometry: T): T {
+    this.geometries.push(geometry);
+    return geometry;
+  }
+
+  private part(
     name: string,
     geometry: BufferGeometry,
     material: MeshStandardMaterial,
@@ -644,12 +647,11 @@ export class ParkCharacter {
     y: number,
     z: number,
   ): Mesh {
-    this.geometries.push(geometry);
-    const part = new Mesh(geometry, material);
-    part.name = name;
-    part.position.set(x, y, z);
-    this.root.add(part);
-    return part;
+    const mesh = new Mesh(this.geometry(geometry), material);
+    mesh.name = name;
+    mesh.position.set(x, y, z);
+    this.root.add(mesh);
+    return mesh;
   }
 }
 

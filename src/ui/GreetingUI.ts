@@ -1,6 +1,6 @@
 import { PARK_SCENARIOS } from '../dialogue/ParkScenarios';
 import { DialogueSession } from '../dialogue/Scenario';
-import type { Gesture, Scenario } from '../dialogue/Scenario';
+import type { Expression, Gesture, Scenario } from '../dialogue/Scenario';
 import { annotatedText, decorateButton } from './GreetingPresentation';
 
 const SCENARIOS: Readonly<Record<string, Scenario<string>>> = PARK_SCENARIOS;
@@ -21,9 +21,11 @@ export class GreetingUI {
     private readonly panel: HTMLElement,
     private readonly launch: HTMLButtonElement,
     private readonly onActive: (active: boolean) => void,
+    /** 進入節點時對方的動作與表情；null 代表結束對話，所有人回到平常的表情。 */
     private readonly onGesture: (
       gesture: Gesture | null,
       characterId: string | null,
+      expression: Expression | null,
     ) => void = () => {},
   ) {
     for (const button of panel.querySelectorAll<HTMLButtonElement>('button[data-greeting]')) {
@@ -97,12 +99,18 @@ export class GreetingUI {
     this.focusBeforePause = null;
     this.focusBeforeHelp = null;
     this.onActive(false);
-    this.onGesture(null, null);
+    this.onGesture(null, null, null);
     this.render();
   }
 
   private playGesture(): void {
-    this.onGesture(this.session?.current?.gesture ?? null, this.talkingTo);
+    const current = this.session?.current;
+    // 回到公園（沒有節點）時表情也回到平常。
+    this.onGesture(
+      current?.gesture ?? null,
+      this.talkingTo,
+      current ? (current.expression ?? 'neutral') : null,
+    );
   }
 
   private updateLaunch(): void {

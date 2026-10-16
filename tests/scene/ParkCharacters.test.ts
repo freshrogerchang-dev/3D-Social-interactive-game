@@ -30,15 +30,22 @@ describe('公園人物配置', () => {
     park.dispose();
   });
 
-  it('站姿人物腿伸直、頭比坐姿高；預設仍是長椅上的小安', () => {
+  it('站姿人物腳踩地面；坐姿人物坐在長椅上；預設仍是長椅上的小安', () => {
     const seated = new ParkCharacter();
     const standing = new ParkCharacter({ id: 'test', pose: 'standing', prop: 'ball' });
-    const headY = (character: ParkCharacter): number => {
+    const box = (character: ParkCharacter, name: string): Box3 => {
       character.root.updateMatrixWorld(true);
-      return new Box3().setFromObject(character.root.getObjectByName('head') ?? character.root).max
-        .y;
+      const box = new Box3();
+      character.root.traverse((object) => {
+        if (object.name === name) box.union(new Box3().setFromObject(object));
+      });
+      return box;
     };
-    expect(headY(standing)).toBeGreaterThan(headY(seated) + 0.15);
+    expect(box(standing, 'shoe').min.y).toBeGreaterThanOrEqual(-0.01);
+    expect(box(standing, 'shoe').min.y).toBeLessThan(0.03);
+    // 坐姿：臀部在座面（0.45 m）上方，鞋子懸空。
+    expect(box(seated, 'hips').min.y).toBeGreaterThan(0.4);
+    expect(box(seated, 'shoe').min.y).toBeGreaterThan(0.1);
     expect(seated.root.getObjectByName('bench-seat')).toBeInstanceOf(Mesh);
     expect(standing.root.getObjectByName('bench-seat')).toBeUndefined();
     expect(standing.root.getObjectByName('ball')).toBeInstanceOf(Mesh);
@@ -46,6 +53,25 @@ describe('公園人物配置', () => {
     expect(standing.root.name).toBe('park-friend-test');
     seated.dispose();
     standing.dispose();
+  });
+
+  it('大人比例：媽媽比小孩高，頭佔身高的比例較小', () => {
+    const kid = new ParkCharacter({ pose: 'standing' });
+    const adult = new ParkCharacter({ pose: 'standing', look: { adult: true } });
+    const measure = (character: ParkCharacter) => {
+      character.root.updateMatrixWorld(true);
+      const all = new Box3().setFromObject(character.root);
+      const head = new Box3().setFromObject(
+        character.root.getObjectByName('head') ?? character.root,
+      );
+      return { height: all.max.y, head: head.max.y - head.min.y };
+    };
+    const k = measure(kid);
+    const a = measure(adult);
+    expect(a.height).toBeGreaterThan(k.height + 0.3);
+    expect(a.head / a.height).toBeLessThan(k.head / k.height);
+    kid.dispose();
+    adult.dispose();
   });
 
   it('dispose 釋放所有人物與設施，可重複呼叫', () => {
@@ -97,6 +123,22 @@ describe('引擎與多位人物', () => {
     park.camera.position.set(-3, 1.1, -6);
     scheduler.tick(1000);
     expect(presence.at(-1)).toBeNull();
+    engine.dispose();
+  });
+
+  it('表情只給正在對話的人物；null 與返回安全區讓所有人回到平常的表情', async () => {
+    const { engine } = await running();
+    const park = (engine as unknown as { park: ParkScene }).park;
+    const mom = park.characters.find((c) => c.id === 'mom');
+    engine.setNPCExpression('thinking', 'mom', false);
+    expect(mom?.expression).toBe('thinking');
+    expect(park.characters.filter((c) => c.expression !== 'neutral')).toEqual([mom]);
+    engine.setNPCExpression(null);
+    expect(park.characters.every((c) => c.expression === 'neutral')).toBe(true);
+    engine.setNPCExpression('happy');
+    expect(park.npc.expression).toBe('happy');
+    engine.returnToSafety();
+    expect(park.npc.expression).toBe('neutral');
     engine.dispose();
   });
 

@@ -1,6 +1,8 @@
 /** 對話資料模型：所有情境共用同一套節點與轉移規則（03 §3.1 不變條件）。 */
 export type Outcome = 'finished' | 'skipped' | 'exited';
 export type Gesture = 'wave' | 'nod';
+/** 對方的臉部表情；表示對方自己的感受，不評價孩子的選擇。 */
+export type Expression = 'neutral' | 'happy' | 'excited' | 'thinking' | 'surprised' | 'worried';
 export type ChoiceIcon = 'speech' | 'nod' | 'park' | 'repeat' | 'exit' | 'done' | 'pause';
 
 export interface DialogueChoice<Id extends string> {
@@ -17,6 +19,8 @@ export interface DialogueNode<Id extends string> {
   readonly help: readonly string[];
   /** 進入節點時對方做一次的動作；不自動循環。 */
   readonly gesture?: Gesture;
+  /** 進入節點時對方的表情；省略為平常的微笑。 */
+  readonly expression?: Expression;
   /** 明確結束或先不參與的節點；返回安全區一律記為 exited。 */
   readonly outcome?: 'finished' | 'skipped';
 }
