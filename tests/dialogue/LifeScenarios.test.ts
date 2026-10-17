@@ -132,8 +132,60 @@ describe('生活練習：具體安全路徑', () => {
     const s = travel(['外出吃飯', '繼續吃', '結束練習', '換個情境']);
     expect(s.outcome).toBeNull();
     s.choose(3);
+    expect(s.node).toBe('menu-extra');
+    s.choose(0);
+    s.choose(3);
     expect(s.outcome).toBe('skipped');
     s.exit();
     expect(s.outcome).toBe('exited');
+  });
+});
+
+describe('新生活情境：自主選擇與保護界線', () => {
+  const more = ['更多情境'];
+  it('兩頁選單都能返回，原三情境與新三情境均可達', () => {
+    expect(travel([...more, '上一頁']).node).toBe('menu');
+    for (const label of ['太吵人多', '身體界線', '計畫改變'])
+      expect(travel([...more, label, '先不參與']).outcome).toBe('skipped');
+  });
+  it('太吵時說的與手指對等；不必接受輔具或返回人群', () => {
+    expect(nodes['sensory-start'].choices[0]?.target).toBe(
+      nodes['sensory-start'].choices[1]?.target,
+    );
+    for (const path of [
+      ['太吵人多', '想離開', '結束練習'],
+      ['太吵人多', '說太吵', '熟悉輔具', '先不用', '結束練習'],
+      ['太吵人多', '用手指', '熟悉輔具', '試看看', '還不舒服', '結束練習'],
+    ])
+      expect(travel([...more, ...path]).outcome).toBe('finished');
+    expect(nodes['sensory-rest'].line).toBe('可以先不回去。');
+  });
+  it('拒絕與揮手都被尊重，對方未停下可離開求助，不責怪孩子', () => {
+    for (const way of ['說不要', '揮手代替']) {
+      expect(travel([...more, '身體界線', way, '結束練習']).outcome).toBe('finished');
+      for (const help of ['說停下', '找媽媽', '先離開'])
+        expect(travel([...more, '身體界線', way, '如果沒停', help]).node).toBe('boundary-help');
+    }
+    expect(nodes['boundary-help'].help).toContain('對方沒停下不是你的責任。');
+    for (const [id, node] of Object.entries(nodes))
+      if (id.startsWith('boundary-')) {
+        expect(node.expression).toBe('neutral');
+        expect(node.gesture).toBeUndefined();
+        expect(JSON.stringify(node)).not.toMatch(/讓.*難過|應該.*抱|一定要.*親/);
+      }
+  });
+  it('計畫改變的三種情況都容許失望、休息、不決定；餐點可不買', () => {
+    for (const situation of ['下雨了', '遊具維修', '餐點賣完']) {
+      expect(travel([...more, '計畫改變', situation, '說失望', '先休息', '結束練習']).outcome).toBe(
+        'finished',
+      );
+      expect(travel([...more, '計畫改變', situation, '問下一步', '先不決定']).node).toBe(
+        'change-rest',
+      );
+    }
+    expect(travel([...more, '計畫改變', '餐點賣完', '先不買']).outcome).toBe('finished');
+    expect(nodes['change-feeling'].prompts).toContain('不必馬上變得開心。');
+    for (const [id, node] of Object.entries(nodes))
+      if (id.startsWith('change-')) expect(node.expression).toBe('neutral');
   });
 });

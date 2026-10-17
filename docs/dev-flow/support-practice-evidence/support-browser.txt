@@ -1,0 +1,30 @@
+$ node docs/dev-flow/support-practice-browser.mjs /tmp/support-local
+PASS 新情境不會自動開始
+PASS 第二頁列出三個新情境與上一頁
+PASS 可以回到原三個情境
+PASS sensory 示意圖與節點一致
+PASS 輔具仍不舒服可以離開
+PASS 休息不要求返回人群
+PASS boundary 示意圖與節點一致
+PASS 拒絕後對方保持距離
+PASS 暫停仍隱藏情境並保留安全介面
+PASS 恢復保留幫助與焦點
+PASS 關閉幫助回到原按鈕
+PASS 對方沒停可求助與拉開距離
+PASS 揮手代替也受到尊重
+PASS changes 示意圖與節點一致
+PASS 不買也能中性結束
+PASS 下雨可說失望，不要求開心
+PASS 遊具維修可暫不決定
+PASS 語音未唸完仍能選擇且舊播報取消
+PASS 320x360 選項至少64px且可捲動命中
+PASS 320x360 安全按鈕可命中
+PASS 844x390 選項至少64px且可捲動命中
+PASS 844x390 安全按鈕可命中
+PASS 跳過後恢復圓盤與入口焦點
+PASS 安全區退出不恢復舊節點
+PASS 重新開啟仍從首頁選單開始
+PASS 三張新插圖HTTP200
+PASS 無未處理例外
+27/27 passed
+exit 0

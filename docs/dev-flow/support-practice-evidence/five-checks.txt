@@ -1,0 +1,71 @@
+$ node -v
+v22.22.0
+exit 0
+
+$ npm -v
+10.9.4
+exit 0
+
+$ npm run typecheck
+
+> social-interactive-game@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json
+
+exit 0
+
+$ npm run lint
+
+> social-interactive-game@0.0.0 lint
+> eslint .
+
+exit 0
+
+$ npm run format:check
+
+> social-interactive-game@0.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+exit 0
+
+$ npm run test
+
+> social-interactive-game@0.0.0 test
+> vitest run
+
+
+ RUN  v5.0.3 /workspace/3D-Social-interactive-game
+
+
+ Test Files  14 passed (14)
+      Tests  139 passed (139)
+   Start at  13:19:07
+   Duration  14.99s (tests 82%, import 10%, transform 7%, worker 1%)
+
+    Isolate  14 workers spawned · ~204ms startup each (spawn + environment, per file)
+             at least ~2.65s faster with isolate: false — reuses workers across files instead of one per file
+
+exit 0
+
+$ npm run build
+
+> social-interactive-game@0.0.0 build
+> vite build
+
+vite v8.3.3 building client environment for production...
+transforming...
+✓ 28 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   8.70 kB │ gzip:   2.49 kB
+dist/assets/index-DHKMIfRY.css    9.04 kB │ gzip:   2.49 kB
+dist/assets/index-D_Pa0RSV.js   675.81 kB │ gzip: 177.18 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 577ms
+exit 0

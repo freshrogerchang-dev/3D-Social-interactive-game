@@ -29,7 +29,7 @@ try {
   await button('返回安全區').tap();await button('繼續').tap();
   check(`${label} 退出後恢復操作`,await launch.isVisible()&&await page.locator('#movement-pad').isVisible());await launch.tap();
  }
- await button('先不參與').tap();await button('回公園').tap();
+ await button('過馬路').tap();await button('先不參與').tap();await button('回公園').tap();
  await page.locator('#movement-controls summary').tap();await page.locator('#performance-check').check();await page.locator('#movement-controls summary').tap();
  for(const size of[{width:320,height:360},{width:844,height:390}]){
   await page.setViewportSize(size);await page.waitForTimeout(200);

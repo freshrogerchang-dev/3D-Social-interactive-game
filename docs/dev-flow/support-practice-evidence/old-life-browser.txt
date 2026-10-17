@@ -1,0 +1,13 @@
+$ node docs/dev-flow/life-practice-smoke.mjs /tmp/support-old-life
+PASS 過馬路 的正式頁面與插圖可載入
+PASS 過馬路 退出後恢復操作
+PASS 外出吃飯 的正式頁面與插圖可載入
+PASS 外出吃飯 退出後恢復操作
+PASS 上廁所 的正式頁面與插圖可載入
+PASS 上廁所 退出後恢復操作
+PASS 320x360 開啟FPS後生活入口可命中
+PASS 844x390 開啟FPS後生活入口可命中
+PASS 插圖資源 HTTP 200
+PASS 無未處理例外
+10/10 passed
+exit 0

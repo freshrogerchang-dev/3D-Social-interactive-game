@@ -1,7 +1,11 @@
+import { SUPPORT_NODES } from './SupportScenarios';
+import type { SupportNode } from './SupportScenarios';
 import type { DialogueChoice, DialogueNode, Scenario } from './Scenario';
 
 /** 生活練習 v0.1，待專業審查；都是示意情境，不要求孩子實際執行身體動作。 */
 type LifeNode =
+  | SupportNode
+  | 'menu-extra'
   | 'menu'
   | 'skipped'
   | 'road-start'
@@ -71,9 +75,21 @@ export const LIFE_SCENARIO: Scenario<LifeNode> = {
         choice('過馬路', 'road-start'),
         choice('外出吃飯', 'dining-start'),
         choice('上廁所', 'toilet-start'),
-        skip,
+        choice('更多情境', 'menu-extra', 'repeat'),
       ],
       help: ['這裡是練習示意。', '可以求助或隨時退出。'],
+    },
+    ...SUPPORT_NODES,
+    'menu-extra': {
+      line: '',
+      prompts: ['你想練習哪個情境？'],
+      choices: [
+        choice('太吵人多', 'sensory-start'),
+        choice('身體界線', 'boundary-start'),
+        choice('計畫改變', 'change-start'),
+        choice('上一頁', 'menu', 'repeat'),
+      ],
+      help: ['可以拒絕、求助或先休息。', '也能按上一頁回去。'],
     },
     skipped: {
       line: '',
