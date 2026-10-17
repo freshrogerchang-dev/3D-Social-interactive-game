@@ -454,3 +454,7 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。不宣
 - 所有新內容、注音、真實語音與iPhone操作仍待驗證／專業審查；不宣稱完整S5通過，不進下一路線圖階段。
 
 - 新情境本機瀏覽器27/27、原三情境整合10/10，各exit0；含幫助／暫停焦點、跳過後恢復操作、安全區退出、短畫面命中與所有插圖載入。證據support-practice-evidence/local、old-life；手機實測仍待完成。
+
+- 第二批產品提交101d54466f92add5926f711b0fa791ebb3a0aaa9已推送，Actions run39037867760 build／deploy success；公開網站已有新選單，公開互動檢查另記結果。沒有開PR、推main或進其他路線圖階段。
+
+- 第二批公開Pages互動27/27、exit0，三張新SVG HTTP200、短畫面安全控制與選項命中、跳過／安全區退出、語音取消與幫助焦點均通過；證據support-practice-evidence/published。使用者可從「生活練習→更多情境」進入。真實iPhone／語音試聽、VoiceOver及專業審查仍待完成。

@@ -41,3 +41,9 @@ node docs/dev-flow/life-practice-smoke.mjs /tmp/support-old-life
 初次瀏覽器路徑檢查已跑到最後，但腳本彙整插圖時誤把已存成字串的url欄位當作函式，因而exit1；修正的是docs腳本，不是產品或檢查門檻，已重跑。最後另把身體界線起始句明確化為「你不想被親友抱或親」，五項工程已按最終文字重跑全部exit0，公開檢查會涵蓋最終版本。
 
 本機新情境27/27、exit0；原三個生活情境整合10/10、exit0（含短畫面開FPS後入口命中）。證據support-practice-evidence/local及old-life，輸出support-browser.txt／old-life-browser.txt。新情境的幫助焦點、暫停恢復、跳過後移動與焦點、安全區退出、三張新圖HTTP200及pageerror均通過。這是軟體繪圖瀏覽器，不代表iPhone或VoiceOver驗證。
+
+## 發布
+
+產品提交101d54466f92add5926f711b0fa791ebb3a0aaa9已推送main-uv12jr；GitHub Actions [run39037867760](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/39037867760) build／deploy均success。公開網址 https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。本輪沒有開PR或推main。
+
+公開Pages按最終版本執行`SUPPORT_URL=https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ node docs/dev-flow/support-practice-browser.mjs /tmp/support-published`：27/27、exit0。三張新圖HTTP200、兩頁選單、三情境各分支、幫助／暫停焦點、語音取消不阻擋選擇、短畫面命中、跳過及安全區退出均通過，pageerror=[]。公開身體界線起始句已確認是「你不想被親友抱或親」，截圖已檢視，證據support-practice-evidence/published。以上不是實機、實際語音試聽或專業審查。

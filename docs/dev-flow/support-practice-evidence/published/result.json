@@ -1,0 +1,134 @@
+{
+  "node": "v22.22.0",
+  "chromium": "154.0.8037.57",
+  "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/",
+  "checks": [
+    {
+      "name": "新情境不會自動開始",
+      "pass": true
+    },
+    {
+      "name": "第二頁列出三個新情境與上一頁",
+      "pass": true
+    },
+    {
+      "name": "可以回到原三個情境",
+      "pass": true
+    },
+    {
+      "name": "sensory 示意圖與節點一致",
+      "pass": true
+    },
+    {
+      "name": "輔具仍不舒服可以離開",
+      "pass": true
+    },
+    {
+      "name": "休息不要求返回人群",
+      "pass": true
+    },
+    {
+      "name": "boundary 示意圖與節點一致",
+      "pass": true
+    },
+    {
+      "name": "拒絕後對方保持距離",
+      "pass": true
+    },
+    {
+      "name": "暫停仍隱藏情境並保留安全介面",
+      "pass": true
+    },
+    {
+      "name": "恢復保留幫助與焦點",
+      "pass": true
+    },
+    {
+      "name": "關閉幫助回到原按鈕",
+      "pass": true
+    },
+    {
+      "name": "對方沒停可求助與拉開距離",
+      "pass": true
+    },
+    {
+      "name": "揮手代替也受到尊重",
+      "pass": true
+    },
+    {
+      "name": "changes 示意圖與節點一致",
+      "pass": true
+    },
+    {
+      "name": "不買也能中性結束",
+      "pass": true
+    },
+    {
+      "name": "下雨可說失望，不要求開心",
+      "pass": true
+    },
+    {
+      "name": "遊具維修可暫不決定",
+      "pass": true
+    },
+    {
+      "name": "語音未唸完仍能選擇且舊播報取消",
+      "pass": true
+    },
+    {
+      "name": "320x360 選項至少64px且可捲動命中",
+      "pass": true
+    },
+    {
+      "name": "320x360 安全按鈕可命中",
+      "pass": true
+    },
+    {
+      "name": "844x390 選項至少64px且可捲動命中",
+      "pass": true
+    },
+    {
+      "name": "844x390 安全按鈕可命中",
+      "pass": true
+    },
+    {
+      "name": "跳過後恢復圓盤與入口焦點",
+      "pass": true
+    },
+    {
+      "name": "安全區退出不恢復舊節點",
+      "pass": true
+    },
+    {
+      "name": "重新開啟仍從首頁選單開始",
+      "pass": true
+    },
+    {
+      "name": "三張新插圖HTTP200",
+      "pass": true
+    },
+    {
+      "name": "無未處理例外",
+      "pass": true
+    }
+  ],
+  "illustrations": [
+    {
+      "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/assets/practice/sensory.svg",
+      "status": 200
+    },
+    {
+      "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/assets/practice/boundary.svg",
+      "status": 200
+    },
+    {
+      "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/assets/practice/changes.svg",
+      "status": 200
+    },
+    {
+      "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/assets/practice/boundary.svg",
+      "status": 200
+    }
+  ],
+  "errors": []
+}
