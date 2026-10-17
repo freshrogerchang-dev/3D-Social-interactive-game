@@ -28,7 +28,7 @@
 
 ## 功能實作狀態（路線圖 Phase 0–10）
 
-Phase 0（設定）與 Phase 1（引擎骨架）已建立並通過自動化檢查（04）；Phase 2 第一人稱移動已實作並通過工程驗證（phase2-build-log.md），收到新版手機部分正常回報；Phase 3 已加入固定坐姿 NPC 工程人形與個人空間阻擋（phase3-build-log.md），寫實素材及實機待驗證；Phase 4 已擴充為公園七位人物情境、注音、卡通表情及裝置內建語音；本輪新增三個生活練習示意情境。新版實機與專業審查待完成。Phase 5–10 未開始：5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
+Phase 0（設定）與 Phase 1（引擎骨架）已建立並通過自動化檢查（04）；Phase 2 第一人稱移動已實作並通過工程驗證（phase2-build-log.md），收到新版手機部分正常回報；Phase 3 已擴充為七位可對話卡通人物與背景小朋友，保留個人空間阻擋（最新情境見 park-more-scenarios-build-log.md），新版實機待驗證；Phase 4 已擴充為公園七位人物情境、注音、卡通表情及裝置內建語音；本輪新增三個生活練習示意情境。新版實機與專業審查待完成。Phase 5–10 未開始：5 情緒調節、6 無障礙、7 資源效能、8 進度資料、9 內容、10 測試打磨。
 
 S1 完成不代表 Phase 0 或 Phase 1 完成；S4 不等於路線圖 Phase 4。安全控制與基本無障礙須從 Phase 0–1 建立，不等到 Phase 6 或 Phase 10。
 
@@ -441,3 +441,5 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。不宣
 - 既有打招呼24/24、語音11/11、安全控制15/15回歸各exit0，見 life-practice-evidence/regression。語音為替身驗證，實際試聽待完成。
 
 - 最後入口排版檢查抓到短畫面FPS遮擋生活按鈕，已改放左上空位。僅此CSS調整後重跑五項工程各exit0及最終整合10/10、exit0（四張SVG HTTP200、三情境安全退出、兩種短畫面FPS入口命中），見 life-practice-evidence/final-integration。前述31／24／11／15項在此FPS位置調整前執行，流程及資源所有權未改。
+
+- 發布提交23ec04609c4d309e27df409e36e34a489b7def0d，Actions run39034810793 build／deploy success。公開網站生活練習整合10/10、exit0，四張SVG HTTP200、三情境可開啟及安全退出，短畫面FPS不擋入口；證據 life-practice-evidence/published。新版iPhone／實際語音及專業審查仍未驗證。

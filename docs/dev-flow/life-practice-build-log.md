@@ -52,3 +52,11 @@ node docs/dev-flow/life-practice-browser.mjs /tmp/life-evidence
 補充排版檢查初次8/10：確實發現320×360與844×390在開啟FPS後，數字覆蓋生活入口。產品CSS已把短畫面FPS移到左上方（安全列下、圓盤上），未放寬命中檢查。原31項生活流程與24＋11＋15回歸在這個僅FPS位置調整前執行；最終版本另重跑五項工程與整合／入口命中檢查。
 
 最終版本 `life-practice-smoke.mjs /tmp/life-smoke-final`：10/10、exit0，三情境及四張SVG均HTTP200，三情境安全退出後恢復圓盤；320×360與844×390開啟FPS後生活入口仍可命中。修正後短畫面截圖已檢視，證據 life-practice-evidence/final-integration。最終五項工程檢查亦全部exit0（14檔135測試），輸出已覆寫為最終版本。
+
+## 公開發布
+
+產品提交 23ec04609c4d309e27df409e36e34a489b7def0d 已推送到 main-uv12jr。GitHub Actions [run 39034810793](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/39034810793) build／deploy 均 success。
+
+公開 https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 已提供新的生活入口、JS index-Bh0_8fOZ.js 與 CSS index-DHKMIfRY.css。設定 LIFE_URL 為此網址，執行 `node docs/dev-flow/life-practice-smoke.mjs /tmp/life-published`：10/10、exit0；三情境可開啟及安全退出、四張SVG HTTP200、兩種短畫面開FPS後入口可命中、pageerror=[]。證據 life-practice-evidence/published，截圖已檢視。
+
+以上是雲端 Chromium／SwiftShader，不代表 iPhone、VoiceOver、語音試聽或專業審查通過。最後文件提交也會觸發原有 Pages 流程，產品內容相同。
