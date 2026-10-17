@@ -1,0 +1,66 @@
+{
+  "node": "v22.22.0",
+  "chromium": "154.0.8037.57",
+  "url": "local dist",
+  "checks": [
+    {
+      "name": "過馬路 的正式頁面與插圖可載入",
+      "pass": true
+    },
+    {
+      "name": "過馬路 退出後恢復操作",
+      "pass": true
+    },
+    {
+      "name": "外出吃飯 的正式頁面與插圖可載入",
+      "pass": true
+    },
+    {
+      "name": "外出吃飯 退出後恢復操作",
+      "pass": true
+    },
+    {
+      "name": "上廁所 的正式頁面與插圖可載入",
+      "pass": true
+    },
+    {
+      "name": "上廁所 退出後恢復操作",
+      "pass": true
+    },
+    {
+      "name": "320x360 開啟FPS後生活入口可命中",
+      "pass": true
+    },
+    {
+      "name": "844x390 開啟FPS後生活入口可命中",
+      "pass": true
+    },
+    {
+      "name": "插圖資源 HTTP 200",
+      "pass": true
+    },
+    {
+      "name": "無未處理例外",
+      "pass": true
+    }
+  ],
+  "loaded": [
+    {
+      "url": "http://life-smoke.local/assets/practice/crossing.svg",
+      "status": 200
+    },
+    {
+      "url": "http://life-smoke.local/assets/practice/dining.svg",
+      "status": 200
+    },
+    {
+      "url": "http://life-smoke.local/assets/practice/toilet.svg",
+      "status": 200
+    },
+    {
+      "url": "http://life-smoke.local/assets/practice/crossing-green.svg",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

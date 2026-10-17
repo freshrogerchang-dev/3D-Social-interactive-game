@@ -1,3 +1,4 @@
+import { LIFE_SCENARIO } from './LifeScenarios';
 import { PARK_SCENARIOS } from './ParkScenarios';
 import type { Expression, Scenario } from './Scenario';
 
@@ -37,10 +38,11 @@ export function nodeVoice(
 /** 所有情境要產生的語音（去除重複）；離線產生工具與測試共用。 */
 export function voiceLines(): VoiceLine[] {
   const seen = new Map<string, VoiceLine>();
-  for (const [speaker, scenario] of Object.entries(PARK_SCENARIOS) as [
-    Speaker,
-    Scenario<string>,
-  ][]) {
+  const scenarios: [Speaker, Scenario<string>][] = [
+    ...(Object.entries(PARK_SCENARIOS) as [Speaker, Scenario<string>][]),
+    ['mom', LIFE_SCENARIO],
+  ];
+  for (const [speaker, scenario] of scenarios) {
     for (const node of Object.values(scenario.nodes)) {
       for (const item of nodeVoice(speaker, node)) {
         const file = voiceFile(item.speaker, item.text);

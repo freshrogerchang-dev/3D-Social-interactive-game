@@ -1,4 +1,5 @@
 import './styles.css';
+import { decorateButton } from './ui/GreetingPresentation';
 import { GreetingUI } from './ui/GreetingUI';
 import { GameEngine } from './core/GameEngine';
 import type { EngineState } from './core/GameEngine';
@@ -67,6 +68,17 @@ app.addEventListener('change', (event) => {
   }
 });
 
+const practiceLaunch = document.getElementById('practice-launch');
+if (practiceLaunch && practiceLaunch instanceof HTMLButtonElement)
+  decorateButton(practiceLaunch, '生活練習', 'speech');
+
+app.addEventListener('click', (event) => {
+  if (event.target instanceof Element) {
+    const trigger = event.target.closest<HTMLElement>('#practice-launch');
+    if (trigger) greeting?.openPractice(trigger);
+  }
+});
+
 let pauseReason: 'paused' | 'safety' = 'paused';
 
 function viewFor(state: EngineState): SafetyView | null {
@@ -92,6 +104,8 @@ function syncView(): void {
   const view = viewFor(engine.state);
   if (view) ui.render(view);
   greeting?.setRunning(engine.state === 'running');
+  const practice = document.getElementById('practice-launch');
+  if (practice) practice.hidden = engine.state !== 'running';
   const output = document.getElementById('performance-info');
   const checkbox = document.getElementById('performance-check');
   if (output && checkbox instanceof HTMLInputElement)
@@ -121,6 +135,8 @@ function teardown(): void {
   greeting?.clear();
   greeting?.setRunning(false);
   greeting?.setNear(null);
+  const practice = document.getElementById('practice-launch');
+  if (practice) practice.hidden = true;
   engine?.dispose();
   engine = null;
   canvas?.remove();

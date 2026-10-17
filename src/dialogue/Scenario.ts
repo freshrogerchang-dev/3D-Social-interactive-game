@@ -13,6 +13,7 @@ export interface DialogueChoice<Id extends string> {
 
 export interface DialogueNode<Id extends string> {
   /** 對方說的話；空字串代表這一步只有旁白提示。 */
+  readonly setting?: 'crossing' | 'dining' | 'toilet';
   readonly line: string;
   readonly prompts: readonly string[];
   readonly choices: readonly DialogueChoice<Id>[];

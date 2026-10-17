@@ -1,0 +1,162 @@
+{
+  "node": "v22.22.0",
+  "chromium": "154.0.8037.57",
+  "url": "local dist",
+  "checks": [
+    {
+      "name": "公園保留七位人物，生活情境不自動開啟",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "390x844 生活入口可命中且至少64px",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "320x360 生活入口可命中且至少64px",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "844x390 生活入口可命中且至少64px",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "主動開啟才顯示三個選項並停止移動",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "過馬路有可讀取的示意圖",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "綠燈仍要確認車輛停讓，圖文一致",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "車輛未停讓時留在人行道",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "暫停收起生活面板與入口",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "恢復保留原幫助與焦點",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "關閉幫助回原節點和按鈕",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "手動走完整個過馬路流程",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "不想牽手獲得協助，不直接過馬路",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "桌下路徑先提供安全位置與需求選項",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "表達想活動也能中性結束",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "掉物可請照顧者撿拾",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "用餐可直接接到廁所，換對應示意圖",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "尿濕後換衣與隱私協助，沒有羞辱",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "怕聲音可以求助，不強迫繼續",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "先不參與回公園，恢復圓盤並回到生活入口焦點",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "不確定也可以表達需要",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "語音不用播完也能操作，切節點取消舊播報",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "320x360 選項可捲到且至少64px",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "320x360 安全控制不被面板遮擋",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "844x390 選項可捲到且至少64px",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "844x390 安全控制不被面板遮擋",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "安全區退出後不恢復舊情境",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "情境中 WebGL context lost 仍可安全暫停",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "WebGL 出錯仍可返回安全區",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "重建只有一個場景，生活練習從選單開始",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "無未處理例外",
+      "pass": true,
+      "detail": "[]"
+    }
+  ]
+}

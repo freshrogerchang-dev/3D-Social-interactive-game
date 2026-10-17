@@ -1,3 +1,4 @@
+import { LIFE_SCENARIO } from '../dialogue/LifeScenarios';
 import { PARK_SCENARIOS } from '../dialogue/ParkScenarios';
 import { DialogueSession } from '../dialogue/Scenario';
 import type { Expression, Gesture, Scenario } from '../dialogue/Scenario';
@@ -24,6 +25,7 @@ const NO_VOICE: VoiceControl = { active: false, play: () => undefined, stop: () 
 export class GreetingUI {
   session: DialogueSession<string> | null = null;
   private running = false;
+  private returnFocus: HTMLElement | null = null;
   private nearId: string | null = null;
   /** 正在對話的人物；對話中走開或靠近別人都不換對象。 */
   private talkingTo: string | null = null;
@@ -54,6 +56,7 @@ export class GreetingUI {
     launch.addEventListener('click', () => {
       const scenario = this.nearId === null ? undefined : SCENARIOS[this.nearId];
       if (!this.running || !scenario) return;
+      this.returnFocus = this.launch;
       this.talkingTo = this.nearId;
       this.session = new DialogueSession(scenario);
       this.session.start();
@@ -85,9 +88,25 @@ export class GreetingUI {
         this.playGesture();
         this.render(true);
         this.speak();
-        if (!session.node) this.launch.focus();
+        if (!session.node) this.returnFocus?.focus();
       }
     });
+  }
+
+  /** 生活情境不依賴靠近人物；仍須使用者明確開啟，不能覆蓋進行中的對話。 */
+  openPractice(trigger: HTMLElement): boolean {
+    if (!this.running || this.session?.node) return false;
+    this.returnFocus = trigger;
+    this.talkingTo = 'mom';
+    this.session = new DialogueSession(LIFE_SCENARIO);
+    this.session.start();
+    this.panel
+      .querySelector('#greeting-title')
+      ?.replaceChildren(annotatedText(LIFE_SCENARIO.title));
+    this.onActive(true);
+    this.render(true);
+    this.speak();
+    return true;
   }
 
   /** 語音開關改變：更新「再看一次／再聽一次」。 */
@@ -139,6 +158,10 @@ export class GreetingUI {
   private playGesture(): void {
     const current = this.session?.current;
     // 回到公園（沒有節點）時表情也回到平常。
+    if (this.session?.scenario.id === 'life') {
+      this.onGesture(null, null, null);
+      return;
+    }
     this.onGesture(
       current?.gesture ?? null,
       this.talkingTo,
@@ -158,6 +181,25 @@ export class GreetingUI {
     const session = this.session;
     const copy = session?.current;
     this.panel.hidden = !this.running || !copy;
+    const life = session?.scenario.id === 'life' && copy;
+    if (life) this.panel.dataset.practice = copy.setting ?? 'menu';
+    else delete this.panel.dataset.practice;
+    const picture = this.panel.querySelector<HTMLImageElement>('#practice-picture');
+    if (picture) {
+      picture.hidden = !life || !copy.setting;
+      if (life && copy.setting) {
+        const green = ['road-check', 'road-traffic', 'road-cross', 'road-end'].includes(
+          session.node ?? '',
+        );
+        const illustration = copy.setting === 'crossing' && green ? 'crossing-green' : copy.setting;
+        picture.src = `${import.meta.env.BASE_URL}assets/practice/${illustration}.svg`;
+        picture.alt = {
+          crossing: '與熟悉的照顧者在人行道等候，前方有號誌與斑馬線',
+          dining: '照顧者陪孩子坐在用餐位置，走道保持淨空',
+          toilet: '照顧者陪孩子找有隱私的廁所，旁邊備有乾淨衣物',
+        }[copy.setting];
+      }
+    }
     if (!session || !copy || session.node === null) return;
     const content = this.panel.querySelector<HTMLElement>('#greeting-copy');
     const choices = this.panel.querySelector<HTMLElement>('#greeting-choices');

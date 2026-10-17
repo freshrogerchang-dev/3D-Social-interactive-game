@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 210">
+<rect width="560" height="210" fill="#e8e3d8"/><rect x="35" y="18" width="125" height="70" rx="6" fill="#bfd0ce"/><path d="M97 18v70M35 53h125" stroke="#f7f4e9" stroke-width="5"/><rect y="160" width="560" height="50" fill="#c6bfae"/>
+<g stroke="#6e7775" stroke-width="9" stroke-linecap="round"><path d="M165 105v54h35m-35 0v31M375 109v50h-35m35 0v31"/></g><path d="M190 99v41m158-34v34" stroke="#9faeaf" stroke-width="27" stroke-linecap="round"/><circle cx="190" cy="75" r="19" fill="#dfc4a7"/><circle cx="348" cy="85" r="15" fill="#dfc4a7"/>
+<rect x="205" y="115" width="130" height="12" rx="5" fill="#a99b83"/><path d="M222 127v66m96-66v66" stroke="#8f8777" stroke-width="9"/><ellipse cx="245" cy="113" rx="18" ry="5" fill="#f8f5ee"/><ellipse cx="300" cy="113" rx="17" ry="5" fill="#f8f5ee"/><rect x="267" y="99" width="11" height="16" rx="3" fill="#b8c9c5"/>
+<rect x="441" y="25" width="80" height="135" rx="6" fill="#b5c3b8"/><path d="M462 179h56" stroke="#eae6dc" stroke-width="5" stroke-dasharray="9 8"/>
+</svg>

@@ -1,0 +1,14 @@
+$ node docs/dev-flow/voice-browser.mjs
+PASS 開始對話自動唸：先小安的台詞再旁白
+PASS 用台灣國語（zh-TW）
+PASS 小安的音高比旁白高、全部說慢一點
+PASS 有語音時按鈕是「再聽一次」
+PASS 「再聽一次」重唸這一步
+PASS 選了下一步會先停掉上一段再唸新的
+PASS 暫停時立刻停止
+PASS 繼續後不會自己重唸
+PASS 關閉語音後開始對話不發聲
+PASS 關閉語音後按鈕是「再看一次」
+PASS 沒有未處理例外
+11/11 passed
+exit 0

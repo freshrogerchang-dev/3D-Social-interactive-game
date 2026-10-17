@@ -538,3 +538,65 @@ rt.has-neutral {
 .greeting-panel .panel-text {
   margin-bottom: 12px;
 }
+
+.practice-launch {
+  position: fixed;
+  z-index: 2;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(244px, calc(env(safe-area-inset-bottom) + 232px));
+  max-width: calc(100% - 228px);
+  padding-inline: 8px;
+}
+.app:has(#greeting-panel:not([hidden])) .practice-launch,
+.app:has(#movement-controls[open]) .practice-launch {
+  display: none;
+}
+.greeting-panel[data-practice]::before {
+  display: none;
+}
+.greeting-panel[data-practice] .panel {
+  background: var(--paper);
+}
+.greeting-panel[data-practice] .panel-title {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+}
+.practice-picture {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 152px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: #e2e9e4;
+}
+@media (max-height: 480px) {
+  .practice-launch {
+    bottom: 88px;
+  }
+  .practice-picture {
+    max-height: 88px;
+  }
+}
+
+.practice-launch {
+  font-size: 1rem;
+}
+.practice-launch .control-icon {
+  display: none;
+}
+
+/* 短畫面的右側留給生活練習與打招呼；FPS 放在安全列下方、搖桿上方。 */
+@media (max-height: 480px) {
+  .performance-info {
+    left: max(12px, env(safe-area-inset-left));
+    right: auto;
+    top: max(100px, calc(env(safe-area-inset-top) + 88px));
+    bottom: auto;
+  }
+}
