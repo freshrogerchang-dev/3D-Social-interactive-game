@@ -1,0 +1,50 @@
+{
+  "url": "https://freshrogerchang-dev.github.io/3D-Social-interactive-game/",
+  "source": "published Pages",
+  "node": "v22.22.0",
+  "chromium": "154.0.8037.57",
+  "deviceScaleFactor": 1,
+  "checks": [
+    {
+      "name": "公開頁面HTTP200且啟動同一個場景",
+      "pass": true
+    },
+    {
+      "name": "公開JS HTTP200且內容與本機Pages建置相同",
+      "pass": true
+    },
+    {
+      "name": "公開CSS HTTP200且內容與本機Pages建置相同",
+      "pass": true
+    },
+    {
+      "name": "公開網站有六個街區目的地",
+      "pass": true
+    },
+    {
+      "name": "地點按鈕都有人工注音，報讀名稱不混入注音",
+      "pass": true
+    },
+    {
+      "name": "320x360 含注音地圖各按鈕可捲動命中",
+      "pass": true
+    },
+    {
+      "name": "844x390 含注音地圖各按鈕可捲動命中",
+      "pass": true
+    },
+    {
+      "name": "公開地圖選點只指引，不傳送或另開對話",
+      "pass": true
+    },
+    {
+      "name": "公開暫停與返回安全區仍有效",
+      "pass": true
+    },
+    {
+      "name": "公開頁面沒有未處理例外",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

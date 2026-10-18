@@ -63,4 +63,20 @@ Pages子路徑建置（exit0）：`vite build --base=/3D-Social-interactive-game
 - 最後工程／建置原始輸出見checks.json、neighborhood-*.log與pages-build.log。前述完整路線／24／15於最後地圖注音與捲動留白前執行，不寫成在最後DOM版本重跑完整路線；最終地圖差異由8項檢查驗證。
 - 原生活／support示意圖保留作舊版資產與歷史測試參考，主要入口已改為街區地圖；新的世界互動不展示獨立SVG情境卡。
 
-下一步沿用使用者commit／push與Pages發布授權，推送main-uv12jr；不開PR、不推main。發布後驗證實際公開資源與地圖安全控制並補記。
+已沿用使用者commit／push與Pages發布授權，推送main-uv12jr；沒有開PR或推main。
+
+
+## 公開發布結果（2026-10-18）
+
+- 產品提交：53782ebdb6e959f781390411f5a02a5a9c6bd890。
+- GitHub Actions：https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/39083600902 ，build、deploy均success；GET jobs API已核對，摘要見deployment.json。
+- 網址：https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。
+- 實際公開網站10/10、exit0：HTTP200且同一個canvas、JS／CSS逐位元符合本機Pages base產物、六個地點、人工注音與乾淨的報讀名稱、320×360和844×390所有地圖按鈕≥64px且可捲動命中、選目的地不傳送／不另開對話、暫停／安全區，pageerror=[]。見published/result.json、published.log與公開截圖。公開檢查DPR1，並非iPhone實機。
+
+命令（Pages預期產物先建置於/tmp/neighborhood-pages）：
+
+```sh
+node docs/dev-flow/neighborhood-public-browser.mjs https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ /tmp/neighborhood-public /tmp/neighborhood-pages
+```
+
+本次公開結果之後僅提交文件及證據；應用程式與建置來源不變。後續文件push會依原workflow再次發布相同產品內容。下一步是新版iPhone操作／效能回報及內容專業審查，不自動開始下一階段。
