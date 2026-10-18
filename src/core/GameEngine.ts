@@ -2,6 +2,9 @@ import { ACESFilmicToneMapping, SRGBColorSpace, WebGLRenderer } from 'three';
 import type { Camera, Scene } from 'three';
 import type { Expression } from '../dialogue/Scenario';
 import { FirstPersonController } from '../input/FirstPersonController';
+import { NEIGHBORHOOD_BOUNDS, PLACES } from '../scene/Neighborhood';
+import type { Place, WorldSnapshot } from '../scene/Neighborhood';
+import { Vector3, Quaternion } from 'three';
 import { ParkScene } from '../scene/ParkScene';
 import { RenderLoop } from './RenderLoop';
 import type { FrameCallback, FrameScheduler } from './RenderLoop';
@@ -37,6 +40,7 @@ export interface GameEngineOptions {
   readonly onStateChange?: (state: EngineState) => void;
   /** 目前靠近的人物 id；沒有靠近任何人時為 null。 */
   readonly onNPCPresence?: (nearId: string | null) => void;
+  readonly onWorldFrame?: (snapshot: WorldSnapshot) => void;
   readonly onPerformance?: (fps: number) => void;
   readonly onError?: (reason: ErrorReason, error: unknown) => void;
 }
@@ -65,6 +69,13 @@ export class GameEngine {
   private npcNear: string | null | undefined = undefined;
   private monitoring = false;
   private interacting = false;
+  private mapOpen = false;
+  private worldHelping = false;
+  private worldPlace: Place | null = null;
+  private worldNode: string | null = null;
+  private nearPlace: Place | null = null;
+  private savedPosition: Vector3 | null = null;
+  private savedRotation: Quaternion | null = null;
   private monitorStart = 0;
   private monitorFrames = 0;
   private readonly loop: RenderLoop;
@@ -143,9 +154,24 @@ export class GameEngine {
         character.playGesture(null);
         character.setExpression('neutral', false);
       }
+      this.finishWorldPractice();
+      this.park?.neighborhood.reset();
       this.park?.resetToSafety();
       this.movement?.syncCamera();
       this.updateNPCPresence();
+      if (this.park) {
+        this.nearPlace = this.park.neighborhood.nearest(
+          this.park.camera.position,
+          this.nearPlace?.id,
+        );
+        if (this.worldNode === 'road-walk')
+          this.park.neighborhood.follow(
+            this.park.camera.position,
+            (this.savedPosition?.x ?? 0) < 22,
+          );
+        const snapshot = this.getWorldSnapshot();
+        if (snapshot) this.options.onWorldFrame?.(snapshot);
+      }
       this.renderOnce();
       this.setState('paused');
       return true;
@@ -167,7 +193,116 @@ export class GameEngine {
 
   setInteractionActive(active: boolean): void {
     this.interacting = active;
-    this.movement?.setEnabled(!active && this.currentState === 'running');
+    this.syncMovement();
+  }
+
+  private syncMovement(): void {
+    const walking = this.worldNode === 'road-walk' || this.worldNode === 'toilet-find';
+    this.movement?.setEnabled(
+      this.currentState === 'running' &&
+        !this.mapOpen &&
+        !this.worldHelping &&
+        (!this.interacting || walking),
+    );
+  }
+  setWorldHelping(helping: boolean): void {
+    this.worldHelping = helping;
+    this.syncMovement();
+  }
+  setMapOpen(open: boolean): void {
+    this.mapOpen = open;
+    this.syncMovement();
+  }
+  beginWorldPractice(place: Place): boolean {
+    if (
+      this.currentState !== 'running' ||
+      !this.park ||
+      this.interacting ||
+      this.park.neighborhood.distanceTo(place, this.park.camera.position) > 2.6
+    )
+      return false;
+    this.worldPlace = place;
+    this.savedPosition = this.park.camera.position.clone();
+    this.savedRotation = this.park.camera.quaternion.clone();
+    return true;
+  }
+  setWorldNode(node: string | null): void {
+    if (!this.park || !this.worldPlace) return;
+    if (node === null) {
+      this.finishWorldPractice();
+      return;
+    }
+    if (this.worldNode === 'dining-eat' && node !== 'dining-eat') this.restorePose();
+    if (node === 'dining-eat' && this.worldNode !== node) {
+      this.park.camera.position.set(28.4, 1.05, -4.5);
+      this.park.camera.lookAt(30, 0.1, -5.5);
+      this.movement?.syncCamera();
+    }
+    if (node === 'road-start') {
+      if (this.worldNode === 'road-end') {
+        this.savedPosition = this.park.camera.position.clone();
+        this.savedRotation = this.park.camera.quaternion.clone();
+      }
+      this.park.neighborhood.crossingOpen = false;
+      this.park.neighborhood.companion.root.position.set(
+        (this.savedPosition?.x ?? 0) >= 22 ? 25.4 : 18.6,
+        0,
+        -5.7,
+      );
+    }
+    this.worldNode = node;
+    if (node === 'road-walk') this.park.neighborhood.crossingOpen = true;
+    this.park.neighborhood.applyNode(node);
+    this.syncMovement();
+  }
+  canAdvanceWorld(target: string): boolean {
+    if (!this.park || !this.worldPlace) return true;
+    if (target === 'road-end' && this.worldNode === 'road-walk')
+      return this.savedPosition && this.savedPosition.x >= 22
+        ? this.park.camera.position.x <= 19.2
+        : this.park.camera.position.x >= 24.8;
+    if (target === 'toilet-ready' && this.worldNode === 'toilet-find') {
+      const toilet = PLACES.find((p) => p.id === 'toilet');
+      return Boolean(
+        toilet &&
+        Math.hypot(this.park.camera.position.x - toilet.x, this.park.camera.position.z - toilet.z) <
+          2.2,
+      );
+    }
+    return true;
+  }
+  getWorldSnapshot(): WorldSnapshot | null {
+    if (!this.park) return null;
+    const camera = this.park.camera;
+    const direction = new Vector3();
+    camera.getWorldDirection(direction);
+    return {
+      x: camera.position.x,
+      z: camera.position.z,
+      heading: Math.atan2(-direction.x, -direction.z),
+      place: this.nearPlace,
+      travelReady: this.canAdvanceWorld(
+        this.worldNode === 'road-walk' ? 'road-end' : 'toilet-ready',
+      ),
+    };
+  }
+  private restorePose(): void {
+    if (this.park && this.savedPosition && this.savedRotation) {
+      this.park.camera.position.copy(this.savedPosition);
+      this.park.camera.quaternion.copy(this.savedRotation);
+      this.movement?.syncCamera();
+    }
+  }
+  private finishWorldPractice(): void {
+    if (this.worldNode === 'dining-eat') this.restorePose();
+    if (this.worldNode === 'road-end' && this.park) this.park.neighborhood.crossingOpen = false;
+    this.worldHelping = false;
+    this.worldPlace = null;
+    this.worldNode = null;
+    this.savedPosition = null;
+    this.savedRotation = null;
+    this.park?.neighborhood.applyNode(null);
+    this.syncMovement();
   }
 
   /** 指定人物做一次動作；沒有指定時為小安。null 會停止所有人物的動作。 */
@@ -242,10 +377,16 @@ export class GameEngine {
       park = null;
       renderer = null;
       this.canvas = canvas;
-      this.movement = new FirstPersonController(this.park.camera, [
-        ...this.park.characters.map((character) => character.obstacle),
-        ...this.park.obstacles,
-      ]);
+      this.movement = new FirstPersonController(
+        this.park.camera,
+        [
+          ...this.park.characters.map((character) => character.obstacle),
+          ...this.park.obstacles,
+          ...this.park.neighborhood.obstacles,
+        ],
+        (x, z) => this.park?.neighborhood.canWalk(x, z) ?? false,
+        NEIGHBORHOOD_BOUNDS,
+      );
       this.movement.attach(canvas);
       canvas.addEventListener('webglcontextlost', this.handleContextLost);
       this.setState('ready');
@@ -269,8 +410,8 @@ export class GameEngine {
   private runLoop(): void {
     this.monitorStart = performance.now();
     this.monitorFrames = 0;
-    this.movement?.setEnabled(!this.interacting);
     this.setState('running');
+    this.syncMovement();
     this.loop.start(this.frame);
   }
 
@@ -280,6 +421,19 @@ export class GameEngine {
       this.movement?.update(delta);
       for (const character of this.park?.everyone ?? []) character.update(delta);
       this.updateNPCPresence();
+      if (this.park) {
+        this.nearPlace = this.park.neighborhood.nearest(
+          this.park.camera.position,
+          this.nearPlace?.id,
+        );
+        if (this.worldNode === 'road-walk')
+          this.park.neighborhood.follow(
+            this.park.camera.position,
+            (this.savedPosition?.x ?? 0) < 22,
+          );
+        const snapshot = this.getWorldSnapshot();
+        if (snapshot) this.options.onWorldFrame?.(snapshot);
+      }
       this.renderOnce();
       if (this.monitoring) {
         this.monitorFrames += 1;
@@ -340,6 +494,12 @@ export class GameEngine {
 
   private releaseResources(): void {
     this.npcNear = undefined;
+    this.worldHelping = false;
+    this.worldPlace = null;
+    this.worldNode = null;
+    this.nearPlace = null;
+    this.savedPosition = null;
+    this.savedRotation = null;
     this.movement?.dispose();
     this.movement = null;
     this.park?.dispose();

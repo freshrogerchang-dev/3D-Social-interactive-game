@@ -37,7 +37,8 @@ const HEDGES: readonly (readonly [number, number, number, number])[] = [
   [-13, -9.6, -13, -6],
   [-13, -3, -13, 11],
   [13, -9.6, 13, -6],
-  [13, -3, 13, 11],
+  [13, -3, 13, -1.4],
+  [13, 1.4, 13, 11],
   [-13, 11, -2.3, 11],
   [2.3, 11, 13, 11],
   [-13, -9.6, -2.9, -9.6],
@@ -576,6 +577,7 @@ export class ParkDetails {
       const x = (this.random() - 0.5) * 25;
       const z = (this.random() - 0.5) * 25;
       if (Math.abs(x) < 2.1 || Math.abs(z + 4.5) < 1.45) continue;
+      if (x > 7.5 && Math.abs(z) < 1.5) continue;
       if (x > 5.7 && x < 7.3 && z > -7.6 && z < -4.1) continue;
       if (Math.abs(x - 10.4) < 1.3 && Math.abs(z + 7.6) < 1.2) continue;
       const scale = 0.6 + this.random() * 0.5;

@@ -1,0 +1,124 @@
+{
+  "node": "v22.22.0",
+  "chromium": "154.0.8037.57",
+  "url": "local dist",
+  "deviceScaleFactor": 0.5,
+  "checks": [
+    {
+      "name": "原公園中可開地圖並看到六個生活地點",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "選目的地只指路，不傳送",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "從原公園實際走到同一世界路口",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "開始練習前不能直接走入車道",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "在眼前3D路口互動，沒有獨立示意圖",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "過馬路改為實際步行，尚未到達不可按完成",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "步行求助中暫停恢復仍停住並保留幫助",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "320x360 步行卡可捲動開幫助且安全控制可命中",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "844x390 步行卡可捲動開幫助且安全控制可命中",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "真的走到對岸才開放確認",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "結束互動仍在同一街區，不返回另一場景",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "實際餐館桌邊開始用餐，場景仍可見",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "用餐接到找廁所，未到入口不能確認",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "從餐館沿同一條人行道走到廁所",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "親友界線在同一街區地點開始",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "公告牌承接計畫改變情境",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "斑馬線另一側也能開始同行",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "休息角接到感官需求情境",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "換個情境開啟地圖而不是遠端選單",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "320x360 地圖可捲動且安全按鈕可命中",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "844x390 地圖可捲動且安全按鈕可命中",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "安全退出回到原公園，仍只有原本一個canvas",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "無未處理例外",
+      "pass": true,
+      "detail": "[]"
+    }
+  ],
+  "errors": []
+}

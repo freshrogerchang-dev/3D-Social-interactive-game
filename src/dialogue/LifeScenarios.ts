@@ -3,7 +3,7 @@ import type { SupportNode } from './SupportScenarios';
 import type { DialogueChoice, DialogueNode, Scenario } from './Scenario';
 
 /** 生活練習 v0.1，待專業審查；都是示意情境，不要求孩子實際執行身體動作。 */
-type LifeNode =
+export type LifeNode =
   | SupportNode
   | 'menu-extra'
   | 'menu'
@@ -16,6 +16,7 @@ type LifeNode =
   | 'road-support'
   | 'road-wait'
   | 'road-cross'
+  | 'road-walk'
   | 'road-end'
   | 'dining-start'
   | 'dining-eat'
@@ -156,8 +157,14 @@ export const LIFE_SCENARIO: Scenario<LifeNode> = {
     'road-cross': road(
       '我們一起走斑馬線。',
       ['行人綠燈，車輛已停讓。', '你牽著媽媽一起走。'],
-      [choice('到了對面', 'road-end', 'done')],
+      [choice('一起走', 'road-walk', 'done')],
       ['只與熟悉的照顧者同行。', '這是示意，不是即時路況。'],
+    ),
+    'road-walk': road(
+      '',
+      ['牽手沿斑馬線走到對面。', '到了對面再按按鈕。'],
+      [choice('到了對面', 'road-end', 'done')],
+      ['左下搖桿或單次按鈕移動。', '隨時可暫停或返回安全區。'],
     ),
     'road-end': {
       ...road(
@@ -266,7 +273,7 @@ export const LIFE_SCENARIO: Scenario<LifeNode> = {
     ),
     'toilet-find': toilet(
       '我們一起找廁所。',
-      ['找不到就問工作人員。'],
+      ['沿街區指引走到廁所入口。', '找不到就問工作人員。'],
       [choice('到廁所了', 'toilet-ready'), choice('找不到', 'toilet-help')],
       ['由熟悉的照顧者陪同。'],
     ),

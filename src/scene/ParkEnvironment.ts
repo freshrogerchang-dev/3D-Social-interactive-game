@@ -85,9 +85,9 @@ export class ParkEnvironment {
       [-16, -21],
       [16, -22],
       [-12, 12],
-      [12, 12],
+      [37, 12],
       [-21, 1],
-      [22, 2],
+      [37, 2],
     ] as const;
     const trunkGeometry = new CylinderGeometry(0.18, 0.31, 4.8, 12, 3);
     const branchGeometry = new CylinderGeometry(0.025, 0.13, 1, 8);

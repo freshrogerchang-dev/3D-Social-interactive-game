@@ -74,8 +74,71 @@
         靠近再說話
       </button>
       <button id="practice-launch" type="button" class="control practice-launch" hidden>
-        生活練習
+        街區地圖
       </button>
+      <p id="district-hint" class="district-hint" role="status" hidden></p>
+      <section id="district-map" class="district-map" aria-labelledby="district-map-title" hidden>
+        <div class="panel">
+          <h2 id="district-map-title">街區地圖</h2>
+          <p>北方在上。選擇地點只顯示指引，沿步道走近後再按開始。</p>
+          <svg
+            class="district-plan"
+            viewBox="0 0 276 156"
+            role="img"
+            aria-label="左側公園，經東側步道到路口，對面有餐館和廁所，旁邊有休息角、見面處與公告牌"
+          >
+            <rect width="276" height="156" rx="8" fill="#eef0e7" />
+            <rect x="12" y="30" width="96" height="96" fill="#bdceb8" />
+            <path
+              d="M108 78h60m0-66v132m36-132v132"
+              stroke="#c8c2b2"
+              stroke-width="14"
+              fill="none"
+            />
+            <path d="M192 12v132" stroke="#7c8689" stroke-width="24" />
+            <path d="M180 51h24" stroke="#f5f2e9" stroke-width="7" stroke-dasharray="3 2" />
+            <rect x="222" y="27" width="36" height="36" fill="#b9c9cd" />
+            <rect x="228" y="81" width="30" height="36" fill="#a8beb4" />
+            <g fill="#647c91">
+              <circle data-map-place="crossing" cx="168" cy="51" r="4" />
+              <circle data-map-place="dining" cx="228" cy="45" r="4" />
+              <circle data-map-place="toilet" cx="221" cy="99" r="4" />
+              <circle data-map-place="sensory" cx="168" cy="114" r="4" />
+              <circle data-map-place="boundary" cx="228" cy="132" r="4" />
+              <circle data-map-place="changes" cx="215" cy="18" r="4" />
+            </g>
+            <g fill="#34453b" font-size="9">
+              <text x="32" y="47">公園</text>
+              <text x="22" y="142">北 ↑</text>
+              <text x="151" y="43">路口</text>
+              <text x="231" y="40">餐館</text>
+              <text x="237" y="95">廁所</text>
+              <text x="140" y="129">休息角</text>
+              <text x="235" y="143">見面處</text>
+              <text x="228" y="18">公告牌</text>
+            </g>
+            <circle
+              id="map-player"
+              cx="60"
+              cy="99"
+              r="4"
+              fill="#344b72"
+              stroke="#fff"
+              stroke-width="2"
+            />
+            <path id="map-heading" d="M0 -9 -3 -4h6z" fill="#344b72" />
+          </svg>
+          <div class="map-destinations" role="group" aria-label="地點指引">
+            <button class="control" type="button" data-destination="crossing">路口</button
+            ><button class="control" type="button" data-destination="dining">餐館</button
+            ><button class="control" type="button" data-destination="toilet">廁所</button
+            ><button class="control" type="button" data-destination="sensory">休息角</button
+            ><button class="control" type="button" data-destination="boundary">見面處</button
+            ><button class="control" type="button" data-destination="changes">公告牌</button>
+          </div>
+          <button id="district-map-close" class="control" type="button">收起地圖</button>
+        </div>
+      </section>
       <section id="greeting-panel" class="greeting-panel" aria-labelledby="greeting-title" hidden>
         <div class="panel">
           <img id="practice-picture" class="practice-picture" alt="" hidden />
@@ -85,6 +148,7 @@
             </svg>
             打招呼
           </h2>
+          <p id="world-walk-title" hidden></p>
           <div id="greeting-copy" class="panel-text" tabindex="-1"></div>
           <div id="greeting-choices" class="panel-actions"></div>
           <div id="greeting-tools" class="panel-actions greeting-tools">
@@ -93,6 +157,7 @@
           </div>
           <div id="greeting-help-panel" hidden>
             <p id="greeting-help" class="panel-text"></p>
+            <button type="button" class="control" data-greeting="map">街區地圖</button>
             <button type="button" class="control" data-greeting="close-help">關閉幫助</button>
           </div>
         </div>

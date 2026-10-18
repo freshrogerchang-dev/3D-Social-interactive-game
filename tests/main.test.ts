@@ -105,6 +105,8 @@ class TestDocument extends EventTarget {
         'greeting-panel',
         'greeting-launch',
         'practice-launch',
+        'district-map',
+        'district-hint',
       ].includes(id)
     )
       return null;

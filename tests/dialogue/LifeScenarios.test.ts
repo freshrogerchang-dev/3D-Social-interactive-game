@@ -95,6 +95,8 @@ describe('生活練習：具體安全路徑', () => {
     session.choose(0);
     expect(session.node).toBe('road-cross');
     session.choose(0);
+    expect(session.node).toBe('road-walk');
+    session.choose(0);
     expect(session.outcome).toBe('finished');
     expect(travel(['過馬路', '不想牽手', '說不舒服']).node).toBe('road-support');
     const incoming = Object.entries(nodes).filter(([, node]) =>

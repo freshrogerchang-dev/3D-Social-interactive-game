@@ -1,0 +1,42 @@
+{
+  "url": "http://neighborhood.local/3D-Social-interactive-game/",
+  "source": "local Pages artifact",
+  "node": "v22.22.0",
+  "chromium": "154.0.8037.57",
+  "deviceScaleFactor": 1,
+  "checks": [
+    {
+      "name": "本機Pages頁面HTTP200且啟動同一個場景",
+      "pass": true
+    },
+    {
+      "name": "本機Pages網站有六個街區目的地",
+      "pass": true
+    },
+    {
+      "name": "地點按鈕都有人工注音，報讀名稱不混入注音",
+      "pass": true
+    },
+    {
+      "name": "320x360 含注音地圖各按鈕可捲動命中",
+      "pass": true
+    },
+    {
+      "name": "844x390 含注音地圖各按鈕可捲動命中",
+      "pass": true
+    },
+    {
+      "name": "本機Pages地圖選點只指引，不傳送或另開對話",
+      "pass": true
+    },
+    {
+      "name": "本機Pages暫停與返回安全區仍有效",
+      "pass": true
+    },
+    {
+      "name": "本機Pages頁面沒有未處理例外",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

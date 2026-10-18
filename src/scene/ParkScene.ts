@@ -18,6 +18,7 @@ import {
   Texture,
   Vector3,
 } from 'three';
+import { Neighborhood } from './Neighborhood';
 import type { Material } from 'three';
 import { ParkEnvironment } from './ParkEnvironment';
 import { ParkCharacter } from '../npc/SeatedNPC';
@@ -222,6 +223,7 @@ const GATE_Z = -9.6;
 
 export class ParkScene {
   readonly scene = new Scene();
+  readonly neighborhood = new Neighborhood();
   readonly characters = createCharacters();
   /** 背景小朋友（不能對話）。 */
   readonly extras = createExtras();
@@ -268,7 +270,7 @@ export class ParkScene {
 
   /** 對話人物與背景小朋友（一起更新閒置動態、一起套用「人物動作」開關）。 */
   get everyone(): readonly ParkCharacter[] {
-    return [...this.characters, ...this.extras];
+    return [...this.characters, ...this.extras, ...this.neighborhood.residents];
   }
 
   constructor(loadTextures = false) {
@@ -287,6 +289,7 @@ export class ParkScene {
       ...this.propMaterials,
       ...this.environment.materials,
       ...this.environment.details.materials,
+      ...this.neighborhood.materials,
     ])
       this.prepareMaterial(material);
 
@@ -322,6 +325,7 @@ export class ParkScene {
       sun,
       boundary,
       this.environment.root,
+      this.neighborhood.root,
       ...this.everyone.map((character) => character.root),
     );
     this.buildSlide();
@@ -437,7 +441,8 @@ export class ParkScene {
     this.disposed = true;
     for (const geometry of this.geometries) geometry.dispose();
     for (const material of this.materials) material.dispose();
-    for (const character of this.everyone) character.dispose();
+    for (const character of [...this.characters, ...this.extras]) character.dispose();
+    this.neighborhood.dispose();
     for (const geometry of this.propGeometries) geometry.dispose();
     for (const material of this.propMaterials) material.dispose();
     this.postGeometry.dispose();

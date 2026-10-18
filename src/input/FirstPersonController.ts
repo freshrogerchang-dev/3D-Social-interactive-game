@@ -1,6 +1,22 @@
 import { Euler, MathUtils, PerspectiveCamera, Plane, Raycaster, Vector2, Vector3 } from 'three';
 
 export const PARK_LIMIT = 8;
+export interface WalkBounds {
+  readonly minX: number;
+  readonly maxX: number;
+  readonly minZ: number;
+  readonly maxZ: number;
+}
+export type RectangularObstacle = WalkBounds;
+export type MovementObstacle = CircularObstacle | RectangularObstacle;
+export function blocks(obstacle: MovementObstacle, x: number, z: number): boolean {
+  return 'radius' in obstacle
+    ? Math.hypot(x - obstacle.x, z - obstacle.z) < obstacle.radius
+    : x > obstacle.minX - 0.18 &&
+        x < obstacle.maxX + 0.18 &&
+        z > obstacle.minZ - 0.18 &&
+        z < obstacle.maxZ + 0.18;
+}
 export interface CircularObstacle {
   readonly x: number;
   readonly z: number;
@@ -47,7 +63,14 @@ export class FirstPersonController {
 
   constructor(
     readonly camera: PerspectiveCamera,
-    private readonly obstacles: readonly CircularObstacle[] = [],
+    private readonly obstacles: readonly MovementObstacle[] = [],
+    private readonly allowed: (x: number, z: number) => boolean = () => true,
+    private readonly bounds: WalkBounds = {
+      minX: -PARK_LIMIT,
+      maxX: PARK_LIMIT,
+      minZ: -PARK_LIMIT,
+      maxZ: PARK_LIMIT,
+    },
   ) {
     this.syncCamera();
   }
@@ -124,8 +147,8 @@ export class FirstPersonController {
     if (!this.enabled || !Number.isFinite(x) || !Number.isFinite(z)) return;
     this.keys.clear();
     this.target.set(
-      MathUtils.clamp(x, -PARK_LIMIT, PARK_LIMIT),
-      MathUtils.clamp(z, -PARK_LIMIT, PARK_LIMIT),
+      MathUtils.clamp(x, this.bounds.minX, this.bounds.maxX),
+      MathUtils.clamp(z, this.bounds.minZ, this.bounds.maxZ),
     );
     this.hasTarget = true;
   }
@@ -183,15 +206,20 @@ export class FirstPersonController {
     this.velocity.y += (z - this.velocity.y) * blend;
     const nextX = this.camera.position.x + this.velocity.x * dt;
     const nextZ = this.camera.position.z + this.velocity.y * dt;
+    if (!this.allowed(nextX, nextZ)) {
+      this.velocity.set(0, 0);
+      this.hasTarget = false;
+      return;
+    }
     for (const obstacle of this.obstacles) {
-      if (Math.hypot(nextX - obstacle.x, nextZ - obstacle.z) < obstacle.radius) {
+      if (blocks(obstacle, nextX, nextZ)) {
         this.velocity.set(0, 0);
         this.hasTarget = false;
         return;
       }
     }
-    this.camera.position.x = MathUtils.clamp(nextX, -PARK_LIMIT, PARK_LIMIT);
-    this.camera.position.z = MathUtils.clamp(nextZ, -PARK_LIMIT, PARK_LIMIT);
+    this.camera.position.x = MathUtils.clamp(nextX, this.bounds.minX, this.bounds.maxX);
+    this.camera.position.z = MathUtils.clamp(nextZ, this.bounds.minZ, this.bounds.maxZ);
     if (nextX !== this.camera.position.x) this.velocity.x = 0;
     if (nextZ !== this.camera.position.z) this.velocity.y = 0;
     this.camera.updateMatrixWorld();

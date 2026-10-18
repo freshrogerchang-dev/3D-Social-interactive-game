@@ -63,7 +63,7 @@ const boundaryChoices: readonly DialogueChoice<Target>[] = [
 export const SUPPORT_NODES: Readonly<Record<SupportNode, DialogueNode<Target>>> = {
   'sensory-start': sensory(
     '',
-    ['這裡聲音大、人很多。', '你現在需要什麼？'],
+    ['剛才聲音大、人很多。', '你現在需要什麼？'],
     [
       choice('說太吵', 'sensory-quiet'),
       choice('用手指', 'sensory-quiet', 'nod'),

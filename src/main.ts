@@ -1,4 +1,5 @@
 import './styles.css';
+import { NeighborhoodUI } from './ui/NeighborhoodUI';
 import { decorateButton } from './ui/GreetingPresentation';
 import { GreetingUI } from './ui/GreetingUI';
 import { GameEngine } from './core/GameEngine';
@@ -32,6 +33,7 @@ if (typeof fetch === 'function')
     const response = await fetch(`${import.meta.env.BASE_URL}assets/voice/manifest.json`);
     return response.ok ? ((await response.json()) as unknown) : null;
   });
+let neighborhoodUI: NeighborhoodUI | null = null;
 const greetingPanel = document.getElementById('greeting-panel');
 const greetingLaunch = document.getElementById('greeting-launch');
 const greeting =
@@ -47,6 +49,16 @@ const greeting =
           engine?.setNPCExpression(expression, characterId ?? undefined, enabled);
         },
         voice,
+        {
+          begin: (place) => engine?.beginWorldPractice(place) ?? false,
+          node: (node) => {
+            engine?.setWorldNode(node);
+            if (node === 'toilet-find') neighborhoodUI?.setGoal('toilet');
+          },
+          canAdvance: (target) => engine?.canAdvanceWorld(target) ?? false,
+          help: (helping) => engine?.setWorldHelping(helping),
+          map: () => neighborhoodUI?.toggle(),
+        },
       )
     : null;
 
@@ -69,15 +81,11 @@ app.addEventListener('change', (event) => {
 });
 
 const practiceLaunch = document.getElementById('practice-launch');
-if (practiceLaunch && practiceLaunch instanceof HTMLButtonElement)
-  decorateButton(practiceLaunch, '生活練習', 'speech');
-
-app.addEventListener('click', (event) => {
-  if (event.target instanceof Element) {
-    const trigger = event.target.closest<HTMLElement>('#practice-launch');
-    if (trigger) greeting?.openPractice(trigger);
-  }
-});
+const mapRoot = document.getElementById('district-map');
+if (practiceLaunch && practiceLaunch instanceof HTMLButtonElement && mapRoot) {
+  decorateButton(practiceLaunch, '街區地圖', 'park');
+  neighborhoodUI = new NeighborhoodUI(mapRoot, practiceLaunch, (open) => engine?.setMapOpen(open));
+}
 
 let pauseReason: 'paused' | 'safety' = 'paused';
 
@@ -104,6 +112,7 @@ function syncView(): void {
   const view = viewFor(engine.state);
   if (view) ui.render(view);
   greeting?.setRunning(engine.state === 'running');
+  neighborhoodUI?.setRunning(engine.state === 'running');
   const practice = document.getElementById('practice-launch');
   if (practice) practice.hidden = engine.state !== 'running';
   const output = document.getElementById('performance-info');
@@ -135,6 +144,8 @@ function teardown(): void {
   greeting?.clear();
   greeting?.setRunning(false);
   greeting?.setNear(null);
+  greeting?.setPlace(null);
+  neighborhoodUI?.setRunning(false);
   const practice = document.getElementById('practice-launch');
   if (practice) practice.hidden = true;
   engine?.dispose();
@@ -174,6 +185,12 @@ async function startSession(): Promise<void> {
         ui.renderNPCPresence(nearId);
         greeting?.setNear(nearId);
       }
+    },
+    onWorldFrame: (snapshot) => {
+      if (engine !== current) return;
+      greeting?.setPlace(snapshot.place);
+      greeting?.updateTravel();
+      neighborhoodUI?.update(snapshot);
     },
     onPerformance: (fps) => {
       if (engine !== current) return;

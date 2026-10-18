@@ -600,3 +600,117 @@ rt.has-neutral {
     bottom: auto;
   }
 }
+
+.district-map {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  overflow: auto;
+  padding: 104px 12px 12px;
+  scroll-padding: 104px 12px 12px;
+  background: var(--backdrop);
+}
+.district-map .panel {
+  margin: 0 auto;
+}
+.district-plan {
+  width: 100%;
+  height: auto;
+  max-height: 260px;
+}
+.map-destinations {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.district-hint {
+  position: fixed;
+  left: 12px;
+  top: max(100px, calc(env(safe-area-inset-top) + 88px));
+  z-index: 1;
+  max-width: calc(100% - 24px);
+  margin: 0;
+  padding: 6px 12px;
+  background: var(--paper);
+  border-radius: 10px;
+  font-size: 1rem;
+}
+.app:has(#district-hint:not([hidden])) .npc-info {
+  display: none;
+}
+.app:has(#district-map:not([hidden])) #greeting-panel {
+  visibility: hidden;
+}
+.greeting-panel[data-world] {
+  background: transparent;
+  pointer-events: none;
+  justify-content: flex-end;
+  padding-top: 104px;
+}
+.greeting-panel[data-world]::before {
+  display: none;
+}
+.greeting-panel[data-world] .panel {
+  pointer-events: auto;
+  max-height: 52dvh;
+  overflow: auto;
+  margin: 0 auto;
+  background: rgb(251 248 242 / 94%);
+}
+.greeting-panel[data-world] .panel-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.greeting-panel[data-travel='true'] {
+  inset: auto 12px 88px auto;
+  width: calc(100% - 228px);
+  max-width: 360px;
+  padding: 0;
+  max-height: calc(100dvh - 168px);
+}
+.greeting-panel[data-travel='true'] .panel {
+  padding: 6px;
+  max-height: none;
+}
+.greeting-panel[data-travel='true'] #greeting-copy,
+.greeting-panel[data-travel='true'] [data-greeting='again'] {
+  display: none;
+}
+.greeting-panel[data-travel='true'] #greeting-choices {
+  grid-template-columns: 1fr;
+}
+.greeting-panel[data-travel='true'] .control {
+  font-size: 0.9rem;
+  padding: 4px;
+}
+.greeting-panel[data-travel='true'] .control-icon {
+  display: none;
+}
+.app:has(#greeting-panel:not([hidden])) .district-hint,
+.app:has(#district-map:not([hidden])) .district-hint {
+  display: none;
+}
+@media (max-width: 360px) {
+  .district-map {
+    padding-top: 168px;
+    scroll-padding-top: 168px;
+  }
+}
+@media (max-height: 480px) {
+  .district-hint {
+    display: none;
+  }
+}
+
+.greeting-panel:not([data-world]) [data-greeting='map'] {
+  display: none;
+}
+@media (max-width: 360px) {
+  .greeting-panel[data-travel='true'] {
+    max-height: calc(100dvh - 256px);
+  }
+}

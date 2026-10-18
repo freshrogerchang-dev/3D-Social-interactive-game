@@ -1,0 +1,9 @@
+PASS 本機Pages頁面HTTP200且啟動同一個場景
+PASS 本機Pages網站有六個街區目的地
+PASS 地點按鈕都有人工注音，報讀名稱不混入注音
+PASS 320x360 含注音地圖各按鈕可捲動命中
+PASS 844x390 含注音地圖各按鈕可捲動命中
+PASS 本機Pages地圖選點只指引，不傳送或另開對話
+PASS 本機Pages暫停與返回安全區仍有效
+PASS 本機Pages頁面沒有未處理例外
+8/8 passed
