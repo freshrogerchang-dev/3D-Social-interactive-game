@@ -1,0 +1,57 @@
+name: Park voice preview
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/park-voice-preview.yml']
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 'first = 第一句 A/B；all = 全部 20 個音檔（可能計費）'
+        type: choice
+        options: [first, all]
+        default: first
+
+permissions:
+  contents: read
+
+concurrency:
+  group: park-voice-preview
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate preview audio
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PREVIEW_SCOPE: ${{ inputs.scope || 'first' }}
+        run: |
+          if [ "$PREVIEW_SCOPE" = 'all' ]; then
+            python3 tools/park-voice-preview/generate.py
+          else
+            python3 tools/park-voice-preview/generate.py --line 01
+          fi
+      - name: Upload audio and transcript
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: park-voice-preview-${{ github.run_number }}
+          path: |
+            tools/park-voice-preview/audio/*.wav
+            tools/park-voice-preview/lines.json
+          retention-days: 14
+      - name: Download instructions
+        if: ${{ !cancelled() }}
+        run: |
+          echo '## 公園打招呼語音試聽' >> "$GITHUB_STEP_SUMMARY"
+          echo '下載本頁下方 Artifacts 的 park-voice-preview 壓縮檔。Generate preview audio 成功才表示全部指定音檔生成完成。' >> "$GITHUB_STEP_SUMMARY"
+          echo 'A 自然聊天；B 溫和慢速。音檔保留 14 天，請下載保存。' >> "$GITHUB_STEP_SUMMARY"
