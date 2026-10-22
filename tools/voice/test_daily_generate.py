@@ -1,0 +1,135 @@
+"""Financial limits and resumability tests; no network and no API key needed."""
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import Mock
+
+from daily_generate import Batch, read_json, save_json, ROOT
+
+
+class DailyBatchTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.tools = self.root / "tools/voice"
+        self.tools.mkdir(parents=True)
+        for name in ["voice-presets.json", "voice-profile.json", "boy-profile.json"]:
+            (self.tools / name).write_bytes((ROOT / "tools/voice" / name).read_bytes())
+        self.set_lines(8)
+        self.request = Mock(return_value=(b"\0\0" * 2400, 24000))
+        self.encoder = Mock(side_effect=self.encode)
+        self.checkpoint = Mock()
+        self.day = "2026-10-22"
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def set_lines(self, count):
+        save_json(self.tools / "queue.json", {"version": 1, "lines": [
+            {"speaker": "xiaoan", "text": f"測試句 {n}", "tone": "neutral",
+             "file": f"assets/voice/xiaoan-{n:08x}.m4a"} for n in range(count)
+        ]})
+
+    @staticmethod
+    def encode(source, target, profile):
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(b"mock encoded audio" + source.read_bytes())
+
+    def batch(self):
+        return Batch(self.root, checkpoint=self.checkpoint, request=self.request,
+                     encoder=self.encoder, sleeper=lambda _: None, today=lambda: self.day,
+                     check_tools=lambda: None)
+
+    def test_same_day_restart_cannot_exceed_five(self):
+        self.assertEqual(self.batch().run("not-a-real-key")["complete"], 5)
+        self.assertEqual(self.batch().run("not-a-real-key")["complete"], 5)
+        self.assertEqual(self.request.call_count, 5)
+        self.day = "2026-10-23"
+        self.assertEqual(self.batch().run("not-a-real-key")["complete"], 8)
+        self.assertEqual(self.request.call_count, 8)
+        self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 8)
+
+    def test_http_429_counts_once_and_does_not_retry(self):
+        self.request.side_effect = RuntimeError("HTTP_429")
+        self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 1)
+        state = read_json(self.root / "voice-progress.json")
+        self.assertEqual(state["days"][self.day]["requests"], 1)
+        self.assertEqual(state["lastError"]["reason"], "HTTP_429")
+
+    def test_permission_or_billing_failure_stops_future_spending(self):
+        self.request.side_effect = RuntimeError("HTTP_403")
+        self.batch().run("not-a-real-key")
+        self.day = "2026-10-23"
+        self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 1)
+        self.assertEqual(self.batch().plan()["halted"], "HTTP_403")
+
+    def test_failed_checkpoint_blocks_http_request(self):
+        self.checkpoint.side_effect = RuntimeError("push failed")
+        with self.assertRaises(RuntimeError):
+            self.batch().run("not-a-real-key")
+        self.request.assert_not_called()
+
+    def test_reservation_is_saved_before_network(self):
+        def request(item, key):
+            state = read_json(self.root / "voice-progress.json")
+            self.assertGreaterEqual(state["days"][self.day]["requests"], 1)
+            self.assertGreaterEqual(self.checkpoint.call_count, 1)
+            return b"\0\0" * 2400, 24000
+        self.request.side_effect = request
+        self.batch().run("not-a-real-key")
+
+    def test_encoding_failure_keeps_source_for_free_retry(self):
+        self.encoder.side_effect = RuntimeError("encoder failed")
+        self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 1)
+        self.assertEqual(len(list((self.root / "voice-source").glob("*.wav"))), 1)
+        self.encoder.side_effect = self.encode
+        self.batch().run(None)  # Existing raw audio can be encoded without a key.
+        self.assertEqual(self.request.call_count, 1)
+        self.assertEqual(self.batch().plan()["complete"], 1)
+
+    def test_profile_change_reuses_raw_audio(self):
+        self.set_lines(1)
+        self.batch().run("not-a-real-key")
+        profile = read_json(self.tools / "boy-profile.json")
+        profile["pitchSemitones"] = 3.0
+        save_json(self.tools / "boy-profile.json", profile)
+        self.batch().run(None)
+        self.assertEqual(self.request.call_count, 1)
+        self.assertEqual(self.encoder.call_count, 2)
+
+    def test_three_failures_require_review_without_endless_spending(self):
+        self.set_lines(1)
+        self.request.side_effect = RuntimeError("NO_AUDIO")
+        for day in range(4):
+            self.day = f"2026-10-{22 + day}"
+            self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 3)
+        self.assertEqual(self.batch().plan()["needsReview"], 1)
+
+    def test_missing_key_never_calls_api(self):
+        self.batch().run(None)
+        self.request.assert_not_called()
+
+    def test_boy_uses_approved_voice_tone_and_pitch(self):
+        item = self.batch().items[0]
+        self.assertEqual(item["voice"], "Sadaltager")
+        self.assertIn("gentle, slightly slower and connected", item["prompt"])
+        self.assertEqual(item["profile"]["pitchSemitones"], 2.5)
+        self.assertEqual(item["profile"]["tempo"], 1.0)
+
+    def test_corrupt_budget_never_silently_resets(self):
+        save_json(self.root / "voice-progress.json", {
+            "version": 1, "days": {self.day: {"requests": "broken"}}, "attempts": {},
+        })
+        with self.assertRaises(RuntimeError):
+            self.batch().run("not-a-real-key")
+        self.request.assert_not_called()
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,82 @@
+name: Daily game voice
+
+on:
+  schedule:
+    # 09:23 UTC is after midnight Pacific throughout the year.
+    - cron: '23 9 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '只檢查進度，不呼叫 API（每日排程會依已核准的上限生成）'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-game-voice
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/daily-game-voice
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Plan remaining clips
+        id: plan
+        run: python3 tools/voice/daily_generate.py --plan --github-output "$GITHUB_OUTPUT"
+      - name: Verify generation key
+        if: ${{ steps.plan.outputs.needs_work == 'true' && (github.event_name == 'schedule' || !inputs.dry_run) }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo '缺少 GEMINI_API_KEY；尚未呼叫 API。'
+            exit 1
+          fi
+      - name: Prepare audio processor
+        if: ${{ steps.plan.outputs.needs_work == 'true' && (github.event_name == 'schedule' || !inputs.dry_run) }}
+        timeout-minutes: 10
+        run: |
+          if command -v ffmpeg > /dev/null && ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null; then
+            echo '音訊工具已可用。'
+          else
+            sudo apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20 update
+            sudo apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20 install --no-install-recommends -y ffmpeg
+          fi
+      - name: Generate within durable daily budget
+        if: ${{ steps.plan.outputs.needs_work == 'true' && (github.event_name == 'schedule' || !inputs.dry_run) }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python3 tools/voice/daily_generate.py --checkpoint
+      - name: Upload current audio and progress
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-voice-progress-${{ github.run_number }}
+          path: |
+            public/assets/voice/
+            voice-progress.json
+          retention-days: 7
+      - name: Preserve sources if checkpoint or encoding fails
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-voice-recovery-${{ github.run_number }}
+          path: |
+            voice-source/
+            voice-progress.json
+          retention-days: 7

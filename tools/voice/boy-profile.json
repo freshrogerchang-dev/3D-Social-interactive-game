@@ -1,0 +1,9 @@
+{
+  "id": "sadaltager-higher-v1",
+  "voice": "Sadaltager",
+  "tempo": 1.0,
+  "pitchSemitones": 2.5,
+  "formant": "preserved",
+  "pitchQuality": "quality",
+  "limiter": 0.95
+}

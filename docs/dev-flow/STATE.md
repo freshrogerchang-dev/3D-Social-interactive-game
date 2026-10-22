@@ -484,3 +484,12 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。不宣
 - 小晴 --dry-run --speaker=xiaoqing --limit=1 exit 0，範圍 2 句、最多 1 句，選用 Zephyr；沒有呼叫 Gemini。兩端濾鏡輸出與使用者選定 WAV 逐位元相同，原生角色範圍檢查通過。
 - 遊戲修改保存於 codex/zephyr-younger-profile，不推 main-uv12jr、不觸發 Pages；完整角色語音未生成，線上遊戲仍使用既有語音。新版 iPhone／實際完整台詞試聽未驗證，不宣稱完整 S5 通過。
 - 詳見 zephyr-younger-voice-build-log.md。下一步為小量生成實際角色台詞與試聽，遊戲發布另行確認。
+
+
+## 2026-10-22 每日語音 routine
+
+- 使用者確認小男孩為 Sadaltager B 溫和慢速、+2.5 半音，並在了解免費／付費 Tier 區別後明確核准 Tier 1 預付金鑰每天最多 5 句、接受小額扣款。小女生維持 Zephyr 設定，成人／旁白維持既有聲線。
+- 清單 226 句、8 位說話者，涵蓋公園與生活／支持情境，補齊街區文字變體。main 排程每天 UTC09:23（台灣17:23）；專用 codex/daily-game-voice 保存進度與音檔，不發布網站。
+- 每次 HTTP 前先保存當日預留計數，太平洋日期重設；失敗也計入 5 次。原音與編碼分開，重跑／後製不重複花費；完成後停止 API。服務權限／帳務錯誤暫停，單一來源三次失敗轉人工。
+- 五項工程檢查最終各 exit0，147 項單元、11 項 Python 預算／接續測試、原生本機 Git checkpoint 與 FFmpeg 三種角色編碼檢查通過。尚未實際呼叫 Gemini，本機真實進度 0/226；首次遠端排程與金鑰寫入權限仍待觀察。
+- 詳見 daily-voice-routine-build-log.md 與 tools/voice/README.md。全新音檔實際試聽、手機與發布仍未驗證；完成全部語音後再確認網站發布。

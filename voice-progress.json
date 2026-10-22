@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "days": {},
+  "attempts": {},
+  "status": "scheduled",
+  "summary": {
+    "total": 226,
+    "complete": 0,
+    "remaining": 226,
+    "needsReview": 0,
+    "status": "scheduled",
+    "halted": null,
+    "lastError": null,
+    "cachedPending": 0,
+    "quotaDayPacific": "2026-10-22",
+    "requestsRemainingToday": 5,
+    "bySpeaker": {
+      "xiaoan": {
+        "total": 3,
+        "complete": 0
+      },
+      "xiaoyu": {
+        "total": 5,
+        "complete": 0
+      },
+      "xiaozhe": {
+        "total": 4,
+        "complete": 0
+      },
+      "xiaoqing": {
+        "total": 2,
+        "complete": 0
+      },
+      "xiaoyun": {
+        "total": 5,
+        "complete": 0
+      },
+      "mom": {
+        "total": 48,
+        "complete": 0
+      },
+      "agong": {
+        "total": 4,
+        "complete": 0
+      },
+      "narrator": {
+        "total": 155,
+        "complete": 0
+      }
+    }
+  },
+  "updatedAt": "2026-10-22T09:31:07.969842+00:00"
+}

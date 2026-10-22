@@ -1,0 +1,37 @@
+{
+  "model": "gemini-2.5-flash-preview-tts",
+  "speakers": {
+    "xiaoan": {
+      "voice": "Sadaltager",
+      "delivery": "light, bright, youthful male voice; gentle, slightly slower and connected"
+    },
+    "xiaoyu": {
+      "voice": "Sadaltager",
+      "delivery": "light, bright, youthful male voice; gentle, slightly slower and connected"
+    },
+    "xiaozhe": {
+      "voice": "Sadaltager",
+      "delivery": "light, bright, youthful male voice; gentle, slightly slower and connected"
+    },
+    "xiaoqing": {
+      "voice": "Zephyr",
+      "delivery": "light, bright, youthful female voice; friendly and conversational"
+    },
+    "xiaoyun": {
+      "voice": "Zephyr",
+      "delivery": "light, bright, youthful female voice; friendly and conversational"
+    },
+    "mom": {
+      "voice": "Sulafat",
+      "delivery": "warm, patient adult female voice; calm, clear and conversational"
+    },
+    "agong": {
+      "voice": "Algenib",
+      "delivery": "warm, kindly older male voice; calm, gently paced and clear"
+    },
+    "narrator": {
+      "voice": "Achernar",
+      "delivery": "warm, clear adult storyteller voice; gentle, steady and slightly slower"
+    }
+  }
+}

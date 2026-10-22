@@ -16,7 +16,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { build } from 'vite';
-import { APPROVED_PROFILE, profileFor, profileFilter } from './voice-profile.mjs';
+import { VOICE_PRESETS, profileFor, profileFilter, promptForLine } from './voice-profile.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const outDir = path.join(root, 'public/assets/voice');
@@ -29,25 +29,7 @@ const limit = selectedLimit === undefined ? Infinity : Number(selectedLimit);
 if (selectedLimit !== undefined && (!Number.isInteger(limit) || limit < 1))
   throw new Error('--limit 必須是正整數。');
 
-/** 每位說話者的預設聲音與角色描述（可用 GEMINI_VOICE_XIAOAN 等覆寫聲音）。 */
-const SPEAKERS = {
-  xiaoan: { voice: 'Puck', persona: '一位七歲、溫和友善的台灣小男孩' },
-  xiaoyu: { voice: 'Fenrir', persona: '一位八歲、活潑愛玩球的台灣小男孩' },
-  xiaoqing: { voice: APPROVED_PROFILE.voice, persona: '一位聲音清亮、溫柔友善的台灣女生' },
-  mom: { voice: 'Sulafat', persona: '一位溫柔、有耐心的台灣媽媽' },
-  xiaoyun: { voice: APPROVED_PROFILE.voice, persona: '一位聲音清亮、開朗友善的台灣女生' },
-  agong: { voice: 'Algenib', persona: '一位和藹、說話慢的台灣阿公' },
-  xiaozhe: { voice: 'Achird', persona: '一位七歲、有點難過但溫和的台灣小男孩' },
-  narrator: { voice: 'Achernar', persona: '一位溫和、說話清楚的說故事老師' },
-};
-const TONES = {
-  neutral: '平靜、友善',
-  happy: '開心',
-  excited: '開心、有精神，但不大聲',
-  thinking: '在想事情，溫和',
-  surprised: '有一點驚訝，仍然溫和',
-  worried: '有點不好意思，溫和',
-};
+const SPEAKERS = VOICE_PRESETS.speakers;
 
 async function loadLines() {
   // 用專案的 vite 把 TypeScript 的台詞清單打包成暫時的 JS 再載入，確保和 App 用同一份資料。
@@ -76,8 +58,7 @@ function voiceFor(speaker) {
 }
 
 function promptFor(line) {
-  const { persona } = SPEAKERS[line.speaker];
-  return `用台灣口音的國語，以${persona}的聲音，語氣${TONES[line.tone] ?? TONES.neutral}，說得慢一點、清楚、音量平穩，只唸引號裡的話：「${line.text}」`;
+  return promptForLine(line.speaker, line.text);
 }
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

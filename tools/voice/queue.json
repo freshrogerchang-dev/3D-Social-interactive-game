@@ -1,0 +1,1361 @@
+{
+  "version": 1,
+  "lines": [
+    {
+      "speaker": "xiaoan",
+      "text": "你好。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoan-4f10391a.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想怎麼回應？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-095247b3.m4a"
+    },
+    {
+      "speaker": "xiaoyu",
+      "text": "可以。等我踢完這球。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoyu-7e827964.m4a"
+    },
+    {
+      "speaker": "xiaoqing",
+      "text": "對，我在排隊。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoqing-79839c11.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們等一下去游泳。",
+      "tone": "happy",
+      "file": "assets/voice/mom-cf4cce36.m4a"
+    },
+    {
+      "speaker": "xiaoyun",
+      "text": "可以，借你吹一次。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoyun-e76fc0ef.m4a"
+    },
+    {
+      "speaker": "agong",
+      "text": "喔，謝謝你告訴我。",
+      "tone": "surprised",
+      "file": "assets/voice/agong-c99b0272.m4a"
+    },
+    {
+      "speaker": "xiaozhe",
+      "text": "我的氣球飛走了。",
+      "tone": "worried",
+      "file": "assets/voice/xiaozhe-15f7158d.m4a"
+    },
+    {
+      "speaker": "xiaoan",
+      "text": "你好。我在這裡休息。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoan-0a438a51.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你說了「你好」。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-1dc518b4.m4a"
+    },
+    {
+      "speaker": "xiaoyu",
+      "text": "我踢完就換你。",
+      "tone": "thinking",
+      "file": "assets/voice/xiaoyu-dd7a91b7.m4a"
+    },
+    {
+      "speaker": "xiaoqing",
+      "text": "我先溜，再換你。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoqing-e45a7bd2.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "你今天不想去游泳。",
+      "tone": "thinking",
+      "file": "assets/voice/mom-bec13ebf.m4a"
+    },
+    {
+      "speaker": "xiaoyun",
+      "text": "謝謝你還給我。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoyun-ab30b819.m4a"
+    },
+    {
+      "speaker": "agong",
+      "text": "謝謝你幫我撿。",
+      "tone": "happy",
+      "file": "assets/voice/agong-a6056182.m4a"
+    },
+    {
+      "speaker": "xiaozhe",
+      "text": "嗯，我好難過。",
+      "tone": "thinking",
+      "file": "assets/voice/xiaozhe-c40fc8f1.m4a"
+    },
+    {
+      "speaker": "xiaoan",
+      "text": "好。我會在這裡。",
+      "tone": "neutral",
+      "file": "assets/voice/xiaoan-ebc8bbd4.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "小安回應了你。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-f7fa8407.m4a"
+    },
+    {
+      "speaker": "xiaoyu",
+      "text": "好了，換你踢。",
+      "tone": "excited",
+      "file": "assets/voice/xiaoyu-0c774eb2.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "你想回家玩玩具。",
+      "tone": "thinking",
+      "file": "assets/voice/mom-554b26b6.m4a"
+    },
+    {
+      "speaker": "xiaoyun",
+      "text": "這是我的，不想借。",
+      "tone": "worried",
+      "file": "assets/voice/xiaoyun-f77e1610.m4a"
+    },
+    {
+      "speaker": "agong",
+      "text": "我差點找不到。",
+      "tone": "happy",
+      "file": "assets/voice/agong-bee3e7f5.m4a"
+    },
+    {
+      "speaker": "xiaozhe",
+      "text": "謝謝你陪我。",
+      "tone": "thinking",
+      "file": "assets/voice/xiaozhe-33f387b6.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你點頭打招呼。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-70df3bb9.m4a"
+    },
+    {
+      "speaker": "xiaoyu",
+      "text": "現在不行，在比賽。",
+      "tone": "worried",
+      "file": "assets/voice/xiaoyu-f3547b9e.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "謝謝你告訴我。",
+      "tone": "happy",
+      "file": "assets/voice/mom-63f714cb.m4a"
+    },
+    {
+      "speaker": "xiaoyun",
+      "text": "謝謝你。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoyun-b5f209ba.m4a"
+    },
+    {
+      "speaker": "agong",
+      "text": "咦？謝謝你。",
+      "tone": "surprised",
+      "file": "assets/voice/agong-0751101c.m4a"
+    },
+    {
+      "speaker": "xiaozhe",
+      "text": "我好一點了。",
+      "tone": "happy",
+      "file": "assets/voice/xiaozhe-a5421535.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以回到開始，重新選。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-2e0a5b8b.m4a"
+    },
+    {
+      "speaker": "xiaoyu",
+      "text": "謝謝。等一下再來。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoyu-28536419.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "先游泳，再玩Switch。",
+      "tone": "excited",
+      "file": "assets/voice/mom-cdff87f5.m4a"
+    },
+    {
+      "speaker": "xiaoyun",
+      "text": "你可以看我吹。",
+      "tone": "happy",
+      "file": "assets/voice/xiaoyun-1b071b49.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你選了先不參與。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-fe4ce5df.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "你還是不想去。",
+      "tone": "thinking",
+      "file": "assets/voice/mom-88675ffc.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "這次打招呼結束了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-eb7e55e5.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "好，我們先坐一下。",
+      "tone": "happy",
+      "file": "assets/voice/mom-49451c10.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你回到公園。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-19f32d5e.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "好，我們出發吧。",
+      "tone": "happy",
+      "file": "assets/voice/mom-ce6a1d48.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "小宇在玩球。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-0ff93370.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "好，想說再跟我說。",
+      "tone": "happy",
+      "file": "assets/voice/mom-a9cc85f3.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想怎麼開始？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-24f6a96e.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我陪你找安靜處。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-31d88fbb.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你在旁邊看小宇玩。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-52487459.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我陪你一起離開。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-7018aa87.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "想好了再選。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-42e88aff.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "選你平常舒服的輔具。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-eaa27f73.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你說：「可以一起玩嗎？」",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-be7858ce.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "現在感覺怎麼樣？",
+      "tone": "neutral",
+      "file": "assets/voice/mom-567ca4bf.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你用手指了球。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-cd7c32d1.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "可以先不回去。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-eceb813a.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "等一下就輪到你。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-a76c65b1.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "你的身體由你決定。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-5b4ba8b0.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "小宇把球傳給你。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-85de83e6.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "揮手也可以。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-bd4bb666.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你跟小宇一起玩球。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-3afd8490.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我會陪你拉開距離。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-fcf6fe0d.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "這次小宇會說不行。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-27074e76.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "今天先不去公園。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-f988d605.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你可以等一下再問。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e4d67b64.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "遊具維修，先不玩。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-820c6ab4.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你先去玩別的。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-7ceaef95.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "這個餐點賣完了。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-484777a5.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "等一下可以再問。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-63d4e8a0.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "失望也可以說出來。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-0d7ba639.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "難過是可以的。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-3e86d314.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "你想怎麼安排？",
+      "tone": "neutral",
+      "file": "assets/voice/mom-c9fdfc65.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以去做別的事。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-71597eed.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "不用現在決定。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-64005677.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "這次練習結束了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-b324aec9.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們一起想想。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-8fcea751.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "小晴在排溜滑梯。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e10f1ba3.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "需要時還能再調整。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-4164c1a6.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想怎麼做？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-0e7e83f0.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "先等行人綠燈。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-2f8fe991.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你問：「這是排隊嗎？」",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-f0dc7a9b.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們先不走。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-718cc0eb.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你排在小晴後面。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-306b4fd3.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "先留在人行道。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-86cd38b6.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "小晴溜下去了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-40d13483.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我陪你想辦法。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-ef8ae57b.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "現在輪到你。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-184f0b3e.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "好，我們先等。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-03509562.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你溜下去了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-c12258de.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們一起走斑馬線。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-61db2730.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "溜完可以再排一次。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-9664a866.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們坐在位置吃。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-50b3291c.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "有人站到你前面。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-05705035.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "你需要什麼幫忙？",
+      "tone": "neutral",
+      "file": "assets/voice/mom-92bad25c.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你說：「請排後面。」",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-2bf39b82.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我陪你去旁邊活動。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-02083aa9.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "他走到後面排隊了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-425eddc8.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們找安靜的地方。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-34fb5b7a.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你用手指後面。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-76643ed2.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我幫你撿。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-0cc7bd81.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你去找大人幫忙。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-68da60b6.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們找安全的地方。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-a74e785e.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "大人請他排後面。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-5cd7f462.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "想尿尿可以現在說。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-22c7eafd.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你讓他先溜。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-2e3a82e5.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "好，我陪你找廁所。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-04a14fc1.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "輪到你，你溜下去了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-451cbe74.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "不確定也可以說。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-67a2f9a0.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想回家玩玩具。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-53e4bd3e.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們一起找廁所。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-6a15ce6c.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想怎麼說？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-2bc8b160.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我會陪你一起處理。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-c679d09e.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你說：「我不想去。」",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-2f0917cd.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我陪你，你怕什麼？",
+      "tone": "neutral",
+      "file": "assets/voice/mom-5900a175.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你搖頭。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e49ca511.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們先避開聲音。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-fd4117cf.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你說：「我想回家玩。」",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-bf359562.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "需要幫忙就告訴我。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-93d9c35f.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "媽媽想到辦法了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-bce0b348.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我們去換乾淨衣服。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-8c30f45c.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "游完回家可以玩Switch。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-9260805f.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我陪你換衣和清潔。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-1f422b8a.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以說你需要什麼。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-4205c265.m4a"
+    },
+    {
+      "speaker": "mom",
+      "text": "我會陪你。",
+      "tone": "neutral",
+      "file": "assets/voice/mom-357c2ecc.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "休息好了再出發。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-aaafa312.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "先游泳，再玩Switch。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-36f928cd.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你選了先不說。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-fee24ff5.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "小芸在吹泡泡。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-22823aec.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你也想吹吹看。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-437e249d.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你在旁邊看泡泡飛。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-a49db1f3.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你問：「可以借我吹嗎？」",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-bbccd070.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你用手指了泡泡。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-f7798ecc.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你吹出好多泡泡。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-0a8cc2b8.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "吹完要還給小芸。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-07479539.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你把泡泡水還給小芸。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-20c330ed.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "這次小芸會說不借。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-37397e7e.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "東西是她的，可以不借。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-49d619ba.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "阿公的手帕掉在地上。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-3ca320cc.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "他還沒有發現。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-9a1d75f5.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你說：「你的手帕掉了。」",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-0a981582.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你指一指地上的手帕。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-33e9aa90.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你把手帕撿起來給阿公。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-f289703f.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "阿公把手帕收好了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-1ff077a6.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "這次阿公已經走遠了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-fd16b99e.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你走過去說手帕掉了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-03eb26f6.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你把手帕交給媽媽。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-f7e9f220.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "媽媽拿去還給阿公。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-7b6701e9.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "阿公拿回手帕了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-398f3162.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "小哲的氣球飛走了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-14445476.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "他看起來很難過。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-bf2ea41b.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你問：「你還好嗎？」",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e64a42e4.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你坐在小哲旁邊。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-1421c56c.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你說：「難過是可以的。」",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e29e1ad3.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你安靜地陪在旁邊。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-6e4e2104.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你去找大人來。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-5813db68.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "大人陪小哲說話。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-7035f37d.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "小哲想去玩溜滑梯。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-eb99e7f8.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "和熟悉的照顧者一起練習。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-1f8d63bc.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想選哪個情境？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-25966ce5.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "剛才聲音大、人很多。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-edb17799.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你現在需要什麼？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-1104282a.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你可以選舒服的方法。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-b727e7c1.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "先到安全、安靜的位置。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-0f458b86.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以用熟悉的耳罩。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-3cb9482a.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "不用等到很難受才求助。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-9bb89fda.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你表達了自己的需要。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-c9c1b858.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你不想被親友抱或親。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-f617de29.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你說了「我不想」。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-da3413e0.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "對方停下，保持距離。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-fd0bf6f2.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你揮手，沒有抱抱或親親。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e77fe7ca.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "對方接受你的選擇。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-d7c7e8e7.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你不想被碰，對方還靠近。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-cdcda460.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你現在想怎麼做？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-1068d622.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你告訴熟悉的照顧者。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-724d1817.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "照顧者協助到安全位置。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-46b37012.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你表達了自己的界線。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-a594a343.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "原本的計畫改變了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-62322bbf.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想練習哪種情況？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-ae1d5e3e.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你原本想去公園玩。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e9d17f94.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "現在外面下雨了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-9c8ca875.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想玩的遊具有圍欄。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-6383b5ef.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "照顧者陪你停在外面。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-9341283f.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想吃的餐點沒有了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-b08b4789.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "不必馬上變得開心。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-f86e12a9.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以選，也可以先不選。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-0d8f740c.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "先休息，想說時再說。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-7b5208f4.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你選擇另一個活動。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-044842e6.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "也可以繼續說出感受。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-354138f3.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你選擇了現在的做法。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e24c3026.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你想練習哪個情境？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-3a466be9.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你和媽媽在人行道。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-f7126d3d.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "前面是馬路。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e45c163d.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你牽著媽媽的手。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-8477be53.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "牽手後也要確認路況。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-ce98e701.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "現在行人綠燈亮了。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-471436ba.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "還要確認車輛停讓。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-6a38cf72.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你看到什麼？",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e21f8d94.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "留在人行道等車停讓。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-00f69af0.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你可以說哪裡不舒服。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-38ea7017.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "安排好安全方式再過。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-b69bbd76.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "現在先留在人行道。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-20b4dd7c.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你們留在人行道。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-aaa59119.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "行人綠燈，車輛已停讓。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-583de8a6.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你牽著媽媽一起走。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-fec07ea9.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "牽手沿斑馬線走到對面。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-3c6e8571.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "到了對面再按按鈕。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-fbcb04dd.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你們一起走到對面。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-91bee141.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你和媽媽在外面吃飯。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e5d15bda.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "想離開可以告訴媽媽。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e24f30dc.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以說，也可以指給媽媽。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-7a41779e.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "避開熱食和走道。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-c94fb66b.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "休息好了再決定。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-12743554.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以換位置或出去休息。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-c26117f3.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "先留在位置，請大人幫忙。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-0a5994f4.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "桌邊有人走動、端熱食。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-5be1d8a4.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "想安靜或活動都能說。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-38e29cd4.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你說出了現在的需要。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-6f51891b.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "玩到一半也能去廁所。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-5fe01f8d.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "不必等遊戲結束。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-0c9fe6f2.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以請媽媽陪你去看看。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-e6d03966.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "沿街區指引走到廁所入口。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-b96ff76b.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "找不到就問工作人員。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-c49f0953.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以幫忙找位置或衣物。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-061b3c55.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "可以說，也可以用手指。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-7699bfef.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "請照顧者協助找安靜位置。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-b10ef293.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你可以先去上廁所。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-d768a0f2.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "這裡不需要真的操作。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-c92323b6.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "尿濕了也可以請人幫忙。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-12f9c038.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "找有隱私的地方處理。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-ba06652d.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你可以休息或再說需要。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-62f573b8.m4a"
+    },
+    {
+      "speaker": "narrator",
+      "text": "你留在這裡。",
+      "tone": "neutral",
+      "file": "assets/voice/narrator-2a5cd3c7.m4a"
+    }
+  ]
+}
