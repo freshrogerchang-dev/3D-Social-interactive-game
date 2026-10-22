@@ -37,3 +37,7 @@ python3 apply_profile.py --input-dir audio --output-dir tuned-audio
 ## Sadaltager 升調試聽候選
 
 已新增 Sadaltager 聲線選項。先選 first、Sadaltager、A，並勾選既有確認欄位；僅生成 1 句。後製讀取 sadaltager-higher.json，升高 2.5 個半音，維持原語速；Zephyr 的既有設定與預設聲線不變。audio/ 為升調後，raw-audio/ 為原音，日後可離線微調而不重複呼叫 API。這是待試聽候選，尚未套用到遊戲角色，不保證小男孩年齡聽感。
+
+## GitHub 未提供 FFmpeg 時
+
+工作流程不再嘗試 apt 安裝，以免安裝阻擋語音生成。若執行環境缺少 FFmpeg／rubberband，仍保存 raw-audio 的原始 WAV，並附 processing-pending.json 記錄要套用的效果。這代表原音已產生、後製尚未完成，不是升調版。請交由本機使用 apply_profile.py 與對應設定處理，不必重新呼叫 API。若 GitHub 已具備工具，仍直接輸出後製完成的 audio。
