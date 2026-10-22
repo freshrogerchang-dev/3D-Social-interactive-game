@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       scope:
-        description: 'dry-run 不呼叫 API；first/all 僅在已確認免費配額時使用'
+        description: 'dry-run 不呼叫 API；first/all 僅在已確認免費配額時使用；first 每次 1 個音檔'
         type: choice
         options: [dry-run, first, all]
         default: dry-run
@@ -13,6 +13,11 @@ on:
         type: choice
         options: [Puck, Charon, Kore]
         default: Puck
+      style:
+        description: 'A 自然版或 B 溫和慢速；每次只產生所選版本，first 僅 1 個音檔'
+        type: choice
+        options: [A, B]
+        default: A
       free_quota_confirmed:
         description: '已確認此金鑰專案可使用免費 TTS 配額（此選項不會替供應商設定計費上限）'
         type: boolean
@@ -51,12 +56,13 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PREVIEW_SCOPE: ${{ inputs.scope }}
+          PREVIEW_STYLE: ${{ inputs.style || 'A' }}
           PREVIEW_VOICE: ${{ inputs.voice || 'Puck' }}
         run: |
           if [ "$PREVIEW_SCOPE" = 'all' ]; then
-            python3 tools/park-voice-preview/generate.py --voice "$PREVIEW_VOICE"
+            python3 tools/park-voice-preview/generate.py --voice "$PREVIEW_VOICE" --style "$PREVIEW_STYLE"
           else
-            python3 tools/park-voice-preview/generate.py --line 01 --voice "$PREVIEW_VOICE"
+            python3 tools/park-voice-preview/generate.py --line 01 --voice "$PREVIEW_VOICE" --style "$PREVIEW_STYLE"
           fi
       - name: Upload audio and transcript
         if: ${{ !cancelled() }}
