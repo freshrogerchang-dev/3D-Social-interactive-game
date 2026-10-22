@@ -13,7 +13,7 @@
     "lastError": null,
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-22",
-    "requestsRemainingToday": 5,
+    "requestsRemainingToday": 50,
     "bySpeaker": {
       "xiaoan": {
         "total": 3,
@@ -49,5 +49,5 @@
       }
     }
   },
-  "updatedAt": "2026-10-22T09:31:07.969842+00:00"
+  "updatedAt": "2026-10-22T10:49:47.707233+00:00"
 }

@@ -1,6 +1,6 @@
 # 每日遊戲語音製作
 
-使用者於 2026-10-22 選定小男孩使用 Sadaltager、B 溫和慢速語氣、離線升高 2.5 半音，並明確核准「沿用 Tier 1 預付金鑰，每天最多生成 5 句，接受小額扣款」。這不是每日免費額度方案。
+使用者於 2026-10-22 選定小男孩使用 Sadaltager、B 溫和慢速語氣、離線升高 2.5 半音，並明確核准「沿用 Tier 1 預付金鑰，每天最多生成 50 句，接受小額扣款」。原先每日 5 次，使用者後續要求改為五天完成，已提高至每日 50 次。這不是每日免費額度方案。
 
 ## 範圍與聲音
 
@@ -21,7 +21,7 @@ queue.json 由遊戲共用 voiceLines() 匯出，包含公園、生活練習、�
 
 預設分支 main 的 `.github/workflows/daily-game-voice.yml` 每天 UTC 09:23（台灣時間 17:23）排程；GitHub 可能延後執行。排程會 checkout `codex/daily-game-voice`，只在該分支保存音檔、原音與進度，不推發布分支、不開 PR、不部署。
 
-沿用 Repository secret `GEMINI_API_KEY`。每天最多 5 次本 routine 的 HTTP 請求，包含失敗與保守預留；不是整個 Gemini 專案的所有應用共用計數。每天順利完成 5 句時約需 46 天，實際因共用原音、失敗或暫停而不同。
+沿用 Repository secret `GEMINI_API_KEY`。每天最多 50 次本 routine 的 HTTP 請求，包含失敗與保守預留；不是整個 Gemini 專案的所有應用共用計數。每天順利完成 50 句時約需 5 天（50＋50＋50＋50＋26）；預計 2026-10-23 至 10-27，實際因共用原音、失敗或暫停而不同。
 
 每日計數依官方 RPD 重設時區 `America/Los_Angeles`（太平洋時間）。同日手動重跑也會讀取已保存計數，不重設上限。每次請求先將預留計數 commit／push 到遠端，再呼叫 API；保存失敗則不呼叫 API。
 
@@ -31,7 +31,7 @@ queue.json 由遊戲共用 voiceLines() 匯出，包含公園、生活練習、�
 
 ## 查看或手動執行
 
-Actions → Daily game voice → Run workflow：預設 `dry_run=true`，只看清單／進度。若要今天先做第一批，取消 dry_run；仍受同一個每天 5 次上限。不要用舊預覽或舊手動生成器作為 routine，它們不共用這份每日計數。
+Actions → Daily game voice → Run workflow：預設 `dry_run=true`，只看清單／進度。若要今天先做第一批，取消 dry_run；仍受同一個每天 50 次上限。不要用舊預覽或舊手動生成器作為 routine，它們不共用這份每日計數。
 
 執行摘要顯示已完成／總數、當日剩餘上限與需人工檢查數。音檔永久保存在專用 Git 分支；下載附件只保留 7 天。若保存或編碼失敗，額外的 recovery 附件保留當次原音，避免重新生成。
 

@@ -41,15 +41,30 @@ class DailyBatchTests(unittest.TestCase):
                      encoder=self.encoder, sleeper=lambda _: None, today=lambda: self.day,
                      check_tools=lambda: None)
 
-    def test_same_day_restart_cannot_exceed_five(self):
-        self.assertEqual(self.batch().run("not-a-real-key")["complete"], 5)
-        self.assertEqual(self.batch().run("not-a-real-key")["complete"], 5)
-        self.assertEqual(self.request.call_count, 5)
-        self.day = "2026-10-23"
-        self.assertEqual(self.batch().run("not-a-real-key")["complete"], 8)
-        self.assertEqual(self.request.call_count, 8)
+    def test_226_clips_finish_in_five_days_without_exceeding_fifty(self):
+        self.set_lines(226)
+        for offset, expected in enumerate([50, 100, 150, 200, 226]):
+            self.day = f"2026-10-{23 + offset}"
+            self.assertEqual(self.batch().run("not-a-real-key")["complete"], expected)
+            self.assertEqual(self.batch().run("not-a-real-key")["complete"], expected)
+            self.assertEqual(self.request.call_count, expected)
+        state = read_json(self.root / "voice-progress.json")
+        self.assertEqual([day["requests"] for day in state["days"].values()],
+                         [50, 50, 50, 50, 26])
+        self.day = "2026-10-28"
         self.batch().run("not-a-real-key")
-        self.assertEqual(self.request.call_count, 8)
+        self.assertEqual(self.request.call_count, 226)
+
+    def test_existing_five_reservations_are_preserved_when_cap_increases(self):
+        self.set_lines(60)
+        save_json(self.root / "voice-progress.json", {
+            "version": 1, "days": {self.day: {"requests": 5}}, "attempts": {},
+        })
+        self.assertEqual(self.batch().run("not-a-real-key")["complete"], 45)
+        self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 45)
+        state = read_json(self.root / "voice-progress.json")
+        self.assertEqual(state["days"][self.day]["requests"], 50)
 
     def test_http_429_counts_once_and_does_not_retry(self):
         self.request.side_effect = RuntimeError("HTTP_429")

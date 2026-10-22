@@ -1,4 +1,4 @@
-"""Resume offline game TTS generation with a durable five-request daily cap."""
+"""Resume offline game TTS generation with a durable 50-request daily cap."""
 import argparse
 import base64
 from datetime import datetime, timezone
@@ -18,7 +18,7 @@ import wave
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[2]
-MAX_DAILY_REQUESTS = 5
+MAX_DAILY_REQUESTS = 50
 MAX_ATTEMPTS_PER_SOURCE = 3
 BRANCH = "codex/daily-game-voice"
 BOYS = {"xiaoan", "xiaoyu", "xiaozhe"}
@@ -334,7 +334,7 @@ def main():
         with open(summary, "a", encoding="utf-8") as output:
             output.write(f'\n已完成 {report["complete"]}/{report["total"]} 句；'
                          f'剩餘 {report["remaining"]} 句。\n')
-            output.write(f'當日剩餘請求上限：{report["requestsRemainingToday"]}/5；'
+            output.write(f'當日剩餘請求上限：{report["requestsRemainingToday"]}/{MAX_DAILY_REQUESTS}；'
                          f'需人工檢查：{report["needsReview"]} 句。\n')
             output.write(f'狀態：{report["status"]}；暫停原因：{report["halted"] or "無"}。\n')
     if not args.plan and (report["halted"] or report["status"] == "paused_after_error"):
