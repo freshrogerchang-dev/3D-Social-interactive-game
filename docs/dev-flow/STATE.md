@@ -473,3 +473,14 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。不宣
 - 最終本機街區23/23、原打招呼24/24、安全控制15/15各exit0。最後地圖補注音與安全列捲動留白後，重跑五項工程各exit0、145單元，並以最終Pages產物跑地圖8/8、exit0；完整路線23與24／15是在這次DOM細節前執行，未冒稱完整重跑。證據及命令見neighborhood-build-log.md與neighborhood-evidence。準備沿用授權更新main-uv12jr／Pages。
 
 - 街區產品提交53782ebdb6e959f781390411f5a02a5a9c6bd890已推送。Actions run39083600902的build／deploy均success（https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/39083600902）。公開Pages檢查10/10、exit0，JS／CSS HTTP200且逐位元符合本機Pages建置；六目的地、注音、兩種短畫面所有地圖按鈕命中、只指引不傳送、暫停與安全區皆通過，無pageerror。見neighborhood-evidence/published與deployment.json。後續僅補紀錄，不改應用程式；新版iPhone實機與專業審查仍待完成。
+
+
+## 2026-10-22 Zephyr 小女生聲音設定
+
+- 使用者已選定較明顯調整版：語速 85%、升高 2.5 半音。2026-10-22 使用者回覆「都核准」，核准既定依賴安裝、檢查與本次 commit／push；遊戲修改存新分支，不觸發發布。
+- main 試聽流程已同步提交 840d8d77c53b70fbbe29ae08618565f70426d55b：Zephyr 生成後自動離線後製；第一句 A 保存原音並以聲線／模型／台詞／版本核對後重用，不消耗新 API 額度。main 的工作流程僅手動執行。
+- 遊戲生成器的小晴、小芸使用 Zephyr 與同一後製設定，成人、男孩及其他覆寫聲線不套用；不調整 VoicePlayer，避免重複升調。每檔保存 render 設定，舊設定不誤判為已更新；新增 --speaker／--limit 支援小量生成。
+- Node 22.22.0、npm 10.9.4；npm ci exit 0（鎖檔版本不變）。typecheck、lint、format:check、test、build 五項各 exit 0，15 檔 145 項測試通過。JS 692.03 kB／gzip 183.76 kB，既有 chunk 警告保留。
+- 小晴 --dry-run --speaker=xiaoqing --limit=1 exit 0，範圍 2 句、最多 1 句，選用 Zephyr；沒有呼叫 Gemini。兩端濾鏡輸出與使用者選定 WAV 逐位元相同，原生角色範圍檢查通過。
+- 遊戲修改保存於 codex/zephyr-younger-profile，不推 main-uv12jr、不觸發 Pages；完整角色語音未生成，線上遊戲仍使用既有語音。新版 iPhone／實際完整台詞試聽未驗證，不宣稱完整 S5 通過。
+- 詳見 zephyr-younger-voice-build-log.md。下一步為小量生成實際角色台詞與試聽，遊戲發布另行確認。

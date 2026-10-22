@@ -5,6 +5,7 @@
  * 用法（需要 ffmpeg；金鑰只放在環境變數，不寫進檔案、不送到前端）：
  *   GEMINI_API_KEY=… node tools/voice/generate-voice.mjs            # 只產生還沒有的句子
  *   node tools/voice/generate-voice.mjs --dry-run                   # 列出要產生的句子，不呼叫 API
+ * 小量產生：加 --speaker=xiaoqing --limit=1（先用 --dry-run 預覽）。
  * 可選環境變數：GEMINI_TTS_MODEL（預設 gemini-2.5-flash-preview-tts）、GEMINI_VOICE_<說話者>。
  *
  * 依產品決定 Q5：只給使用者自己使用；App 只播放這裡產生的靜態檔案。
@@ -15,20 +16,26 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { build } from 'vite';
+import { APPROVED_PROFILE, profileFor, profileFilter } from './voice-profile.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const outDir = path.join(root, 'public/assets/voice');
 const manifestPath = path.join(outDir, 'manifest.json');
 const dryRun = process.argv.includes('--dry-run');
 const model = process.env.GEMINI_TTS_MODEL ?? 'gemini-2.5-flash-preview-tts';
+const selectedSpeaker = process.argv.find((arg) => arg.startsWith('--speaker='))?.slice(10);
+const selectedLimit = process.argv.find((arg) => arg.startsWith('--limit='))?.slice(8);
+const limit = selectedLimit === undefined ? Infinity : Number(selectedLimit);
+if (selectedLimit !== undefined && (!Number.isInteger(limit) || limit < 1))
+  throw new Error('--limit 必須是正整數。');
 
 /** 每位說話者的預設聲音與角色描述（可用 GEMINI_VOICE_XIAOAN 等覆寫聲音）。 */
 const SPEAKERS = {
   xiaoan: { voice: 'Puck', persona: '一位七歲、溫和友善的台灣小男孩' },
   xiaoyu: { voice: 'Fenrir', persona: '一位八歲、活潑愛玩球的台灣小男孩' },
-  xiaoqing: { voice: 'Leda', persona: '一位七歲、溫柔的台灣小女孩' },
+  xiaoqing: { voice: APPROVED_PROFILE.voice, persona: '一位聲音清亮、溫柔友善的台灣女生' },
   mom: { voice: 'Sulafat', persona: '一位溫柔、有耐心的台灣媽媽' },
-  xiaoyun: { voice: 'Aoede', persona: '一位六歲、開朗的台灣小女孩' },
+  xiaoyun: { voice: APPROVED_PROFILE.voice, persona: '一位聲音清亮、開朗友善的台灣女生' },
   agong: { voice: 'Algenib', persona: '一位和藹、說話慢的台灣阿公' },
   xiaozhe: { voice: 'Achird', persona: '一位七歲、有點難過但溫和的台灣小男孩' },
   narrator: { voice: 'Achernar', persona: '一位溫和、說話清楚的說故事老師' },
@@ -111,7 +118,8 @@ async function synthesize(line, key) {
   }
 }
 
-function encode(pcm, rate, file) {
+function encode(pcm, rate, file, speaker) {
+  const profile = profileFor(speaker, voiceFor(speaker));
   // PCM 16-bit 單聲道 → AAC（約 40 kbps）；統一音量，避免某幾句特別大聲。
   execFileSync(
     'ffmpeg',
@@ -128,7 +136,7 @@ function encode(pcm, rate, file) {
       '-i',
       'pipe:0',
       '-af',
-      'loudnorm=I=-20:TP=-3',
+      profile ? profileFilter(profile) : 'loudnorm=I=-20:TP=-3',
       '-ar',
       '24000',
       '-c:a',
@@ -143,19 +151,31 @@ function encode(pcm, rate, file) {
   );
 }
 
+if (selectedSpeaker && !Object.hasOwn(SPEAKERS, selectedSpeaker))
+  throw new Error('--speaker 不是有效角色。');
 const lines = await loadLines();
 const manifest = existsSync(manifestPath)
   ? JSON.parse(readFileSync(manifestPath, 'utf8'))
   : { files: [] };
 const done = new Set(manifest.files);
-const missing = lines.filter(
-  (line) => !done.has(line.file) || !existsSync(path.join(root, 'public', line.file)),
-);
+const rendered = manifest.rendered ?? {};
+const selectedLines = lines.filter((line) => !selectedSpeaker || line.speaker === selectedSpeaker);
+const missing = selectedLines.filter((line) => {
+  const profile = profileFor(line.speaker, voiceFor(line.speaker));
+  const staleProfile =
+    profile &&
+    JSON.stringify(rendered[line.file]) !==
+      JSON.stringify({
+        voice: voiceFor(line.speaker),
+        profile,
+      });
+  return staleProfile || !done.has(line.file) || !existsSync(path.join(root, 'public', line.file));
+});
 console.log(
-  `共 ${lines.length} 句，已有 ${lines.length - missing.length} 句，要產生 ${missing.length} 句。`,
+  `本次範圍 ${selectedLines.length} 句，尚缺 ${missing.length} 句；本次最多產生 ${Math.min(missing.length, limit)} 句。`,
 );
 if (dryRun) {
-  for (const line of missing.slice(0, 10))
+  for (const line of missing.slice(0, Math.min(limit, 10)))
     console.log(`  ${line.speaker}（${voiceFor(line.speaker)}）：${line.text}`);
   process.exit(0);
 }
@@ -163,6 +183,10 @@ const key = process.env.GEMINI_API_KEY;
 if (!key) {
   console.error('需要環境變數 GEMINI_API_KEY（不要寫進檔案或 commit）。');
   process.exit(1);
+}
+if (missing.some((line) => profileFor(line.speaker, voiceFor(line.speaker)))) {
+  const filters = execFileSync('ffmpeg', ['-hide_banner', '-filters'], { encoding: 'utf8' });
+  if (!filters.includes('rubberband')) throw new Error('需要 rubberband 濾鏡；尚未呼叫 API。');
 }
 mkdirSync(outDir, { recursive: true });
 const save = () => {
@@ -175,6 +199,10 @@ const save = () => {
         engine: `Gemini TTS（${model}），離線預先產生`,
         use: '依產品決定 Q5：僅使用者自己使用；App 不呼叫語音 API、前端沒有金鑰',
         voices: Object.fromEntries(Object.keys(SPEAKERS).map((s) => [s, voiceFor(s)])),
+        profiles: Object.fromEntries(
+          Object.keys(SPEAKERS).map((s) => [s, profileFor(s, voiceFor(s))]),
+        ),
+        rendered,
         files,
       },
       null,
@@ -183,10 +211,14 @@ const save = () => {
   );
 };
 let made = 0;
-for (const line of missing) {
+for (const line of missing.slice(0, limit)) {
   try {
     const { pcm, rate } = await synthesize(line, key);
-    encode(pcm, rate, path.join(root, 'public', line.file));
+    encode(pcm, rate, path.join(root, 'public', line.file), line.speaker);
+    rendered[line.file] = {
+      voice: voiceFor(line.speaker),
+      profile: profileFor(line.speaker, voiceFor(line.speaker)),
+    };
     done.add(line.file);
     made += 1;
     save();
