@@ -22,7 +22,7 @@ def main():
     parser.add_argument("--line", choices=[f"{i:02d}" for i in range(1, 11)])
     parser.add_argument("--style", choices=list(STYLES))
     parser.add_argument("--model", default="gemini-2.5-flash-preview-tts")
-    parser.add_argument("--voice", default="Kore")
+    parser.add_argument("--voice", default="Puck")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     lines = json.loads((ROOT / "lines.json").read_text(encoding="utf-8"))
@@ -31,7 +31,7 @@ def main():
             and (not args.style or style == args.style)]
     if args.dry_run:
         for line, style in jobs:
-            print(f'{line["id"]}_{style}.wav: {line["text"]} / {STYLES[style]}')
+            print(f'{line["id"]}_{style}.wav: {line["text"]} / voice={args.voice} / {STYLES[style]}')
         return 0
     key = os.environ.get("GEMINI_API_KEY")
     if not key:
@@ -45,9 +45,11 @@ def main():
             print(f"已存在，略過：{target.name}")
             continue
         prompt = (
-            "請用自然的台灣華語說出以下台詞。你是公園裡一位語氣溫和的朋友。"
+            "請用自然的台灣華語說出以下台詞。角色是公園裡約八到十歲的小男孩小安。"
+            "聲音年輕、明亮、輕快，音高略高但舒服，像同齡朋友聊天。"
             "音量穩定，依語意自然停頓，不用播報腔，不用誇張卡通語氣。"
-            "不要刻意模仿幼童。只說台詞，不朗讀指示，不加字。"
+            "吐字清楚，不裝可愛，不用娃娃音或尖叫，不刻意壓低成成年人的低音。"
+            "只說台詞，不朗讀指示，不加字。"
             f"本次說話方式：{STYLES[style]}\n台詞：{line['text']}"
         )
         body = {
