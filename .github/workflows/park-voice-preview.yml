@@ -51,18 +51,7 @@ jobs:
         run: |
           echo '請先確認免費 TTS 配額；本次未呼叫 API。'
           exit 1
-      - name: Prepare offline audio processor
-        if: ${{ inputs.scope != 'dry-run' && inputs.free_quota_confirmed && (inputs.voice == 'Zephyr' || inputs.voice == 'Sadaltager') }}
-        run: |
-          if command -v ffmpeg > /dev/null && ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null; then
-            echo 'ffmpeg 與 rubberband 已可用。'
-          else
-            sudo apt-get update
-            sudo apt-get install --no-install-recommends -y ffmpeg
-            ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null || { echo '安裝後仍缺少 rubberband；尚未呼叫 API。'; exit 1; }
-          fi
       - name: Generate preview audio
-        # Fail before any paid API call if the offline processor is unavailable.
         if: ${{ inputs.scope != 'dry-run' && inputs.free_quota_confirmed }}
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -70,10 +59,6 @@ jobs:
           PREVIEW_STYLE: ${{ inputs.style || 'A' }}
           PREVIEW_VOICE: ${{ inputs.voice || 'Zephyr' }}
         run: |
-          if [ "$PREVIEW_VOICE" = 'Zephyr' ] || [ "$PREVIEW_VOICE" = 'Sadaltager' ]; then
-            command -v ffmpeg > /dev/null || { echo '需要 ffmpeg，尚未呼叫 API。'; exit 1; }
-            ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null || { echo '需要 rubberband 濾鏡，尚未呼叫 API。'; exit 1; }
-          fi
           if [ "$PREVIEW_SCOPE" = 'all' ]; then
             python3 tools/park-voice-preview/generate.py --voice "$PREVIEW_VOICE" --style "$PREVIEW_STYLE"
           else
@@ -90,7 +75,12 @@ jobs:
             if [ "$PREVIEW_VOICE" = 'Sadaltager' ]; then
               profile='tools/park-voice-preview/sadaltager-higher.json'
             fi
-            python3 tools/park-voice-preview/apply_profile.py --input-dir tools/park-voice-preview/raw-audio --output-dir tools/park-voice-preview/audio --profile "$profile"
+            if command -v ffmpeg > /dev/null && ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null; then
+              python3 tools/park-voice-preview/apply_profile.py --input-dir tools/park-voice-preview/raw-audio --output-dir tools/park-voice-preview/audio --profile "$profile"
+            else
+              cp "$profile" tools/park-voice-preview/raw-audio/processing-pending.json
+              echo '原音已生成；目前沒有後製工具，請下載 raw-audio 交由本機套用效果。不在 GitHub 安裝工具。'
+            fi
           fi
       - name: Upload audio and transcript
         if: ${{ !cancelled() }}
@@ -101,6 +91,7 @@ jobs:
             tools/park-voice-preview/audio/*.wav
             tools/park-voice-preview/audio/*.profile.json
             tools/park-voice-preview/raw-audio/*.wav
+            tools/park-voice-preview/raw-audio/processing-pending.json
             tools/park-voice-preview/lines.json
           retention-days: 14
       - name: Download instructions
@@ -109,4 +100,4 @@ jobs:
           echo '## 公園打招呼語音試聽' >> "$GITHUB_STEP_SUMMARY"
           echo 'dry-run 只檢查台詞，不產生音檔。生成模式請確認 Generate preview audio 成功，再下載下方 Artifacts。' >> "$GITHUB_STEP_SUMMARY"
           echo 'A 自然聊天；B 溫和慢速。音檔保留 14 天，請下載保存。' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Zephyr：語速 85%、升高 2.5 半音。Sadaltager：原語速、升高 2.5 半音。raw-audio 保留原音。' >> "$GITHUB_STEP_SUMMARY"
+          echo 'audio 為已後製音檔。若只有 raw-audio 與 processing-pending.json，表示原音已生成、效果待本機套用；請勿重跑 API。Zephyr 目標語速 85%、升高 2.5 半音；Sadaltager 目標原語速、升高 2.5 半音。' >> "$GITHUB_STEP_SUMMARY"
