@@ -9,9 +9,9 @@ on:
         options: [dry-run, first, all]
         default: dry-run
       voice:
-        description: 'Zephyr 為本次小女生方向候選；年齡聽感須實際試聽確認'
+        description: 'Sadaltager 試升高 2.5 半音；Zephyr 保留已選定的小女生設定'
         type: choice
-        options: [Zephyr, Puck, Charon, Kore]
+        options: [Zephyr, Sadaltager, Puck, Charon, Kore]
         default: Zephyr
       style:
         description: 'A 自然版或 B 溫和慢速；每次只產生所選版本，first 僅 1 個音檔'
@@ -60,7 +60,7 @@ jobs:
           PREVIEW_STYLE: ${{ inputs.style || 'A' }}
           PREVIEW_VOICE: ${{ inputs.voice || 'Zephyr' }}
         run: |
-          if [ "$PREVIEW_VOICE" = 'Zephyr' ]; then
+          if [ "$PREVIEW_VOICE" = 'Zephyr' ] || [ "$PREVIEW_VOICE" = 'Sadaltager' ]; then
             command -v ffmpeg > /dev/null || { echo '需要 ffmpeg，尚未呼叫 API。'; exit 1; }
             ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null || { echo '需要 rubberband 濾鏡，尚未呼叫 API。'; exit 1; }
           fi
@@ -69,12 +69,18 @@ jobs:
           else
             python3 tools/park-voice-preview/generate.py --line 01 --voice "$PREVIEW_VOICE" --style "$PREVIEW_STYLE"
           fi
-      - name: Apply approved Zephyr voice profile
-        if: ${{ !cancelled() && inputs.scope != 'dry-run' && inputs.free_quota_confirmed && inputs.voice == 'Zephyr' }}
+      - name: Apply selected voice profile
+        if: ${{ !cancelled() && inputs.scope != 'dry-run' && inputs.free_quota_confirmed && (inputs.voice == 'Zephyr' || inputs.voice == 'Sadaltager') }}
+        env:
+          PREVIEW_VOICE: ${{ inputs.voice }}
         run: |
           if compgen -G 'tools/park-voice-preview/audio/*.wav' > /dev/null; then
             mv tools/park-voice-preview/audio tools/park-voice-preview/raw-audio
-            python3 tools/park-voice-preview/apply_profile.py --input-dir tools/park-voice-preview/raw-audio --output-dir tools/park-voice-preview/audio
+            profile='tools/park-voice-preview/voice-profile.json'
+            if [ "$PREVIEW_VOICE" = 'Sadaltager' ]; then
+              profile='tools/park-voice-preview/sadaltager-higher.json'
+            fi
+            python3 tools/park-voice-preview/apply_profile.py --input-dir tools/park-voice-preview/raw-audio --output-dir tools/park-voice-preview/audio --profile "$profile"
           fi
       - name: Upload audio and transcript
         if: ${{ !cancelled() }}
@@ -93,4 +99,4 @@ jobs:
           echo '## 公園打招呼語音試聽' >> "$GITHUB_STEP_SUMMARY"
           echo 'dry-run 只檢查台詞，不產生音檔。生成模式請確認 Generate preview audio 成功，再下載下方 Artifacts。' >> "$GITHUB_STEP_SUMMARY"
           echo 'A 自然聊天；B 溫和慢速。音檔保留 14 天，請下載保存。' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Zephyr 的 audio 已套用語速 85%、升高 2.5 半音；raw-audio 保留原始音檔。' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Zephyr：語速 85%、升高 2.5 半音。Sadaltager：原語速、升高 2.5 半音。raw-audio 保留原音。' >> "$GITHUB_STEP_SUMMARY"

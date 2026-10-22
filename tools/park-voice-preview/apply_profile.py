@@ -1,4 +1,4 @@
-"""Apply the user-approved Zephyr profile offline; never calls a speech API."""
+"""Apply a selected voice profile offline; never calls a speech API."""
 import argparse
 import hashlib
 import json
@@ -53,11 +53,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--profile", type=Path, default=ROOT / "voice-profile.json")
     args = parser.parse_args()
     sources = sorted(args.input_dir.glob("*.wav"))
     if not sources:
         parser.error("輸入資料夾沒有 WAV 音檔。")
-    profile = json.loads((ROOT / "voice-profile.json").read_text(encoding="utf-8"))
+    profile = json.loads(args.profile.read_text(encoding="utf-8"))
     for source in sources:
         apply_profile(source, args.output_dir / source.name, profile)
 

@@ -33,3 +33,7 @@ python3 apply_profile.py --input-dir audio --output-dir tuned-audio
 ## 狀態與限制
 
 後製與來源重用已在本機驗證；新版 Actions 尚待實際執行。main 目前是語音試聽流程，遊戲位於 main-uv12jr。本次設定不等於遊戲所有角色語音已生成或線上遊戲已更新；遊戲缺少靜態音檔時仍使用裝置語音。聲線年齡感依使用者試聽選定，不作年齡或真人聲音保證。
+
+## Sadaltager 升調試聽候選
+
+已新增 Sadaltager 聲線選項。先選 first、Sadaltager、A，並勾選既有確認欄位；僅生成 1 句。後製讀取 sadaltager-higher.json，升高 2.5 個半音，維持原語速；Zephyr 的既有設定與預設聲線不變。audio/ 為升調後，raw-audio/ 為原音，日後可離線微調而不重複呼叫 API。這是待試聽候選，尚未套用到遊戲角色，不保證小男孩年齡聽感。
