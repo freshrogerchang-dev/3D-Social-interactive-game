@@ -1,16 +1,17 @@
 name: Park voice preview
 
 on:
-  push:
-    branches: [main]
-    paths: ['.github/workflows/park-voice-preview.yml']
   workflow_dispatch:
     inputs:
       scope:
-        description: 'first = 第一句 A/B；all = 全部 20 個音檔（可能計費）'
+        description: 'dry-run 不呼叫 API；first/all 僅在已確認免費配額時使用'
         type: choice
-        options: [first, all]
-        default: first
+        options: [dry-run, first, all]
+        default: dry-run
+      free_quota_confirmed:
+        description: '已確認此金鑰專案可使用免費 TTS 配額（此選項不會替供應商設定計費上限）'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -30,10 +31,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Check transcript without API calls
+        if: ${{ inputs.scope == 'dry-run' }}
+        run: python3 tools/park-voice-preview/generate.py --dry-run
+      - name: Require free quota confirmation
+        if: ${{ inputs.scope != 'dry-run' && !inputs.free_quota_confirmed }}
+        run: |
+          echo '請先確認免費 TTS 配額；本次未呼叫 API。'
+          exit 1
       - name: Generate preview audio
+        if: ${{ inputs.scope != 'dry-run' && inputs.free_quota_confirmed }}
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          PREVIEW_SCOPE: ${{ inputs.scope || 'first' }}
+          PREVIEW_SCOPE: ${{ inputs.scope }}
         run: |
           if [ "$PREVIEW_SCOPE" = 'all' ]; then
             python3 tools/park-voice-preview/generate.py
@@ -53,5 +63,5 @@ jobs:
         if: ${{ !cancelled() }}
         run: |
           echo '## 公園打招呼語音試聽' >> "$GITHUB_STEP_SUMMARY"
-          echo '下載本頁下方 Artifacts 的 park-voice-preview 壓縮檔。Generate preview audio 成功才表示全部指定音檔生成完成。' >> "$GITHUB_STEP_SUMMARY"
+          echo 'dry-run 只檢查台詞，不產生音檔。生成模式請確認 Generate preview audio 成功，再下載下方 Artifacts。' >> "$GITHUB_STEP_SUMMARY"
           echo 'A 自然聊天；B 溫和慢速。音檔保留 14 天，請下載保存。' >> "$GITHUB_STEP_SUMMARY"
