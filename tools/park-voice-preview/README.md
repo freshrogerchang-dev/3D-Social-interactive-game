@@ -49,3 +49,7 @@ python3 generate.py
 Puck 試聽連續回傳 finishReason=OTHER，無法從該欄位判定原因。已將提示簡化為年輕、明亮男聲的自然台灣華語，不再以精確年齡與大量限制描述。此設定尚待遠端試聽驗證，不保證男童聽感。
 
 Actions 新增 style 選項（A/B，預設 A）；目前 first 每次只生成所選版本的 1 個音檔，all 每次生成所選版本的 10 個音檔。若要 20 個 A/B 版本，須分別執行兩次。此段數量取代上方舊 A/B 同批生成說明。確認欄位、手動觸發與 dry-run 預設均保留，無自動重試。
+
+## 本次 Zephyr 試聽
+
+使用者選定 Zephyr 作為小女生方向候選。目前預設聲線改為 Zephyr，說話指示同步改為輕柔、明亮、年輕的女生語氣；不保證實際兒童年齡聽感。先選 scope=first、voice=Zephyr、style=A 並勾選既有確認欄位，僅生成 01_A.wav。API 可能使用預付餘額。修改設定不會自動生成或消耗 API 配額。Puck/Charon/Kore 仍可選用。
