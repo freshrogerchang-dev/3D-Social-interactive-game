@@ -1,0 +1,6 @@
+{
+  "voice": "Zephyr",
+  "model": "gemini-2.5-flash-preview-tts",
+  "text": "嗨，你好！",
+  "style": "A"
+}

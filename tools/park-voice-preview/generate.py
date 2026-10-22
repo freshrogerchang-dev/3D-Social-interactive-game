@@ -4,6 +4,7 @@ import base64
 import json
 import os
 from pathlib import Path
+import shutil
 import sys
 import urllib.error
 import urllib.parse
@@ -34,9 +35,6 @@ def main():
             print(f'{line["id"]}_{style}.wav: {line["text"]} / voice={args.voice} / {STYLES[style]}')
         return 0
     key = os.environ.get("GEMINI_API_KEY")
-    if not key:
-        print("尚未設定 GEMINI_API_KEY；未發出請求。", file=sys.stderr)
-        return 1
     output = ROOT / "audio"
     output.mkdir(exist_ok=True)
     for line, style in jobs:
@@ -44,6 +42,19 @@ def main():
         if target.exists():
             print(f"已存在，略過：{target.name}")
             continue
+        # The approved first Zephyr sample is retained so tuning it is free.
+        cached = ROOT / "source" / f'{line["id"]}_{style}.wav'
+        cached_info = cached.with_suffix(".json")
+        if cached.exists() and cached_info.exists():
+            metadata = json.loads(cached_info.read_text(encoding="utf-8"))
+            expected = {"voice": args.voice, "model": args.model, "text": line["text"], "style": style}
+            if metadata == expected:
+                shutil.copyfile(cached, target)
+                print(f"沿用原始音檔，不呼叫 API：{target.name}")
+                continue
+        if not key:
+            print("尚未設定 GEMINI_API_KEY；未發出請求。", file=sys.stderr)
+            return 1
         # Keep stage directions short: age/gender impressions require listening.
         voice_character = "female" if args.voice == "Zephyr" else "male"
         delivery = {

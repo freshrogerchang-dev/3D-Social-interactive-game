@@ -52,6 +52,7 @@ jobs:
           echo '請先確認免費 TTS 配額；本次未呼叫 API。'
           exit 1
       - name: Generate preview audio
+        # Fail before any paid API call if the offline processor is unavailable.
         if: ${{ inputs.scope != 'dry-run' && inputs.free_quota_confirmed }}
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -59,10 +60,21 @@ jobs:
           PREVIEW_STYLE: ${{ inputs.style || 'A' }}
           PREVIEW_VOICE: ${{ inputs.voice || 'Zephyr' }}
         run: |
+          if [ "$PREVIEW_VOICE" = 'Zephyr' ]; then
+            command -v ffmpeg > /dev/null || { echo '需要 ffmpeg，尚未呼叫 API。'; exit 1; }
+            ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null || { echo '需要 rubberband 濾鏡，尚未呼叫 API。'; exit 1; }
+          fi
           if [ "$PREVIEW_SCOPE" = 'all' ]; then
             python3 tools/park-voice-preview/generate.py --voice "$PREVIEW_VOICE" --style "$PREVIEW_STYLE"
           else
             python3 tools/park-voice-preview/generate.py --line 01 --voice "$PREVIEW_VOICE" --style "$PREVIEW_STYLE"
+          fi
+      - name: Apply approved Zephyr voice profile
+        if: ${{ !cancelled() && inputs.scope != 'dry-run' && inputs.free_quota_confirmed && inputs.voice == 'Zephyr' }}
+        run: |
+          if compgen -G 'tools/park-voice-preview/audio/*.wav' > /dev/null; then
+            mv tools/park-voice-preview/audio tools/park-voice-preview/raw-audio
+            python3 tools/park-voice-preview/apply_profile.py --input-dir tools/park-voice-preview/raw-audio --output-dir tools/park-voice-preview/audio
           fi
       - name: Upload audio and transcript
         if: ${{ !cancelled() }}
@@ -71,6 +83,8 @@ jobs:
           name: park-voice-preview-${{ github.run_number }}
           path: |
             tools/park-voice-preview/audio/*.wav
+            tools/park-voice-preview/audio/*.profile.json
+            tools/park-voice-preview/raw-audio/*.wav
             tools/park-voice-preview/lines.json
           retention-days: 14
       - name: Download instructions
@@ -79,3 +93,4 @@ jobs:
           echo '## 公園打招呼語音試聽' >> "$GITHUB_STEP_SUMMARY"
           echo 'dry-run 只檢查台詞，不產生音檔。生成模式請確認 Generate preview audio 成功，再下載下方 Artifacts。' >> "$GITHUB_STEP_SUMMARY"
           echo 'A 自然聊天；B 溫和慢速。音檔保留 14 天，請下載保存。' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Zephyr 的 audio 已套用語速 85%、升高 2.5 半音；raw-audio 保留原始音檔。' >> "$GITHUB_STEP_SUMMARY"

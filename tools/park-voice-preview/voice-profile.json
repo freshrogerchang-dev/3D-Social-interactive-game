@@ -1,0 +1,9 @@
+{
+  "id": "zephyr-younger-v1",
+  "voice": "Zephyr",
+  "tempo": 0.85,
+  "pitchSemitones": 2.5,
+  "formant": "preserved",
+  "pitchQuality": "quality",
+  "limiter": 0.95
+}
