@@ -51,6 +51,16 @@ jobs:
         run: |
           echo '請先確認免費 TTS 配額；本次未呼叫 API。'
           exit 1
+      - name: Prepare offline audio processor
+        if: ${{ inputs.scope != 'dry-run' && inputs.free_quota_confirmed && (inputs.voice == 'Zephyr' || inputs.voice == 'Sadaltager') }}
+        run: |
+          if command -v ffmpeg > /dev/null && ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null; then
+            echo 'ffmpeg 與 rubberband 已可用。'
+          else
+            sudo apt-get update
+            sudo apt-get install --no-install-recommends -y ffmpeg
+            ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null || { echo '安裝後仍缺少 rubberband；尚未呼叫 API。'; exit 1; }
+          fi
       - name: Generate preview audio
         # Fail before any paid API call if the offline processor is unavailable.
         if: ${{ inputs.scope != 'dry-run' && inputs.free_quota_confirmed }}
