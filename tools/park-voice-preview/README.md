@@ -6,10 +6,10 @@
 
 1. Settings → Secrets and variables → Actions 新增 Repository secret `GEMINI_API_KEY`。
 2. Actions → **Park voice preview** → **Run workflow**。
-3. scope 選 `first` 生成第一句 A/B；選 `all` 生成全部 20 個音檔。
+3. 預設 `dry-run` 只檢查台詞，不呼叫 Gemini、不消耗 Gemini 配額。先確認 AI Studio 所屬專案可使用免費 TTS 配額後，才選 `first`（2 個音檔）或 `all`（20 個音檔），並勾選 `free_quota_confirmed`。勾選本身不會替供應商設定計費上限。
 4. 打開執行紀錄，下方 **Artifacts** 點 `park-voice-preview-編號` 下載 ZIP，解壓縮播放 WAV。下載需登入 GitHub。
 
-工作流程加入 main 或該工作流程檔更新時，自動生成第一句 A/B。一般文件修改不會呼叫 API，無排程。每次執行都會重新生成、使用配額，可能依帳號計費。
+僅限手動觸發，推送或修改檔案都不會自動執行，無排程、無自動重試、無付費模型備援。生成模式每次使用全新工作區，重跑仍會消耗配額；腳本無法保證供應商不計費。尚未確認免費配額時請維持 dry-run，不為試聽啟用付費帳單。
 
 音檔保留 14 天，不會自動提交 Git。生成失敗仍上傳已完成的音檔與台詞，請以 Generate preview audio 步驟狀態判斷是否完成。
 
@@ -19,7 +19,8 @@
 - HTTP 400/403：檢查金鑰、權限、帳戶與地區限制。
 - HTTP 404：依 Gemini TTS 官方文件確認模型是否已調整。
 - HTTP 429：到 AI Studio 檢查配額或速率限制，避免連續重跑。
-- 只有第一句：預設 first，要全部請手動選 all。
+- HTTP 402：上次生成遇到此錯誤，僅憑狀態碼無法確定原因；先檢查帳戶與免費配額，不要直接啟用付費或反覆重跑。
+- 沒有音檔：dry-run 不生成音檔；first 僅生成第一句，要全部請選 all。
 
 ## 本機使用（可選）
 
