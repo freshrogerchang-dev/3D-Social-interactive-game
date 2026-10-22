@@ -22,7 +22,7 @@ def main():
     parser.add_argument("--line", choices=[f"{i:02d}" for i in range(1, 11)])
     parser.add_argument("--style", choices=list(STYLES))
     parser.add_argument("--model", default="gemini-2.5-flash-preview-tts")
-    parser.add_argument("--voice", default="Puck")
+    parser.add_argument("--voice", default="Zephyr")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     lines = json.loads((ROOT / "lines.json").read_text(encoding="utf-8"))
@@ -45,13 +45,14 @@ def main():
             print(f"已存在，略過：{target.name}")
             continue
         # Keep stage directions short: age/gender impressions require listening.
+        voice_character = "female" if args.voice == "Zephyr" else "male"
         delivery = {
-            "A": "bright, youthful male voice; friendly and conversational",
-            "B": "bright, youthful male voice; gentle, slightly slower and connected",
+            "A": f"light, bright, youthful {voice_character} voice; friendly and conversational",
+            "B": f"light, bright, youthful {voice_character} voice; gentle, slightly slower and connected",
         }[style]
         prompt = (
             f"Read aloud in natural Taiwanese Mandarin, with a {delivery}. "
-            "Speak only the following dialogue.\\n"
+            "Speak only the following dialogue.\n"
             f"{line['text']}"
         )
         body = {
