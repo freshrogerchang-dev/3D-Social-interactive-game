@@ -9,10 +9,10 @@ on:
         options: [dry-run, first, all]
         default: dry-run
       voice:
-        description: '聲線候選：Puck 先試小男孩方向；Kore 為原版。年齡與性別聽感須試聽確認'
+        description: 'Zephyr 為本次小女生方向候選；年齡聽感須實際試聽確認'
         type: choice
-        options: [Puck, Charon, Kore]
-        default: Puck
+        options: [Zephyr, Puck, Charon, Kore]
+        default: Zephyr
       style:
         description: 'A 自然版或 B 溫和慢速；每次只產生所選版本，first 僅 1 個音檔'
         type: choice
@@ -44,7 +44,7 @@ jobs:
       - name: Check transcript without API calls
         if: ${{ inputs.scope == 'dry-run' }}
         env:
-          PREVIEW_VOICE: ${{ inputs.voice || 'Puck' }}
+          PREVIEW_VOICE: ${{ inputs.voice || 'Zephyr' }}
         run: python3 tools/park-voice-preview/generate.py --dry-run --voice "$PREVIEW_VOICE"
       - name: Require free quota confirmation
         if: ${{ inputs.scope != 'dry-run' && !inputs.free_quota_confirmed }}
@@ -57,7 +57,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PREVIEW_SCOPE: ${{ inputs.scope }}
           PREVIEW_STYLE: ${{ inputs.style || 'A' }}
-          PREVIEW_VOICE: ${{ inputs.voice || 'Puck' }}
+          PREVIEW_VOICE: ${{ inputs.voice || 'Zephyr' }}
         run: |
           if [ "$PREVIEW_SCOPE" = 'all' ]; then
             python3 tools/park-voice-preview/generate.py --voice "$PREVIEW_VOICE" --style "$PREVIEW_STYLE"
