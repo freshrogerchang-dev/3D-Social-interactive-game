@@ -73,15 +73,18 @@ def main():
             parts = candidates[0].get("content", {}).get("parts", []) if candidates else []
             chunks = []
             for part in parts:
-                inline = part.get("inlineData", {})
-                if not inline.get("mimeType", "").startswith("audio/"):
+                inline = part.get("inlineData", part.get("inline_data", {}))
+                if not inline.get("mimeType", inline.get("mime_type", "")).lower().startswith("audio/"):
                     continue
-                mime = inline["mimeType"]
+                mime = inline.get("mimeType", inline.get("mime_type", ""))
+                mime = mime.lower().replace(" ", "")
                 if not mime.lower().startswith("audio/l16") or "rate=24000" not in mime:
                     raise ValueError(f"未支援的音訊格式：{mime}")
                 chunks.append(base64.b64decode(inline["data"], validate=True))
             if not chunks:
-                raise ValueError("服務未回傳音訊；請檢查模型支援或內容限制。")
+                finish = candidates[0].get("finishReason", "unknown") if candidates else "no candidates"
+                block = result.get("promptFeedback", {}).get("blockReason", "none")
+                raise ValueError(f"服務未回傳音訊；finishReason={finish}, blockReason={block}")
             pcm = b"".join(chunks)
             if len(pcm) % 2:
                 raise ValueError("PCM 音訊長度異常。")
@@ -94,11 +97,18 @@ def main():
             temp.replace(target)
             print(f"已生成：{target.name}")
         except urllib.error.HTTPError as error:
-            print(f"生成中止：HTTP {error.code}。請檢查模型可用性、權限或配額。"
+            detail = ""
+            try:
+                problem = json.loads(error.read(16384)).get("error", {})
+                detail = str(problem.get("message", ""))[:1000].replace(key, "[REDACTED]")
+            except (ValueError, AttributeError):
+                pass
+            print(f"生成中止：HTTP {error.code}。{detail} 請檢查模型可用性、權限或配額。"
                   "已完成的音檔會保留。", file=sys.stderr)
             return 1
         except (OSError, ValueError, KeyError) as error:
-            print(f"生成中止：{type(error).__name__}。請檢查連線或回傳音訊格式。"
+            detail = str(error).replace(key, "[REDACTED]")[:1000]
+            print(f"生成中止：{type(error).__name__}：{detail}。請檢查連線或回傳音訊格式。"
                   "已完成的音檔會保留。", file=sys.stderr)
             return 1
     return 0
