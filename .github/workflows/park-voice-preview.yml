@@ -8,6 +8,11 @@ on:
         type: choice
         options: [dry-run, first, all]
         default: dry-run
+      voice:
+        description: '聲線候選：Puck 先試小男孩方向；Kore 為原版。年齡與性別聽感須試聽確認'
+        type: choice
+        options: [Puck, Charon, Kore]
+        default: Puck
       free_quota_confirmed:
         description: '已確認此金鑰專案可使用免費 TTS 配額（此選項不會替供應商設定計費上限）'
         type: boolean
@@ -33,7 +38,9 @@ jobs:
           python-version: '3.12'
       - name: Check transcript without API calls
         if: ${{ inputs.scope == 'dry-run' }}
-        run: python3 tools/park-voice-preview/generate.py --dry-run
+        env:
+          PREVIEW_VOICE: ${{ inputs.voice || 'Puck' }}
+        run: python3 tools/park-voice-preview/generate.py --dry-run --voice "$PREVIEW_VOICE"
       - name: Require free quota confirmation
         if: ${{ inputs.scope != 'dry-run' && !inputs.free_quota_confirmed }}
         run: |
@@ -44,11 +51,12 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PREVIEW_SCOPE: ${{ inputs.scope }}
+          PREVIEW_VOICE: ${{ inputs.voice || 'Puck' }}
         run: |
           if [ "$PREVIEW_SCOPE" = 'all' ]; then
-            python3 tools/park-voice-preview/generate.py
+            python3 tools/park-voice-preview/generate.py --voice "$PREVIEW_VOICE"
           else
-            python3 tools/park-voice-preview/generate.py --line 01
+            python3 tools/park-voice-preview/generate.py --line 01 --voice "$PREVIEW_VOICE"
           fi
       - name: Upload audio and transcript
         if: ${{ !cancelled() }}
