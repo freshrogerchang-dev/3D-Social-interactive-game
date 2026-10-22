@@ -44,13 +44,15 @@ def main():
         if target.exists():
             print(f"已存在，略過：{target.name}")
             continue
+        # Keep stage directions short: age/gender impressions require listening.
+        delivery = {
+            "A": "bright, youthful male voice; friendly and conversational",
+            "B": "bright, youthful male voice; gentle, slightly slower and connected",
+        }[style]
         prompt = (
-            "請用自然的台灣華語說出以下台詞。角色是公園裡約八到十歲的小男孩小安。"
-            "聲音年輕、明亮、輕快，音高略高但舒服，像同齡朋友聊天。"
-            "音量穩定，依語意自然停頓，不用播報腔，不用誇張卡通語氣。"
-            "吐字清楚，不裝可愛，不用娃娃音或尖叫，不刻意壓低成成年人的低音。"
-            "只說台詞，不朗讀指示，不加字。"
-            f"本次說話方式：{STYLES[style]}\n台詞：{line['text']}"
+            f"Read aloud in natural Taiwanese Mandarin, with a {delivery}. "
+            "Speak only the following dialogue.\\n"
+            f"{line['text']}"
         )
         body = {
             "contents": [{"parts": [{"text": prompt}]}],
@@ -84,6 +86,14 @@ def main():
                     raise ValueError(f"未支援的音訊格式：{mime}")
                 chunks.append(base64.b64decode(inline["data"], validate=True))
             if not chunks:
+                metadata = {
+                    "voice": args.voice,
+                    "style": style,
+                    "candidate_count": len(candidates),
+                    "part_count": len(parts),
+                    "audio_part_count": len(chunks),
+                }
+                print("Response metadata: " + json.dumps(metadata), flush=True)
                 finish = candidates[0].get("finishReason", "unknown") if candidates else "no candidates"
                 block = result.get("promptFeedback", {}).get("blockReason", "none")
                 raise ValueError(f"服務未回傳音訊；finishReason={finish}, blockReason={block}")
