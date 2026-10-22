@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="hsl(205,45%,78%)"/>
+      <stop offset="0.65" stop-color="hsl(200,40%,90%)"/>
+    </linearGradient>
+    <radialGradient id="cheek" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="hsl(355,55%,78%)" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="hsl(355,55%,78%)" stop-opacity="0"/>
+    </radialGradient>
+    <g id="eye">
+      <ellipse rx="27" ry="32" fill="#fff"/>
+      <ellipse cx="2" cy="4" rx="19" ry="23" fill="hsl(25,35%,28%)"/>
+      <ellipse cx="2" cy="6" rx="10" ry="12" fill="hsl(210,20%,14%)"/>
+      <circle cx="-6" cy="-6" r="7" fill="#fff"/>
+    </g>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#sky)"/>
+  <!-- 柔和太陽與雲 -->
+  <circle cx="830" cy="190" r="86" fill="hsl(45,58%,86%)"/>
+  <g fill="hsl(0,0%,98%)" opacity="0.9">
+    <ellipse cx="200" cy="170" rx="95" ry="40"/><ellipse cx="260" cy="145" rx="70" ry="48"/><ellipse cx="150" cy="150" rx="55" ry="38"/>
+  </g>
+  <!-- 樹 -->
+  <rect x="104" y="470" width="22" height="120" rx="8" fill="hsl(30,25%,38%)"/>
+  <circle cx="115" cy="440" r="78" fill="hsl(110,30%,52%)"/>
+  <circle cx="160" cy="470" r="52" fill="hsl(110,30%,57%)"/>
+  <rect x="900" y="500" width="20" height="100" rx="8" fill="hsl(30,25%,38%)"/>
+  <circle cx="910" cy="470" r="66" fill="hsl(110,30%,55%)"/>
+  <!-- 山坡 -->
+  <path d="M0 640 Q260 520 560 600 T1024 570 V1024 H0Z" fill="hsl(100,32%,64%)"/>
+  <path d="M0 760 Q300 660 620 730 T1024 700 V1024 H0Z" fill="hsl(100,38%,72%)"/>
+
+  <!-- 左邊小朋友（短髮、藍綠上衣） -->
+  <g transform="translate(330 0)">
+    <path d="M-150 1024 V900 Q-150 790 0 790 Q150 790 150 900 V1024Z" fill="hsl(186,25%,58%)"/>
+    <path d="M-48 795 Q0 840 48 795" fill="none" stroke="hsl(186,22%,48%)" stroke-width="10" stroke-linecap="round"/>
+    <rect x="-34" y="740" width="68" height="70" rx="20" fill="hsl(25,55%,80%)"/>
+    <circle cy="590" r="182" fill="hsl(25,58%,82%)"/>
+    <circle cx="-178" cy="610" r="30" fill="hsl(25,55%,78%)"/>
+    <circle cx="178" cy="610" r="30" fill="hsl(25,55%,78%)"/>
+    <path d="M-186 580 Q-196 400 0 395 Q196 400 186 580 Q160 500 70 488 Q20 530 -60 500 Q-140 500 -186 580Z" fill="hsl(22,32%,26%)"/>
+    <use href="#eye" x="-62" y="600"/>
+    <use href="#eye" x="62" y="600"/>
+    <path d="M-92 548 Q-62 532 -34 546" fill="none" stroke="hsl(22,30%,26%)" stroke-width="9" stroke-linecap="round"/>
+    <path d="M34 546 Q62 532 92 548" fill="none" stroke="hsl(22,30%,26%)" stroke-width="9" stroke-linecap="round"/>
+    <ellipse cx="-112" cy="668" rx="34" ry="22" fill="url(#cheek)"/>
+    <ellipse cx="112" cy="668" rx="34" ry="22" fill="url(#cheek)"/>
+    <path d="M-44 680 Q0 730 44 680 Q0 700 -44 680Z" fill="hsl(355,40%,45%)" stroke="hsl(355,35%,38%)" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+
+  <!-- 右邊小朋友（鮑伯頭、粉色上衣，點頭微笑） -->
+  <g transform="translate(700 40)">
+    <path d="M-140 984 V880 Q-140 780 0 780 Q140 780 140 880 V984Z" fill="hsl(352,48%,77%)"/>
+    <rect x="-32" y="730" width="64" height="66" rx="20" fill="hsl(22,58%,84%)"/>
+    <path d="M-196 610 Q-200 390 0 382 Q200 390 196 610 Q196 700 160 720 L150 600 Q120 480 0 470 Q-120 480 -150 600 L-160 720 Q-196 700 -196 610Z" fill="hsl(18,32%,30%)"/>
+    <circle cy="590" r="168" fill="hsl(22,58%,84%)"/>
+    <path d="M-172 585 Q-180 400 0 396 Q180 400 172 585 Q150 470 0 478 Q-150 470 -172 585Z" fill="hsl(18,32%,30%)"/>
+    <path d="M-60 465 Q-20 520 40 470" fill="hsl(18,32%,30%)"/>
+    <path d="M-86 605 Q-60 580 -34 605" fill="none" stroke="hsl(210,20%,16%)" stroke-width="11" stroke-linecap="round"/>
+    <path d="M34 605 Q60 580 86 605" fill="none" stroke="hsl(210,20%,16%)" stroke-width="11" stroke-linecap="round"/>
+    <ellipse cx="-104" cy="660" rx="32" ry="20" fill="url(#cheek)"/>
+    <ellipse cx="104" cy="660" rx="32" ry="20" fill="url(#cheek)"/>
+    <path d="M-36 668 Q0 706 36 668" fill="none" stroke="hsl(355,35%,40%)" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="150" cy="458" r="22" fill="hsl(45,55%,72%)"/>
+  </g>
+
+  <!-- 對話泡泡「你好」 -->
+  <g>
+    <path d="M412 112 H660 Q712 112 712 164 V262 Q712 314 660 314 H578 L536 362 L540 314 H412 Q360 314 360 262 V164 Q360 112 412 112Z" fill="#fffdf8" stroke="hsl(38,18%,48%)" stroke-width="10" stroke-linejoin="round"/>
+    <text x="536" y="248" text-anchor="middle" font-family="WenQuanYi Zen Hei" font-weight="700" font-size="112" fill="hsl(208,25%,17%)">你好</text>
+  </g>
+</svg>

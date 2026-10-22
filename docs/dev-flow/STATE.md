@@ -473,3 +473,9 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。不宣
 - 最終本機街區23/23、原打招呼24/24、安全控制15/15各exit0。最後地圖補注音與安全列捲動留白後，重跑五項工程各exit0、145單元，並以最終Pages產物跑地圖8/8、exit0；完整路線23與24／15是在這次DOM細節前執行，未冒稱完整重跑。證據及命令見neighborhood-build-log.md與neighborhood-evidence。準備沿用授權更新main-uv12jr／Pages。
 
 - 街區產品提交53782ebdb6e959f781390411f5a02a5a9c6bd890已推送。Actions run39083600902的build／deploy均success（https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/39083600902）。公開Pages檢查10/10、exit0，JS／CSS HTTP200且逐位元符合本機Pages建置；六目的地、注音、兩種短畫面所有地圖按鈕命中、只指引不傳送、暫停與安全區皆通過，無pageerror。見neighborhood-evidence/published與deployment.json。後續僅補紀錄，不改應用程式；新版iPhone實機與專業審查仍待完成。
+
+## 2026-10-22 iPhone 主畫面圖示
+
+- 使用者要求好看的 iPhone 桌面 icon。新增 `public/apple-touch-icon.png`（180×180）與 `public/icon-192.png`（分頁圖示），`index.html` 加上 `apple-touch-icon` 連結（子路徑 build 會自動加上 `/3D-Social-interactive-game/`）。
+- 圖案：公園山坡與樹前兩位卡通小朋友（與遊戲人物同風格），上方對話泡泡「你好」；低飽和（HSL ≤ 0.6），滿版方形由 iOS 自動裁圓角。原圖 `tools/icon/app-icon.svg`（用 Chromium 轉成 PNG）。
+- 接在街區提交 df78b02 之後重跑：五項檢查 exit 0、15 檔 145 項測試（Node v22.22.0）。iPhone「加入主畫面」實機未驗證。
