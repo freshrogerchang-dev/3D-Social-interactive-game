@@ -2,25 +2,26 @@
   "version": 1,
   "days": {
     "2026-10-23": {
-      "requests": 2
+      "requests": 3
     }
   },
   "attempts": {
     "95a73aa5af3cd883f89ffe8ff0f4af506b080d1cd3911d1cdad12f9248afa7e2": 1,
-    "35860efb8d01752361407864438b22a22a0ddbfb72f3f1b8a869c81f59914cc3": 1
+    "35860efb8d01752361407864438b22a22a0ddbfb72f3f1b8a869c81f59914cc3": 1,
+    "4b907b6e17dcfb588546d14dee6103ee731dcb55cd0fe43eea8bee90880d6778": 1
   },
-  "status": "active",
+  "status": "generating",
   "summary": {
     "total": 226,
     "complete": 2,
     "remaining": 224,
     "needsReview": 0,
-    "status": "active",
+    "status": "generating",
     "halted": null,
     "lastError": null,
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-23",
-    "requestsRemainingToday": 48,
+    "requestsRemainingToday": 47,
     "bySpeaker": {
       "xiaoan": {
         "total": 3,
@@ -56,5 +57,5 @@
       }
     }
   },
-  "updatedAt": "2026-10-23T10:30:02.166213+00:00"
+  "updatedAt": "2026-10-23T10:30:28.366588+00:00"
 }
