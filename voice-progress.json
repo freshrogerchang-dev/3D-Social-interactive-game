@@ -8,22 +8,22 @@
   "attempts": {
     "95a73aa5af3cd883f89ffe8ff0f4af506b080d1cd3911d1cdad12f9248afa7e2": 1
   },
-  "status": "rendering",
+  "status": "active",
   "summary": {
     "total": 226,
-    "complete": 0,
-    "remaining": 226,
+    "complete": 1,
+    "remaining": 225,
     "needsReview": 0,
-    "status": "rendering",
+    "status": "active",
     "halted": null,
     "lastError": null,
-    "cachedPending": 1,
+    "cachedPending": 0,
     "quotaDayPacific": "2026-10-23",
     "requestsRemainingToday": 49,
     "bySpeaker": {
       "xiaoan": {
         "total": 3,
-        "complete": 0
+        "complete": 1
       },
       "xiaoyu": {
         "total": 5,
@@ -55,5 +55,5 @@
       }
     }
   },
-  "updatedAt": "2026-10-23T10:29:29.683813+00:00"
+  "updatedAt": "2026-10-23T10:29:31.096188+00:00"
 }

@@ -1,5 +1,23 @@
 {
-  "files": [],
-  "rendered": {},
+  "files": [
+    "assets/voice/xiaoan-4f10391a.m4a"
+  ],
+  "rendered": {
+    "assets/voice/xiaoan-4f10391a.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "95a73aa5af3cd883f89ffe8ff0f4af506b080d1cd3911d1cdad12f9248afa7e2",
+      "renderKey": "e3d4e63d7b788cc8a5ff8776572c44fb9696f62eaec5102246a2f42755a06101",
+      "sha256": "911726950d2afe551a27dcea8ab051a7b4af35e85aed753a54a7938dbcbd9889"
+    }
+  },
   "generator": "tools/voice/daily_generate.py"
 }
