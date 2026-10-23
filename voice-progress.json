@@ -2,22 +2,22 @@
   "version": 1,
   "days": {
     "2026-10-23": {
-      "requests": 4
+      "requests": 5
     }
   },
   "attempts": {
     "95a73aa5af3cd883f89ffe8ff0f4af506b080d1cd3911d1cdad12f9248afa7e2": 1,
     "35860efb8d01752361407864438b22a22a0ddbfb72f3f1b8a869c81f59914cc3": 1,
     "4b907b6e17dcfb588546d14dee6103ee731dcb55cd0fe43eea8bee90880d6778": 1,
-    "ccc456545ddfcca328a091bdbf19fc23693b2723114b9d4acda5998022ba81bf": 1
+    "ccc456545ddfcca328a091bdbf19fc23693b2723114b9d4acda5998022ba81bf": 2
   },
-  "status": "paused_after_error",
+  "status": "generating",
   "summary": {
     "total": 226,
     "complete": 3,
     "remaining": 223,
     "needsReview": 0,
-    "status": "paused_after_error",
+    "status": "generating",
     "halted": null,
     "lastError": {
       "file": "assets/voice/xiaoqing-79839c11.m4a",
@@ -25,7 +25,7 @@
     },
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-23",
-    "requestsRemainingToday": 46,
+    "requestsRemainingToday": 45,
     "bySpeaker": {
       "xiaoan": {
         "total": 3,
@@ -61,7 +61,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-23T10:31:02.031845+00:00",
+  "updatedAt": "2026-10-23T14:19:13.269544+00:00",
   "lastError": {
     "file": "assets/voice/xiaoqing-79839c11.m4a",
     "reason": "NO_AUDIO"
