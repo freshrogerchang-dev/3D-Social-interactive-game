@@ -11,13 +11,13 @@
     "4b907b6e17dcfb588546d14dee6103ee731dcb55cd0fe43eea8bee90880d6778": 1,
     "ccc456545ddfcca328a091bdbf19fc23693b2723114b9d4acda5998022ba81bf": 2
   },
-  "status": "generating",
+  "status": "paused_after_error",
   "summary": {
     "total": 226,
     "complete": 3,
     "remaining": 223,
     "needsReview": 0,
-    "status": "generating",
+    "status": "paused_after_error",
     "halted": null,
     "lastError": {
       "file": "assets/voice/xiaoqing-79839c11.m4a",
@@ -61,7 +61,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-23T14:19:13.269544+00:00",
+  "updatedAt": "2026-10-23T14:19:16.244639+00:00",
   "lastError": {
     "file": "assets/voice/xiaoqing-79839c11.m4a",
     "reason": "NO_AUDIO"
