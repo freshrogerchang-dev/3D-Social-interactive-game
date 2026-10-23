@@ -9,16 +9,16 @@
     "95a73aa5af3cd883f89ffe8ff0f4af506b080d1cd3911d1cdad12f9248afa7e2": 1,
     "35860efb8d01752361407864438b22a22a0ddbfb72f3f1b8a869c81f59914cc3": 1
   },
-  "status": "generating",
+  "status": "rendering",
   "summary": {
     "total": 226,
     "complete": 1,
     "remaining": 225,
     "needsReview": 0,
-    "status": "generating",
+    "status": "rendering",
     "halted": null,
     "lastError": null,
-    "cachedPending": 0,
+    "cachedPending": 1,
     "quotaDayPacific": "2026-10-23",
     "requestsRemainingToday": 48,
     "bySpeaker": {
@@ -56,5 +56,5 @@
       }
     }
   },
-  "updatedAt": "2026-10-23T10:29:57.520317+00:00"
+  "updatedAt": "2026-10-23T10:30:00.873469+00:00"
 }
