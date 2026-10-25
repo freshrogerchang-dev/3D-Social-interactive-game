@@ -60,18 +60,35 @@
     "6548b0113b561af5b08e7a30f80d025d4d5a65c415f9fa545ef6f4f6d520f917": 1,
     "df4f0c30120b7b982d1ab36c90bba4c90961c37bfc8613dc43ecefb0c4e09aca": 1
   },
-  "status": "generating",
+  "status": "active_with_errors",
   "summary": {
     "total": 226,
     "complete": 44,
     "remaining": 182,
     "needsReview": 1,
-    "status": "generating",
+    "status": "active_with_errors",
     "halted": null,
-    "lastError": null,
+    "lastError": {
+      "file": "assets/voice/mom-eaa27f73.m4a",
+      "reason": "NO_AUDIO",
+      "diagnostics": {
+        "finishReason": "OTHER",
+        "blockReason": "UNKNOWN",
+        "candidateCount": 1
+      }
+    },
     "unresolvedErrors": [
       {
         "file": "assets/voice/xiaoyu-28536419.m4a",
+        "reason": "NO_AUDIO",
+        "diagnostics": {
+          "finishReason": "OTHER",
+          "blockReason": "UNKNOWN",
+          "candidateCount": 1
+        }
+      },
+      {
+        "file": "assets/voice/mom-eaa27f73.m4a",
         "reason": "NO_AUDIO",
         "diagnostics": {
           "finishReason": "OTHER",
@@ -118,7 +135,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T16:30:34.888855+00:00",
+  "updatedAt": "2026-10-25T16:30:38.059199+00:00",
   "sourceErrors": {
     "ae24ce4c7414c6ea44af95301b83d4b2b3e200f3a31a48aaac762e1ffe99310d": {
       "file": "assets/voice/xiaoyu-28536419.m4a",
@@ -128,6 +145,24 @@
         "blockReason": "UNKNOWN",
         "candidateCount": 1
       }
+    },
+    "df4f0c30120b7b982d1ab36c90bba4c90961c37bfc8613dc43ecefb0c4e09aca": {
+      "file": "assets/voice/mom-eaa27f73.m4a",
+      "reason": "NO_AUDIO",
+      "diagnostics": {
+        "finishReason": "OTHER",
+        "blockReason": "UNKNOWN",
+        "candidateCount": 1
+      }
+    }
+  },
+  "lastError": {
+    "file": "assets/voice/mom-eaa27f73.m4a",
+    "reason": "NO_AUDIO",
+    "diagnostics": {
+      "finishReason": "OTHER",
+      "blockReason": "UNKNOWN",
+      "candidateCount": 1
     }
   }
 }
