@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   generate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 180
     permissions:
       contents: write
@@ -46,7 +46,7 @@ jobs:
           fi
       - name: Prepare audio processor
         if: ${{ steps.plan.outputs.needs_work == 'true' && (github.event_name == 'schedule' || !inputs.dry_run) }}
-        timeout-minutes: 10
+        timeout-minutes: 20
         run: |
           if command -v ffmpeg > /dev/null && ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null; then
             echo '音訊工具已可用。'

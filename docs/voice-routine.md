@@ -22,3 +22,9 @@
 初始進度為 0/226，目前沒有新的角色語音生成；遠端排程首次執行尚待驗證。本機通過五項工程檢查、147 項單元測試、12 項預算與接續測試，以及 Git checkpoint／實際音訊編碼檢查。
 
 需要停止時，在 Actions 的 Daily game voice 選 Disable workflow。請勿刪除 voice-progress.json 來重設每日計數。
+
+## 2026-10-25 工具準備修正
+
+今日續作時 ubuntu-latest 使用 Ubuntu 26.04，FFmpeg 套件下載過慢，10 分鐘逾時，尚未呼叫新的 API。已固定 ubuntu-22.04，工具準備限時改為 20 分鐘；整批仍為 180 分鐘、每日最多 50 次請求（失敗計入）。空音訊會跳過繼續其他台詞，既有預算與音檔保留。
+
+舊執行的 Re-run 使用舊版工作流程，無法採用 runner 修正；需由 main 的 Run workflow 啟動新版，取消 dry_run，會從當日已記錄的請求數接續。
