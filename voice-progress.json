@@ -18,16 +18,16 @@
     "ccc456545ddfcca328a091bdbf19fc23693b2723114b9d4acda5998022ba81bf": 3,
     "595d70ec1f8043803391e7aebddc21a9de6ee9bf62e926e86431d10220a4715c": 1
   },
-  "status": "rendering",
+  "status": "active",
   "summary": {
     "total": 226,
-    "complete": 3,
-    "remaining": 223,
+    "complete": 4,
+    "remaining": 222,
     "needsReview": 1,
-    "status": "rendering",
+    "status": "active",
     "halted": null,
     "lastError": null,
-    "cachedPending": 1,
+    "cachedPending": 0,
     "quotaDayPacific": "2026-10-25",
     "requestsRemainingToday": 49,
     "bySpeaker": {
@@ -53,7 +53,7 @@
       },
       "mom": {
         "total": 48,
-        "complete": 0
+        "complete": 1
       },
       "agong": {
         "total": 4,
@@ -65,5 +65,5 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T13:47:32.857299+00:00"
+  "updatedAt": "2026-10-25T13:47:34.157431+00:00"
 }
