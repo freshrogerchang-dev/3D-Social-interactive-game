@@ -8,7 +8,7 @@
       "requests": 1
     },
     "2026-10-25": {
-      "requests": 42
+      "requests": 43
     }
   },
   "attempts": {
@@ -56,15 +56,16 @@
     "eb8566202dec5a96f20843314eb102c78cc7bf723fa805d6a8a84f231579d6fa": 1,
     "a64e6c5019fc186a6eeed65904f8b597de8d085ac59afc5d90ad87dc65fa7a0c": 1,
     "6573aeea2896240a1d27a5c7d1494f54a3a7da5012de29a22fd6afe99d67acde": 1,
-    "6dafe20a8a775658bdcc911003d041f5c4d57e69e9896599a63f6bb9ef2b779b": 1
+    "6dafe20a8a775658bdcc911003d041f5c4d57e69e9896599a63f6bb9ef2b779b": 1,
+    "6548b0113b561af5b08e7a30f80d025d4d5a65c415f9fa545ef6f4f6d520f917": 1
   },
-  "status": "active",
+  "status": "generating",
   "summary": {
     "total": 226,
     "complete": 43,
     "remaining": 183,
     "needsReview": 1,
-    "status": "active",
+    "status": "generating",
     "halted": null,
     "lastError": null,
     "unresolvedErrors": [
@@ -80,7 +81,7 @@
     ],
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-25",
-    "requestsRemainingToday": 8,
+    "requestsRemainingToday": 7,
     "bySpeaker": {
       "xiaoan": {
         "total": 3,
@@ -116,7 +117,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T16:29:38.460687+00:00",
+  "updatedAt": "2026-10-25T16:30:04.639477+00:00",
   "sourceErrors": {
     "ae24ce4c7414c6ea44af95301b83d4b2b3e200f3a31a48aaac762e1ffe99310d": {
       "file": "assets/voice/xiaoyu-28536419.m4a",
