@@ -28,7 +28,8 @@
     "assets/voice/xiaoyun-b5f209ba.m4a",
     "assets/voice/agong-0751101c.m4a",
     "assets/voice/xiaozhe-a5421535.m4a",
-    "assets/voice/narrator-2e0a5b8b.m4a"
+    "assets/voice/narrator-2e0a5b8b.m4a",
+    "assets/voice/mom-cdff87f5.m4a"
   ],
   "rendered": {
     "assets/voice/xiaoan-4f10391a.m4a": {
@@ -361,6 +362,13 @@
       "sourceKey": "0646dea52a1c7a5dce21f19a89e030d969712bf5ba064aab0c648cb951c89a95",
       "renderKey": "e3197141a59e63409952f4951e4cae2a14b6db288ae59cc918cf1a01008561b9",
       "sha256": "b1873dd4eafdd934e59db1628d8713fdeb80194387be7374ec72498822fc7068"
+    },
+    "assets/voice/mom-cdff87f5.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "d5ff8ac312c01ef70d6a745edebc68030f52d26ed13f7bddbdf59e659430eb1d",
+      "renderKey": "94db2d8f9bb19db489196935bf6b9851f7eb1769d8156bc94d869f585d672655",
+      "sha256": "2d538e348c31c83b27c364c475f7a9f677b2cbb5dbd74bd1922f671bd3cb3e29"
     }
   },
   "generator": "tools/voice/daily_generate.py"
