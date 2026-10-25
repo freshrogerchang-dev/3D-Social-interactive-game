@@ -41,13 +41,13 @@
     "3a437630e2c414d1bf6ea5f5186571c4e1a7c7d31dc88b9acba67c9d8955ee21": 1,
     "9f7f7344bbd1a956d609332b7fa8af29f49cc55d92d45d356fb26081a0d4e5dd": 1
   },
-  "status": "generating",
+  "status": "active",
   "summary": {
     "total": 226,
-    "complete": 26,
-    "remaining": 200,
+    "complete": 27,
+    "remaining": 199,
     "needsReview": 1,
-    "status": "generating",
+    "status": "active",
     "halted": null,
     "lastError": null,
     "unresolvedErrors": [],
@@ -81,7 +81,7 @@
       },
       "agong": {
         "total": 4,
-        "complete": 3
+        "complete": 4
       },
       "narrator": {
         "total": 155,
@@ -89,6 +89,6 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T16:17:32.873704+00:00",
+  "updatedAt": "2026-10-25T16:21:21.665876+00:00",
   "sourceErrors": {}
 }
