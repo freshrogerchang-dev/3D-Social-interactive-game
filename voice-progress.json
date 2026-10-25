@@ -48,13 +48,13 @@
     "349f546a948d66d44dbd9dc40ea1b0cf59463e70ae5906ee9314aa87725d97bd": 1,
     "824e34a55c2a4a02069192090d9520555f7a968ea1b168f3c31bf7256f4eab90": 1
   },
-  "status": "rendering",
+  "status": "active",
   "summary": {
     "total": 226,
-    "complete": 32,
-    "remaining": 194,
+    "complete": 33,
+    "remaining": 193,
     "needsReview": 1,
-    "status": "rendering",
+    "status": "active",
     "halted": null,
     "lastError": null,
     "unresolvedErrors": [
@@ -68,7 +68,7 @@
         }
       }
     ],
-    "cachedPending": 1,
+    "cachedPending": 0,
     "quotaDayPacific": "2026-10-25",
     "requestsRemainingToday": 18,
     "bySpeaker": {
@@ -94,7 +94,7 @@
       },
       "mom": {
         "total": 48,
-        "complete": 5
+        "complete": 6
       },
       "agong": {
         "total": 4,
@@ -106,7 +106,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T16:24:28.031838+00:00",
+  "updatedAt": "2026-10-25T16:24:29.493927+00:00",
   "sourceErrors": {
     "ae24ce4c7414c6ea44af95301b83d4b2b3e200f3a31a48aaac762e1ffe99310d": {
       "file": "assets/voice/xiaoyu-28536419.m4a",
