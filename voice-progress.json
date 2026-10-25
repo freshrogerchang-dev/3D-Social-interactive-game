@@ -8,7 +8,7 @@
       "requests": 1
     },
     "2026-10-25": {
-      "requests": 5
+      "requests": 6
     }
   },
   "attempts": {
@@ -20,20 +20,21 @@
     "57b115f2bb4a1b645b7f514d2ee4f73411d488acadf7a717ede249ec05a95bbb": 1,
     "3dd4319899e4d7cdfd872842c2fd031b5178a1e137d6d9344ac21362d23da2a9": 1,
     "f2f2374e1ef08226c6eb4d8d61bde5e2682fe4faa860642b8e905f361687ab97": 1,
-    "28f233fea4fd852d4e48116ca5fcd0ae10ce61c2f0600493422a5d56e4aa556a": 1
+    "28f233fea4fd852d4e48116ca5fcd0ae10ce61c2f0600493422a5d56e4aa556a": 1,
+    "ba8e0284d8cefb4653c0f082ca46da638458687e22e25d45e6f59df0b8161fc7": 1
   },
-  "status": "active",
+  "status": "generating",
   "summary": {
     "total": 226,
     "complete": 8,
     "remaining": 218,
     "needsReview": 1,
-    "status": "active",
+    "status": "generating",
     "halted": null,
     "lastError": null,
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-25",
-    "requestsRemainingToday": 45,
+    "requestsRemainingToday": 44,
     "bySpeaker": {
       "xiaoan": {
         "total": 3,
@@ -69,5 +70,5 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T13:49:37.448057+00:00"
+  "updatedAt": "2026-10-25T13:50:03.571817+00:00"
 }
