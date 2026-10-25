@@ -19,7 +19,8 @@
     "assets/voice/narrator-f7fa8407.m4a",
     "assets/voice/xiaoyu-0c774eb2.m4a",
     "assets/voice/mom-554b26b6.m4a",
-    "assets/voice/xiaoyun-f77e1610.m4a"
+    "assets/voice/xiaoyun-f77e1610.m4a",
+    "assets/voice/agong-bee3e7f5.m4a"
   ],
   "rendered": {
     "assets/voice/xiaoan-4f10391a.m4a": {
@@ -257,6 +258,13 @@
       "sourceKey": "19830a2f35d4d0496e7ad4873f83ec8470b2b640d6df3630b895df955dc7eef7",
       "renderKey": "e8240c914f8ea9ea25330e8d170b91387a0f342aed7b86712b75ff104aeb0e50",
       "sha256": "2ede4153b7552b461400628dc84c5a14df531e047bbd4b86d7b093268bb42b23"
+    },
+    "assets/voice/agong-bee3e7f5.m4a": {
+      "voice": "Algenib",
+      "profile": null,
+      "sourceKey": "4442b23190c5e7b55836ee46d48c9f720ccbf7d548128a51108f5113c175c848",
+      "renderKey": "9b27f5e0b4366cc183be94873bfb56c2d79a8dce8d14d9c72fe8f64ad94f0a49",
+      "sha256": "665bf07e2278a797ad61d60553b637a14ebe3f961f31aa25a23b7429267c8f77"
     }
   },
   "generator": "tools/voice/daily_generate.py"
