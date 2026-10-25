@@ -61,23 +61,15 @@
     "df4f0c30120b7b982d1ab36c90bba4c90961c37bfc8613dc43ecefb0c4e09aca": 1,
     "b4f5fc3be4f11441222b1dc53660e7fd67fbfb01a81f093053f7e40a5bf875d2": 1
   },
-  "status": "generating",
+  "status": "rendering",
   "summary": {
     "total": 226,
     "complete": 44,
     "remaining": 182,
     "needsReview": 1,
-    "status": "generating",
+    "status": "rendering",
     "halted": null,
-    "lastError": {
-      "file": "assets/voice/mom-eaa27f73.m4a",
-      "reason": "NO_AUDIO",
-      "diagnostics": {
-        "finishReason": "OTHER",
-        "blockReason": "UNKNOWN",
-        "candidateCount": 1
-      }
-    },
+    "lastError": null,
     "unresolvedErrors": [
       {
         "file": "assets/voice/xiaoyu-28536419.m4a",
@@ -98,7 +90,7 @@
         }
       }
     ],
-    "cachedPending": 0,
+    "cachedPending": 1,
     "quotaDayPacific": "2026-10-25",
     "requestsRemainingToday": 5,
     "bySpeaker": {
@@ -136,7 +128,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T16:31:04.219912+00:00",
+  "updatedAt": "2026-10-25T16:31:08.152678+00:00",
   "sourceErrors": {
     "ae24ce4c7414c6ea44af95301b83d4b2b3e200f3a31a48aaac762e1ffe99310d": {
       "file": "assets/voice/xiaoyu-28536419.m4a",
@@ -155,15 +147,6 @@
         "blockReason": "UNKNOWN",
         "candidateCount": 1
       }
-    }
-  },
-  "lastError": {
-    "file": "assets/voice/mom-eaa27f73.m4a",
-    "reason": "NO_AUDIO",
-    "diagnostics": {
-      "finishReason": "OTHER",
-      "blockReason": "UNKNOWN",
-      "candidateCount": 1
     }
   }
 }
