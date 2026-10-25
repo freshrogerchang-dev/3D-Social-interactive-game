@@ -44,16 +44,34 @@
     "0646dea52a1c7a5dce21f19a89e030d969712bf5ba064aab0c648cb951c89a95": 1,
     "ae24ce4c7414c6ea44af95301b83d4b2b3e200f3a31a48aaac762e1ffe99310d": 1
   },
-  "status": "generating",
+  "status": "active_with_errors",
   "summary": {
     "total": 226,
     "complete": 29,
     "remaining": 197,
     "needsReview": 1,
-    "status": "generating",
+    "status": "active_with_errors",
     "halted": null,
-    "lastError": null,
-    "unresolvedErrors": [],
+    "lastError": {
+      "file": "assets/voice/xiaoyu-28536419.m4a",
+      "reason": "NO_AUDIO",
+      "diagnostics": {
+        "finishReason": "OTHER",
+        "blockReason": "UNKNOWN",
+        "candidateCount": 1
+      }
+    },
+    "unresolvedErrors": [
+      {
+        "file": "assets/voice/xiaoyu-28536419.m4a",
+        "reason": "NO_AUDIO",
+        "diagnostics": {
+          "finishReason": "OTHER",
+          "blockReason": "UNKNOWN",
+          "candidateCount": 1
+        }
+      }
+    ],
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-25",
     "requestsRemainingToday": 22,
@@ -92,6 +110,25 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T16:22:24.735215+00:00",
-  "sourceErrors": {}
+  "updatedAt": "2026-10-25T16:22:27.584596+00:00",
+  "sourceErrors": {
+    "ae24ce4c7414c6ea44af95301b83d4b2b3e200f3a31a48aaac762e1ffe99310d": {
+      "file": "assets/voice/xiaoyu-28536419.m4a",
+      "reason": "NO_AUDIO",
+      "diagnostics": {
+        "finishReason": "OTHER",
+        "blockReason": "UNKNOWN",
+        "candidateCount": 1
+      }
+    }
+  },
+  "lastError": {
+    "file": "assets/voice/xiaoyu-28536419.m4a",
+    "reason": "NO_AUDIO",
+    "diagnostics": {
+      "finishReason": "OTHER",
+      "blockReason": "UNKNOWN",
+      "candidateCount": 1
+    }
+  }
 }
