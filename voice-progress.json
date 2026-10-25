@@ -18,19 +18,16 @@
     "ccc456545ddfcca328a091bdbf19fc23693b2723114b9d4acda5998022ba81bf": 3,
     "595d70ec1f8043803391e7aebddc21a9de6ee9bf62e926e86431d10220a4715c": 1
   },
-  "status": "generating",
+  "status": "rendering",
   "summary": {
     "total": 226,
     "complete": 3,
     "remaining": 223,
     "needsReview": 1,
-    "status": "generating",
+    "status": "rendering",
     "halted": null,
-    "lastError": {
-      "file": "assets/voice/xiaoqing-79839c11.m4a",
-      "reason": "NO_AUDIO"
-    },
-    "cachedPending": 0,
+    "lastError": null,
+    "cachedPending": 1,
     "quotaDayPacific": "2026-10-25",
     "requestsRemainingToday": 49,
     "bySpeaker": {
@@ -68,9 +65,5 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T13:47:29.930180+00:00",
-  "lastError": {
-    "file": "assets/voice/xiaoqing-79839c11.m4a",
-    "reason": "NO_AUDIO"
-  }
+  "updatedAt": "2026-10-25T13:47:32.857299+00:00"
 }
