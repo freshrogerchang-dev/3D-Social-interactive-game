@@ -57,6 +57,20 @@ def preflight():
         raise RuntimeError("需要 rubberband 濾鏡；尚未呼叫 API。")
 
 
+class NoAudioError(RuntimeError):
+    def __init__(self, payload):
+        super().__init__("NO_AUDIO")
+        candidates = payload.get("candidates", [])
+        candidate = candidates[0] if candidates else {}
+        def label(value):
+            return value if isinstance(value, str) and re.fullmatch(r"[A-Z_]{1,64}", value) else "UNKNOWN"
+        self.diagnostics = {
+            "finishReason": label(candidate.get("finishReason")),
+            "blockReason": label(payload.get("promptFeedback", {}).get("blockReason")),
+            "candidateCount": len(candidates),
+        }
+
+
 def synthesize(item, key):
     request = urllib.request.Request(
         "https://generativelanguage.googleapis.com/v1beta/models/"
@@ -103,7 +117,7 @@ def synthesize(item, key):
             raise RuntimeError("INVALID_AUDIO_DATA") from None
     pcm = b"".join(chunks)
     if rate is None or not pcm or len(pcm) % 2:
-        raise RuntimeError("NO_AUDIO")
+        raise NoAudioError(payload)
     return pcm, rate
 
 
@@ -173,6 +187,7 @@ class Batch:
         self.checkpoint = checkpoint or (lambda: None)
         self.request, self.encoder, self.sleep = request, encoder, sleeper
         self.today, self.check_tools = today, check_tools
+        self.state.setdefault("sourceErrors", {})
         self.items = []
         for line in self.queue:
             if not re.fullmatch(r"assets/voice/[a-z]+-[0-9a-f]{8}\.m4a", line["file"]):
@@ -190,6 +205,12 @@ class Batch:
             item["renderKey"] = digest({"sourceKey": item["sourceKey"], "profile": profile,
                                          "encoding": "aac-40k-24000-mono-v1"})
             self.items.append(item)
+
+        # Preserve an error from the older state format without resetting budgets.
+        previous = self.state.get("lastError", {})
+        for item in self.items:
+            if item["file"] == previous.get("file"):
+                self.state["sourceErrors"].setdefault(item["sourceKey"], previous)
 
     def target(self, item):
         return self.root / "public" / item["file"]
@@ -219,6 +240,9 @@ class Batch:
                 "status": self.state.get("status", "planned"),
                 "halted": self.state.get("halted"),
                 "lastError": self.state.get("lastError"),
+                "unresolvedErrors": [self.state["sourceErrors"][source] for source in dict.fromkeys(
+                    item["sourceKey"] for item in self.items if not self.ready(item))
+                    if source in self.state["sourceErrors"]],
                 "cachedPending": sum(not self.ready(item) and self.raw(item).exists()
                                      for item in self.items),
                 "quotaDayPacific": self.today(), "requestsRemainingToday": self.budget(),
@@ -242,8 +266,9 @@ class Batch:
             return self.plan()
         self.check_tools()  # Must succeed before reserving or spending a request.
         requests_this_run = 0
+        failed_sources_this_run = set()
         for item in self.items:
-            if self.ready(item):
+            if self.ready(item) or item["sourceKey"] in failed_sources_this_run:
                 continue
             raw = self.raw(item)
             if not raw.exists():
@@ -279,8 +304,16 @@ class Batch:
                                         r"UNSUPPORTED_AUDIO_FORMAT|INVALID_AUDIO_RATE|INVALID_AUDIO_DATA",
                                         reason):
                         reason = "API_OR_SOURCE_SAVE_FAILED"
-                    self.state["lastError"] = {"file": item["file"],
-                                               "reason": reason}
+                    failure = {"file": item["file"], "reason": reason}
+                    if isinstance(error, NoAudioError):
+                        failure["diagnostics"] = error.diagnostics
+                    self.state["lastError"] = failure
+                    self.state["sourceErrors"][item["sourceKey"]] = failure
+                    if reason == "NO_AUDIO":
+                        failed_sources_this_run.add(item["sourceKey"])
+                        self.persist("active_with_errors")
+                        self.checkpoint()
+                        continue  # Try other dialogue; never retry this source in this run.
                     if reason in {"HTTP_401", "HTTP_402", "HTTP_403", "HTTP_404"}:
                         self.state["halted"] = reason
                     self.persist("paused_after_error")
@@ -294,6 +327,7 @@ class Batch:
                     "sha256": digest(self.target(item).read_bytes()),
                 }
                 self.state.pop("lastError", None)
+                self.state["sourceErrors"].pop(item["sourceKey"], None)
                 self.persist("active")
                 self.checkpoint()
             except (RuntimeError, OSError, ValueError, subprocess.SubprocessError):
@@ -336,7 +370,10 @@ def main():
                          f'剩餘 {report["remaining"]} 句。\n')
             output.write(f'當日剩餘請求上限：{report["requestsRemainingToday"]}/{MAX_DAILY_REQUESTS}；'
                          f'需人工檢查：{report["needsReview"]} 句。\n')
+            output.write(f'未解決錯誤：{len(report["unresolvedErrors"])} 句（詳見進度 JSON）。\n')
             output.write(f'狀態：{report["status"]}；暫停原因：{report["halted"] or "無"}。\n')
+    if not args.plan and report["unresolvedErrors"]:
+        print("::warning::部分台詞未產生音訊，已記錄並繼續其他台詞；未解決清單見 voice-progress.json。")
     if not args.plan and (report["halted"] or report["status"] == "paused_after_error"):
         raise SystemExit(1)
 

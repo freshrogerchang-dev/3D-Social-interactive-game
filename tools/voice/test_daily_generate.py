@@ -3,9 +3,9 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
-from daily_generate import Batch, read_json, save_json, ROOT
+from daily_generate import Batch, NoAudioError, synthesize, read_json, save_json, ROOT
 
 
 class DailyBatchTests(unittest.TestCase):
@@ -65,6 +65,59 @@ class DailyBatchTests(unittest.TestCase):
         self.assertEqual(self.request.call_count, 45)
         state = read_json(self.root / "voice-progress.json")
         self.assertEqual(state["days"][self.day]["requests"], 50)
+
+    def test_no_audio_continues_and_restart_keeps_daily_cap(self):
+        self.set_lines(60)
+        failed = self.batch().items[0]["sourceKey"]
+        def request(item, key):
+            if item["sourceKey"] == failed:
+                raise NoAudioError({"candidates": [{"finishReason": "OTHER"}]})
+            return b"\0\0" * 2400, 24000
+        self.request.side_effect = request
+        report = self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 50)
+        self.assertEqual(report["complete"], 49)
+        self.assertEqual(report["requestsRemainingToday"], 0)
+        self.assertEqual(report["unresolvedErrors"][0]["diagnostics"]["finishReason"], "OTHER")
+        self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 50)
+        self.day = "2026-10-23"
+        self.request.side_effect = None
+        report = self.batch().run("not-a-real-key")
+        self.assertEqual(report["complete"], 60)
+        self.assertEqual(report["unresolvedErrors"], [])
+
+    def test_all_empty_outputs_count_and_do_not_abort_batch(self):
+        self.set_lines(60)
+        self.request.side_effect = RuntimeError("NO_AUDIO")
+        report = self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 50)
+        self.assertEqual(report["complete"], 0)
+        self.assertEqual(len(report["unresolvedErrors"]), 50)
+        self.assertEqual(report["requestsRemainingToday"], 0)
+
+    def test_shared_failed_source_is_not_retried_in_same_batch(self):
+        queue = read_json(self.tools / "queue.json")
+        queue["lines"][1].update({"text": queue["lines"][0]["text"]})
+        save_json(self.tools / "queue.json", queue)
+        self.request.side_effect = RuntimeError("NO_AUDIO")
+        self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 7)
+
+    def test_synthesis_records_only_safe_provider_diagnostics(self):
+        response = Mock()
+        response.__enter__ = Mock(return_value=response)
+        response.__exit__ = Mock(return_value=False)
+        response.read.return_value = json.dumps({
+            "candidates": [{"finishReason": "OTHER", "content": {"parts": []}}],
+            "promptFeedback": {"blockReason": "do not copy arbitrary provider text"},
+        }).encode()
+        with patch("daily_generate.urllib.request.urlopen", return_value=response):
+            with self.assertRaises(NoAudioError) as caught:
+                synthesize(self.batch().items[0], "not-a-real-key")
+        self.assertEqual(caught.exception.diagnostics, {
+            "finishReason": "OTHER", "blockReason": "UNKNOWN", "candidateCount": 1,
+        })
 
     def test_http_429_counts_once_and_does_not_retry(self):
         self.request.side_effect = RuntimeError("HTTP_429")

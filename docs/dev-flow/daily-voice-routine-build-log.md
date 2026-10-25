@@ -34,3 +34,12 @@
 - 工作流程逾時提高至 180 分鐘，避免 50 次生成受原 30 分鐘中止。
 - 新增 226 句跨五天／每日重跑不超額／完成後零新請求測試，與已有 5 次預留後只允許 45 次新請求測試。
 - 驗證：Node 22.22.0／npm 10.9.4；typecheck、lint、format:check、test、build 各 exit 0，16 檔 147 項單元測試通過；Python 預算／接續測試 12 項通過、exit 0。建置維持既有 500 kB chunk 警告。沒有呼叫真實 Gemini API。
+
+
+## 2026-10-25 NO_AUDIO 不再中止每日批次
+
+原因：空音訊例外進入原本共用 catch 後直接 break，故只要某句沒有音訊，剩餘額度便不會繼續使用。舊回應未保留供應商結束原因，因此無法確認 Gemini 沒有音訊的更深層原因；與金鑰、音訊工具或 Git push 失敗無關。
+
+修正：只對 NO_AUDIO 保存錯誤後 continue，並防止同批重試相同原音來源。失敗仍記入50次上限，其他服務／本機錯誤保持停止規則。sourceErrors 與 summary.unresolvedErrors 保留尚未成功的來源，未解決項在 Actions 以 warning 顯示；後續成功只清除該來源的錯誤。供應商診斷只保留 enum 型結束／阻擋標籤與候選數。
+
+新增測試覆蓋單句失敗後仍用滿50次、重跑不超額、隔天恢復移除錯誤、全部空音訊仍受50次限制、共用來源不重試，以及不保存任意供應商文字。驗證：Node 22.22.0／npm 10.9.4；typecheck、lint、format:check、test、build 各 exit 0，147 項遊戲單元測試通過。Python 16 項預算／接續／空音訊測試通過、exit 0。JS 692.03 kB／gzip 183.76 kB，保留既有 chunk 大小警告。沒有真實 API 呼叫或重跑工作流程。
