@@ -16,7 +16,8 @@
     "assets/voice/agong-a6056182.m4a",
     "assets/voice/xiaozhe-c40fc8f1.m4a",
     "assets/voice/xiaoan-ebc8bbd4.m4a",
-    "assets/voice/narrator-f7fa8407.m4a"
+    "assets/voice/narrator-f7fa8407.m4a",
+    "assets/voice/xiaoyu-0c774eb2.m4a"
   ],
   "rendered": {
     "assets/voice/xiaoan-4f10391a.m4a": {
@@ -217,6 +218,21 @@
       "sourceKey": "bfedb62be11991e4a72b4e52a6fa5229e015e02e792b118f820543b869d449c3",
       "renderKey": "1facbd2d31b77a6c035c786c59e6dbee5c962c8bdc38f75bcb409a44f92dcdd9",
       "sha256": "db4842be12890b790e5578e536df67288d36753b6228d7d366ab151dd1bfd99d"
+    },
+    "assets/voice/xiaoyu-0c774eb2.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "6cad378c19723ba5122de460e58835b492d093c31b5c1f7423f2ef73c40e652f",
+      "renderKey": "f7f4238e06b241c6cb543c49ccd16853f3adf883956f26bccae3aba6807d579b",
+      "sha256": "5142853fcdd66700456ef5cc4082862b474ece68341bb30ad657a85efa1df6c6"
     }
   },
   "generator": "tools/voice/daily_generate.py"
