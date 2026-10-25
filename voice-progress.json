@@ -42,17 +42,17 @@
     "9f7f7344bbd1a956d609332b7fa8af29f49cc55d92d45d356fb26081a0d4e5dd": 1,
     "92c4d6538037a0a0e582e3db3d23d3b989a636fc4f193c07a1ca75041e63298b": 1
   },
-  "status": "generating",
+  "status": "rendering",
   "summary": {
     "total": 226,
     "complete": 27,
     "remaining": 199,
     "needsReview": 1,
-    "status": "generating",
+    "status": "rendering",
     "halted": null,
     "lastError": null,
     "unresolvedErrors": [],
-    "cachedPending": 0,
+    "cachedPending": 1,
     "quotaDayPacific": "2026-10-25",
     "requestsRemainingToday": 24,
     "bySpeaker": {
@@ -90,6 +90,6 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T16:21:22.954444+00:00",
+  "updatedAt": "2026-10-25T16:21:25.652986+00:00",
   "sourceErrors": {}
 }
