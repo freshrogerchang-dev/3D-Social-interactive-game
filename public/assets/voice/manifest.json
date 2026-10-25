@@ -11,7 +11,8 @@
     "assets/voice/narrator-1dc518b4.m4a",
     "assets/voice/xiaoyu-dd7a91b7.m4a",
     "assets/voice/xiaoqing-e45a7bd2.m4a",
-    "assets/voice/mom-bec13ebf.m4a"
+    "assets/voice/mom-bec13ebf.m4a",
+    "assets/voice/xiaoyun-ab30b819.m4a"
   ],
   "rendered": {
     "assets/voice/xiaoan-4f10391a.m4a": {
@@ -153,6 +154,21 @@
       "sourceKey": "499dd1d1b092f5485a424ec85ab15c76147b8c958027aa94aac94742604ea076",
       "renderKey": "03c17c40b1f48f5cecd71012011979531e730d4d25bd6aa5af8bc1a1e04f40fe",
       "sha256": "0adc4b6cf15120d47cabd5bd301e2dd63db476ecfd879e7b9854f27bc63ec01c"
+    },
+    "assets/voice/xiaoyun-ab30b819.m4a": {
+      "voice": "Zephyr",
+      "profile": {
+        "id": "zephyr-younger-v1",
+        "voice": "Zephyr",
+        "tempo": 0.85,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "4f1f8b53f12d8e1b9e878f244d9ad369d8adaf27ea9f2868fa75d7777c5b74fe",
+      "renderKey": "68e0b0ac57bd5702d9b2bdd996e3e02fa9fce63bff6ec5ab330d3775e6d0d794",
+      "sha256": "1f613ab80e09e96bc8ec2aa3e188fee8ffd0f4b6e3bf7ef2d20afd2dc7cd6579"
     }
   },
   "generator": "tools/voice/daily_generate.py"

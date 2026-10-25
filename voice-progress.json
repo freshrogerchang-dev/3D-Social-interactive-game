@@ -27,16 +27,16 @@
     "499dd1d1b092f5485a424ec85ab15c76147b8c958027aa94aac94742604ea076": 1,
     "4f1f8b53f12d8e1b9e878f244d9ad369d8adaf27ea9f2868fa75d7777c5b74fe": 1
   },
-  "status": "rendering",
+  "status": "active",
   "summary": {
     "total": 226,
-    "complete": 12,
-    "remaining": 214,
+    "complete": 13,
+    "remaining": 213,
     "needsReview": 1,
-    "status": "rendering",
+    "status": "active",
     "halted": null,
     "lastError": null,
-    "cachedPending": 1,
+    "cachedPending": 0,
     "quotaDayPacific": "2026-10-25",
     "requestsRemainingToday": 40,
     "bySpeaker": {
@@ -58,7 +58,7 @@
       },
       "xiaoyun": {
         "total": 5,
-        "complete": 1
+        "complete": 2
       },
       "mom": {
         "total": 48,
@@ -74,5 +74,5 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T13:52:08.593131+00:00"
+  "updatedAt": "2026-10-25T13:52:09.833446+00:00"
 }
