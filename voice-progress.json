@@ -32,15 +32,18 @@
     "bfedb62be11991e4a72b4e52a6fa5229e015e02e792b118f820543b869d449c3": 1,
     "6cad378c19723ba5122de460e58835b492d093c31b5c1f7423f2ef73c40e652f": 1
   },
-  "status": "generating",
+  "status": "paused_after_error",
   "summary": {
     "total": 226,
     "complete": 17,
     "remaining": 209,
     "needsReview": 1,
-    "status": "generating",
+    "status": "paused_after_error",
     "halted": null,
-    "lastError": null,
+    "lastError": {
+      "file": "assets/voice/xiaoyu-0c774eb2.m4a",
+      "reason": "NO_AUDIO"
+    },
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-25",
     "requestsRemainingToday": 35,
@@ -79,5 +82,9 @@
       }
     }
   },
-  "updatedAt": "2026-10-25T13:54:38.502874+00:00"
+  "updatedAt": "2026-10-25T13:54:41.070462+00:00",
+  "lastError": {
+    "file": "assets/voice/xiaoyu-0c774eb2.m4a",
+    "reason": "NO_AUDIO"
+  }
 }
