@@ -11,7 +11,7 @@
       "requests": 50
     },
     "2026-10-26": {
-      "requests": 1
+      "requests": 2
     }
   },
   "attempts": {
@@ -61,7 +61,7 @@
     "6573aeea2896240a1d27a5c7d1494f54a3a7da5012de29a22fd6afe99d67acde": 1,
     "6dafe20a8a775658bdcc911003d041f5c4d57e69e9896599a63f6bb9ef2b779b": 1,
     "6548b0113b561af5b08e7a30f80d025d4d5a65c415f9fa545ef6f4f6d520f917": 1,
-    "df4f0c30120b7b982d1ab36c90bba4c90961c37bfc8613dc43ecefb0c4e09aca": 1,
+    "df4f0c30120b7b982d1ab36c90bba4c90961c37bfc8613dc43ecefb0c4e09aca": 2,
     "b4f5fc3be4f11441222b1dc53660e7fd67fbfb01a81f093053f7e40a5bf875d2": 1,
     "cf7ea516ea59d8df9a50471c7e6e24d4955f552215be2a5f045d8fafeb2179dd": 1,
     "a9927e2168249908e41d56ab509ed773d58ff5da930240c8dadf894d551b2dde": 1,
@@ -69,13 +69,13 @@
     "108b0ff6f610d564d166024d6b4067356e3f0f4f465da611707a6ef6c4db856b": 1,
     "a4cd0a88b0b62c144aa798b5895c5740f6dd54cd894aae182d8813d1384c84e2": 1
   },
-  "status": "active",
+  "status": "generating",
   "summary": {
     "total": 226,
     "complete": 51,
     "remaining": 175,
     "needsReview": 1,
-    "status": "active",
+    "status": "generating",
     "halted": null,
     "lastError": null,
     "unresolvedErrors": [
@@ -91,7 +91,7 @@
     ],
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-26",
-    "requestsRemainingToday": 49,
+    "requestsRemainingToday": 48,
     "bySpeaker": {
       "xiaoan": {
         "total": 3,
@@ -127,7 +127,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-26T16:29:38.545207+00:00",
+  "updatedAt": "2026-10-26T16:30:05.096689+00:00",
   "sourceErrors": {
     "df4f0c30120b7b982d1ab36c90bba4c90961c37bfc8613dc43ecefb0c4e09aca": {
       "file": "assets/voice/mom-eaa27f73.m4a",
