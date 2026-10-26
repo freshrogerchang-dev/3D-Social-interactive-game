@@ -71,15 +71,18 @@
     "8f172899e85c13653dca42ebb2ae86c61507446fd067d1455f09609bccc2332d": 1,
     "66cf78e5ff666722b99f816a38f84fa89f20dba7e31fd9f3b0318238f64cd368": 1
   },
-  "status": "active",
+  "status": "paused_after_error",
   "summary": {
     "total": 226,
     "complete": 54,
     "remaining": 172,
     "needsReview": 1,
-    "status": "active",
+    "status": "paused_after_error",
     "halted": null,
-    "lastError": null,
+    "lastError": {
+      "file": "assets/voice/mom-bd4bb666.m4a",
+      "reason": "ENCODING_FAILED"
+    },
     "unresolvedErrors": [],
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-26",
@@ -119,6 +122,10 @@
       }
     }
   },
-  "updatedAt": "2026-10-26T16:31:12.749464+00:00",
-  "sourceErrors": {}
+  "updatedAt": "2026-10-26T16:31:19.587696+00:00",
+  "sourceErrors": {},
+  "lastError": {
+    "file": "assets/voice/mom-bd4bb666.m4a",
+    "reason": "ENCODING_FAILED"
+  }
 }
