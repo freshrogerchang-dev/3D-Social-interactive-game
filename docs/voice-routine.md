@@ -2,11 +2,11 @@
 
 使用者已核准：沿用現有 Tier 1 預付金鑰，這個 routine 每天最多 50 次生成請求，接受小額扣款。這不是每日免費額度。
 
-- 排程：每天 UTC 09:23（台灣時間 17:23），GitHub 可能延後啟動。
+- 排程：每天 UTC 12:00（台灣時間 20:00），GitHub 可能延後啟動。
 - 使用者於 2026-10-22 追加授權：每日上限由 5 次提高至 50 次，以五天完成為目標；API 錯誤或排程延遲可能延後。
 - 工作流程最多執行 180 分鐘，容納每日 50 次生成及保存。
-- 首次排程：2026-10-23；若想今天先開始，可手動 Run workflow 並取消 dry_run。
-- 範圍：226 句、8 位說話者；順利每天 50 次時約 5 天，目標 2026-10-27 完成。失敗也計入上限，完成後不再呼叫 API。
+- 2026-10-27 起改為每天台灣20:00；GitHub排程可能延遲或漏執行，不保證準時啟動。
+- 範圍：226 句、8 位說話者；每日最多50次請求，失敗計入，完成後不再呼叫API。原10/27完成目標已因延遲與失敗無法達成；2026-10-27查詢時完成54句、剩172句。
 - 小男孩：Sadaltager、已選定的 B 溫和慢速語氣、升高 2.5 半音。
 - 小女生：Zephyr、已選定的 85% 速度與升高 2.5 半音。
 - 媽媽、阿公、旁白：維持原先設定的成人聲線。
@@ -19,7 +19,9 @@
 [目前進度 JSON](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/blob/codex/daily-game-voice/voice-progress.json)  
 [完整規則與維護說明](https://github.com/freshrogerchang-dev/3D-Social-interactive-game/blob/codex/daily-game-voice/tools/voice/README.md)
 
-初始進度為 0/226，目前沒有新的角色語音生成；遠端排程首次執行尚待驗證。本機通過五項工程檢查、147 項單元測試、12 項預算與接續測試，以及 Git checkpoint／實際音訊編碼檢查。
+截至2026-10-27台灣17:46查詢，已完成54/226，相比前次新增4句。太平洋日期10/26使用4次；10/27尚無新請求，不能用舊summary的剩餘數當今天額度。小晴1句累計三次需人工檢查；小宇、媽媽先前兩句已成功，unresolvedErrors已清空，但lastError仍有上一批保存失敗的誤標。
+
+最新修正：只重試相同Git提交最多3次，失敗時以GIT_PUSH_FAILED停止，不再誤報成ENCODING_FAILED。不重送API、不force-push、不重設每日計數。
 
 需要停止時，在 Actions 的 Daily game voice 選 Disable workflow。請勿刪除 voice-progress.json 來重設每日計數。
 

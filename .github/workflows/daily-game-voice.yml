@@ -2,8 +2,8 @@ name: Daily game voice
 
 on:
   schedule:
-    # 09:23 UTC is after midnight Pacific throughout the year.
-    - cron: '23 9 * * *'
+    # 12:00 UTC is 20:00 Asia/Taipei and after midnight Pacific year-round.
+    - cron: '0 12 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
