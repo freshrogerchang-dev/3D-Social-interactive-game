@@ -124,13 +124,13 @@
     "4094d8a0c40584e4b37dc8b99a1b85d7c8208953e2cc453bb0269b3a2dab3681": 1,
     "c1a341b76cf4055d0ca6315248cab0d046854107083b9f404f580f70b5db66be": 1
   },
-  "status": "active",
+  "status": "daily_limit_reached",
   "summary": {
     "total": 226,
     "complete": 103,
     "remaining": 123,
     "needsReview": 1,
-    "status": "active",
+    "status": "daily_limit_reached",
     "halted": null,
     "lastError": null,
     "unresolvedErrors": [
@@ -182,7 +182,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-27T15:52:24.948094+00:00",
+  "updatedAt": "2026-10-27T15:52:26.284048+00:00",
   "sourceErrors": {
     "66cf78e5ff666722b99f816a38f84fa89f20dba7e31fd9f3b0318238f64cd368": {
       "file": "assets/voice/mom-bd4bb666.m4a",
