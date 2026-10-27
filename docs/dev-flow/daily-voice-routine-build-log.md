@@ -43,3 +43,10 @@
 修正：只對 NO_AUDIO 保存錯誤後 continue，並防止同批重試相同原音來源。失敗仍記入50次上限，其他服務／本機錯誤保持停止規則。sourceErrors 與 summary.unresolvedErrors 保留尚未成功的來源，未解決項在 Actions 以 warning 顯示；後續成功只清除該來源的錯誤。供應商診斷只保留 enum 型結束／阻擋標籤與候選數。
 
 新增測試覆蓋單句失敗後仍用滿50次、重跑不超額、隔天恢復移除錯誤、全部空音訊仍受50次限制、共用來源不重試，以及不保存任意供應商文字。驗證：Node 22.22.0／npm 10.9.4；typecheck、lint、format:check、test、build 各 exit 0，147 項遊戲單元測試通過。Python 16 項預算／接續／空音訊測試通過、exit 0。JS 692.03 kB／gzip 183.76 kB，保留既有 chunk 大小警告。沒有真實 API 呼叫或重跑工作流程。
+
+
+## 2026-10-27 排程20:00與保存失敗修正
+
+使用者前次要求每天晚上8點執行；本次監測仍禁止另呼叫Gemini或重跑。main cron改UTC12:00（台灣20:00），預算仍太平洋每日50次。GitHub記錄顯示10/26排程遲至UTC16:12:57啟動，並因push失敗停下，非完全沒有排程；不能從現有紀錄證明延遲的更深原因，亦不承諾新時間準點。
+
+進度54/226，相比上次新增4句；10/26預留4次，10/27尚無請求。GitHub push失敗被編碼catch誤分類，改用獨立CheckpointError，不被API或編碼catch吃掉；Git push同一提交最多重試3次，等待3／6秒，沒有force或API重送。增加實際命令mock的推送重試及編碼後checkpoint失敗分類測試。Node22.22.0／npm10.9.4：typecheck、lint、format:check、test、build各exit0；147項遊戲測試、18項Python流程測試通過。保留既有692.03kB chunk警告。未呼叫真實API、不重跑、不部署。

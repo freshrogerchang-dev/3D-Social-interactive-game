@@ -19,7 +19,7 @@ queue.json 由遊戲共用 voiceLines() 匯出，包含公園、生活練習、�
 
 ## Routine
 
-預設分支 main 的 `.github/workflows/daily-game-voice.yml` 每天 UTC 09:23（台灣時間 17:23）排程；GitHub 可能延後執行。排程會 checkout `codex/daily-game-voice`，只在該分支保存音檔、原音與進度，不推發布分支、不開 PR、不部署。
+預設分支 main 的 `.github/workflows/daily-game-voice.yml` 每天 UTC 12:00（台灣時間 20:00）排程；GitHub 可能延後執行。排程會 checkout `codex/daily-game-voice`，只在該分支保存音檔、原音與進度，不推發布分支、不開 PR、不部署。
 
 沿用 Repository secret `GEMINI_API_KEY`。每天最多 50 次本 routine 的 HTTP 請求，包含失敗與保守預留；不是整個 Gemini 專案的所有應用共用計數。每天順利完成 50 句時約需 5 天（50＋50＋50＋50＋26）；預計 2026-10-23 至 10-27，實際因共用原音、失敗或暫停而不同。
 
@@ -50,3 +50,5 @@ Actions → Daily game voice → Run workflow：預設 `dry_run=true`，只看�
 可在 GitHub Actions 選 Disable workflow 暫停。遇到 halted 時，先修正服務／金鑰設定；恢復只移除 voice-progress.json 的 halted 欄位，不刪除 days 計數。需重新測試某句時只處理該來源的 attempts，仍保留當日預算。
 
 目前尚未發布到遊戲網站；全部音檔完成並確認後，再決定併入 main-uv12jr 與發布。前端只讀靜態音檔，沒有金鑰或即時 API。
+
+2026-10-27 更新：Git 推送同一提交最多嘗試 3 次（等待 3／6 秒），不重送 Gemini，不 force-push。仍失敗時以 GIT_PUSH_FAILED 停止，不再誤報 ENCODING_FAILED；原音與編碼可從 recovery 附件保留。GitHub schedule 為盡力排程，可能延遲或漏執行，設定20:00不保證準時。

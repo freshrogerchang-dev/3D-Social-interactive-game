@@ -5,7 +5,8 @@ import tempfile
 import unittest
 from unittest.mock import Mock, patch
 
-from daily_generate import Batch, NoAudioError, synthesize, read_json, save_json, ROOT
+from daily_generate import Batch, CheckpointError, NoAudioError, git_checkpoint, synthesize, read_json, save_json, ROOT
+import subprocess
 
 
 class DailyBatchTests(unittest.TestCase):
@@ -118,6 +119,37 @@ class DailyBatchTests(unittest.TestCase):
         self.assertEqual(caught.exception.diagnostics, {
             "finishReason": "OTHER", "blockReason": "UNKNOWN", "candidateCount": 1,
         })
+
+    def test_git_push_retries_the_same_commit_without_force(self):
+        def git(args, **kwargs):
+            if args[1:3] == ["branch", "--show-current"]:
+                return subprocess.CompletedProcess(args, 0, stdout="codex/daily-game-voice\n")
+            if args[1] == "diff":
+                return subprocess.CompletedProcess(args, 1)
+            if args[1] == "push" and not getattr(git, "failed", False):
+                git.failed = True
+                raise subprocess.CalledProcessError(1, args)
+            return subprocess.CompletedProcess(args, 0)
+        save_json(self.root / "voice-progress.json", {})
+        with patch("daily_generate.subprocess.run", side_effect=git) as run, \
+                patch("daily_generate.time.sleep") as sleep:
+            git_checkpoint(self.root)
+        pushes = [c.args[0] for c in run.call_args_list if c.args[0][1] == "push"]
+        self.assertEqual(len(pushes), 2)
+        self.assertEqual(pushes[0], pushes[1])
+        self.assertNotIn("--force", pushes[0])
+        sleep.assert_called_once_with(3)
+
+    def test_checkpoint_failure_after_encoding_is_not_encoding_error(self):
+        def checkpoint():
+            if self.encoder.call_count:
+                raise CheckpointError("GIT_PUSH_FAILED")
+        self.checkpoint.side_effect = checkpoint
+        with self.assertRaises(CheckpointError):
+            self.batch().run("not-a-real-key")
+        self.assertEqual(self.request.call_count, 1)
+        state = read_json(self.root / "voice-progress.json")
+        self.assertNotEqual(state.get("lastError", {}).get("reason"), "ENCODING_FAILED")
 
     def test_http_429_counts_once_and_does_not_retry(self):
         self.request.side_effect = RuntimeError("HTTP_429")

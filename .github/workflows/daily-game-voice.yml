@@ -2,8 +2,8 @@ name: Daily game voice
 
 on:
   schedule:
-    # 09:23 UTC is after midnight Pacific throughout the year.
-    - cron: '23 9 * * *'
+    # 12:00 UTC is 20:00 Asia/Taipei and after midnight Pacific year-round.
+    - cron: '0 12 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   generate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 180
     permissions:
       contents: write
@@ -46,7 +46,7 @@ jobs:
           fi
       - name: Prepare audio processor
         if: ${{ steps.plan.outputs.needs_work == 'true' && (github.event_name == 'schedule' || !inputs.dry_run) }}
-        timeout-minutes: 10
+        timeout-minutes: 20
         run: |
           if command -v ffmpeg > /dev/null && ffmpeg -hide_banner -filters 2>/dev/null | grep 'rubberband' > /dev/null; then
             echo '音訊工具已可用。'

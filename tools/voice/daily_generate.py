@@ -151,6 +151,10 @@ def encode(source, target, profile):
         staged.replace(target)
 
 
+class CheckpointError(Exception):
+    """Remote progress was not saved; do not issue another paid request."""
+
+
 def git_checkpoint(root):
     def git(*args, **kwargs):
         return subprocess.run(["git", *args], cwd=root, check=True, **kwargs)
@@ -166,7 +170,15 @@ def git_checkpoint(root):
     if diff.returncode != 1:
         raise RuntimeError("GIT_DIFF_FAILED")
     git("commit", "-m", "chore: checkpoint daily voice generation")
-    git("push", "origin", f"HEAD:refs/heads/{BRANCH}")
+    # Retry saving the same commit, never repeat a Gemini request or force-push.
+    for attempt in range(3):
+        try:
+            git("push", "origin", f"HEAD:refs/heads/{BRANCH}")
+            return
+        except subprocess.CalledProcessError:
+            if attempt == 2:
+                raise CheckpointError("GIT_PUSH_FAILED：遠端進度未保存，停止新的 API 請求。") from None
+            time.sleep(3 * (attempt + 1))
 
 
 class Batch:
