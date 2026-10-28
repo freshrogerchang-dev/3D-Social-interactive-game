@@ -127,15 +127,23 @@
     "4094d8a0c40584e4b37dc8b99a1b85d7c8208953e2cc453bb0269b3a2dab3681": 1,
     "c1a341b76cf4055d0ca6315248cab0d046854107083b9f404f580f70b5db66be": 1
   },
-  "status": "generating",
+  "status": "active_with_errors",
   "summary": {
     "total": 226,
     "complete": 103,
     "remaining": 123,
     "needsReview": 1,
-    "status": "generating",
+    "status": "active_with_errors",
     "halted": null,
-    "lastError": null,
+    "lastError": {
+      "file": "assets/voice/mom-820c6ab4.m4a",
+      "reason": "NO_AUDIO",
+      "diagnostics": {
+        "finishReason": "OTHER",
+        "blockReason": "UNKNOWN",
+        "candidateCount": 1
+      }
+    },
     "unresolvedErrors": [
       {
         "file": "assets/voice/mom-820c6ab4.m4a",
@@ -185,7 +193,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-28T17:57:12.778379+00:00",
+  "updatedAt": "2026-10-28T17:57:17.017751+00:00",
   "sourceErrors": {
     "66cf78e5ff666722b99f816a38f84fa89f20dba7e31fd9f3b0318238f64cd368": {
       "file": "assets/voice/mom-bd4bb666.m4a",
@@ -199,6 +207,15 @@
         "blockReason": "UNKNOWN",
         "candidateCount": 1
       }
+    }
+  },
+  "lastError": {
+    "file": "assets/voice/mom-820c6ab4.m4a",
+    "reason": "NO_AUDIO",
+    "diagnostics": {
+      "finishReason": "OTHER",
+      "blockReason": "UNKNOWN",
+      "candidateCount": 1
     }
   }
 }
