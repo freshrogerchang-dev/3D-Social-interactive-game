@@ -138,7 +138,8 @@
     "assets/voice/narrator-fd16b99e.m4a",
     "assets/voice/narrator-03eb26f6.m4a",
     "assets/voice/narrator-f7e9f220.m4a",
-    "assets/voice/narrator-7b6701e9.m4a"
+    "assets/voice/narrator-7b6701e9.m4a",
+    "assets/voice/narrator-398f3162.m4a"
   ],
   "rendered": {
     "assets/voice/xiaoan-4f10391a.m4a": {
@@ -1257,6 +1258,13 @@
       "sourceKey": "24fad20dcb7a8ddda3b65ab28eafb4149f7ee29438cf2a670ad7e298250d4a07",
       "renderKey": "836879253c85af46d165425d5c0225ab639600b483cb2d8a44744030f17c0a0d",
       "sha256": "4be6663c82eaf92be857e7fc7b1aa959388b2225d81b065e8d9e679579a329c6"
+    },
+    "assets/voice/narrator-398f3162.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "523decfa651cf443fcd73bfc5b3dbc2a1d99ab22837e3aaca815b4987d45a3a9",
+      "renderKey": "078b130770c58313c7234287baebf0359dd5f4968a4c68fae33689c309f7750c",
+      "sha256": "783b84c72662a39e980e61307827f08ec9a5a860c971e2ca3c8a5b7290ebf6e3"
     }
   },
   "generator": "tools/voice/daily_generate.py"
