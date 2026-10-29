@@ -202,13 +202,13 @@
     "b3e1fe89ad54922390db0aed8e46145d4fb42020040db450a7a867008b13d481": 1,
     "50cf997e81719a890e398f1a761e7c3d376d269d1faf39ecd236358ba501825a": 1
   },
-  "status": "rendering",
+  "status": "active",
   "summary": {
     "total": 226,
-    "complete": 173,
-    "remaining": 53,
+    "complete": 174,
+    "remaining": 52,
     "needsReview": 2,
-    "status": "rendering",
+    "status": "active",
     "halted": null,
     "lastError": null,
     "unresolvedErrors": [
@@ -231,7 +231,7 @@
         }
       }
     ],
-    "cachedPending": 1,
+    "cachedPending": 0,
     "quotaDayPacific": "2026-10-29",
     "requestsRemainingToday": 25,
     "bySpeaker": {
@@ -265,11 +265,11 @@
       },
       "narrator": {
         "total": 155,
-        "complete": 104
+        "complete": 105
       }
     }
   },
-  "updatedAt": "2026-10-29T18:19:00.700152+00:00",
+  "updatedAt": "2026-10-29T18:19:02.619879+00:00",
   "sourceErrors": {
     "66cf78e5ff666722b99f816a38f84fa89f20dba7e31fd9f3b0318238f64cd368": {
       "file": "assets/voice/mom-bd4bb666.m4a",
