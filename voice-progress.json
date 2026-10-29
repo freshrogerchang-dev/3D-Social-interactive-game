@@ -20,7 +20,7 @@
       "requests": 50
     },
     "2026-10-29": {
-      "requests": 24
+      "requests": 25
     }
   },
   "attempts": {
@@ -199,15 +199,16 @@
     "7af8fa152ee9e232143241744c7e9fe6a3ab7c5f1c59421ce880c28065d05767": 1,
     "a6e6cc09558760aae1eec96a883eaced4f4bed79f59ddd749c475cadeb8e6844": 1,
     "9af17a18d0dd06e14d5902b2900ac34a7311cecbd2569707a474156be995e596": 1,
-    "b3e1fe89ad54922390db0aed8e46145d4fb42020040db450a7a867008b13d481": 1
+    "b3e1fe89ad54922390db0aed8e46145d4fb42020040db450a7a867008b13d481": 1,
+    "50cf997e81719a890e398f1a761e7c3d376d269d1faf39ecd236358ba501825a": 1
   },
-  "status": "active_with_errors",
+  "status": "generating",
   "summary": {
     "total": 226,
     "complete": 173,
     "remaining": 53,
     "needsReview": 2,
-    "status": "active_with_errors",
+    "status": "generating",
     "halted": null,
     "lastError": {
       "file": "assets/voice/narrator-6383b5ef.m4a",
@@ -240,7 +241,7 @@
     ],
     "cachedPending": 0,
     "quotaDayPacific": "2026-10-29",
-    "requestsRemainingToday": 26,
+    "requestsRemainingToday": 25,
     "bySpeaker": {
       "xiaoan": {
         "total": 3,
@@ -276,7 +277,7 @@
       }
     }
   },
-  "updatedAt": "2026-10-29T18:18:28.746280+00:00",
+  "updatedAt": "2026-10-29T18:18:55.093801+00:00",
   "sourceErrors": {
     "66cf78e5ff666722b99f816a38f84fa89f20dba7e31fd9f3b0318238f64cd368": {
       "file": "assets/voice/mom-bd4bb666.m4a",
