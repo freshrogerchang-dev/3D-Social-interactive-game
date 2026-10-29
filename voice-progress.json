@@ -179,13 +179,13 @@
     "4f2b0137f04364345f579f1c7dd38211db374541644ac4ff5b5279330be636f5": 1,
     "4189c36514c2dee7ffd296be50036da37390ad3e9e60d6f222a57c0bf07a8d55": 1
   },
-  "status": "rendering",
+  "status": "active",
   "summary": {
     "total": 226,
-    "complete": 151,
-    "remaining": 75,
+    "complete": 152,
+    "remaining": 74,
     "needsReview": 2,
-    "status": "rendering",
+    "status": "active",
     "halted": null,
     "lastError": null,
     "unresolvedErrors": [
@@ -197,18 +197,9 @@
           "blockReason": "UNKNOWN",
           "candidateCount": 1
         }
-      },
-      {
-        "file": "assets/voice/narrator-22823aec.m4a",
-        "reason": "NO_AUDIO",
-        "diagnostics": {
-          "finishReason": "OTHER",
-          "blockReason": "UNKNOWN",
-          "candidateCount": 1
-        }
       }
     ],
-    "cachedPending": 1,
+    "cachedPending": 0,
     "quotaDayPacific": "2026-10-29",
     "requestsRemainingToday": 48,
     "bySpeaker": {
@@ -242,11 +233,11 @@
       },
       "narrator": {
         "total": 155,
-        "complete": 82
+        "complete": 83
       }
     }
   },
-  "updatedAt": "2026-10-29T18:06:30.800066+00:00",
+  "updatedAt": "2026-10-29T18:06:32.263417+00:00",
   "sourceErrors": {
     "66cf78e5ff666722b99f816a38f84fa89f20dba7e31fd9f3b0318238f64cd368": {
       "file": "assets/voice/mom-bd4bb666.m4a",
@@ -254,15 +245,6 @@
     },
     "95e46cb3fd1cb99bcb7216ecf0c4a890e99d84beb36bb19bf9656270b8dc4ebe": {
       "file": "assets/voice/mom-820c6ab4.m4a",
-      "reason": "NO_AUDIO",
-      "diagnostics": {
-        "finishReason": "OTHER",
-        "blockReason": "UNKNOWN",
-        "candidateCount": 1
-      }
-    },
-    "c317ae4e7ebf4d66f97e1dcc952dc6601a0bfcd2a1b26c9052933ea827c5d1b4": {
-      "file": "assets/voice/narrator-22823aec.m4a",
       "reason": "NO_AUDIO",
       "diagnostics": {
         "finishReason": "OTHER",
