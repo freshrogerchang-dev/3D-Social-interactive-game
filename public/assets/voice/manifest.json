@@ -60,6 +60,7 @@
     "assets/voice/narrator-27074e76.m4a",
     "assets/voice/mom-f988d605.m4a",
     "assets/voice/narrator-e4d67b64.m4a",
+    "assets/voice/mom-581a9b76.m4a",
     "assets/voice/narrator-7ceaef95.m4a",
     "assets/voice/mom-484777a5.m4a",
     "assets/voice/narrator-63d4e8a0.m4a",
@@ -1953,6 +1954,13 @@
       "sourceKey": "f84b559097dde0cfe91e6120e4694eb1d502d32a28743b34f82c37b437a11213",
       "renderKey": "b87c432fd620960932fdd2bd32e33c27e1500bb45b76f4153909d496697b480c",
       "sha256": "75d72c845136fa71f6e4a1c8b86e43c4bb5aef0d54a448bcac6baa1ef89d3c38"
+    },
+    "assets/voice/mom-581a9b76.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "9d6b551724addec2bcb67ce87709380c51bb36df1860febd5787342e744b6fd8",
+      "renderKey": "887e92f00b818ee6bad2f67541d8e47cd45080efb5c757ea29d61c48905858dc",
+      "sha256": "0ca1fef203fa370fa226047bae94434717e937e6e0b3965b4f096f034fc45d86"
     }
   },
   "generator": "tools/voice/daily_generate.py"
