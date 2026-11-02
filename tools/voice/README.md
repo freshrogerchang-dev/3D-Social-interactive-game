@@ -52,3 +52,7 @@ Actions → Daily game voice → Run workflow：預設 `dry_run=true`，只看�
 目前尚未發布到遊戲網站；全部音檔完成並確認後，再決定併入 main-uv12jr 與發布。前端只讀靜態音檔，沒有金鑰或即時 API。
 
 2026-10-27 更新：Git 推送同一提交最多嘗試 3 次（等待 3／6 秒），不重送 Gemini，不 force-push。仍失敗時以 GIT_PUSH_FAILED 停止，不再誤報 ENCODING_FAILED；原音與編碼可從 recovery 附件保留。GitHub schedule 為盡力排程，可能延遲或漏執行，設定20:00不保證準時。
+
+## 2026-11-02 完成與停止
+
+226/226句已完成，原224個音檔保留。小晴改為「我在這裡排隊。」、媽媽改為「這裡在修理，先不玩。」；聲線與後製不變。已依使用者要求移除每日schedule並暫停進度追蹤，前述每日排程為歷史設定。保留workflow_dispatch供需要時手動檢查，預設dry_run。原始WAV、完成M4A、manifest及預算／嘗試歷史均保留，網站尚未發布此批內容。
