@@ -262,13 +262,13 @@
     "f84b559097dde0cfe91e6120e4694eb1d502d32a28743b34f82c37b437a11213": 1,
     "67bec06932d995984e385272b6688843730c50da4da65eeefe5f49d9717b8fca": 1
   },
-  "status": "active_with_errors",
+  "status": "daily_limit_reached",
   "summary": {
     "total": 226,
     "complete": 225,
     "remaining": 1,
     "needsReview": 0,
-    "status": "active_with_errors",
+    "status": "daily_limit_reached",
     "halted": null,
     "lastError": {
       "file": "assets/voice/mom-d246cb87.m4a",
@@ -328,7 +328,7 @@
       }
     }
   },
-  "updatedAt": "2026-11-02T02:59:03.925356+00:00",
+  "updatedAt": "2026-11-02T02:59:05.084889+00:00",
   "sourceErrors": {
     "66cf78e5ff666722b99f816a38f84fa89f20dba7e31fd9f3b0318238f64cd368": {
       "file": "assets/voice/mom-bd4bb666.m4a",
