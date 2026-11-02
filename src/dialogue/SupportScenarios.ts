@@ -183,7 +183,7 @@ export const SUPPORT_NODES: Readonly<Record<SupportNode, DialogueNode<Target>>> 
     ['可以說期待落空的感覺。', '也可以請人幫忙想辦法。'],
   ),
   'change-repair': change(
-    '遊具維修，先不玩。',
+    '遊具在修理，先不玩。',
     ['你想玩的遊具有圍欄。', '照顧者陪你停在外面。'],
     changeChoices,
     ['不進入圍起來的地方。', '你可以說出失望。'],

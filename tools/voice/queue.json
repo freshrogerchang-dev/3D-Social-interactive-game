@@ -21,9 +21,9 @@
     },
     {
       "speaker": "xiaoqing",
-      "text": "對，我在排隊。",
+      "text": "我在這裡排隊。",
       "tone": "happy",
-      "file": "assets/voice/xiaoqing-79839c11.m4a"
+      "file": "assets/voice/xiaoqing-d27b4be8.m4a"
     },
     {
       "speaker": "mom",
@@ -363,9 +363,9 @@
     },
     {
       "speaker": "mom",
-      "text": "遊具維修，先不玩。",
+      "text": "遊具在修理，先不玩。",
       "tone": "neutral",
-      "file": "assets/voice/mom-820c6ab4.m4a"
+      "file": "assets/voice/mom-d246cb87.m4a"
     },
     {
       "speaker": "narrator",
