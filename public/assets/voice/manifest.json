@@ -1,0 +1,1967 @@
+{
+  "files": [
+    "assets/voice/xiaoan-4f10391a.m4a",
+    "assets/voice/narrator-095247b3.m4a",
+    "assets/voice/xiaoyu-7e827964.m4a",
+    "assets/voice/xiaoqing-d27b4be8.m4a",
+    "assets/voice/mom-cf4cce36.m4a",
+    "assets/voice/xiaoyun-e76fc0ef.m4a",
+    "assets/voice/agong-c99b0272.m4a",
+    "assets/voice/xiaozhe-15f7158d.m4a",
+    "assets/voice/xiaoan-0a438a51.m4a",
+    "assets/voice/narrator-1dc518b4.m4a",
+    "assets/voice/xiaoyu-dd7a91b7.m4a",
+    "assets/voice/xiaoqing-e45a7bd2.m4a",
+    "assets/voice/mom-bec13ebf.m4a",
+    "assets/voice/xiaoyun-ab30b819.m4a",
+    "assets/voice/agong-a6056182.m4a",
+    "assets/voice/xiaozhe-c40fc8f1.m4a",
+    "assets/voice/xiaoan-ebc8bbd4.m4a",
+    "assets/voice/narrator-f7fa8407.m4a",
+    "assets/voice/xiaoyu-0c774eb2.m4a",
+    "assets/voice/mom-554b26b6.m4a",
+    "assets/voice/xiaoyun-f77e1610.m4a",
+    "assets/voice/agong-bee3e7f5.m4a",
+    "assets/voice/xiaozhe-33f387b6.m4a",
+    "assets/voice/narrator-70df3bb9.m4a",
+    "assets/voice/xiaoyu-f3547b9e.m4a",
+    "assets/voice/mom-63f714cb.m4a",
+    "assets/voice/xiaoyun-b5f209ba.m4a",
+    "assets/voice/agong-0751101c.m4a",
+    "assets/voice/xiaozhe-a5421535.m4a",
+    "assets/voice/narrator-2e0a5b8b.m4a",
+    "assets/voice/xiaoyu-28536419.m4a",
+    "assets/voice/mom-cdff87f5.m4a",
+    "assets/voice/xiaoyun-1b071b49.m4a",
+    "assets/voice/narrator-fe4ce5df.m4a",
+    "assets/voice/mom-88675ffc.m4a",
+    "assets/voice/narrator-eb7e55e5.m4a",
+    "assets/voice/mom-49451c10.m4a",
+    "assets/voice/narrator-19f32d5e.m4a",
+    "assets/voice/mom-ce6a1d48.m4a",
+    "assets/voice/narrator-0ff93370.m4a",
+    "assets/voice/mom-a9cc85f3.m4a",
+    "assets/voice/narrator-24f6a96e.m4a",
+    "assets/voice/mom-31d88fbb.m4a",
+    "assets/voice/narrator-52487459.m4a",
+    "assets/voice/mom-7018aa87.m4a",
+    "assets/voice/narrator-42e88aff.m4a",
+    "assets/voice/mom-eaa27f73.m4a",
+    "assets/voice/narrator-be7858ce.m4a",
+    "assets/voice/mom-567ca4bf.m4a",
+    "assets/voice/narrator-cd7c32d1.m4a",
+    "assets/voice/mom-eceb813a.m4a",
+    "assets/voice/narrator-a76c65b1.m4a",
+    "assets/voice/mom-5b4ba8b0.m4a",
+    "assets/voice/narrator-85de83e6.m4a",
+    "assets/voice/mom-bd4bb666.m4a",
+    "assets/voice/narrator-3afd8490.m4a",
+    "assets/voice/mom-fcf6fe0d.m4a",
+    "assets/voice/narrator-27074e76.m4a",
+    "assets/voice/mom-f988d605.m4a",
+    "assets/voice/narrator-e4d67b64.m4a",
+    "assets/voice/mom-581a9b76.m4a",
+    "assets/voice/narrator-7ceaef95.m4a",
+    "assets/voice/mom-484777a5.m4a",
+    "assets/voice/narrator-63d4e8a0.m4a",
+    "assets/voice/mom-0d7ba639.m4a",
+    "assets/voice/narrator-3e86d314.m4a",
+    "assets/voice/mom-c9fdfc65.m4a",
+    "assets/voice/narrator-71597eed.m4a",
+    "assets/voice/mom-64005677.m4a",
+    "assets/voice/narrator-b324aec9.m4a",
+    "assets/voice/mom-8fcea751.m4a",
+    "assets/voice/narrator-e10f1ba3.m4a",
+    "assets/voice/mom-4164c1a6.m4a",
+    "assets/voice/narrator-0e7e83f0.m4a",
+    "assets/voice/mom-2f8fe991.m4a",
+    "assets/voice/narrator-f0dc7a9b.m4a",
+    "assets/voice/mom-718cc0eb.m4a",
+    "assets/voice/narrator-306b4fd3.m4a",
+    "assets/voice/mom-86cd38b6.m4a",
+    "assets/voice/narrator-40d13483.m4a",
+    "assets/voice/mom-ef8ae57b.m4a",
+    "assets/voice/narrator-184f0b3e.m4a",
+    "assets/voice/mom-03509562.m4a",
+    "assets/voice/narrator-c12258de.m4a",
+    "assets/voice/mom-61db2730.m4a",
+    "assets/voice/narrator-9664a866.m4a",
+    "assets/voice/mom-50b3291c.m4a",
+    "assets/voice/narrator-05705035.m4a",
+    "assets/voice/mom-92bad25c.m4a",
+    "assets/voice/narrator-2bf39b82.m4a",
+    "assets/voice/mom-02083aa9.m4a",
+    "assets/voice/narrator-425eddc8.m4a",
+    "assets/voice/mom-34fb5b7a.m4a",
+    "assets/voice/narrator-76643ed2.m4a",
+    "assets/voice/mom-0cc7bd81.m4a",
+    "assets/voice/narrator-68da60b6.m4a",
+    "assets/voice/mom-a74e785e.m4a",
+    "assets/voice/narrator-5cd7f462.m4a",
+    "assets/voice/mom-22c7eafd.m4a",
+    "assets/voice/narrator-2e3a82e5.m4a",
+    "assets/voice/mom-04a14fc1.m4a",
+    "assets/voice/narrator-451cbe74.m4a",
+    "assets/voice/mom-67a2f9a0.m4a",
+    "assets/voice/narrator-53e4bd3e.m4a",
+    "assets/voice/mom-6a15ce6c.m4a",
+    "assets/voice/narrator-2bc8b160.m4a",
+    "assets/voice/mom-c679d09e.m4a",
+    "assets/voice/narrator-2f0917cd.m4a",
+    "assets/voice/mom-5900a175.m4a",
+    "assets/voice/narrator-e49ca511.m4a",
+    "assets/voice/mom-fd4117cf.m4a",
+    "assets/voice/narrator-bf359562.m4a",
+    "assets/voice/mom-93d9c35f.m4a",
+    "assets/voice/narrator-bce0b348.m4a",
+    "assets/voice/mom-8c30f45c.m4a",
+    "assets/voice/narrator-9260805f.m4a",
+    "assets/voice/mom-1f422b8a.m4a",
+    "assets/voice/narrator-4205c265.m4a",
+    "assets/voice/mom-357c2ecc.m4a",
+    "assets/voice/narrator-aaafa312.m4a",
+    "assets/voice/narrator-36f928cd.m4a",
+    "assets/voice/narrator-fee24ff5.m4a",
+    "assets/voice/narrator-22823aec.m4a",
+    "assets/voice/narrator-437e249d.m4a",
+    "assets/voice/narrator-a49db1f3.m4a",
+    "assets/voice/narrator-bbccd070.m4a",
+    "assets/voice/narrator-f7798ecc.m4a",
+    "assets/voice/narrator-0a8cc2b8.m4a",
+    "assets/voice/narrator-07479539.m4a",
+    "assets/voice/narrator-20c330ed.m4a",
+    "assets/voice/narrator-37397e7e.m4a",
+    "assets/voice/narrator-49d619ba.m4a",
+    "assets/voice/narrator-3ca320cc.m4a",
+    "assets/voice/narrator-9a1d75f5.m4a",
+    "assets/voice/narrator-0a981582.m4a",
+    "assets/voice/narrator-33e9aa90.m4a",
+    "assets/voice/narrator-f289703f.m4a",
+    "assets/voice/narrator-1ff077a6.m4a",
+    "assets/voice/narrator-fd16b99e.m4a",
+    "assets/voice/narrator-03eb26f6.m4a",
+    "assets/voice/narrator-f7e9f220.m4a",
+    "assets/voice/narrator-7b6701e9.m4a",
+    "assets/voice/narrator-398f3162.m4a",
+    "assets/voice/narrator-14445476.m4a",
+    "assets/voice/narrator-bf2ea41b.m4a",
+    "assets/voice/narrator-e64a42e4.m4a",
+    "assets/voice/narrator-1421c56c.m4a",
+    "assets/voice/narrator-e29e1ad3.m4a",
+    "assets/voice/narrator-6e4e2104.m4a",
+    "assets/voice/narrator-5813db68.m4a",
+    "assets/voice/narrator-7035f37d.m4a",
+    "assets/voice/narrator-eb99e7f8.m4a",
+    "assets/voice/narrator-1f8d63bc.m4a",
+    "assets/voice/narrator-25966ce5.m4a",
+    "assets/voice/narrator-edb17799.m4a",
+    "assets/voice/narrator-1104282a.m4a",
+    "assets/voice/narrator-b727e7c1.m4a",
+    "assets/voice/narrator-0f458b86.m4a",
+    "assets/voice/narrator-3cb9482a.m4a",
+    "assets/voice/narrator-9bb89fda.m4a",
+    "assets/voice/narrator-c9c1b858.m4a",
+    "assets/voice/narrator-f617de29.m4a",
+    "assets/voice/narrator-da3413e0.m4a",
+    "assets/voice/narrator-fd0bf6f2.m4a",
+    "assets/voice/narrator-e77fe7ca.m4a",
+    "assets/voice/narrator-d7c7e8e7.m4a",
+    "assets/voice/narrator-cdcda460.m4a",
+    "assets/voice/narrator-1068d622.m4a",
+    "assets/voice/narrator-724d1817.m4a",
+    "assets/voice/narrator-46b37012.m4a",
+    "assets/voice/narrator-a594a343.m4a",
+    "assets/voice/narrator-62322bbf.m4a",
+    "assets/voice/narrator-ae1d5e3e.m4a",
+    "assets/voice/narrator-e9d17f94.m4a",
+    "assets/voice/narrator-9c8ca875.m4a",
+    "assets/voice/narrator-6383b5ef.m4a",
+    "assets/voice/narrator-9341283f.m4a",
+    "assets/voice/narrator-b08b4789.m4a",
+    "assets/voice/narrator-f86e12a9.m4a",
+    "assets/voice/narrator-0d8f740c.m4a",
+    "assets/voice/narrator-7b5208f4.m4a",
+    "assets/voice/narrator-044842e6.m4a",
+    "assets/voice/narrator-354138f3.m4a",
+    "assets/voice/narrator-e24c3026.m4a",
+    "assets/voice/narrator-3a466be9.m4a",
+    "assets/voice/narrator-f7126d3d.m4a",
+    "assets/voice/narrator-e45c163d.m4a",
+    "assets/voice/narrator-8477be53.m4a",
+    "assets/voice/narrator-ce98e701.m4a",
+    "assets/voice/narrator-471436ba.m4a",
+    "assets/voice/narrator-6a38cf72.m4a",
+    "assets/voice/narrator-e21f8d94.m4a",
+    "assets/voice/narrator-00f69af0.m4a",
+    "assets/voice/narrator-38ea7017.m4a",
+    "assets/voice/narrator-b69bbd76.m4a",
+    "assets/voice/narrator-20b4dd7c.m4a",
+    "assets/voice/narrator-aaa59119.m4a",
+    "assets/voice/narrator-583de8a6.m4a",
+    "assets/voice/narrator-fec07ea9.m4a",
+    "assets/voice/narrator-3c6e8571.m4a",
+    "assets/voice/narrator-fbcb04dd.m4a",
+    "assets/voice/narrator-91bee141.m4a",
+    "assets/voice/narrator-e5d15bda.m4a",
+    "assets/voice/narrator-e24f30dc.m4a",
+    "assets/voice/narrator-7a41779e.m4a",
+    "assets/voice/narrator-c94fb66b.m4a",
+    "assets/voice/narrator-12743554.m4a",
+    "assets/voice/narrator-c26117f3.m4a",
+    "assets/voice/narrator-0a5994f4.m4a",
+    "assets/voice/narrator-5be1d8a4.m4a",
+    "assets/voice/narrator-38e29cd4.m4a",
+    "assets/voice/narrator-6f51891b.m4a",
+    "assets/voice/narrator-5fe01f8d.m4a",
+    "assets/voice/narrator-0c9fe6f2.m4a",
+    "assets/voice/narrator-e6d03966.m4a",
+    "assets/voice/narrator-b96ff76b.m4a",
+    "assets/voice/narrator-c49f0953.m4a",
+    "assets/voice/narrator-061b3c55.m4a",
+    "assets/voice/narrator-7699bfef.m4a",
+    "assets/voice/narrator-b10ef293.m4a",
+    "assets/voice/narrator-d768a0f2.m4a",
+    "assets/voice/narrator-c92323b6.m4a",
+    "assets/voice/narrator-12f9c038.m4a",
+    "assets/voice/narrator-ba06652d.m4a",
+    "assets/voice/narrator-62f573b8.m4a",
+    "assets/voice/narrator-2a5cd3c7.m4a"
+  ],
+  "rendered": {
+    "assets/voice/xiaoan-4f10391a.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "95a73aa5af3cd883f89ffe8ff0f4af506b080d1cd3911d1cdad12f9248afa7e2",
+      "renderKey": "e3d4e63d7b788cc8a5ff8776572c44fb9696f62eaec5102246a2f42755a06101",
+      "sha256": "911726950d2afe551a27dcea8ab051a7b4af35e85aed753a54a7938dbcbd9889"
+    },
+    "assets/voice/narrator-095247b3.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "35860efb8d01752361407864438b22a22a0ddbfb72f3f1b8a869c81f59914cc3",
+      "renderKey": "76080294e179166500f6a4dad93644c40a058999178b225409700d095c90a24d",
+      "sha256": "277690af74d108a07863399a25800f637b3fc14a03f0016a54513adc424f0e4f"
+    },
+    "assets/voice/xiaoyu-7e827964.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "4b907b6e17dcfb588546d14dee6103ee731dcb55cd0fe43eea8bee90880d6778",
+      "renderKey": "5a94f173e52edad2282d9026892942a9386037073032bf1bf90b69b27c4d4da0",
+      "sha256": "dda4a1ff8ea30184f64fc6a7d2a763d6c82c0cdb3faf663644f88ad77215e962"
+    },
+    "assets/voice/mom-cf4cce36.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "595d70ec1f8043803391e7aebddc21a9de6ee9bf62e926e86431d10220a4715c",
+      "renderKey": "349b489133a6c3c4f142114381718036e93cbc30e064fa881efa2c1b7d3dacc1",
+      "sha256": "5adab3b7a8442ab6b325dcfddcea5981d31897fa93432a5f4d5f09301aaa58a5"
+    },
+    "assets/voice/xiaoyun-e76fc0ef.m4a": {
+      "voice": "Zephyr",
+      "profile": {
+        "id": "zephyr-younger-v1",
+        "voice": "Zephyr",
+        "tempo": 0.85,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "57b115f2bb4a1b645b7f514d2ee4f73411d488acadf7a717ede249ec05a95bbb",
+      "renderKey": "ee5d25b362c3b0dbca4ff00a556ac0c6de2e3f469d43b6e1aceebc1afb48d677",
+      "sha256": "c305435efd5142f121f1869313aff41c53a37d53032f5e1c1a04e24ec6bd2706"
+    },
+    "assets/voice/agong-c99b0272.m4a": {
+      "voice": "Algenib",
+      "profile": null,
+      "sourceKey": "3dd4319899e4d7cdfd872842c2fd031b5178a1e137d6d9344ac21362d23da2a9",
+      "renderKey": "962a0d9a099bccbaa807eefa5a7ff5e0f64d8ca84e38a47a5004ef77ded8411a",
+      "sha256": "794388ad630f89e5c71e3f97e7da223d357b0867650c63e08c9c844fef829b10"
+    },
+    "assets/voice/xiaozhe-15f7158d.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "f2f2374e1ef08226c6eb4d8d61bde5e2682fe4faa860642b8e905f361687ab97",
+      "renderKey": "c1055bf983b79eea95d4a5e5992dccab513702b79a90f3942b8c1ffd04566087",
+      "sha256": "60286a87a036a802d4e19844b7ea4f02803e206a7fdd33b53a0b96a9dfc2d120"
+    },
+    "assets/voice/xiaoan-0a438a51.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "28f233fea4fd852d4e48116ca5fcd0ae10ce61c2f0600493422a5d56e4aa556a",
+      "renderKey": "8ba17c8defeda8557dc599852bdb38bd807775f1e2c5e110fbe23d2a905c11a8",
+      "sha256": "d2d89bac72cd4ec54e617c7167f62909ea27f264b7a2d7d643880276f507eb52"
+    },
+    "assets/voice/narrator-1dc518b4.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "ba8e0284d8cefb4653c0f082ca46da638458687e22e25d45e6f59df0b8161fc7",
+      "renderKey": "2086c02ff2c6b5c5d902820f7a819435cfab1be15235802d9404d47f31075c3a",
+      "sha256": "ccd991091db45ca14ddddaf2a3af0cc8e8c83ee86ed7e004d79247f8f9a681a0"
+    },
+    "assets/voice/xiaoyu-dd7a91b7.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "8146b345ede417d1691b81151f0e17ab36215c6d3334a9018ad1c64a6591470d",
+      "renderKey": "355a93a80b55127698709a52d0d87fa3a9808d8db330a0f699e305cf3f93080b",
+      "sha256": "1116c161bc2b35bbf547b89816d48a9c929187dfd91f56aa380bc05f07bc1c01"
+    },
+    "assets/voice/xiaoqing-e45a7bd2.m4a": {
+      "voice": "Zephyr",
+      "profile": {
+        "id": "zephyr-younger-v1",
+        "voice": "Zephyr",
+        "tempo": 0.85,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "c4ea36dd48d4e76076d7f42fe17cb54ecfdea65bb5b18a353290e00e0cf54228",
+      "renderKey": "f38a55eb99f2550719ec1439806ddefde0ff037401df3aab16ff579f9ed7b51e",
+      "sha256": "45f979a378138e9bfe1713a5d3c8fcea871f03f6b4c50cb2f2f96786056faeeb"
+    },
+    "assets/voice/mom-bec13ebf.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "499dd1d1b092f5485a424ec85ab15c76147b8c958027aa94aac94742604ea076",
+      "renderKey": "03c17c40b1f48f5cecd71012011979531e730d4d25bd6aa5af8bc1a1e04f40fe",
+      "sha256": "0adc4b6cf15120d47cabd5bd301e2dd63db476ecfd879e7b9854f27bc63ec01c"
+    },
+    "assets/voice/xiaoyun-ab30b819.m4a": {
+      "voice": "Zephyr",
+      "profile": {
+        "id": "zephyr-younger-v1",
+        "voice": "Zephyr",
+        "tempo": 0.85,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "4f1f8b53f12d8e1b9e878f244d9ad369d8adaf27ea9f2868fa75d7777c5b74fe",
+      "renderKey": "68e0b0ac57bd5702d9b2bdd996e3e02fa9fce63bff6ec5ab330d3775e6d0d794",
+      "sha256": "1f613ab80e09e96bc8ec2aa3e188fee8ffd0f4b6e3bf7ef2d20afd2dc7cd6579"
+    },
+    "assets/voice/agong-a6056182.m4a": {
+      "voice": "Algenib",
+      "profile": null,
+      "sourceKey": "6211236ae8f87a10813625466ca1aa0eca5c938e7473536f9fe066e05cf77d13",
+      "renderKey": "568f129805f7f7f952cdcc3e935d8c079c65e1255d587855cde6b3eb78450cbb",
+      "sha256": "d4469d02cf555a86579062796add54262270a02001f0302eb09bca8a52bf33e5"
+    },
+    "assets/voice/xiaozhe-c40fc8f1.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "1a891f8ebcb131e27d13bf072d6f919446530818a601750ef2cfd2c46e97d877",
+      "renderKey": "3f539344fbbfa63f4cd3bcfe5aa09aa9fa81f865e5b62880e8ec6a9bf37a7393",
+      "sha256": "bfdf9956c7552a8a1c287720e08c1aa0a0bc0d88498b50928f6bab935fcda130"
+    },
+    "assets/voice/xiaoan-ebc8bbd4.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "8436e29ebd1865bf783ec6ab8d1e1ed52df877075d86f703318ab2bd174ec598",
+      "renderKey": "7a6f0eddeff05888b037ad1c19690ecc456a95abe5a1fddb0a7c9de053e68d1c",
+      "sha256": "07889ff1f5a564ba6049eec89bb84630d47f9ced9f2e8d943fcdb975aa2a9a33"
+    },
+    "assets/voice/narrator-f7fa8407.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "bfedb62be11991e4a72b4e52a6fa5229e015e02e792b118f820543b869d449c3",
+      "renderKey": "1facbd2d31b77a6c035c786c59e6dbee5c962c8bdc38f75bcb409a44f92dcdd9",
+      "sha256": "db4842be12890b790e5578e536df67288d36753b6228d7d366ab151dd1bfd99d"
+    },
+    "assets/voice/xiaoyu-0c774eb2.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "6cad378c19723ba5122de460e58835b492d093c31b5c1f7423f2ef73c40e652f",
+      "renderKey": "f7f4238e06b241c6cb543c49ccd16853f3adf883956f26bccae3aba6807d579b",
+      "sha256": "5142853fcdd66700456ef5cc4082862b474ece68341bb30ad657a85efa1df6c6"
+    },
+    "assets/voice/mom-554b26b6.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "a86ad68a1f01812e2b31f02988e082dba3cb9384180501c58ea7e1398d71f35b",
+      "renderKey": "61af83538fcca2f001d7d4c3b09c8be3bbe47f59cea1aeee47d8ae9ca8cff293",
+      "sha256": "dded682e04d6b99958ab4c5cae368e4f411f4dc7e291dce35778b4aaf80ec32f"
+    },
+    "assets/voice/xiaoyun-f77e1610.m4a": {
+      "voice": "Zephyr",
+      "profile": {
+        "id": "zephyr-younger-v1",
+        "voice": "Zephyr",
+        "tempo": 0.85,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "19830a2f35d4d0496e7ad4873f83ec8470b2b640d6df3630b895df955dc7eef7",
+      "renderKey": "e8240c914f8ea9ea25330e8d170b91387a0f342aed7b86712b75ff104aeb0e50",
+      "sha256": "2ede4153b7552b461400628dc84c5a14df531e047bbd4b86d7b093268bb42b23"
+    },
+    "assets/voice/agong-bee3e7f5.m4a": {
+      "voice": "Algenib",
+      "profile": null,
+      "sourceKey": "4442b23190c5e7b55836ee46d48c9f720ccbf7d548128a51108f5113c175c848",
+      "renderKey": "9b27f5e0b4366cc183be94873bfb56c2d79a8dce8d14d9c72fe8f64ad94f0a49",
+      "sha256": "665bf07e2278a797ad61d60553b637a14ebe3f961f31aa25a23b7429267c8f77"
+    },
+    "assets/voice/xiaozhe-33f387b6.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "aec70d991a6d612f893ff83e94e919e3113b0440ea3208ab4265ff39ea821b67",
+      "renderKey": "dbaf254291d9567fceb52d5f71bf507660dd038b8b92c5a58ed55d4c96d5d0a3",
+      "sha256": "b1742e33eced23bb2496d61a268897410d032aef22e06425749834371c3d63da"
+    },
+    "assets/voice/narrator-70df3bb9.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "21c7311a807b93c08112f00dc6231d9a36a84eca37994790d33d343001ff2ccc",
+      "renderKey": "118d6f1273a6e241538f40994cc61f7b28f84465fb1f14a4af86a1310a07bca3",
+      "sha256": "191b0b288d1bfc3bf50e02a6970bd8451c45eec78f29723ebb350a17d7cabdfb"
+    },
+    "assets/voice/xiaoyu-f3547b9e.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "6dd600e0d3cfdfdedfd905796c6b25ce66c434aed89bcb773d6f070f142d0b52",
+      "renderKey": "f2829c8281a49e89affcb9d130c0b97731c62e7d03db1ad4050e358470e2dd93",
+      "sha256": "dad06e726ff93bab8bf50594770ceb06d97528f835f04414c0f52d6f3e5fd4ce"
+    },
+    "assets/voice/mom-63f714cb.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "116fc1599529586589a5536d2631077c520c1f027e923e739cecb60f4a7ba165",
+      "renderKey": "f1c4ff25eae2c757476fc297a9247c043ca9e3350ac62cd8ed336aa06d54418d",
+      "sha256": "0d2fdb59bb0e73a726d6321b4c2503129a956a87561c4a9899c3012eddb8542f"
+    },
+    "assets/voice/xiaoyun-b5f209ba.m4a": {
+      "voice": "Zephyr",
+      "profile": {
+        "id": "zephyr-younger-v1",
+        "voice": "Zephyr",
+        "tempo": 0.85,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "3a437630e2c414d1bf6ea5f5186571c4e1a7c7d31dc88b9acba67c9d8955ee21",
+      "renderKey": "a9eb6fb6dbf70713c217929a49deda4ae37389841144418df9967bd88b7f2bc9",
+      "sha256": "e2405db17118e749b942cbe01045d92552f9c823d50a7a6a1dfbed6486d7a4d7"
+    },
+    "assets/voice/agong-0751101c.m4a": {
+      "voice": "Algenib",
+      "profile": null,
+      "sourceKey": "9f7f7344bbd1a956d609332b7fa8af29f49cc55d92d45d356fb26081a0d4e5dd",
+      "renderKey": "38df89cef55522ffab001416decb4c4c4d5e27a5daab303040d19fe05bc5814f",
+      "sha256": "d69928e4e11ef5addd3fea78ab734deaaf65b5f1c3c8676e8c4fe65d676b7fd5"
+    },
+    "assets/voice/xiaozhe-a5421535.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "92c4d6538037a0a0e582e3db3d23d3b989a636fc4f193c07a1ca75041e63298b",
+      "renderKey": "ede886e7cb952532dda76a75e4419bc2145586d603c1b70f9e43b97088fffe1b",
+      "sha256": "e7d256bbd8ea2f2cc3d106878fd8e57b98a546a8bdc2696ea018734580facba3"
+    },
+    "assets/voice/narrator-2e0a5b8b.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "0646dea52a1c7a5dce21f19a89e030d969712bf5ba064aab0c648cb951c89a95",
+      "renderKey": "e3197141a59e63409952f4951e4cae2a14b6db288ae59cc918cf1a01008561b9",
+      "sha256": "b1873dd4eafdd934e59db1628d8713fdeb80194387be7374ec72498822fc7068"
+    },
+    "assets/voice/mom-cdff87f5.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "d5ff8ac312c01ef70d6a745edebc68030f52d26ed13f7bddbdf59e659430eb1d",
+      "renderKey": "94db2d8f9bb19db489196935bf6b9851f7eb1769d8156bc94d869f585d672655",
+      "sha256": "2d538e348c31c83b27c364c475f7a9f677b2cbb5dbd74bd1922f671bd3cb3e29"
+    },
+    "assets/voice/xiaoyun-1b071b49.m4a": {
+      "voice": "Zephyr",
+      "profile": {
+        "id": "zephyr-younger-v1",
+        "voice": "Zephyr",
+        "tempo": 0.85,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "4d3dec007dd376ed0a6d999f928d2624467a6004f3ff781d04c97482ad7ada58",
+      "renderKey": "f08899fb0cc36adfcf93eb9055c1535b8a94b0c0d0edc2a4a4979c60700a42a2",
+      "sha256": "ce7c0333a39e4f966b737c9128181cbbf841801ec2fa2d1a6f5acead182a5cbd"
+    },
+    "assets/voice/narrator-fe4ce5df.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "349f546a948d66d44dbd9dc40ea1b0cf59463e70ae5906ee9314aa87725d97bd",
+      "renderKey": "5bfd238b295143582253d7fb74424252232d0d7679b1bbb189624e4ea001326e",
+      "sha256": "7538dcfe940fbf287448501a3a5e550d3273a33dfe7685b5acc818f1eeede327"
+    },
+    "assets/voice/mom-88675ffc.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "824e34a55c2a4a02069192090d9520555f7a968ea1b168f3c31bf7256f4eab90",
+      "renderKey": "c6a0c45123e355e3896764b01deb042bfdcbdc196170e7a002b712795e57dd67",
+      "sha256": "aab29003cb86cc676b2ee3231c557f2f61f5c514c6520c0d0667d0aa7a588f4c"
+    },
+    "assets/voice/narrator-eb7e55e5.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "e81fe8dea93141ce95dcc0a880afc9500827820717927a733b4690f079a3bea4",
+      "renderKey": "def1d1e617848668ed07030872e24515c61ff0c0e9bc7a9954f4f0c52779af71",
+      "sha256": "4e4489d24c690c1d61192b7173fe8fa056455c7992c7144601965a7ec2020887"
+    },
+    "assets/voice/mom-49451c10.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "c5e9b535f83688022f5f3a887d6c5d81dfe558553f7c2739e9c1789d6f575a20",
+      "renderKey": "b23ddd061733a82ddd54001f412ee869458fe8d41467d099de4e15a8a59f852c",
+      "sha256": "92ba08dfa0447a516b4268738d71dca05129e78e377acaeb3684fde3a772987d"
+    },
+    "assets/voice/narrator-19f32d5e.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "d64f305f2d1193794fc4385a2ff37b5dc476308d6addc16669967f562415adde",
+      "renderKey": "470144542f86b29c8cfb106fb21f82df61124e040cf993bf8425868abc973938",
+      "sha256": "a79472d695c0282009ebf416e086661a31a04cb89fcbd0fab6a141a53cfd0448"
+    },
+    "assets/voice/mom-ce6a1d48.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "de9d92534003383f85e2a8f6ff919f4a856610728c4482abb62c07600ae808e4",
+      "renderKey": "9e09b8998eceff9659a23af016e56db91e52d0f091b733302d051ea1a8cc1384",
+      "sha256": "f937a2385102c33dceaf4c00272b1f64449be5c7e21edd3c25b20e6c10e23d5e"
+    },
+    "assets/voice/narrator-0ff93370.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "04935f32c7d4ee9e0a4e2afddeabeeffc366582e2c2000239da22abf3de82817",
+      "renderKey": "21b0c598abd1b555506af472810eb9e9bd552c021d9e66c39651b90bf6c6a714",
+      "sha256": "a514dc49678f696f3134dd671fd497ec318152281520b994fc4f005fe8fafa5e"
+    },
+    "assets/voice/mom-a9cc85f3.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "fa8524609874e7b662ccaf1b12f853664535a5618b270b48429c4e1cbb34bc94",
+      "renderKey": "52c0daffb763a526f79cab3a7f9a474263914f6c974ac1c5ce18e8ab2a97886b",
+      "sha256": "77720f1e9cbf96738a1544589f582102a38f03d770f336f2a01cb3f2d8f498fa"
+    },
+    "assets/voice/narrator-24f6a96e.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "eb8566202dec5a96f20843314eb102c78cc7bf723fa805d6a8a84f231579d6fa",
+      "renderKey": "61849ccbd49046750cba09ee0883626cf517a254bb983e76860e07ba05b35338",
+      "sha256": "c6efdb7361abe6e2735233ab2c289b25d2c4a53eb8fde1afdd59abf19c94c500"
+    },
+    "assets/voice/mom-31d88fbb.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "a64e6c5019fc186a6eeed65904f8b597de8d085ac59afc5d90ad87dc65fa7a0c",
+      "renderKey": "dfca491ca8c24a0048deca3dfb630ef5d6401a169da792b3615743e0a4ee92c0",
+      "sha256": "9678c92249c3173c1539c00d849b8a687f46a28e39ca2f8e07a9f64b9bfb88e0"
+    },
+    "assets/voice/narrator-52487459.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "6573aeea2896240a1d27a5c7d1494f54a3a7da5012de29a22fd6afe99d67acde",
+      "renderKey": "1e531a7837403bdc9ef06bcf4cf69456058f1858d1a7eafbb6a85c307508fd7a",
+      "sha256": "41cbbb62aa6884ec229cb41f0bdd753a5b97c7ecd08c26c4a532bdd8d4f004b3"
+    },
+    "assets/voice/mom-7018aa87.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "6dafe20a8a775658bdcc911003d041f5c4d57e69e9896599a63f6bb9ef2b779b",
+      "renderKey": "12276f4b9623fb372de5bba2ad6bed7ddc2ac5e7d5b9656ba0b2f735e9904e04",
+      "sha256": "f4b702135be6025cc4234e14f4c0c82aac491ee97a09cdf268ba86399fda85c3"
+    },
+    "assets/voice/narrator-42e88aff.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "6548b0113b561af5b08e7a30f80d025d4d5a65c415f9fa545ef6f4f6d520f917",
+      "renderKey": "3d2d547e03077fb9010875eeebf819ef0791b486d364cf93d924b9bbd0eb77fd",
+      "sha256": "f671fe75fda4a82d49061613986cefc407d31cdba0438f44ab6351077d067a67"
+    },
+    "assets/voice/narrator-be7858ce.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "b4f5fc3be4f11441222b1dc53660e7fd67fbfb01a81f093053f7e40a5bf875d2",
+      "renderKey": "fb836d4fd73958a007ddb6cd599863006bfb40432b1fbbce572648f02033ce6b",
+      "sha256": "0d55842563b2e41624ec803a4e11ba9a0664996c27b6de808d7bbbeb30c417cf"
+    },
+    "assets/voice/mom-567ca4bf.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "cf7ea516ea59d8df9a50471c7e6e24d4955f552215be2a5f045d8fafeb2179dd",
+      "renderKey": "9fa5103438ff0db1d2a7ab1a49d62c1c58c40a0e1d765a522f01e76267dc0e1f",
+      "sha256": "5bcff341a60b5092d5b8385004b8c3b4a1b256d2d9686264954afa76dcff24b7"
+    },
+    "assets/voice/narrator-cd7c32d1.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "a9927e2168249908e41d56ab509ed773d58ff5da930240c8dadf894d551b2dde",
+      "renderKey": "f6012e94c3fed26808f6e2596d8bd6dfb8b50e49d19c2b47adf58d93878e9455",
+      "sha256": "3d3455944e47f0c6e50e2bf5504ff824de8a39afb49b4e020598339d9b0f9637"
+    },
+    "assets/voice/mom-eceb813a.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "fa7152d2917e54ba75e2582bbfe70c98ef8eaab504269799fa76b0224b33b935",
+      "renderKey": "88fa55e21a90a47996090591525123649835d9bd2f3a78d121c7ff8580b01131",
+      "sha256": "5f2712ab1b797260cbb2bd9769cfe3b480ad8746cb062730e68ddd5d0a25035d"
+    },
+    "assets/voice/narrator-a76c65b1.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "108b0ff6f610d564d166024d6b4067356e3f0f4f465da611707a6ef6c4db856b",
+      "renderKey": "f3201c492937760e040c8d92c8ffd02131981eccf2b9534ab5dad3e15dd2990c",
+      "sha256": "41a7b09ca06d5b234e996fc79caa76df7d749ef01a79be23850bf3186270db80"
+    },
+    "assets/voice/mom-5b4ba8b0.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "a4cd0a88b0b62c144aa798b5895c5740f6dd54cd894aae182d8813d1384c84e2",
+      "renderKey": "a46d43c6b699b5baffd48b01a58dbcc94841d62f03a5c4cab876564ed856e728",
+      "sha256": "038405b1243fbb0119b154c009442662507e5c4a56ae92808361ba671b7c9e3c"
+    },
+    "assets/voice/xiaoyu-28536419.m4a": {
+      "voice": "Sadaltager",
+      "profile": {
+        "id": "sadaltager-higher-v1",
+        "voice": "Sadaltager",
+        "tempo": 1.0,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "ae24ce4c7414c6ea44af95301b83d4b2b3e200f3a31a48aaac762e1ffe99310d",
+      "renderKey": "e9d864e912335079f43f0ba02ad6b0130ef836a8c3a8f4d25ad2cbf2e2feb612",
+      "sha256": "d45d10402c91b86b9d061e29f81ce20e9019923e5c49d14b94e8a87569d49b81"
+    },
+    "assets/voice/mom-eaa27f73.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "df4f0c30120b7b982d1ab36c90bba4c90961c37bfc8613dc43ecefb0c4e09aca",
+      "renderKey": "5c2b05d1d18ee58c3b985c31f1631fddbc5233b7177bbb3291676778b5ae7721",
+      "sha256": "9773a768b2d722a5544c736a24baa29f232a579d7e3fa4133e38446d6b1eb77f"
+    },
+    "assets/voice/narrator-85de83e6.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "8f172899e85c13653dca42ebb2ae86c61507446fd067d1455f09609bccc2332d",
+      "renderKey": "0104d49c053a0eb2bd7f1875f7afd325c09a0077864f1cfa4d7565bc0bc82446",
+      "sha256": "5df7567047fbbc79b49d6362611f6e574d00164dc131d8f660661023d3e0241f"
+    },
+    "assets/voice/mom-bd4bb666.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "66cf78e5ff666722b99f816a38f84fa89f20dba7e31fd9f3b0318238f64cd368",
+      "renderKey": "a8af7f5547e9e3edadc93143dbafe398a00f5f9002cc078037fa368c080b06c8",
+      "sha256": "a8ba9b923e26467a6c83fbf01bc2eedb59adcf969b10acb2eed5ac424e43b958"
+    },
+    "assets/voice/narrator-3afd8490.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "c008c6c278a8862e84429da084b60c9f8f0b565d4ff0aa7fbf32a8369a4d7684",
+      "renderKey": "9bf27a0ba2d78aeda3e862cf7b8039dfd09788cb1a1ed35109f21ebaa1855924",
+      "sha256": "d3ce064f846418251e4dac3be64858ccae534e977ff42c2d271c8093f969ac01"
+    },
+    "assets/voice/mom-fcf6fe0d.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "292a0756bc8687590e1630bbb8243a2125f3781c3a0804775e066ac3f2037903",
+      "renderKey": "8068f2010b3ce4efbe30d45bb339ce5f98b933c80d236c1a355b776d1a803e6c",
+      "sha256": "e744728f089d978dba9af81ff8d7d519e4ce5700a761cb0ebcb0ee6f9b82c048"
+    },
+    "assets/voice/narrator-27074e76.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "f01969f3825541fa8ca38aae8a1081c81201bc0e1b8e7666aa887fb6bc004030",
+      "renderKey": "46f0140123662ab10bccd4ecdeee5940bbba5029daad81dfbccd7149e20a0feb",
+      "sha256": "602a52dd0e546ee652410f6ab2ab5e076ca451fe3ba1639e8f2f5213bfa13c83"
+    },
+    "assets/voice/mom-f988d605.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "b8c7528926295f2bb68c3ad4c6193c859d876bdbc67a5ced729ad44922289780",
+      "renderKey": "068daa0332dd4af5faac0005c4880c9cc6fca5a7d57fa195f99fd3865babda38",
+      "sha256": "06cd18496996215bcd42ff725b72e048d697e1beb3e38e6fe4b21eb90be0a6a8"
+    },
+    "assets/voice/narrator-e4d67b64.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "eadd38aa272429e80f40821868b5a99af908bafc75b61d6651fc2a1f4506a746",
+      "renderKey": "b2495304937208243c3ae94209cf1a1987f08c1021d5c6c54c73155492022ab5",
+      "sha256": "7e441da8af7bb053a5951e518af3a249cc541166b5aab313989beb2646a13358"
+    },
+    "assets/voice/narrator-7ceaef95.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "b5544038c8c7958703ef03a3909872ab066cb204e184896c67f907f451fd835f",
+      "renderKey": "60acaf3a59f5a68b503fb586509b16298fb882b221a8cbea6b986f817fd6d159",
+      "sha256": "b4f76620184c2abdc17c32762d38bcdba88e1cb0056a386a7db1e7b538cb6258"
+    },
+    "assets/voice/mom-484777a5.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "6e201ae74b0c22d83394048dca37fe8a4748b0031b714a14ebec86cf48ea16bd",
+      "renderKey": "c0e185aba150b54b6ca599f96cb4cee2349c2ae499f05a57185b5a1f5f53ad9a",
+      "sha256": "1ed50a244e8c130d822195a528472a995c36ff97279cb57097206661847f6621"
+    },
+    "assets/voice/narrator-63d4e8a0.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "72817ae77f0d5d52a1ac43bfef4068be530fe5d800b0be2f83404b784901e456",
+      "renderKey": "c9f1bbaea297244a5a4dc4b5d6b20afc92204c87ff234b615a42c3087d4000a9",
+      "sha256": "835f7c3a5816b106e135f2be3c32d6bb5d8de7e1058ee8f6fea1e862fe9af680"
+    },
+    "assets/voice/mom-0d7ba639.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "3f186b5d378034849717b08b9bbaab8cd2f7420df52621c2841571014c6bf4cd",
+      "renderKey": "17f32dd6f901bec357c53b723f610950c1fdf701759bce1be9c0b9a8f131b282",
+      "sha256": "0aeb05ded371d515c1c75b85a63e90fc3b2472b9a1061495b3faff589ba9bd0b"
+    },
+    "assets/voice/narrator-3e86d314.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "5b4b9e5e1faaaf1aac5caebee70232aed63fa94e7b3ca0f42685d62726e0f6da",
+      "renderKey": "5e6c85e48a3789520970ce0f465f22d68781a22c1a92c7106253e13c81910e79",
+      "sha256": "90dfd536e149e426f2cb493737bb1eb8c788738b84bc48ac47d78ffb5d35ac8d"
+    },
+    "assets/voice/mom-c9fdfc65.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "93e85fb95b0d77197698ac325b4e62f43e7f416bd180fce6208da4ebf1703182",
+      "renderKey": "922cc2220d955fb6ba9889bb0a0acfc2aad59161004aada40766d325692306a2",
+      "sha256": "aa4a6a91fe4091ae07e8314115a945834c97d3b1156347042b79ea12c498e519"
+    },
+    "assets/voice/narrator-71597eed.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "d1e0bb2d1a6711ede1d6579bbf24f0657ccb3f3d58650aac6143a212971a5632",
+      "renderKey": "7eaffcf44cf8cdf98ba4441d08cf5a0c3707e4cd3c0dd05d2ca913e58f1a84a3",
+      "sha256": "78e5bfb0db86d0b6f5f4aa99b36cf3ceb58851fb28c1d93d7e8779353ce8b039"
+    },
+    "assets/voice/mom-64005677.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "a261170b4fb0437b2a1160201760d387fb20d12cba41846c06c8d67f78435e4d",
+      "renderKey": "f63ce793243d4e6033069f9268800797acf0920b92f706251c16b143f97fb727",
+      "sha256": "684fed6b2a6ef6b8da16bd971ce969b3231e2656ff10c9760ea400508b35f017"
+    },
+    "assets/voice/narrator-b324aec9.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "25a408ccfd84a3fdbcaaa6a488d195a8f89eca5db48a477f6fb109d55fc8680c",
+      "renderKey": "2d898a9c445ee201cd94a59accfe6977af15aab88fa341bca6e2550f9bf95d7c",
+      "sha256": "a32c183e82170aa8a9e30cfff4071327ab41418caa6cfcd78408cfbc0b65f15a"
+    },
+    "assets/voice/mom-8fcea751.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "90154e714f57a2a1bca516b9b6d59bf7b13dc7113633c58e0f166da7a9b8ff15",
+      "renderKey": "5d43196cf069bf5a356b83b3e453ff779e061019f71417b14c09a5abf842d518",
+      "sha256": "0ac2bf067b60c8980d4f7e10ebce53698fa4ffe536441946c8d4de93419f0873"
+    },
+    "assets/voice/narrator-e10f1ba3.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "3bfd6da571297568f38970630abbe91089c797e1318f58720d939a3e5b1c82b5",
+      "renderKey": "0a6998767899f8fa9acd284d1fb55392174cd325a8c30974b73d1c21eae25da6",
+      "sha256": "40757865c83482626cf56cca92d6d18855daf11946404b7b6a1c092216a4a81f"
+    },
+    "assets/voice/mom-4164c1a6.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "6d2e3be8336a47ee38395670f600c9e65e31e24429b28af48312488c0a285582",
+      "renderKey": "00ff7612fd215fdc68e30ad985ccff5ab5b75b296eaac73dc45261356fd1fabd",
+      "sha256": "f7d14f97bd0f328f29370ee3a4fb7a86a911dfde83434a2e9276d33dca852b85"
+    },
+    "assets/voice/narrator-0e7e83f0.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "ddc94f0634141ed8640717b48c5dc364999775407e3e3cb122450f2190e2dc26",
+      "renderKey": "40252eddeb8c13965a25930329edc4d7a18e5bc0ab2f693dc58cc53d11cf3116",
+      "sha256": "855b1fb56e4ac3e1ea7a70d8250252d00652d21f94c601e56704b3fa2299d6fe"
+    },
+    "assets/voice/mom-2f8fe991.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "f2c40ce1a3f053337a947f031901ac561a896bac679016fd5d654854f0916d14",
+      "renderKey": "95be3141b3c01503ffbc2c64cd05189f05d0ddc62cbf6d13c020936bc80dda08",
+      "sha256": "e27673361cc84a658c42cf8c36cb500c90bb9f3e161c0eaa42b8f409716b2f62"
+    },
+    "assets/voice/narrator-f0dc7a9b.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "fff1ce50e2406dc56955f3d1cac2dfc79d51e15715d33f9d6045bb8bc0f030b1",
+      "renderKey": "fa5ac98f4826486830241546f61ff7d918682f505be9eff8eae464af0ab909c1",
+      "sha256": "964cfda05f97f013861d7f86bcf5c548359eb80501fa29ef310c6c5b16f261cd"
+    },
+    "assets/voice/mom-718cc0eb.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "965c8736b66d541ad485739acabf15de43f254dae388095c7d075d0405f240a2",
+      "renderKey": "421a6e029aae29effe3fd5c1c11a3a135a10ff31d56b0c55322e857ed664e057",
+      "sha256": "e5700a08ae0a86e7cc41b829523b7028d04f52be99d3b649ce3b48ea8a767b90"
+    },
+    "assets/voice/narrator-306b4fd3.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "2644aed1105bf8f82df3708f7995c45ad25e69ba22ff637823ffa8e40ebaae2e",
+      "renderKey": "e83752e5419bb8e9eac1168585b848aa730b67c0177c1cbd51b2fa9c02aed6a0",
+      "sha256": "a4f4d3f3a20437c006b8ab643a9ca857dedd991622bccc90d2bf6588c72f064a"
+    },
+    "assets/voice/mom-86cd38b6.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "ad3a2be1a093d041b766164379e54a260aa474449d0368b636ba5dd34259e92f",
+      "renderKey": "4e369d3038eb8af5240147d947ff1b15c0ba36367a26b64272694093b47790c9",
+      "sha256": "bf7e8945cf4b4297602a0be62d1e37a6dc2c541f9e83715d7fd1b938fdb8e72b"
+    },
+    "assets/voice/narrator-40d13483.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "1cc2af0766aaefbdd7f46aa4a39ff6391a2e592e1cb1b1dcd47dc33a331fc913",
+      "renderKey": "0f67c93cab6f0a1c980b48bc8fcf1a7eafaab1acfdf4ca8726abd79c9cd151b6",
+      "sha256": "6686a93d4e6cc87659938c915271f7d2347cbc894fcc6725168adcc792cc2334"
+    },
+    "assets/voice/mom-ef8ae57b.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "0ccf5da8a3b12fc90989aa43abceff33f06c88e671dd930f20307894528cc2e7",
+      "renderKey": "eff397589cbffb6ec2da9a5cd72a8fd393044f019cf2c107d9fdfc65f5f573d4",
+      "sha256": "0765b404f296c121fcfe48f54ec58d1c6363fe1dc2f6bbb9b3bcbdb1fbf441f9"
+    },
+    "assets/voice/narrator-184f0b3e.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "d8faeb2be3451cc8c32005c55c54111eb5e8642b450b5aa6d00ce543e8041dc3",
+      "renderKey": "bfa8d925321626629329985bb943dc9d3aea342c5c404756d8de0945553b944d",
+      "sha256": "a68012613249eea319bead127af3abdf5a37e3fbfb1d02cf81653e465e3bf09d"
+    },
+    "assets/voice/mom-03509562.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "4fb8b9aa810d670848b69cea437995f67ca9cda6f64123b4cc77254a86ed60fb",
+      "renderKey": "0a002afe02208ba1d3636e7dbd49024857fa6e1f15a7428c0061f58c379d20e4",
+      "sha256": "666cd4e431ac9ae5e1a727bc4b310c5c4126de5bbcd8389f9b86073e70adaa60"
+    },
+    "assets/voice/narrator-c12258de.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "da974192f68747278dce74a9f7c5b6cd3026159b3b54db9252984121bf3af0b1",
+      "renderKey": "fda30e525e280f48e8e2fc4b085aafbc08eb847372c5d194c569171277b20348",
+      "sha256": "5091c3aefa32e71b0ea0e725af00b2e48641cf63c0e24bd628ed7a762048568e"
+    },
+    "assets/voice/mom-61db2730.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "d82d32b89a9c8cea8c2ba63979e0af63811823b297c92f7e005e40b0005502e3",
+      "renderKey": "858ed96c08c4887b479075587256f09b7851a84e9d0a2f2b36caffc119793f04",
+      "sha256": "3a0d2ee2bc5777b9b8ab67fab09e45104002abff51d6bd5e6621bec6422490a7"
+    },
+    "assets/voice/narrator-9664a866.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "8899659fc4b2bde6601e7f28ca5b9910f8b0ec695c6b99ac53fba2b91265ea43",
+      "renderKey": "29e54816486025f85aaeba441fa90eff1b8ec473e551a1581fcddecb84b5ef42",
+      "sha256": "069dea679769ba58d2b176179b7c79e7360cd7f52631c7ac8cf5cabc2b1c39f9"
+    },
+    "assets/voice/mom-50b3291c.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "549465cbc3add2a4c1f3812bb83ec4ab04a12ddfa075644d95787ae0e484a3d1",
+      "renderKey": "0d50d93bb9cfe444e334c5a3977dc38fe227119bac167ccefecb92ad9512ead0",
+      "sha256": "f0e57bfe5c11750041b32053a5d3958b9246f6abf373ddac397de6ee6c9e0da6"
+    },
+    "assets/voice/narrator-05705035.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "8e87a9f0a38f12865784629b307e8d91312e863f40cfa2f9a0dbc9a214a8adb3",
+      "renderKey": "5dac3716f29b8d4254aaa089874b1efb237bcc7b0b0de988b2b9928dd5d0034d",
+      "sha256": "637ab7b120ed6a59f58ba24150559661e700196a6f89a8b9b6f220b50ccbc8a4"
+    },
+    "assets/voice/mom-92bad25c.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "b90d3af31618a3334a5c3dc32c12439e745c26a087b1393ad60f61bc1078e4f0",
+      "renderKey": "3f7a3ddcb4bb6e67ccef153866df17d383afddcb93e5cf6d3e6da5851463bad7",
+      "sha256": "a1d4d2635f26ca65645298b348a50e2c76a258c762bd5ccefa2609cd39163d3f"
+    },
+    "assets/voice/narrator-2bf39b82.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "0a7efeeaf6b517127d9d7085df146c9a60c2f32f9b6a8785c76253ec4ffd2205",
+      "renderKey": "2a095aa3aaeb20902616ec7ec580de858263fd5e369f3fc2bf8a3c7fdfe9a2a7",
+      "sha256": "2fa17a166196bda9111c61d86391f7b63b6424742e388848f2057c4ce379a5b4"
+    },
+    "assets/voice/mom-02083aa9.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "5a8c9302e5cc90bd2ff9eedae4d4364f8ef02f75e107f0136f192164d736fe45",
+      "renderKey": "73af934711453b45cfff8a679ea7130e44f03f9e2722f09d95378efd1da8bfca",
+      "sha256": "03808cf44b3d046536cc46963b452e81a8bdd9fb53ef0bcd2795c33e9cc9083a"
+    },
+    "assets/voice/narrator-425eddc8.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "d7a07593e8a377845c55be50e4416db2cc8d95f834e8feeab5be1aec6e232bb8",
+      "renderKey": "49ebdd1c05640995d45f8c56472f326e1a6b96e51ac178178c4be1f55dd885f9",
+      "sha256": "c644599f763a009bdfe0040387dc1c5f1b8ea48e6d91ad02e35b0c8fb232a2f3"
+    },
+    "assets/voice/mom-34fb5b7a.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "6881cc22d6ac2fb6fe9d21bf5d7f73980c47ec43740625df037810a3818ae9c9",
+      "renderKey": "13a5e3faf4ec8d83f76b7c4712fd46d35ec82198f74a30527aaab1cd825dc76b",
+      "sha256": "018e3baa00cffaed7e1ecd1404fc516f6a25c0e01069920fed22b77c447e1f59"
+    },
+    "assets/voice/narrator-76643ed2.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "0fce8048ced30adf0d2b5fe8d986300457cee9d58de38be00549270ea86e60d5",
+      "renderKey": "4306db1aadb3c2197da4d709ee21eb21f39dd7f536cf1ae7dfc691aca384c268",
+      "sha256": "7f777f3742ac95cb7aba6a4921a977b02edbb2847c96cb7835fefc4b743a69dc"
+    },
+    "assets/voice/mom-0cc7bd81.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "1deaa6b1a7657cb7edf091a6563fd5364fa69e5bf2700ebfb45c73e9d94696ae",
+      "renderKey": "830bbf58c0de8142257589f7bbbcff19443c36cb85afbbb1a4c9cdc978c4c64e",
+      "sha256": "33391b43a8d6f6a7963b328361ddded3bb592857dd74423e502ab3f772cd68ff"
+    },
+    "assets/voice/narrator-68da60b6.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "0ccca5c04ff4511c0e65ce00d366333d39eadce2075d3e427db131b22dfebd75",
+      "renderKey": "de334bc82fd075d0a400deaba758c36966481fabfc720976f4125a255b2d5087",
+      "sha256": "10a7e0ff9fd4bbfef58550c4b1c83a96ba6c90fa56377db6861b3fd6f9869b60"
+    },
+    "assets/voice/mom-a74e785e.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "930ab4a5c3fa496678ac9321d744d8b6b8fdaa1f1dfa1d89b35eaf160712494b",
+      "renderKey": "ea891c38997ff26f9165fac895ba4e75c26dd9d0bd6a53b6550a8f28c467cfe1",
+      "sha256": "55aff2ed31a289d7ac1e86e80a21fb5aa08ff6767a33726a4a15753810162bea"
+    },
+    "assets/voice/narrator-5cd7f462.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "49d558aa826755de8d7d4a8c5d132099dceefdff76f298091378664b330dcacd",
+      "renderKey": "a9cf813400ac67d2dee7ad0c6dafc3a2c5eff6c9571b08acd5b36a6cb4ae8cb3",
+      "sha256": "610c0892b00e720695b1417cf161250d2af11e495afcd8a2de298a26ac1f1cc5"
+    },
+    "assets/voice/mom-22c7eafd.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "57c3288641fd1e5f632304b700ec68c34371f390089a0ed9f0ba691384ec525f",
+      "renderKey": "20753219970e65422a25ba2d3ad4282bfd9e0bede9b592acf729821165990952",
+      "sha256": "64d61d9ec7a4e313eb8298883954408fe00364f51ac6f851396e6643c55526ef"
+    },
+    "assets/voice/narrator-2e3a82e5.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "860ad4a414d523a3b024a32c53d4c67d9eda0cc497d25c28704853dfb666f83d",
+      "renderKey": "c971518d25eb9fb629cabb1814d0fec7678b387de250f38b3a40fef45fcf4542",
+      "sha256": "e87dc8b5e7a558868b985f965446b04fa747aca3dd5802ad6c929fa80a427e65"
+    },
+    "assets/voice/mom-04a14fc1.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "3fb34021e14541316ba93e72ea7c770faed83e1a2b20e1f1ede4d11b34d41615",
+      "renderKey": "357dd75b67b5d3122ada7fb128be12a44f93acc1ffa3ab23024b1feedc430ca6",
+      "sha256": "3148ba594a7748bb97c1f6ec45aa26f10ba30eabb8982340ce44ed3304813f22"
+    },
+    "assets/voice/narrator-451cbe74.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "31c3fd1ca79281defee65c304386f50dc70315ee198c53341d0a6aecbd926b89",
+      "renderKey": "aa92a7d107fb4fbaf4819127c3b57906657f4c5da2f88dbc3b923509a1f69f0a",
+      "sha256": "eba4145aa79195d82beb975257549c401175ef37a1aabc80b0d872dce6da9fcf"
+    },
+    "assets/voice/mom-67a2f9a0.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "0be9cd2a21488d3ae9a9bbf3ab22a854eb7518956c3a11c6bf508d59e107c384",
+      "renderKey": "b415a9d8573d3edc0208ee0863c9002fdde294b85137de0c0bcec35c61a27ca9",
+      "sha256": "949fe6dd16ccc392c1408fed55c004dd9fbd72dd27e4a598479ac962cefc6110"
+    },
+    "assets/voice/narrator-53e4bd3e.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "4094d8a0c40584e4b37dc8b99a1b85d7c8208953e2cc453bb0269b3a2dab3681",
+      "renderKey": "8f3b10362f770196f9650962f17a49058cb1edcf54d35d66dd655951632ab11b",
+      "sha256": "b53deb5c2fbaae7fc422c388458e9a483faeb35ec3c377979f62a0b7894f4342"
+    },
+    "assets/voice/mom-6a15ce6c.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "c1a341b76cf4055d0ca6315248cab0d046854107083b9f404f580f70b5db66be",
+      "renderKey": "73f5fec234b4c675ec94677b1f365313bdc4c93a380b418db0b985f604a1257d",
+      "sha256": "533231cfbd69af7e1c719a77693353a1a21afaf3e1ffe6cbf7ff6e5c23df36f8"
+    },
+    "assets/voice/narrator-2bc8b160.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "61283dc4a1221b90edaef308747592083c78e2410936ecd45ad2ee808b3295e2",
+      "renderKey": "6a4fed52b7c10f8f73d7c389750a2a2ff68f2e50d0a08b2e23ab1a12067c8e3c",
+      "sha256": "19f03df2da19ebadff62b78a6aa533790f604ecbf422da20780deb6832b56ceb"
+    },
+    "assets/voice/mom-c679d09e.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "58a471d9d16c2d122c4ad700828e3d2b45f2e37f930598effe55f60653d37302",
+      "renderKey": "bcdd968bce79fbd27587bc686de79e37a92ee42aea9de95c1a3afb19fb84d438",
+      "sha256": "5660f9792fc3b9b62ad209babc58871dac8460d69096922dbefcd9198d7eb379"
+    },
+    "assets/voice/narrator-2f0917cd.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "3b485dee39e0ac78ac24dea36a107d380c49c839046f60c9607f3811c8fa27b7",
+      "renderKey": "a73c7d4511738afb6e20db9931e53fe96b2d8a47b414289074f6c4d5e873bf76",
+      "sha256": "01f1b82a9f5ae47209fa5f67d1128e9c2b8323b194293b209687976055e0bffd"
+    },
+    "assets/voice/mom-5900a175.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "84873c1631815a147438699cd258d844259743b142561b4c7cf2578771d60434",
+      "renderKey": "3477ce10e91fe505ea29da437c6ea3b0e15c76d31b14fd32eedac4090a0dfd2a",
+      "sha256": "cc4131e30f358f0f1b1af00fe59c7bc7225b2e715f52517ae8af9eb6cb9b4a98"
+    },
+    "assets/voice/narrator-e49ca511.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "502cb0c3a6ee3683a03b258f90308e94d2f7c9ccb5e41628d379a0441f610b39",
+      "renderKey": "394e9846df03e2c11a15ffff6b27c776ed98f9e6acb62cfbf4795de3024b7404",
+      "sha256": "f7542dc8a26cb01158370798f84d5a36749a4da165bec328c88edd7f50a983ac"
+    },
+    "assets/voice/mom-fd4117cf.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "923548238b32bec80bd9c2c9a847f06ddc5acf32cd21fb0e27cc821fa10d6fbf",
+      "renderKey": "a91fb8f1449f24fb175b1c3b890ee4cd60dc3e4f639247db328b7f582572f7d9",
+      "sha256": "a86df9a332d12092cc0bac46ec02aa45746b9c4f9a4f4110816dd51a7e77e3d3"
+    },
+    "assets/voice/narrator-bf359562.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "8f1a3d57dfd5e7ef6c3b482ebf0b81648f52e9be5f31f635d2ce18d81b3b390b",
+      "renderKey": "c950fa5f303855cacd2559723651c7bbd9edf747cd91f90e6891ae7fb0dd74ab",
+      "sha256": "91c952d2aeda159df1f965b7e9d8fc74900d579dba4525bbdc2de264262f681e"
+    },
+    "assets/voice/mom-93d9c35f.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "96b9931f029f95ff74c0e1e1ace96a981576a49da59073ef5881ce8746610c38",
+      "renderKey": "72715f9ab92d9cd50bfe473bea9d36abe7bb8a701d6ecd43feea86b8b5e7ac9a",
+      "sha256": "3d46ded24245156f2d8552cdaa90481bfe8acbae042bcf87b193de24493f960f"
+    },
+    "assets/voice/narrator-bce0b348.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "adab74b6c3d91368dbd777b3da370ed5fffe5a80ed0dcc62713de77f6a079fad",
+      "renderKey": "2ce399e6e552e17e4bc61c6ae1e2257610db06f9f87ab4cbe2a6347d60a65843",
+      "sha256": "08e9d0acadbed852de7e27b57a850b5c1093a49c00b7a826df29732cbd6a0f57"
+    },
+    "assets/voice/mom-8c30f45c.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "c5a12429c0d519f446b6d5e6099ac8499ecc0c919d4a4045884cb326c69f815a",
+      "renderKey": "e218b201da16130ebced7630bfe5f495761fe05170027a08ea9647ae6a354e7f",
+      "sha256": "1d46bd60e8e96eec643287490244d4a4cfd11a897657d17c15c2b9cbe5283792"
+    },
+    "assets/voice/narrator-9260805f.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "7a6ad537a0c490855dad9473e82f2c23d996acc6f8ae6713c483f8ea43a1177b",
+      "renderKey": "12b629ce0dfcf2324d3c639d832cbe882b750cafad7baa8427af446f43c24d55",
+      "sha256": "7e23467829c3c7adad9bac228293eab42515d2ddabc26ed562474b00909c1c16"
+    },
+    "assets/voice/mom-1f422b8a.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "0035db413424da39e7cd6875ffe9791a27cadd98a6f8f936618f859a73c564e1",
+      "renderKey": "e2d002be15d18a41d4e2dc87cfce3bb2c48bc5455cf5a4aae806ed5cc34bac20",
+      "sha256": "6e199feab1bb90b4929e8c65723fdb357d447396c4545d5276bd8a51906defbb"
+    },
+    "assets/voice/narrator-4205c265.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "d91b26714237e0b870ce91169ed25f14e070833619166e6a0573fb579b8244b9",
+      "renderKey": "d95712f4852225fbb207a537d148fe2256c9805ac072004894e2d69bce713051",
+      "sha256": "c1114357881dc3c29c2a0c0958493dc9757188da56f91439bf439b15ace4355f"
+    },
+    "assets/voice/mom-357c2ecc.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "f10051b4217a191855941353ab18c7ca2b93fe2fbb127768995b50d09eac533c",
+      "renderKey": "3836c7c81c72db201e08553ab8b3b8a693292d86a230784b467a5d35bab0e8c2",
+      "sha256": "8bb58ab285ae9473d50fbcae93ad1974de8c9dcc1e637adde7d728f6998d424b"
+    },
+    "assets/voice/narrator-aaafa312.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "58d534532dd3c37b88b0ec0fbd3ca04aab5271889c3e86cffaca6107b829492f",
+      "renderKey": "1b9ec74599005787fe454464b01042db074d75af309b711787d98663b1459db5",
+      "sha256": "39a59b5f6db21288320ce6152f1a7c8db638b21437d2bd12d829867b9e218ab7"
+    },
+    "assets/voice/narrator-36f928cd.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "7b8b57aa3d07900d13f462af47e1c9058667ba4bff082f9c8861cca65bf754ac",
+      "renderKey": "a713ff32b4b651156a5c077de471c41f1c1ce7b305e39fe76a1653fd1aae0c76",
+      "sha256": "0b5f7b3f4d4d31b5d99ef65fa75e2820e3f4ba36d917e42572f62243ca72c149"
+    },
+    "assets/voice/narrator-fee24ff5.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "c388678e6a6b5c6e37ecd079194754e02f3fb9ca3a6c164ecb49502a0b2460f8",
+      "renderKey": "72e03f9b1b977d6088e0216de3fa0f6c3f76a4e67d44a100354692e45c219807",
+      "sha256": "766e2a131170733aeb1ced46de2904d8b027b302076108aff512bc6265e6254c"
+    },
+    "assets/voice/narrator-437e249d.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "3d71b78367101c8e26b632a3c356ddc7c4519ec64acd5728c841b323425ef016",
+      "renderKey": "7cc1a9b3bc2e70968982d481b4fbfd2e1250ccfce963321a06d37d808ea5a045",
+      "sha256": "faed45151db6d2edb8e79fbd77e70e915b0877940dda5ad550e2d9000b6b3d22"
+    },
+    "assets/voice/narrator-a49db1f3.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "0601ed33657dea02d7709e0c99bc0d94670296a7e5f9b86e60974c9d1f4f1bea",
+      "renderKey": "68654c632bca729a85b9c406fce18af61b35f779f301234ce25d2611ff300b80",
+      "sha256": "920a26895499a0d46f8ac3bca87f7efb4b73431a2dc7fe05a77df469adcbfb5b"
+    },
+    "assets/voice/narrator-bbccd070.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "aabdb2ec0b8a095db48552d49ec33ccc240e6c8be6a5d176a0901650b4a511ac",
+      "renderKey": "5f08271d97fcd7e9fef4807952c5a4c925be6c516280a0470e58a117a31de056",
+      "sha256": "2b34d0e2dc3b332588d44317f69be916d9d4a582e0081311caaa8d535d36b30c"
+    },
+    "assets/voice/narrator-f7798ecc.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "4cd129f29d938e9cedddfd04106b95b2c2e652b1f52ca20f21ec7197fbe92972",
+      "renderKey": "988a5e4be968ac88768f6902bcf2b80ff21616030b6e614b006ab4a9ad8eb029",
+      "sha256": "486dc3d5dbe0c15cc036aa11a355d4dc97180ea2e73faf581c36e521cdb6c8aa"
+    },
+    "assets/voice/narrator-0a8cc2b8.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "467313b6b28116046d7df43cfbab27185613f9f6a165a55325e57c3ffe35ea4e",
+      "renderKey": "5678f35ccff752a75bee5df5025734e0daf7917cfbcd6105c3b56d653e7b080b",
+      "sha256": "c248f4d5d93ede44f7f5cca731bbaf14aefb5d0793ec453083819fa17a8b7b7f"
+    },
+    "assets/voice/narrator-07479539.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "363392776aecaf818fd43c683252bd3f6d17a43c3200d729389aa7e453421be6",
+      "renderKey": "19f95cf1f5776f6fea2c18e6d040c35a06aa2661ffe7318364572ead7be3957b",
+      "sha256": "726c9824d0f4dbcefb29b66ec99ebbd59303ed27cb3e6867b315d92164d72eab"
+    },
+    "assets/voice/narrator-20c330ed.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "86d8840ffffaf275365afa4f573ccbe1e5ae1ac095ef5697a23284908257d5fb",
+      "renderKey": "654a81e1cd811003d6a1ac66f539001f324436cbad0e4f8f171666aaa9dcc2ab",
+      "sha256": "f60d3e8e76d6448414c9a536ffc0b6b42d16b35f7ae3ac34c1457c7529582eba"
+    },
+    "assets/voice/narrator-37397e7e.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "af213e3853736e87d0b2ab49331b73ab226d40db814e9f9cb27c7d38d334c5e8",
+      "renderKey": "302e159c84c26bf03d31711084cc031d4c5c467bdabbbf7dc4e0288d748753a3",
+      "sha256": "2a45c93197c1eb6f19031e45f29a53c7cda0e86e735815d213c3a6b88ffdb2be"
+    },
+    "assets/voice/narrator-49d619ba.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "3bb05b11ee39353e621d15f4e721bcd5ae61a865ccc4adc2b6199e87dd6b6efc",
+      "renderKey": "3858a5d99d221a0135152a5f478094e49d228cbf6fba70eece696f4e92f18bbf",
+      "sha256": "951b654dcdf55fe5509cf8bd24675ff1fddb98e7e62b7bff25ae19598cae81e8"
+    },
+    "assets/voice/narrator-3ca320cc.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "75f41cf3f837f9239cb76825c17e36adb802473ab62211430b81d053ac03f001",
+      "renderKey": "45acb9de84d78ecc6d6562dbc52aff54b48eb46c4205589848b25317126d30b5",
+      "sha256": "0ec7d7ffae7bddfc2281d640591ba7f64534eb731b7ebd293c02e97f750da13c"
+    },
+    "assets/voice/narrator-9a1d75f5.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "fafe2f29be5478733981c2c405de8c8c2a77f8a47252754286e264de1413ea17",
+      "renderKey": "0966708e6a2c9b66830cae15ba8e19290a1cdbbc2141e135a8c657efe5354108",
+      "sha256": "22bf312c2f1fd7b377752a44ff38aec06d1a3a709b74e32a3fd2fd1d50751257"
+    },
+    "assets/voice/narrator-0a981582.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "e8262b47dd9650ce1764f595bb67af82c1f36bd9e7cc39d8d1dc98a4eba9b164",
+      "renderKey": "fe9ecfcdad356e98ff5a1edf3f0880bb750b120b24e103aa38c0a258d217d730",
+      "sha256": "bd54691526e144008a6fdaba3622ff6d3007603caeaa0ea5bcd4e204bbde8e4b"
+    },
+    "assets/voice/narrator-33e9aa90.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "fdce0b56e8bf2c4936807602dfa9fe5e12235acf7eff6b27a85ed418dd71a1a9",
+      "renderKey": "22bbdf10861aa926a292b25f5f13a4406d920bb535dd32a7f0ceda974f8c33d2",
+      "sha256": "6202253e9ef14327f12971a7a30f60489147a40aa3016a4a8d2fbc9220dd162a"
+    },
+    "assets/voice/narrator-f289703f.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "49cb049ac408677a14d94198ebca70ad3ba80ace8eea1e85c46269d3d6447e53",
+      "renderKey": "dfee62b8fc87b4a09fd3176a0ee382890f4ca714036b3d46d1ee02af7cfb3124",
+      "sha256": "b797e1daed92a98ddb26bd1f83f9ba4695a0e56ad8376b8abc3a0188b3f1a7d8"
+    },
+    "assets/voice/narrator-1ff077a6.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "ad0c2d61b248c197399ccd8dc08bd00abc5f1e26a73741159dbec9e0eee3cfb8",
+      "renderKey": "727be094490f73e0494a0ae677e9ec4da9fa142a7c3e0c453f65748222325688",
+      "sha256": "74524d2781848d4713dce1f4196eeb91a21dcd6bfc8a0073bd153457e12b8179"
+    },
+    "assets/voice/narrator-fd16b99e.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "9d3dba3f7116962edab34261f80eaef3bc024944ccb5e249d95d67ef3bb76283",
+      "renderKey": "c082a281848329b3bf923cf4ee0917694ddf55eac1ece6898cf2fab7fde58742",
+      "sha256": "2dc0f1b66bd98d5fae393168bfbdaa005b465408d86a833c1993f94d1f03f63d"
+    },
+    "assets/voice/narrator-03eb26f6.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "a3ff3568c7d256b233d4dba66a03b84513c77eafef4cfba5ae0d0711f31552d8",
+      "renderKey": "1d482a6b01f2063bf562947935b935047ca09c31b807c6930e552d56049070c0",
+      "sha256": "2ddb01316afb90a5604561214a4ca154685a4f68cc6c4585811783fcff5eb170"
+    },
+    "assets/voice/narrator-f7e9f220.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "374eb30c7f9feddf1c67a7e0d3acdfa748e0453d76ee81429a173a4cd17663e7",
+      "renderKey": "162a42da07ea3ccba6d6c1d85d481058a13451f6ba14ebe809c7df747f8157e7",
+      "sha256": "f9c354fe54100a977e47b9e96b33e57a4b24fbc50b5322ba3dfebdd37db7419c"
+    },
+    "assets/voice/narrator-7b6701e9.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "24fad20dcb7a8ddda3b65ab28eafb4149f7ee29438cf2a670ad7e298250d4a07",
+      "renderKey": "836879253c85af46d165425d5c0225ab639600b483cb2d8a44744030f17c0a0d",
+      "sha256": "4be6663c82eaf92be857e7fc7b1aa959388b2225d81b065e8d9e679579a329c6"
+    },
+    "assets/voice/narrator-398f3162.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "523decfa651cf443fcd73bfc5b3dbc2a1d99ab22837e3aaca815b4987d45a3a9",
+      "renderKey": "078b130770c58313c7234287baebf0359dd5f4968a4c68fae33689c309f7750c",
+      "sha256": "783b84c72662a39e980e61307827f08ec9a5a860c971e2ca3c8a5b7290ebf6e3"
+    },
+    "assets/voice/narrator-14445476.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "ddcf40e6fb2f34508ece155e3fbe5a5cd144bda069f43c892cc026b273833e7b",
+      "renderKey": "67308f862ccb75dc36807f3324b3a361ab1418681f3bb2c23af9e08ef97ffab4",
+      "sha256": "5f29182d0d339daa1bb6c3bdfdd4979624b5b1a9c105158e9d465a8bd6dd89e7"
+    },
+    "assets/voice/narrator-bf2ea41b.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "13ef04051d85139f887c4213293c2b582393d5df94696065b765d79e81cba8f2",
+      "renderKey": "4fba07e4241b75d27ca825a41f9ba6a900240d8969c437d9dfe4da2bc64189d5",
+      "sha256": "135624cb76928856510e9553bf3dae173b1baab1151e1787187f71ead797c07d"
+    },
+    "assets/voice/narrator-e64a42e4.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "c127b538d5831a62b971954c7a6b57559a18a11da6f6184b2b6ed4eead610994",
+      "renderKey": "8df556eb3a12f3602579262b16c84f3d3c2ed169b67efca83de3a1118f650535",
+      "sha256": "a0570a92bfa81d193e37ade783e92b88f9274f21e65741487b79afaf6fc7fc44"
+    },
+    "assets/voice/narrator-1421c56c.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "1a29c80ce9cef3982d4c82e1759e42d6e2d4682fe344e87932b8a83709fe4cf5",
+      "renderKey": "7584486fbdbfaaf197c680cb8fa267c5a164a6d883ec26bcfbb00e2806967e34",
+      "sha256": "ea4d14c91aeaef431d26761522c83135d4a363fbe266ead0c9d44e2ae1c2efa3"
+    },
+    "assets/voice/narrator-e29e1ad3.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "abb43b92ee2a309d50fe1c7b0b3ba0fac878dffb65cee6879c5b8890c63b8dd7",
+      "renderKey": "0e6a47d3cf707b74405e72d2f3425efae8a42152fe6823fac8e7f763fd4833a6",
+      "sha256": "0b20faa1f12a0c0f542be15f7d2ec6c5b98e3a972cc371d70d3621cbb9d9abad"
+    },
+    "assets/voice/narrator-6e4e2104.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "8bce4be7461da9557f18b499cc0b027fa0e7ad5337bf6a8d66852d15f812bfc4",
+      "renderKey": "de5c528d34600c8dbef4006658802103892dddaf68054ba9bbc02adb3c3a0a85",
+      "sha256": "b51618dc04ad5db816d9a8471801d51cb24cd482401b8159a2828d77849f5468"
+    },
+    "assets/voice/narrator-5813db68.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "25a00cd49252dab12786701ecead534973719836434bb3128cfc1dcd395e8bcf",
+      "renderKey": "43d59daba8102e4effda4f8df9e64638fb009d9ef5543af8d7de57b95ea597c5",
+      "sha256": "f8fd5d181dc05c1ca9f24655e336e776a64ff8194b03237812de425bc433ab2e"
+    },
+    "assets/voice/narrator-7035f37d.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "dae6fda06c39cda011230ee961d2dcc714b048a666457b188a7f7f3a4726be24",
+      "renderKey": "18e9948872ea27682fe8c0f550ca30ff437b7ac2de251f276eb51dccd9e80296",
+      "sha256": "97b78709ba85253f910bd036b3c0684aeed7159cd53728c2e2219f67a342ab17"
+    },
+    "assets/voice/narrator-eb99e7f8.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "bf3de31b5cfc5b5b696418d6baec8305f38ce1c043008727522b477eb0d715c0",
+      "renderKey": "b3a9ceee001d20b4b882c49a3d67a10f34df2910fa2f700ed09e3af8248aaf4c",
+      "sha256": "91e9c48bd168bf04db7978d4b5078f82c3a90638d0cc43654cc135c60909bb85"
+    },
+    "assets/voice/narrator-1f8d63bc.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "4f2b0137f04364345f579f1c7dd38211db374541644ac4ff5b5279330be636f5",
+      "renderKey": "f626d2d406df420314e050d2d23009b0be869924af0c8a3657cabafdfa520b8d",
+      "sha256": "de7da175644a3d7fd7954caba237e2914afb7d10b098d57f161058dfc3f8a4fc"
+    },
+    "assets/voice/narrator-25966ce5.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "4189c36514c2dee7ffd296be50036da37390ad3e9e60d6f222a57c0bf07a8d55",
+      "renderKey": "5f413a3da8c038e9f20d3fbc2853ccf62c3fc95ee51c0c1e09bd0e88c72aee40",
+      "sha256": "98c9de35e789d97072b9af9018c249f60f7c88497fa0a71dec90d019c98d8929"
+    },
+    "assets/voice/narrator-22823aec.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "c317ae4e7ebf4d66f97e1dcc952dc6601a0bfcd2a1b26c9052933ea827c5d1b4",
+      "renderKey": "813e6eeadbbc2e8cad9d815b4e6ce772e256808e89f13b2e055dd2e53a7c2311",
+      "sha256": "f5bd4ff80e5cd067b068d2ee385573e3a3df2927623499821fe170a305af9e3c"
+    },
+    "assets/voice/narrator-edb17799.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "998fbd767c0c45685fea1a6d7b1aa252866425799d75b88767824d5078392164",
+      "renderKey": "27cc30375e66f023e8ad3cfbe992b5439367958300f6cd5884212c9372ad718f",
+      "sha256": "fc9d784383503ac2ad7a0336c62f0188c5c1d556a81c01769c5ffb316c8540ef"
+    },
+    "assets/voice/narrator-1104282a.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "627b25c1ac31bc9f2e22670dd603c9445b88c1838b0c9ceee4b56e74e17c1810",
+      "renderKey": "1e542ebbc736e87fb9b09679bbfc130cab8dd9dcd8692a63ec009b0ef033cfa2",
+      "sha256": "9f5532d97e64c92323b7fd4c2c978b8095d14e727d1dbc740348544e4155c567"
+    },
+    "assets/voice/narrator-b727e7c1.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "d3b8c9701eca3ae10c91de6bc63ed321c1f2962c08af6d5f17156540762e6c2a",
+      "renderKey": "4328a25f1c4d00a04c95d1bb9e8f6a4799b5655eadeb3f01aef13b5e64265001",
+      "sha256": "9a0c462ea873185dd8de4e3c4b883e84cf12a1fd8907559f0757b4f2fcb4d331"
+    },
+    "assets/voice/narrator-0f458b86.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "433a45df711a095493d55e3bf5c2b74d0883ff8392d9b4f332d90b761119be5e",
+      "renderKey": "ffb6725727d0c01f131a23baa6ebf4d65f5e40ed4ad857dfa342d4747e6dbd21",
+      "sha256": "c77d79af94101a60d7013e093eba8189f9523fb8fde7366aba65b4b055f47b4d"
+    },
+    "assets/voice/narrator-3cb9482a.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "5653a0b2d8747fd2c19e68442dc3830a35e82d3386dfc45c3cd6fcc6cd04c6bf",
+      "renderKey": "b47cd03a6e7e6116effb37a4cb4d285f4a5cdf92903689979896d480e906e612",
+      "sha256": "ff6846f506897d705cb1cd64dcb12e7db38a3ef4ab521d1bb70e61bd54db6ac1"
+    },
+    "assets/voice/narrator-9bb89fda.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "03c7d4c1b849978a01fe77171965a821171620fcda002c768fc4c4e532e7efb8",
+      "renderKey": "2a16b0af639c13d6ca04acd025de13820d7c7cc98dd10367614d1b1ad064ae86",
+      "sha256": "d54f2bdb8d6abfcde69ae94fbe74fb85d340f37a0b434d5d2a60fe2385121493"
+    },
+    "assets/voice/narrator-c9c1b858.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "7382b4ed113e5f20f4e71035ea40b1623de8f4ac940868a1d631e32e03886109",
+      "renderKey": "66f66d6d862fa1c1a3cb399b4e5a75ff8e6e1fa859f1886404cbdd22751bb598",
+      "sha256": "86823bdc22ba8600f9f88003448f491fda3f5749f19ae86e597a883a8885a983"
+    },
+    "assets/voice/narrator-f617de29.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "c5918b92fb3b4085e30f52c82ce4efa55723c6ce78bde643b939d98fc0ee5beb",
+      "renderKey": "bdb4ad5749b65082ad26d2f41899103e883ff486f485502f5a7b81598a1042fb",
+      "sha256": "d7a9468c8c6061d88063c397fec58f6221593becee8b69ab264e4abf0b4a1a83"
+    },
+    "assets/voice/narrator-da3413e0.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "b5a63fb85f295ed113c1e3ae94208f73555a75a34c680a4d89156ff78e7011e0",
+      "renderKey": "e7c1cdfec7fe171d346b96b21391135ee872b6d245600a6285d879116bde67ac",
+      "sha256": "60cb3a052660fa7196f8da620c6a251ebace861541a8453fbb9ab2820165680e"
+    },
+    "assets/voice/narrator-fd0bf6f2.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "d290a6fe0d25bb02904f3fcf38645797b8a92f3ef011f6c1d0e96cf8cbcb8aa0",
+      "renderKey": "a9684590b04ab783056248dd9ff191b1b59f6fb3a0759597c38028a70e299d88",
+      "sha256": "e47ecdf9250a4a90096ea2209f218a62b1bc0364f30cbf3003c25cb6808180c6"
+    },
+    "assets/voice/narrator-e77fe7ca.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "652e2cee412c4048387730a922275d0b30da41b98bbab7a4ba2c2c3a38114ee5",
+      "renderKey": "2f3b948c89ccf6cde31abaf683390fa029d10cc67b23b03147047b6e327bfd4e",
+      "sha256": "bd4edfb722590ba083e9f483e3f512b9a1b9a4c4fdedd4f3e549d8abff8ac24e"
+    },
+    "assets/voice/narrator-d7c7e8e7.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "25ac7265b995063e432858f64bac8ecc82a135939f30cf56ac397076af2275c9",
+      "renderKey": "df8d4d4b47c0afdfea9a24c4eabd019753ef69003aa7a5066051e163246d6986",
+      "sha256": "15dc6bf364ae52b2fb463680237b2739faefd2ee1062b3d1ae34f5c565c313c2"
+    },
+    "assets/voice/narrator-cdcda460.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "656e8de0edeab4dc6a800d19f2273098246fa3980f44aca72fcfb5f578528573",
+      "renderKey": "bb0269ac2cf032763209f05cc23c1c186042c645d34273aa0bca1608e07b001a",
+      "sha256": "30eeee87b0697b726c80c691e3410d5e0066d0d7b04a44af2bf496d0a38ea6df"
+    },
+    "assets/voice/narrator-1068d622.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "0d5ade8bedf1ec7d629ceb13dcef2e25f2aa533f49eded8733f5edf7b02a9708",
+      "renderKey": "8a7baf5fcf02635689c935c11145f5c082bb247d9fdaa8cbfecd58d66dc6e444",
+      "sha256": "0185bd58b9bf96356099d9f830e4510cec3785510d1bbc6fd1e8e0c0cc7a11ba"
+    },
+    "assets/voice/narrator-724d1817.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "5170a530ac19992c721983191f0f3a4128411694ebc64a1e96bf825497a834ba",
+      "renderKey": "b30470db4845f826d92047c4eb8c29a40535c4f3268f0cc7b4ee0d85dcf06b78",
+      "sha256": "0c21b551dcc0ed802fb21a40b050db8b8e90d6ee88d0ddf63e48f0d2a6a2bf46"
+    },
+    "assets/voice/narrator-46b37012.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "a410a5440d82ff87bc62351a6c440bef5969cf073cdc6c482dd7a710aa4672c4",
+      "renderKey": "c320782be55b6816c5d2e7c2db9075ad25b5ee845eee072d0dbe871ccce988f8",
+      "sha256": "80ffbaa92cf0e7c0fbecc80d7026ecdddfc33e9411cc9349f4a4f0593859f3e8"
+    },
+    "assets/voice/narrator-a594a343.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "4041629478f4acbb5e5244b6695ea509f630e5e8008aff80029225c00671ed43",
+      "renderKey": "8c36386381a291479419319cac0955dab37146e5dea5f8ca637bdd3813b96338",
+      "sha256": "ec84d4e9d8450841b1c3e81188e97ba01bdafa1eb8020227291424a1a33e3415"
+    },
+    "assets/voice/narrator-62322bbf.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "02152e13aed9a703c065c79897055c71b36526508e46e670f6081e4c7bef920b",
+      "renderKey": "319769299f0cbd5f61e3adf23efdddb667c3c652e121a9695c49e3a3f9056607",
+      "sha256": "30d433c3953f2e4dd8a41b4e408d8d1769241171e75f69e72ae5d5ae29b83b25"
+    },
+    "assets/voice/narrator-ae1d5e3e.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "7af8fa152ee9e232143241744c7e9fe6a3ab7c5f1c59421ce880c28065d05767",
+      "renderKey": "504e6b9f8686c87bd0db917542dedbae5c7370f4655ca8c7727401381d1f98e8",
+      "sha256": "6e60f4b812915591d958949197d9bd99c38a0380e85e0bfc7ced9c7f9a33c739"
+    },
+    "assets/voice/narrator-e9d17f94.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "a6e6cc09558760aae1eec96a883eaced4f4bed79f59ddd749c475cadeb8e6844",
+      "renderKey": "1ba6900c906973a29fdb153dfb64c261dd5db7a8139eb8414af4811a6bb44afc",
+      "sha256": "4b46d6ea66ae2300e4036baf32042c63449ae4b53cd4dc99aebc7882312bf29e"
+    },
+    "assets/voice/narrator-9c8ca875.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "9af17a18d0dd06e14d5902b2900ac34a7311cecbd2569707a474156be995e596",
+      "renderKey": "89ce21cc357d894cf37ef948578791bad06ad810e95b3d0175516c9f023bce75",
+      "sha256": "47aff46ffef05facacf3eee2a8be002f59f790a4507cc275a442588b2b1b74de"
+    },
+    "assets/voice/narrator-9341283f.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "50cf997e81719a890e398f1a761e7c3d376d269d1faf39ecd236358ba501825a",
+      "renderKey": "4f93d19988ad88bc6cea020a24deead391f2546f567e60663f5c6b397a0eda62",
+      "sha256": "dbfdd877de01572237abc0c15e467536bd616c689d28158b979d684909f42280"
+    },
+    "assets/voice/narrator-b08b4789.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "66b2abdff6ed62d842295130207693692b9d3b77fc21a107d4669ba8f53bd979",
+      "renderKey": "6d46e7cffce39079b2a15c30d813953709c17b6024d332c625de8639071b2b0d",
+      "sha256": "33c6386e2d3dcaf707c202ac7e962b5d92fa9832eedfab137188f37da95e42c3"
+    },
+    "assets/voice/narrator-f86e12a9.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "31ea56bc40492121d33e11730beb17b6605de643891695463436a3071f6aef34",
+      "renderKey": "528443bcdbccce3a7a2e757a06b7eb72a28d2c93db66402425967f5d97888d1f",
+      "sha256": "2f4c48483e8018871f1a877a4198acaa0baa2bce3512b734a5137beccead5ab7"
+    },
+    "assets/voice/narrator-0d8f740c.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "fb82c3ce9ea1ef4f628dea88b0ee1fa33d92c39b559a46b58871fecc3dd5e867",
+      "renderKey": "467c29f20ea640b7d79110116fe18ab5ba587f0c262206b26906b669d3a6b6dd",
+      "sha256": "b4f9e3de40a0f7b4b77de4143cf8efd1171614bbd66502d3c2df39a59cd113d0"
+    },
+    "assets/voice/narrator-7b5208f4.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "969ecbb0f5ffd28224432ecd3d32fea78ff4fcadcf4aa7aecafeb8047ef87850",
+      "renderKey": "fb9c97817d727a8f3dc3aa40848f1525380a37cffbf6174892ec7888fcb3d3a8",
+      "sha256": "cd58d84a5d02cb57c9afb4360c717fbee2bd7f202db8f304a7b1b5f1c68d637f"
+    },
+    "assets/voice/narrator-044842e6.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "134ebc41aa5b6f824c3ac763c5d7b89b08f0727eb590f2924f9fc9f618c477af",
+      "renderKey": "e2f2b6561e69dda61b3d1752c7b2f9b4639f173e340107d2aecd84884ad67225",
+      "sha256": "15da23393bdbe4510cf0f978ecba0bc85ed232224d1db5ccfd03fb8fddc527c8"
+    },
+    "assets/voice/narrator-354138f3.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "e0f19e1614d62002acee0e37979d98ec11267e200488bf5c6e82024af9b7c924",
+      "renderKey": "e3d6e206869238e9dcad0c2fa928195bc1efc1752750d4f430f12590af300814",
+      "sha256": "ab148c507dd9ffd341b86383b6a0d3b2841f8fcbf336f69c56dee371e919c412"
+    },
+    "assets/voice/narrator-e24c3026.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "0c23c7f0f5ca3507ea43622154edb5e9a187e48e4ff747676b1f7849cfe93494",
+      "renderKey": "2d7d4c9dc3d330480b687d2e6953893c5fcfb01fcc55bf06340c650c378cfc32",
+      "sha256": "a358a5c036197d4f29f6e81a4ce7bb156dce81c06785c19eb77543e3dbb16c24"
+    },
+    "assets/voice/narrator-3a466be9.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "37f70e62d5e03ed5a2931f25460ef4150f3ac000cf519fb5bce8c5073b03c5e8",
+      "renderKey": "897ca7b5be86dd8e3fb720c2a52085af3b5bdcd893ddd18605871c11b2211cbb",
+      "sha256": "549cf92e476a4804afdebcfd7ad0176dcefd3dbb5a3136c96fa81d80fb57e669"
+    },
+    "assets/voice/narrator-f7126d3d.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "7f760622603fb06590ce2c70965ca5bebd62ac4ed637602ddf9ccb1254318492",
+      "renderKey": "c6d734816c7479b2e158ec60c06f048bc16c56584577ef7857defe2ff7d7f926",
+      "sha256": "b2fdc24861ead65ea7b5d61cdb582ec957cc97ef82d2fcbf435dded13a01d818"
+    },
+    "assets/voice/narrator-e45c163d.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "bb1c573e72ab2cf377365640f8ab889a0751ed5d52df82f1d3cfe2303d752229",
+      "renderKey": "b35f9aaba7f8d7ef19757e31cd6aa3e58d83e4bfb1169a44b1157bec8a2138ef",
+      "sha256": "6d836ca5127abdc473bb83a5aa46f9823c0bba15eabcf0bd36f0148f4a11a798"
+    },
+    "assets/voice/narrator-8477be53.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "43859ef321359543ece16347d2af30f350abd50fbcace80c635fe12fecb3ebba",
+      "renderKey": "c969c7449b9ca9c33ac5ee3e29e2e14292d69d7fe2acd4f4edfa3ad10e9701a5",
+      "sha256": "3ae6f22fcf32d5b603f388d35614d47157da6e4f9bd3efd9bb842470413878e1"
+    },
+    "assets/voice/narrator-ce98e701.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "82edd1324a168fdefcac8c10a815848873f3881ba49a3500d5ef5cdb62f8d054",
+      "renderKey": "dd766e8f838f426f0cc630d2208aedad6165c1db90102fee661923366c2f83e7",
+      "sha256": "782f8cee3280b229cf6e8adc05933bc5a9533dbdb92d445d26ede9791116f544"
+    },
+    "assets/voice/narrator-471436ba.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "8b68eb0c78f45b0aefe41ed64dacf560c544539496ac829c3624090b13839e94",
+      "renderKey": "007b66fc9c4fb28c7fd65bff81f261ee580d931c4813133933dba5eb533dd693",
+      "sha256": "6b254693dcd81ddd27776bdee9a8d8bf12c73a67cb1e7a5044ffe15e006f3572"
+    },
+    "assets/voice/narrator-6a38cf72.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "6d31ec59b61bbf3ec55cee15d8436a68a2e10121aae64c938b2869ff7f809ef3",
+      "renderKey": "4309cf1e86e6ce4b260ba350703299adbb3b3036eac850cb6f620650bd110757",
+      "sha256": "ecf697007415f9df0af0ec362d77ae2114daf85bdfd54bbf999363d2639184f1"
+    },
+    "assets/voice/narrator-e21f8d94.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "a4534f5652fc304525d006e8388b7a271c396fed2f127961cc425fae5ca988ef",
+      "renderKey": "a833fedfc1ece828cec6adeba466cd83e8fe53fe98a35d68c041d1fc349f9247",
+      "sha256": "17266d30a04cde7658d32eb7efc24b5c53b4bd6d4c9422b294488d5c5895d0af"
+    },
+    "assets/voice/narrator-00f69af0.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "5c33ca57c838cbe03087d57b1b545d38ec9581b97b080815a4c1854f3ded5cef",
+      "renderKey": "3fff2ebf2f5e4f1efc097ceeefc448d4689387b396230826764439b0365aa00b",
+      "sha256": "775548bbff527c4246e684e89b54a43247eae9e49dfd12cd539b180e6f99cf0d"
+    },
+    "assets/voice/narrator-38ea7017.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "f6808e1e93576b8951023b0191a1ed2de032dfa8ce4d2be3aea331d1983e5760",
+      "renderKey": "f540237cbb02eee6aa38f318b48d727c69b47e30d0b65b79f833b6db15c407bb",
+      "sha256": "4abdda12d1b99ce8d38003c773d936bb76e4ffac9b633067583c4d19f02c7f76"
+    },
+    "assets/voice/narrator-b69bbd76.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "2704be7a195695e3af7850b5826b1c68f8fcc369b1964955eb83ec10d07a331c",
+      "renderKey": "10a9dcce269316e2cc97ee24f5aa1d5d34b664b338eef24a38e591459e2c9d09",
+      "sha256": "85e9efd325cfca0658e4cc3db538ed939a6e2ce8eae2becd1ddd083faab6aa99"
+    },
+    "assets/voice/narrator-20b4dd7c.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "10f934803d590ce88036b8f47bcd4126de6d07e0ae13bc8a6eb70e824cc32d46",
+      "renderKey": "791eaf1900e8c29019bf5b8c8091b52281a6982c0cba2b21eb62188395597547",
+      "sha256": "f8d2019b01830277eb815dc9c5f2098ccbdf36d12a8227eb71911b23243d453d"
+    },
+    "assets/voice/narrator-aaa59119.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "e95bbbcc4649f2d39d9ae44ea0e584f220c73cc0d72e4d5c92cda3b1d4087c99",
+      "renderKey": "1d91df28f7ba5a93ed4c761b8569164fc867cb2a45772569428382113b771d12",
+      "sha256": "f20672c6c85ca0e35b8e5088f91b06b048963abb072ee233cbd26c72b04db7f1"
+    },
+    "assets/voice/narrator-583de8a6.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "1d1faa1a1d019bb8595d5106337c4af008c48cbcf11d396bf8f965bb2a9c099d",
+      "renderKey": "e1a494359598d9a174ce149d9ede7b6e6d0cb45ca9eccc4e3092d172b23c22f8",
+      "sha256": "6cda0f5de758fb8d60a2e3bd99ac632bc3d8292e91aae60f250decb1b1ab8bed"
+    },
+    "assets/voice/narrator-fec07ea9.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "8811771eb6270d073a6a65c8df010051ed4fba2d831d30031e4b3bb865725f54",
+      "renderKey": "ce4b6b1d6dc1b45c9df6406a455a964c7fbde4afc789480971ff4dda648d5d3a",
+      "sha256": "64cbcc5957d15bf7109093aea1ec53fd4ee91cf798c1fac75cd0bb8411117524"
+    },
+    "assets/voice/narrator-3c6e8571.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "793de0f919745a40c0e5880a003dea10eef09b0e401e53d0c0d1db48bbcbbecb",
+      "renderKey": "399a2fcfe8a8e6723fe3ca3fc17ecb16dfc2a6af0ab9e2b0647a958c1f4b23eb",
+      "sha256": "854ee732a5ab04b79fa575ef3f1cd38156d8f478fa6659dccc429284d3298e0c"
+    },
+    "assets/voice/narrator-91bee141.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "190700c3841c55921fe514cc0bba993c6ec7ced0d18914de5a05e783119878d6",
+      "renderKey": "346368438d2e8958aabd3bf4d0eaf1d600c3d0c51170f39f5eda5b7dd1c7d2f5",
+      "sha256": "5bc95855a30f9e277322de312b060822ade645be2db24adc81f118b9eeda66d9"
+    },
+    "assets/voice/narrator-fbcb04dd.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "c5733ba2b5e2d801fd0762b314f97cde66507d9120dab659ba81e3902069ff0d",
+      "renderKey": "0f96f44b886ac0778bd7b7de315dc3e4378374298ebd3b0825247e6794a44255",
+      "sha256": "5f9123a25586b90db6b3b37883c2cb9909af48610271910cee4404757f0d2b40"
+    },
+    "assets/voice/narrator-e5d15bda.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "f31875a944eb8d6502ecc6c7450d4649963e98466ec928391385218884adbe92",
+      "renderKey": "dbf71aee5e4925fc26ca1477bc753520c01e36f7189c6a0dd77338815dd10b2c",
+      "sha256": "e8450ea6188d28c0964990b407f2503226a85c584d1deeb7ef39f56c14ce195e"
+    },
+    "assets/voice/narrator-e24f30dc.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "a79200cba6c35aac77f6fb60110c189bdd6aeeb71b4224c32c7dd88a0429b8d2",
+      "renderKey": "2c62e4eaa24c174b56afefeb11d4e8a6b0458fadd310e1d9b7417165df89ead4",
+      "sha256": "6355937c6e4071c5fa773d0e8975bcaa01319dc37ff1f4f69ef7a52959079e67"
+    },
+    "assets/voice/narrator-7a41779e.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "0bf921f66fb0e5c93fb30e1fe6f56ff42f5b5f30f6a22c69d39b4d2af06d3330",
+      "renderKey": "17d86eea5a15290eb15a6622cd9a4833c1ebfaa852325fcc9ffc4663f39062f7",
+      "sha256": "fce852c472b6f2efd62fdbd620b8c3f68e5e5ea6122d95a892d121d3bdb04ca2"
+    },
+    "assets/voice/narrator-c94fb66b.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "3def1becc9f39160494b4edab125fe1039de50b7d687acfcbf8b984cafb6aa1a",
+      "renderKey": "a75d11f1dc8690a2aa612105ddfed77a4a2fbc749dc91ab143a742a44a104a48",
+      "sha256": "d6d02fd784f802b55db4c6dd64b7636676cda200f328bb860b0f764cb68ce272"
+    },
+    "assets/voice/narrator-12743554.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "195edf56ac242a8237bf3f279b5fd5e147918b2653ce8aae733bee79aad1d041",
+      "renderKey": "647990776d21b5bda2276a056d4fb19e003079ea54066d082356e9f8c250dcb3",
+      "sha256": "414c8015baea06215270c544b23ea3059987f17563f4c3616c8dd7a092ed3caf"
+    },
+    "assets/voice/narrator-c26117f3.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "2c5502a72347c210e50ce417414c4a46fe31647b6009a435a6fde1521e8eb125",
+      "renderKey": "92d6516530f4d9dff23f54646b3d093f970bbd9b0d001442714aa82d1f945281",
+      "sha256": "68d279087b1bcb345ef6b0fa3f162e4c412addabb7be239fbab44c1773f4cdc9"
+    },
+    "assets/voice/narrator-0a5994f4.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "a5300e9a27d845e7035cc9bd95aa1bf3c079cef548fdeb98e5de9ede88c7bd0a",
+      "renderKey": "8f1da8d8fb63ca02ed55e63612a1a5a229d359e18231f4469e8906a705a42a5b",
+      "sha256": "a8a7fc81f07e1fcca6ebb3a4ccdddfb4643f63589b704354938cbd25f308e210"
+    },
+    "assets/voice/narrator-5be1d8a4.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "e9e4ce7f7b6d4adc3ddccae6c8245625b6205c840c2c6e2f658fdb14c371337e",
+      "renderKey": "9dea9d9a1703f1519e515de2e06e71415ce48747b43c6b057edc5f6b7f80fe9a",
+      "sha256": "004f97d4782a85b299f62c5d883da2c0c753599c2f0ebe10c95bb8271c505f18"
+    },
+    "assets/voice/narrator-38e29cd4.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "c3b0e4104dd22011e1d54cc81b20ee83800360206dd5c6bce1ff7fc622ba2fc7",
+      "renderKey": "72949fcfcb0171fd812adc0a11a673532419ddb649571a778bcda530b3f65dd6",
+      "sha256": "e6489f68d86f7b18672d06a5ae621b1e4a28b0f2ff2a42c23729b25de7a058b6"
+    },
+    "assets/voice/narrator-6f51891b.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "b4339c3ce34575e3a57c8b4d9b99a402b59392efe4250620f5cdf1833f6afdee",
+      "renderKey": "8a9245efcf66efd54e3a334b7a3034c83ea764cecd445d5967de818f064cdd8a",
+      "sha256": "5e0693dbbacc69285a75d561b34e6d75ddf69cc71c22c90cd202e2e130ec6bd0"
+    },
+    "assets/voice/narrator-5fe01f8d.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "07d0ebdcc44c74b2596f04f58f74f7708f4460865136dd7f9a9ed40d05144a59",
+      "renderKey": "37a0638a3f4d8382f8aa7cec58ec8702dd4d4ff1dc3c8e5635ee4ebb850607ce",
+      "sha256": "2a3da425010dbfe64a3715d47fb05bd93eee0e1241cd692c074981e969d25f87"
+    },
+    "assets/voice/narrator-0c9fe6f2.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "23a9ddf4cc97d8452591df20913f3b70c1c2e44b154d166345886a3dc3c5c4e6",
+      "renderKey": "70f02b1b681e302556828c7656fb7ab84ae3e69c6c557e8677f7e6c52a6d070e",
+      "sha256": "a0e940257a6d1d8ba4e6e07b261068448252198c50419cabf4af591a3bf7dc58"
+    },
+    "assets/voice/narrator-e6d03966.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "ee1f2f4fa94e541cf23cc9c2f2ad7bd7cddb48bc98c7a8265da04d5151f2d1f4",
+      "renderKey": "376bef1f80721f1d0e53b723559fc8278687c0403b78bb55d4bfcc57c17a164f",
+      "sha256": "5d78f2bb7e75999a34a7a9a155cfcf56542bd57cf0c43b09c00f6933df538386"
+    },
+    "assets/voice/narrator-b96ff76b.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "65478823e9f8f22e4993193c05225bc53b58604288a480d53f1dd5e0a1e2abc0",
+      "renderKey": "561b644bebde7741241db90a6f18c0cfd92b6f5e2980b02eda85f958ceb64206",
+      "sha256": "8c6351a261525757fc6cb5280c162de73bd59090fc950f43d6bdc81026ee94ab"
+    },
+    "assets/voice/narrator-c49f0953.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "7c571749f124d9b00e3f5c64e84ef8227004f78ad7c00b7fe1c668e831a7a4c3",
+      "renderKey": "9d79fabc7ed2f313a5b53381376fe6d8e011b3cdfeec6dca745c98356004f6f0",
+      "sha256": "b6cc9dd7ee60924e1ad698ae7f89a9459dd6e9d626dbd5e2880b816f427858dc"
+    },
+    "assets/voice/narrator-061b3c55.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "64d404cd097dbfac3995fbf607a5a52715ed8496735020a89d816fb293aa9c11",
+      "renderKey": "7626156b12f66b1706c98f362da7f9b22dca1610d6abc6408cd71953ca591327",
+      "sha256": "e8fe0ea9e510999659aa4d7cefd336397a195e6fb360b22ed356c0f61bb95a59"
+    },
+    "assets/voice/narrator-7699bfef.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "8d4fb504f95f3d8f67d6f15a9718a6891705c92fcf8262b71e471f174aa71412",
+      "renderKey": "55831ca1182d95e0ab434c7a052efafc88d596385ab3b1ea53dd6e6f63b8eb45",
+      "sha256": "7671402d8d5d19ed1a075d3098128d0b68c79a7a0e4eb052e5673a7509496b29"
+    },
+    "assets/voice/narrator-b10ef293.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "5a2f3c43d599945c0d22ad30bc467949c43a210908e83731b4f0a50711a0da7a",
+      "renderKey": "3d421a3117f91059465fe5777fe3bc4f7c84190d26327024d661df6736efcd90",
+      "sha256": "b3b9b9c0770ea99b247a772667be18b19d14d6a5e82ef8b0d827c14e57851dd6"
+    },
+    "assets/voice/narrator-d768a0f2.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "77afc85ee5dc57407de25981eee9ac62cef07aaf6bb0e465283f4113c6d19cbd",
+      "renderKey": "0750cff5040310f84d8ef609231128b023804d7908ec989174a1c63798984c1f",
+      "sha256": "65f392ba902a3e36ba6b857daea0cf705170f2235d308ac686549c2f9f05f0c3"
+    },
+    "assets/voice/narrator-c92323b6.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "fd5ab1250b0157b3434de554e02c6d85a9a72d16af105140bcaa6119467aa273",
+      "renderKey": "2b86e46178cc7d08c6d8dbc873d3595bbd134ad8ad2a4e86ce4a25ee9e031569",
+      "sha256": "715a5cc2252142c673ccf9dedd90b57b492b7a3fa2a2b1273093f1bbf32511d1"
+    },
+    "assets/voice/narrator-12f9c038.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "2ad4d8fc5d1c9d0ee312c9ae09e200eed0ddde4d0a5a76b7200f13843801e2ca",
+      "renderKey": "768cd4239cb28919b407f7b8a9129ca56b4c4dfffeb06b5eb32de495733e33fe",
+      "sha256": "8e90f520f2dba8d37cee06a21d83bbc89f280c75a99e61c32dbacfe1ea338653"
+    },
+    "assets/voice/narrator-ba06652d.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "6d9d40578181e15969d021b3e3398cb220adcb1494e7e880a04be3b4682969b6",
+      "renderKey": "ade0acf3965611d8124ffb7168b475ab527624ad33d051b546f58a635ef88373",
+      "sha256": "4b9a3149bdc68de3919b8b3f4d0eca483bceb9afa1ddb8c2b96a9365214ef9e8"
+    },
+    "assets/voice/narrator-62f573b8.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "c2085baa5e0c3a657f0d16a3af8280a29c58261b046baf6c71a751582cd9b5f1",
+      "renderKey": "7bec3c4bee50f8daa16569da273f6c44c6782364f685d4c76f91990b33600e38",
+      "sha256": "592e097b33c237e37ca74663304f18dde79bd4c5238e9ee5df925984f60e71b0"
+    },
+    "assets/voice/narrator-2a5cd3c7.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "c06b0161a04745b2ffa6241188dd1baf85a9eb3da5729f6e89fd28da85807fe2",
+      "renderKey": "f7bf24b7e048258c464f8f8f7dcfe28f1cbceadf928773fa3945e2bf4e1dd103",
+      "sha256": "ea0b1dcf54b7ee1647846d8340a87e3e08d63ead050dfff932861ad9c66f8004"
+    },
+    "assets/voice/narrator-6383b5ef.m4a": {
+      "voice": "Achernar",
+      "profile": null,
+      "sourceKey": "b3e1fe89ad54922390db0aed8e46145d4fb42020040db450a7a867008b13d481",
+      "renderKey": "13726778323aca9866d1f292f7010936bfc3956086d7a0157b18933e7ae8681c",
+      "sha256": "b2cfac56ae4bb202a4a55c1079deebdbdc3501f0eed5541850a348e3f3c205ec"
+    },
+    "assets/voice/xiaoqing-d27b4be8.m4a": {
+      "voice": "Zephyr",
+      "profile": {
+        "id": "zephyr-younger-v1",
+        "voice": "Zephyr",
+        "tempo": 0.85,
+        "pitchSemitones": 2.5,
+        "formant": "preserved",
+        "pitchQuality": "quality",
+        "limiter": 0.95
+      },
+      "sourceKey": "f84b559097dde0cfe91e6120e4694eb1d502d32a28743b34f82c37b437a11213",
+      "renderKey": "b87c432fd620960932fdd2bd32e33c27e1500bb45b76f4153909d496697b480c",
+      "sha256": "75d72c845136fa71f6e4a1c8b86e43c4bb5aef0d54a448bcac6baa1ef89d3c38"
+    },
+    "assets/voice/mom-581a9b76.m4a": {
+      "voice": "Sulafat",
+      "profile": null,
+      "sourceKey": "9d6b551724addec2bcb67ce87709380c51bb36df1860febd5787342e744b6fd8",
+      "renderKey": "887e92f00b818ee6bad2f67541d8e47cd45080efb5c757ea29d61c48905858dc",
+      "sha256": "0ca1fef203fa370fa226047bae94434717e937e6e0b3965b4f096f034fc45d86"
+    }
+  },
+  "generator": "tools/voice/daily_generate.py"
+}

@@ -2,7 +2,7 @@ import { LIFE_SCENARIO } from './LifeScenarios';
 import { PARK_SCENARIOS } from './ParkScenarios';
 import type { Expression, Scenario } from './Scenario';
 
-/** 說話的人：四位人物各自的聲音，提示文字由旁白唸。 */
+/** 每位人物各自的聲音，提示文字由旁白唸。 */
 export type Speaker = keyof typeof PARK_SCENARIOS | 'narrator';
 
 export interface VoiceLine {
@@ -55,5 +55,9 @@ export function voiceLines(): VoiceLine[] {
       }
     }
   }
+  // 街區模式將「回到公園」換成留在原地，和 GreetingUI.speak 保持一致。
+  const worldText = '你留在這裡。';
+  const worldFile = voiceFile('narrator', worldText);
+  seen.set(worldFile, { speaker: 'narrator', text: worldText, tone: 'neutral', file: worldFile });
   return [...seen.values()];
 }

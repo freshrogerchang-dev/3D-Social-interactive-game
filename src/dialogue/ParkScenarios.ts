@@ -214,7 +214,7 @@ export const LINE_SCENARIO: Scenario<LineNode> = {
       help: ['可以直接排，也可以先問。'],
     },
     asked: {
-      line: '對，我在排隊。',
+      line: '我在這裡排隊。',
       expression: 'happy',
       prompts: ['你問：「這是排隊嗎？」'],
       choices: [{ label: '排在後面', target: 'in-line', icon: 'nod' }],

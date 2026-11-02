@@ -479,3 +479,13 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。不宣
 - 使用者要求好看的 iPhone 桌面 icon。新增 `public/apple-touch-icon.png`（180×180）與 `public/icon-192.png`（分頁圖示），`index.html` 加上 `apple-touch-icon` 連結（子路徑 build 會自動加上 `/3D-Social-interactive-game/`）。
 - 圖案：公園山坡與樹前兩位卡通小朋友（與遊戲人物同風格），上方對話泡泡「你好」；低飽和（HSL ≤ 0.6），滿版方形由 iOS 自動裁圓角。原圖 `tools/icon/app-icon.svg`（用 Chromium 轉成 PNG）。
 - 接在街區提交 df78b02 之後重跑：五項檢查 exit 0、15 檔 145 項測試（Node v22.22.0）。iPhone「加入主畫面」實機未驗證。
+
+
+## 2026-11-02 發布226句預錄語音
+
+- 使用者明確要求「幫我發佈」。以目前main-uv12jr的566b6ae為基底，保留iPhone主畫面圖示、街區與既有功能，整合已完成的226個M4A與manifest。
+- 小晴「我在這裡排隊。」、媽媽「這裡在修理，先不玩。」與音檔同步；清單補齊街區旁白「你留在這裡。」。播放器沿用原本的靜態音檔優先機制，預錄音訊不重複升調，不放入金鑰、不呼叫Gemini。
+- 生成排程已移除，ChatGPT進度追蹤已暫停；本次只發佈既有音檔，不恢復生成。
+- Node22.22.0／npm10.9.4：typecheck、lint、format:check、test、build各exit0，145項單元；額外Pages子路徑build exit0。226檔SHA256、AAC24kHz單聲道與正時長全部通過，共641.79秒、3,526,670bytes；共用遊戲台詞覆蓋226/226。瀏覽器與遠端發布結果見voice-publish-build-log.md。
+
+- 本機Pages瀏覽器11/11、exit0：實際AAC載入／播放、重播、暫停／恢復及安全區皆通過，沒有Gemini請求或runtime例外。正式發布與公開資源核對接續進行。
