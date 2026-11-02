@@ -489,3 +489,5 @@ Q1–Q6 已確認或決定；專業審查與兒童使用評估未完成。不宣
 - Node22.22.0／npm10.9.4：typecheck、lint、format:check、test、build各exit0，145項單元；額外Pages子路徑build exit0。226檔SHA256、AAC24kHz單聲道與正時長全部通過，共641.79秒、3,526,670bytes；共用遊戲台詞覆蓋226/226。瀏覽器與遠端發布結果見voice-publish-build-log.md。
 
 - 本機Pages瀏覽器11/11、exit0：實際AAC載入／播放、重播、暫停／恢復及安全區皆通過，沒有Gemini請求或runtime例外。正式發布與公開資源核對接續進行。
+
+- 正式產品提交86a347ea35822bbae29e639ddb37f1c758b12a8a已發布，Actions run41440403136 build／deploy均success。公開網站226個音檔、manifest、首頁JS／CSS與iPhone圖示均HTTP200並符合本機建置；公開瀏覽器操作11/11、exit0。網址https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。本次只補發布紀錄，應用程式產物不變，生成排程及追蹤維持停止。

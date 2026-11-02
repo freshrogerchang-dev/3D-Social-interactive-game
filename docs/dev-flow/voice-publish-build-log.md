@@ -20,4 +20,13 @@
 
 Chromium／SwiftShader，390×844手機尺寸，本機Pages子路徑瀏覽器檢查 11/11、exit0：226筆manifest、8位角色及最後兩句AAC可解碼、角色後接旁白使用靜態音檔、無裝置語音fallback、再聽一次、暫停停止、恢復不自動重唸、返回安全區、無runtime例外／Gemini呼叫、iPhone圖示保留。
 
-發布結果待本次接續記錄；真實iPhone／Safari試聽與完整人工聽辨未驗證，不宣稱專業審查通過。
+## 正式發布結果
+
+產品提交86a347ea35822bbae29e639ddb37f1c758b12a8a已推送main-uv12jr。GitHub Actions run41440403136的build與deploy均success：https://github.com/freshrogerchang-dev/3D-Social-interactive-game/actions/runs/41440403136 。
+
+公開網址：https://freshrogerchang-dev.github.io/3D-Social-interactive-game/ 。首頁HTML、JS／CSS、226個M4A（3,526,670bytes）與manifest、兩個iPhone圖示均HTTP200且逐位元／SHA256符合本機測試過的Pages建置；無cache-bust的首頁與manifest也符合。
+
+公開網站Chromium／SwiftShader操作11/11、exit0，涵蓋實際音檔解碼、角色接旁白、重播、暫停／恢復、安全區、無裝置語音fallback、無Gemini請求與runtime例外。
+
+真實iPhone／Safari試聽與完整人工聽辨未驗證，不宣稱專業審查通過。生成排程與進度追蹤維持停止。
+
